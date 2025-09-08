@@ -12,6 +12,8 @@ class AppIcons {
 
   static const String startIcons = "$basePath/start_icon.svg";
 
+  static const String profileIcons = "$basePath/profile.svg";
+
 
 
 

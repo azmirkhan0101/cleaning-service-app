@@ -1,4 +1,5 @@
-import 'package:cleaning_service_app/core/features/selection/selection_controller%20.dart';
+
+import 'package:cleaning_service_app/core/features/selection/selection_controller.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection extends Bindings {

@@ -1,12 +1,16 @@
 
 
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
+import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
+import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/features/auth/auth_controller.dart';
-import 'package:cleaning_service_app/core/features/selection/selection_controller%20.dart';
+import 'package:cleaning_service_app/core/features/selection/selection_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/core/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,41 +30,47 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
 
   final  selectionController = Get.find<SelectionController>();
+
   final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomRoyelAppbar(),
+      appBar: CustomRoyelAppbar(leftIcon: true,),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(8.0),
           child: Obx(
             () {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(3, (index) {
-                      return Container(
-                        width: 60,
-                        height: 6,
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                          color: index == selectionController.currentIndex.value
-                              ? Color(0xFF1E88E5) // Active color (blue)
-                              : Colors.grey, // Inactive color (grey)
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      );
-                    }),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return Container(
+                          width: 70,
+                          height: 6,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                            color: index == selectionController.currentIndex.value
+                                ? Color(0xFF1E88E5) // Active color (blue)
+                                : Colors.grey, // Inactive color (grey)
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
 
                   SizedBox(
-                    height: 16,
+                    height: 22,
                   ),
 
+              if(selectionController.currentIndex.value==0)
                Column(
                  mainAxisAlignment: MainAxisAlignment.start,
                  children: [
@@ -204,29 +214,413 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                  ],
                ),
+
+              if(selectionController.currentIndex.value==1)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    // Main Heading and Subheading
+                    const  CustomText(text:
+                      AppStrings.setLocation,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    const CustomText(text:
+                    AppStrings.locationTitle,
+                      fontSize: 12,
+                      color: unselectedTextColor,
+                      fontWeight: FontWeight.w400,
+                      maxLines: 3,
+                      textAlign: TextAlign.start,
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    /// email Field
+                    CustomFormCard(
+                        title: AppStrings.email,
+                        hintText: AppStrings.enterYourEmail,
+                        hasBackgroundColor: true,
+                        controller: selectionController.loginEmailController.value
+                    ),
+
+                     SizedBox(
+                       height: 16,
+                     ),
+
+                    ///============ Location ============
+                    CustomFormCard(
+                      title: AppStrings.location,
+                      hintText: AppStrings.enterYourLocation,
+                      hasBackgroundColor: true,
+                      readOnly: true,
+                      suffixIcon: Icon(Icons.location_pin),
+                      controller: selectionController.locationController.value,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+
+                    SizedBox(
+                      height: 16,
+                    ),
+
+                    if(selectionController.typeModeStatues.value==false)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const  CustomText(text:
+                        "Show results within",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+
+                        Slider(
+                          value: 5.0,          // Initial value
+                          min: 5.0,            // Minimum value
+                          max: 100.0,          // Maximum value
+                          // divisions: 95,       // Number of discrete steps
+                          onChanged: (double value) {
+                            // Handle the slider value change
+                            print("Selected distance: $value miles");
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16,right: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              CustomText(text: "5 miles",fontWeight: FontWeight.w600, color: AppColors.black_04,fontSize: 14,),
+
+                              CustomText(text: "100 Miles",fontWeight: FontWeight.w600, color: AppColors.black_04,fontSize: 14,),
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+
+             if(selectionController.currentIndex.value==2)
+               SizedBox(
+                height: MediaQuery.of(context).size.height/2,
+                 child: Column(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          // Main Heading and Subheading
+                          const  CustomText(text:
+                          AppStrings.uploadPhoto,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          const CustomText(text:
+                          AppStrings.profileTitle,
+                            fontSize: 12,
+                            color: unselectedTextColor,
+                            fontWeight: FontWeight.w400,
+                            maxLines: 3,
+                            textAlign: TextAlign.start,
+                          ),
+
+                          const SizedBox(height: 32),
+
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5, // 50% of the screen width
+                              height: MediaQuery.of(context).size.width * 0.5, // Maintain a square aspect ratio
+                              child: CustomImage(imageSrc: AppIcons.profileIcons),
+                            ),
+                          )
+                        ],
+                      ),
+               ),
+
+             if(selectionController.currentIndex.value==3)
+              Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        // Main Heading and Subheading
+                        const  CustomText(text:
+                        AppStrings.VerifyProfile,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        const CustomText(text:
+                        AppStrings.VerifyProfileTitle,
+                          fontSize: 12,
+                          color: unselectedTextColor,
+                          fontWeight: FontWeight.w400,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Upload Front Side of ID
+                        Container(
+                         decoration: BoxDecoration(
+                           border: Border.all(
+                             color: AppColors.lightBlue.withOpacity(0.6), // The white border for unselected
+                             width: 2.0,
+                           ),
+                           borderRadius: BorderRadius.circular(12.0),
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.all(12.0),
+                           child: Column(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
+                               CustomText(
+                                 text:"Upload the Front Side of Your ID",
+                                 fontSize: 14,
+                                 fontWeight: FontWeight.w600,
+                               ),
+
+                               SizedBox(height: 6),
+
+                               CustomText(
+                                 text:"Take a clear photo or upload the front side of your identity card. Make sure all details are visible.",
+                                 fontSize: 12,
+                                 fontWeight: FontWeight.w400,
+                                 maxLines: 3,
+                                 textAlign: TextAlign.start,
+                               ),
+
+                               SizedBox(height: 16),
+
+                               ElevatedButton.icon(
+                                 onPressed: () {
+                                   // Handle the upload action
+                                   print("Upload Front Side clicked");
+                                 },
+                                 icon: Icon(Icons.add,),
+                                 label: CustomText(text:
+                                 'Upload Front Side',
+                                   color: Colors.blue,
+                                   fontWeight: FontWeight.w600,
+                                   fontSize: 14,
+                                 ),
+                                 style: ElevatedButton.styleFrom(
+                                   side: BorderSide(color: Colors.blue),
+                                   minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 45),
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(12),
+                                   ),
+                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                 ),
+                               ),
+
+                             ],
+                           ),
+                         ),
+                       ),
+
+                        SizedBox(height: 22),
+
+                        // Upload Back Side of ID
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.lightBlue.withOpacity(0.6), // The white border for unselected
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text:"Upload the Back Side of Your ID",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+
+                                SizedBox(height: 6),
+
+                                CustomText(
+                                  text:"Now, upload a clear photo of the back side of your identity card.",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.start,
+                                ),
+
+                                SizedBox(height: 16),
+
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    // Handle the upload action
+                                    print("Upload Front Side clicked");
+                                  },
+                                  icon: Icon(Icons.add),
+                                  label: CustomText(text:
+                                    'Upload Back Side',
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    side: BorderSide(color: Colors.blue),
+                                    minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 45),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: 22),
+                        // Upload Selfie with ID
+
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.lightBlue.withOpacity(0.6), // The white border for unselected
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text:"Upload a Selfie with Your ID",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+
+                                SizedBox(height: 6),
+
+                                CustomText(
+                                  text:"Take a selfie while holding your identity card next to your face. Ensure everything clearly visible.",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.start,
+                                ),
+
+                                SizedBox(height: 16),
+
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    // Handle the upload action
+                                    print("Upload Front Side clicked");
+                                  },
+                                  icon: Icon(Icons.add),
+                                  label: CustomText(text:
+                                    'Upload Selfie with ID',
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    side: BorderSide(color: Colors.blue),
+                                    minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 45),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+              if(selectionController.currentIndex.value==4)
+               Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        // Main Heading and Subheading
+                        const  CustomText(text:
+                        AppStrings.VerifyProfile,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        const CustomText(text:
+                        AppStrings.VerifyProfileTitle,
+                          fontSize: 12,
+                          color: unselectedTextColor,
+                          fontWeight: FontWeight.w400,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                        ),
+
+                        const SizedBox(height: 24),
+
+
+                      ],
+                    ),
+
+
                   SizedBox(
                     height: 24,
                   ),
 
                   // Continue Button
-
-
                   CustomButton(
                     onTap: () {
 
-                      if(selectionController.currentIndex.value<2){
+                      if(selectionController.currentIndex.value<4){
                         selectionController.currentIndex.value = selectionController.currentIndex.value+1;
+
+
                       }else{
                      //   Get.offNamed(AppRoutes.onboardingFourScreen);
                       }
                     },
-                    title: selectionController.currentIndex.value >= 2
-                        ? 'Continue'
-                        : AppStrings.next,
+                    title: selectionController.currentIndex.value >= 4
+                        ? 'Next'
+                        : AppStrings.continuetext,
                     fontSize: 16, // Bigger button text for tablets
                     width: double.infinity,
                     height:  60,
-                    fillColor: AppColors.lightBlue,
+                    fillColor: AppColors.appColors,
                     // Wider button on tablets
                   )
                 ],
@@ -247,12 +641,13 @@ class _SelectionScreenState extends State<SelectionScreen> {
         height: 4.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: selectionController.currentIndex.value== index ? AppColors.lightBlue : AppColors.grey_1,
+          color: selectionController.currentIndex.value== index ? AppColors.appColors : AppColors.grey_1,
 
         ),
       ),
     );
   }
+
 
 }
 

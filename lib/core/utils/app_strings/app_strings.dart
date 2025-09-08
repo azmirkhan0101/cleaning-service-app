@@ -15,7 +15,7 @@ class   AppStrings {
 
   ///================== singUP ===================
 
-  static const String next = "Continue";
+  static const String continuetext = "Continue";
   static const String skip = "Skip";
   static const String yourName = "Your Name";
 
@@ -97,6 +97,16 @@ class   AppStrings {
   static const String profession = "Profession";
   static const String register = "register";
 
+  ///============================ owner / provider  =========================
+   static const String uploadPhoto = "Upload Your Photo";
+
+   static const String profileTitle = "Add a clear photo to complete your profile. This helps providers recognize you easily and makes your bookings more secure and trustworthy.";
+   static const String setLocation = "Set Your Location";
+   static const String locationTitle = "Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.";
+
+  static const String VerifyProfile = "Verify Your Profile";
+
+  static const String VerifyProfileTitle= "Upload documentation to confirm your identity and experience.";
 
   ///========================== Nav Bar =====================//
 

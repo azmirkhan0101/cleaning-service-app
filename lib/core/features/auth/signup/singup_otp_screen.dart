@@ -34,7 +34,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
    @override
    void dispose() {
 
-     authController.newTextEditingController.value.dispose();
+   //  authController.newTextEditingController.value.dispose();
 
      super.dispose();
    }
@@ -159,7 +159,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                          title: AppStrings.sendCode,
                          height: 60.h,
                          fontSize: 14.sp,
-                         fillColor: AppColors.brinkPink,
+                         fillColor: AppColors.appColors,
                        ),
                      ],
                    );
