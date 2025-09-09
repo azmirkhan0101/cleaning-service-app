@@ -1,5 +1,6 @@
 
 
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
@@ -36,7 +37,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomRoyelAppbar(leftIcon: true,),
+      appBar: CustomAppbar(leftIcon: true,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -574,7 +575,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                         // Main Heading and Subheading
                         const  CustomText(text:
-                        AppStrings.VerifyProfile,
+                        AppStrings.chooseYourPlan,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -583,7 +584,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                         const SizedBox(height: 12),
 
                         const CustomText(text:
-                        AppStrings.VerifyProfileTitle,
+                        AppStrings.chooseYourPlanTitle,
                           fontSize: 12,
                           color: unselectedTextColor,
                           fontWeight: FontWeight.w400,
@@ -593,16 +594,271 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                         const SizedBox(height: 24),
 
+                        Row(
+                          children: [
+                            Radio<bool>(
+                              value: false, // Value for "No"
+                              fillColor: WidgetStateColor.resolveWith((states) => AppColors.lightBlue),
+                              groupValue: selectionController.typPaymentStatues.value,
+                              onChanged: (bool? value) {
+                                selectionController.typPaymentStatues.value = value!;
+                              },
+                            ),
 
+                            ///Service Basic Plan  Card
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: selectionController.typPaymentStatues.value==false? AppColors.lightBlue:null,
+                                  border: Border.all(
+                                    color: selectionController.typPaymentStatues.value==false
+                                        ? Color(0xFF1E88E5) // The blue border for selected
+                                        : Colors.white, // The white border for unselected
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.light_Blue,
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(text:
+                                        '€0 / month',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color:selectionController.typPaymentStatues.value==false?AppColors.white_50: Color(0xFF333333),
+                                        ),
+
+
+                                        Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0), // Padding inside the container
+                                          decoration: BoxDecoration(
+                                            color:selectionController.typPaymentStatues.value==false?AppColors.white_50: AppColors.grey_1.withOpacity(0.6), // Background color
+                                            borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                                           // border: Border.all(color: Colors.blue), // Border color
+                                          ),
+                                          child: CustomText(
+                                            text: 'Pro Plan',
+                                            color:selectionController.typPaymentStatues.value==false?Colors.black : Colors.white, // Text color
+                                            fontSize: 10.0, // Font size
+                                            fontWeight: FontWeight.bold, // Bold text
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+
+
+                                    SizedBox(height: 6.0),
+
+                                    CustomText(text:
+                                    'Commission: 15%',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color:selectionController.typPaymentStatues.value==false?AppColors.white_50: Color(0xFF333333),
+                                    ),
+
+                                    SizedBox(height: 8.0),
+
+                                     Row(
+                                       children: [
+                                         Icon(Icons.check_circle,color:selectionController.typPaymentStatues.value==false?AppColors.white_50: AppColors.lightBlue,),
+
+                                         SizedBox(height: 8.0),
+
+                                         CustomText(text:
+                                         'Standard visibility ',
+                                           fontSize: 12,
+                                           fontWeight: FontWeight.w400,
+                                           color: selectionController.typPaymentStatues.value==false?AppColors.white_50: Color(0xFF333333),
+                                         ),
+
+                                       ],
+                                     ),
+
+                                    SizedBox(height: 8.0),
+
+                                    Row(
+                                      children: [
+                                        Icon(Icons.check_circle,color:selectionController.typPaymentStatues.value==false?AppColors.white_50: AppColors.lightBlue,),
+
+                                        SizedBox(height: 8.0),
+
+                                        CustomText(text:
+                                        'Standard support',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color:selectionController.typPaymentStatues.value==false?AppColors.white_50: Color(0xFF333333),
+                                        ),
+
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20.0), // Spacing between cards
+
+                        Row(
+                          children: [
+                            Radio<bool>(
+                              value: true, // Value for "Yes"
+                              fillColor: WidgetStateColor.resolveWith((states) => AppColors.primary),
+                              groupValue: selectionController.typPaymentStatues.value,
+                              onChanged: (bool? value) {
+                                selectionController.typPaymentStatues.value = value!;
+                              },
+                            ),
+
+                            ///Service Pro Plan  Card
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.all(24.0),
+                                decoration: BoxDecoration(
+                                  color:selectionController.typPaymentStatues.value==true?AppColors.lightBlue : Colors.white,
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  border: Border.all(
+                                    color: selectionController.typeModeStatues.value
+                                        ? Color(0xFF1E88E5) // The blue border for selected
+                                        : Colors.white, // The white border for unselected
+                                    width: 2.0,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.grey_3.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children:   [
+
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(text:
+                                        '€29 / month',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color:selectionController.typPaymentStatues.value==true?AppColors.white_50: Color(0xFF333333),
+                                        ),
+
+
+                                        Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0), // Padding inside the container
+                                          decoration: BoxDecoration(
+                                            color:selectionController.typPaymentStatues.value==true?AppColors.white_50: Colors.blue, // Background color
+                                            borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                                            border: Border.all(color: Colors.blue), // Border color
+                                          ),
+                                          child: CustomText(
+                                            text: 'Pro Plan',
+                                            color: selectionController.typPaymentStatues.value==true?AppColors.black: Colors.white, // Text color
+                                            fontSize: 10.0, // Font size
+                                            fontWeight: FontWeight.bold, // Bold text
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 6.0),
+
+                                    CustomText(text:
+                                    'Commission: 10%',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color:selectionController.typPaymentStatues.value==true?AppColors.white_50: Color(0xFF333333),
+                                    ),
+
+                                    SizedBox(height: 8.0),
+
+                                    Row(
+                                      children: [
+                                        Icon(Icons.check_circle,color:selectionController.typPaymentStatues.value==true?AppColors.white_50: AppColors.lightBlue,),
+
+                                        SizedBox(height: 8.0),
+
+                                        CustomText(text:
+                                        'Priority listing',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color:selectionController.typPaymentStatues.value==true?AppColors.white_50: Color(0xFF333333),
+                                        ),
+
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 8.0),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.check_circle,color:selectionController.typPaymentStatues.value==true?AppColors.white_50: AppColors.lightBlue,),
+
+                                        SizedBox(height: 8.0),
+
+                                        CustomText(text:
+                                        'Pro badge',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color:selectionController.typPaymentStatues.value==true?AppColors.white_50: Color(0xFF333333),
+                                        ),
+
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 8.0),
+
+                                    Row(
+                                      children: [
+                                        Icon(Icons.check_circle,color:selectionController.typPaymentStatues.value==true?AppColors.white_50: AppColors.lightBlue,),
+
+                                        SizedBox(height: 8.0),
+
+                                        CustomText(text:
+                                        ' €20 credits/month',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color:selectionController.typPaymentStatues.value==true?AppColors.white_50 : Color(0xFF333333),
+                                        ),
+
+                                      ],
+                                    ),
+
+
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
                       ],
                     ),
 
 
                   SizedBox(
-                    height: 24,
+                    height: selectionController.currentIndex.value==4?40 :24,
                   ),
 
-                  // Continue Button
+                  /// Continue Button
                   CustomButton(
                     onTap: () {
 
@@ -611,7 +867,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
 
                       }else{
-                     //   Get.offNamed(AppRoutes.onboardingFourScreen);
+                        Get.offNamed(AppRoutes.paymentScreen);
                       }
                     },
                     title: selectionController.currentIndex.value >= 4

@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: CustomRoyelAppbar(),
+       appBar: CustomAppbar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Obx(

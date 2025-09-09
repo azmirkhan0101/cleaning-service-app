@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../custom_text/custom_text.dart';
 
-class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? titleName;
   final String? rightIcon;
   //final void Function()? leftOnTap;
@@ -13,7 +13,7 @@ class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool? leftIcon;
   final double fontSize;
 
-  const CustomRoyelAppbar({
+  const CustomAppbar({
     super.key,
     this.titleName,
    // this.leftOnTap,

@@ -108,6 +108,10 @@ class   AppStrings {
 
   static const String VerifyProfileTitle= "Upload documentation to confirm your identity and experience.";
 
+  static const String chooseYourPlan = "Choose Your Plan";
+
+  static const String chooseYourPlanTitle = "Pick the plan that suits your service and start growing your cleaning business today.";
+
   ///========================== Nav Bar =====================//
 
   static const String location = "Location";

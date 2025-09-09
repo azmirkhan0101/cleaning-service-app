@@ -15,4 +15,8 @@ class SelectionController  extends GetxController {
   Rx<TextEditingController> loginEmailController = TextEditingController(
     text: kDebugMode ? "" : "",
   ).obs;
+
+
+  /// owner or provider type option
+  RxBool typPaymentStatues= false.obs;
 }

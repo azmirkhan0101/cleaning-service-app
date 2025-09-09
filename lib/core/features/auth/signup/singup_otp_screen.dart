@@ -43,7 +43,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
    @override
    Widget build(BuildContext context) {
      return Scaffold(
-       appBar: CustomRoyelAppbar(leftIcon: true,),
+       appBar: CustomAppbar(leftIcon: true,),
        body: Padding(
            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
            child: SingleChildScrollView(

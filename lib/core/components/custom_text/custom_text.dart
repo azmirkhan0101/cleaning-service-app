@@ -46,14 +46,14 @@ class CustomText extends StatelessWidget {
         text,
         maxLines: maxLines,
         overflow: overflow,
-        style:language==true? GoogleFonts.gloock(
+        style:language==true? GoogleFonts.poppins(
           fontSize: fontSize.sp,
           fontWeight: fontWeight,
           color: color,
           decoration: decoration,
           decorationColor: Colors.black,
           decorationThickness: 2,
-        ):GoogleFonts.poppins(
+        ):GoogleFonts.lexend(
           fontSize: fontSize.sp,
           fontWeight: fontWeight,
           color: color,

@@ -118,6 +118,7 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
                         ),
                         onPressed: () {
                           // Handle button press
+                          Get.offNamed(AppRoutes.signupScreen);
                         },
                         child: CustomText(
                           text: 'Already have an account',

@@ -2,6 +2,7 @@
 import 'package:cleaning_service_app/core/features/auth/login_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/signup_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/singup_otp_screen.dart';
+import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_second_screen.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
   static const String signupScreen = "/SignupScreen";
   static const String singupOtpScreen = "/SingupOtpScreen";
   static const String selectionScreen = "/SelectionScreen";
+  static const String paymentScreen = "/PaymentScreen";
 
 
 
@@ -39,6 +41,8 @@ class AppRoutes {
    GetPage(name: singupOtpScreen, page: () => SingupOtpScreen()),
 
    GetPage(name: selectionScreen, page: () => SelectionScreen()),
+
+   GetPage(name: paymentScreen, page: () => PaymentScreen()),
 
 
   ];
