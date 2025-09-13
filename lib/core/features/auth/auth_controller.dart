@@ -23,4 +23,11 @@ class AuthController extends GetxController {
   Rx<TextEditingController> newTextEditingController = TextEditingController(
     text: kDebugMode ? "" : "",
   ).obs;
+
+  @override
+  void onClose() {
+    // Make sure you dispose of the controller when it's no longer needed
+    newTextEditingController.value.dispose();
+    super.onClose();
+  }
 }

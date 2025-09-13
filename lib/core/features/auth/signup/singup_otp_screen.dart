@@ -31,13 +31,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 
 
-   @override
-   void dispose() {
-
-   //  authController.newTextEditingController.value.dispose();
-
-     super.dispose();
-   }
 
 
    @override
@@ -51,6 +44,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                height: MediaQuery.of(context).size.height/1.1,
                child: Obx(
                   () {
+                   authController.newTextEditingController.value;
                    return Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      mainAxisAlignment: MainAxisAlignment.start,
@@ -83,6 +77,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                              maxLines: 2,
                              bottom: 30.h,
                              color: AppColors.black,
+                             textAlign: TextAlign.start,
                            ),
 
                            ///CustomPinCode(controller: authController.otpController.value),
@@ -97,7 +92,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                                enableActiveFill: true,
                                animationType: AnimationType.fade,
                                animationDuration: Duration(milliseconds: 300),
-                               controller:authController.newTextEditingController.value,
+                               controller:TextEditingController(),
                                pinTheme: PinTheme(
                                  shape: PinCodeFieldShape.box,
                                  borderRadius: BorderRadius.circular(16),
@@ -154,12 +149,13 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                        CustomButton(
                          onTap: () {
 
-                           Get.toNamed(AppRoutes.selectionScreen);
+                           Get.offNamed(AppRoutes.selectionScreen);
                          },
                          title: AppStrings.sendCode,
-                         height: 60.h,
+                         height: 50.h,
                          fontSize: 14.sp,
                          fillColor: AppColors.appColors,
+                         borderRadius: 24,
                        ),
                      ],
                    );

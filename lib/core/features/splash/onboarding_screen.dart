@@ -23,14 +23,15 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
       backgroundColor: AppColors.white,
       body:Stack(
         children: [
+
           // Background
           Container(
-            color: Color(0xFF34B7F1),  // blue background
+            color: AppColors.lightBlue,  // blue background
             height: double.infinity,
             width: double.infinity,
           ),
 
-          // Main content
+          ///Main content
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -41,10 +42,10 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
                 CustomImage(
                   imageSrc: AppImages.onboarding,
                   fit:BoxFit.fill,
-                  width: 350 ,
+                  width: 350,
                 ),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Heading text
                 CustomText(text:
@@ -56,7 +57,7 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
                   textAlign: TextAlign.start,
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 8),
 
                 //Subheading text
                 Padding(
@@ -71,7 +72,7 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
                   ),
                 ),
 
-                SizedBox(height: 40),
+                const  SizedBox(height: 40),
 
                 InkWell(
                   onTap: (){

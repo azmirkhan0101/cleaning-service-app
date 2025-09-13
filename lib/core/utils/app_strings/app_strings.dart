@@ -29,11 +29,16 @@ class   AppStrings {
   static const String enterYourLocation = "Enter Your Location";
   static const String enterYourEmail = "example@gmail.com";
   static const String enterCountry = "Enter Country";
+  static const String expiration = "Expiration date ";
   static const String enterDay = "MM / YY";
   static const String enterFristName = "First Name";
   static const String enterLastName = "Last Name";
   static const String enterState = "Enter State";
-  static const String enterSecurity = "Security Code";
+  static const String enterSecurity = "CVC";
+  static const String enterSecurityValue = "000";
+  static const String zipText = "Zip Code";
+  static const String zipCode = "00000";
+
   static const String password = "Password";
   static const String comfirmpassword = "Confirm password";
   static const String referralCode = "Referral Code";

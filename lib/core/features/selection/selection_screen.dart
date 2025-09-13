@@ -37,7 +37,23 @@ class _SelectionScreenState extends State<SelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(leftIcon: true,),
+     // appBar: CustomAppbar(leftIcon: true,),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back,color: AppColors.black,size: 32,),
+          onPressed: () {
+
+            if(selectionController.currentIndex.value>0){
+                selectionController.currentIndex.value--;
+            }else{
+             // Action for the left icon
+              Navigator.pop(context);
+             // Get.offNamed(AppRoutes.loginScreen);
+            }
+
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -58,7 +74,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             color: index == selectionController.currentIndex.value
-                                ? Color(0xFF1E88E5) // Active color (blue)
+                                ? AppColors.lightBlue // Active color (blue)
                                 : Colors.grey, // Inactive color (grey)
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -504,9 +520,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
                         ),
 
                         SizedBox(height: 22),
-                        // Upload Selfie with ID
 
-                        Container(
+                        // Upload Selfie with ID
+                     /*   Container(
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: AppColors.lightBlue.withOpacity(0.6), // The white border for unselected
@@ -563,7 +579,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                               ],
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
 
@@ -613,7 +629,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                   color: selectionController.typPaymentStatues.value==false? AppColors.lightBlue:null,
                                   border: Border.all(
                                     color: selectionController.typPaymentStatues.value==false
-                                        ? Color(0xFF1E88E5) // The blue border for selected
+                                        ? AppColors.lightBlue // The blue border for selected
                                         : Colors.white, // The white border for unselected
                                     width: 2.0,
                                   ),
@@ -865,7 +881,6 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       if(selectionController.currentIndex.value<4){
                         selectionController.currentIndex.value = selectionController.currentIndex.value+1;
 
-
                       }else{
                         Get.offNamed(AppRoutes.paymentScreen);
                       }
@@ -875,8 +890,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
                         : AppStrings.continuetext,
                     fontSize: 16, // Bigger button text for tablets
                     width: double.infinity,
-                    height:  60,
+                    height:  50,
                     fillColor: AppColors.appColors,
+                    borderRadius: 24,
                     // Wider button on tablets
                   )
                 ],

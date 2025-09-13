@@ -60,6 +60,7 @@ class CustomText extends StatelessWidget {
           decoration: decoration,
           decorationColor: Colors.black,
           decorationThickness: 2,
+          textStyle: TextStyle()
         ),
       ),
     );

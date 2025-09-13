@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/helper/shared_prefe/shared_prefe.dart'
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
+import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
           Center(
             child: CustomImage(
-                imageSrc: AppIcons.appIcons),
+                imageSrc: AppImages.banner_image),
           ),
         ],
       ),
