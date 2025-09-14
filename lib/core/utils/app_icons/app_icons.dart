@@ -16,6 +16,13 @@ class AppIcons {
 
   static const String cardImage = "$basePath/card.svg";
 
+  static const String current_icon = "$basePath/current_icon.svg";
+
+  static const String current_plan = "$basePath/current_plan.svg";
+
+  static const String earning_icon = "$basePath/earning_icon.svg";
+  static const String message = "$basePath/message.svg";
+
 
 
 

@@ -52,15 +52,15 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.white,
-      body:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          Center(
-            child: CustomImage(
+      body:SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+        
+            CustomImage(
                 imageSrc: AppImages.banner_image),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

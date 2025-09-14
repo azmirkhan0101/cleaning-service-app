@@ -15,6 +15,8 @@ class AppImages {
   static const String banner_image = "$basePath/banner_image.png";
   static const String visaCard = "$basePath/visa_card.svg";
   static const String alertImage = "$basePath/successfull.svg";
+  static const String base = "$basePath/base.png";
+  static const String notification = "$basePath/notification.svg";
 
 
 }

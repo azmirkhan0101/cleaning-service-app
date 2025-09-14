@@ -293,51 +293,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
             CustomButton(
               onTap: () {
 
-             /*   showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    backgroundColor: Colors.white,
-                    insetPadding: EdgeInsets.all(8),
-                    contentPadding: EdgeInsets.all(8),
-                    title: SizedBox(),
-                    content: SizedBox(
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-
-                            CustomImage(imageSrc: AppImages.alertImage),
-
-                            CustomText(text: 'Account created \n Successfully',
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                              color:AppColors.black,
-                            ),
-
-                            SizedBox(
-                              height: 8,
-                            ),
-
-                            CustomButton(onTap: (){
-                              Navigator.of(context).pop();
-                            },
-                              title: "Back to Home",
-                              fontSize: 16, // Bigger button text for tablets
-                              width: double.infinity,
-                              height:  50,
-                              fillColor: AppColors.appColors,
-                              borderRadius: 24,
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );*/
-
                 showCustomDialog(context);
               },
               title:"Pay",
@@ -387,7 +342,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                     Get.offNamed(AppRoutes.providerHome);
 
-                    Navigator.of(context).pop();
+                   // Navigator.of(context).pop();
                   },
                     title: "Back to Home",
                     fontSize: 16, // Bigger button text for tablets

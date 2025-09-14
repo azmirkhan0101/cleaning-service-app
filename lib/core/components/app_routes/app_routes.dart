@@ -26,6 +26,7 @@ class AppRoutes {
 
 
 
+
   static List<GetPage> routes = [
 
     ///===========================Authentication==========================
