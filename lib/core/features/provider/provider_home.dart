@@ -2,6 +2,7 @@
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/nav_bar/nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -17,37 +18,48 @@ class ProviderHome extends StatefulWidget {
 
 class _ProviderHomeState extends State<ProviderHome> {
 
-  final List<Map<String, String>> appointments = [
-    {
-      'name': 'John Doe',
-      'time': '34m ago',
-      'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-      'avatar': 'https://www.w3schools.com/w3images/avatar2.png'
-    },
-    {
-      'name': 'Sarah Lee',
-      'time': '40m ago',
-      'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-      'avatar': 'https://www.w3schools.com/w3images/avatar3.png'
-    },
-    {
-      'name': 'John Doe',
-      'time': '50m ago',
-      'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-      'avatar': 'https://www.w3schools.com/w3images/avatar1.png'
-    },
-    {
-      'name': 'John Doe',
-      'time': '55m ago',
-      'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-      'avatar': 'https://www.w3schools.com/w3images/avatar4.png'
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
+
+    final List<Map<String, String>> appointments = [
+      {
+        'name': 'John Doe',
+        'time': '34m ago',
+        'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
+        'avatar': 'https://www.w3schools.com/w3images/avatar2.png'
+      },
+      {
+        'name': 'Sarah Lee',
+        'time': '40m ago',
+        'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
+        'avatar': 'https://www.w3schools.com/w3images/avatar3.png'
+      },
+      {
+        'name': 'John Doe',
+        'time': '50m ago',
+        'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
+        'avatar': 'https://www.w3schools.com/w3images/avatar1.png'
+      },
+      {
+        'name': 'John Doe',
+        'time': '55m ago',
+        'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
+        'avatar': 'https://www.w3schools.com/w3images/avatar4.png'
+      },
+      {
+        'name': 'Hasan',
+        'time': '55m ago',
+        'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
+        'avatar': 'https://www.w3schools.com/w3images/avatar4.png'
+      },
+    ];
+
     return Scaffold(
-      appBar: CustomAppbar(titleName: "",),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(24), // Custom height
+        child: AppBar(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
@@ -351,17 +363,35 @@ class _ProviderHomeState extends State<ProviderHome> {
                 ],
               ),
 
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
 
-              CustomText(
-                text:
-                'Pending Bookings',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: AppColors.black,
-              ),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
 
-              SizedBox(height: 12,),
+                const CustomText(
+                   text:
+                   'Pending Bookings',
+                   fontSize: 16,
+                   fontWeight: FontWeight.w600,
+                   color: AppColors.black,
+                 ),
+
+                 Padding(
+                   padding: const EdgeInsets.only(right: 8),
+                   child: CustomText(
+                     text:
+                     'See all',
+                     fontSize: 14,
+                     fontWeight: FontWeight.w600,
+                     color: AppColors.lightBlue,
+                   ),
+                 ),
+
+               ],
+             ),
+
+              const SizedBox(height: 12,),
 
               ListView.builder(
                 shrinkWrap: true,
@@ -380,6 +410,7 @@ class _ProviderHomeState extends State<ProviderHome> {
           ),
         ),
       ),
+      bottomNavigationBar: NavBar(currentIndex: 0),
     );
   }
 
@@ -429,19 +460,23 @@ class AppointmentCard extends StatelessWidget {
                        ),
 
                        CustomText(text:
-                       time,
+                        time,
                          fontSize: 12.0,
                          fontWeight: FontWeight.w400,
                          color: AppColors.neutral03,
                        ),
                      ],
                    ),
-                  SizedBox(height: 8.0),
-                  Text(
+
+                 const SizedBox(height: 12.0),
+
+                  CustomText(text:
                     appointment,
-                    style: TextStyle(
-                      color: Colors.grey[800],
-                    ),
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.neutral03,
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
                   ),
                 ],
               ),

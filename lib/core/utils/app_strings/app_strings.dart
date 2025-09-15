@@ -117,14 +117,21 @@ class   AppStrings {
 
   static const String chooseYourPlanTitle = "Pick the plan that suits your service and start growing your cleaning business today.";
 
-  ///========================== Nav Bar =====================//
-
   static const String location = "Location";
   static const String email = "Email";
 
 
+///========================== Nav Bar =====================//
 
+  static const String home = "Home";
 
+  static const String bookings = "Bookings";
+
+  static const String service = "Service";
+
+  static const String inbox = "Inbox";
+
+  static const String profile = "Profile";
 
 
 }

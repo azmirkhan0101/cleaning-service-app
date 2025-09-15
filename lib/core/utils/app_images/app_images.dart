@@ -17,6 +17,6 @@ class AppImages {
   static const String alertImage = "$basePath/successfull.svg";
   static const String base = "$basePath/base.png";
   static const String notification = "$basePath/notification.svg";
-
+  static const String clean_image = "$basePath/clean_image.png";
 
 }

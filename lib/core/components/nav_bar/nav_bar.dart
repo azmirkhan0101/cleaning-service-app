@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -24,18 +26,28 @@ class _NavBarState extends State<NavBar> {
 
   final List<String> selectedIcon = [
     AppIcons.home,
+    AppIcons.booking,
+    AppIcons.service,
+    AppIcons.inbox,
+    AppIcons.profile,
 
   ];
 
 
   final List<String> unselectedIcon = [
     AppIcons.home,
+    AppIcons.booking,
+    AppIcons.service,
+    AppIcons.inbox,
+    AppIcons.profile,
   ];
 
   final List<String> userNavText = [
-   // AppStrings.home,
-  //  AppStrings.journal,
-
+    AppStrings.home,
+    AppStrings.bookings,
+    AppStrings.service,
+    AppStrings.inbox,
+    AppStrings.profile,
   ];
 
   @override
@@ -54,7 +66,7 @@ class _NavBarState extends State<NavBar> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           decoration: BoxDecoration(
-            color: AppColors.white_50,
+            color: AppColors.grey_3.withOpacity(0.5),
             borderRadius: BorderRadius.only(
                 topLeft:Radius.circular(50),
                 topRight: Radius.circular(50),
@@ -95,7 +107,7 @@ class _NavBarState extends State<NavBar> {
   Widget _buildSelectedNavItem(int index, bool isTablet) {
     return Card(
       elevation: 70,
-      shadowColor: AppColors.brinkPink,
+      shadowColor: AppColors.lightBlue,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft:Radius.circular(50),
@@ -109,7 +121,7 @@ class _NavBarState extends State<NavBar> {
         height: 70.h,
         width:  70.w,
         decoration: BoxDecoration(
-          color: AppColors.brinkPink,
+          color: AppColors.lightBlue,
           borderRadius:  BorderRadius.only(
               topLeft:Radius.circular(50),
               topRight: Radius.circular(50),
@@ -166,10 +178,10 @@ class _NavBarState extends State<NavBar> {
     if (index != bottomNavIndex) {
       switch (index) {
         case 0:
-         // Get.offAll(() => HomeScreen());
+         Get.offAll(() => ProviderHome());
           break;
         case 1:
-        //  Get.offAll(() => JournalScreen());
+           Get.offAll(() => BookingsScreen());
           break;
         case 2:
           // Get.offAll(() => FitnessScreen());

@@ -7,7 +7,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/features/auth/auth_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/core/utils/toast.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
