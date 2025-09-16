@@ -1,159 +1,110 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CleaningServicePage(),
+      home: ServiceGridView(),
     );
   }
 }
 
-class CleaningServicePage extends StatelessWidget {
+class ServiceGridView extends StatelessWidget {
+  final List<Map<String, String>> services = [
+    {
+      'title': 'Cleaning Service',
+      'price': '€25/hr',
+      'rating': '4.8',
+      'date': '12/07/2025',
+      'bookings': '05',
+      'image': 'assets/cleaning.jpg', // You can replace with actual image asset or network URL
+    },
+    {
+      'title': 'Laundry Service',
+      'price': '€30/hr',
+      'rating': '4.8',
+      'date': '12/08/2025',
+      'bookings': '03',
+      'image': 'assets/laundry.jpg', // Replace with actual image asset or network URL
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cleaning Service'),
-        backgroundColor: Colors.blue,
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          ServiceCard(
-            status: 'Pending',
-            imageUrl: 'https://your-image-url.jpg', // Replace with actual image URL
-            serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-            price: 25.00,
-            duration: 2,
-          ),
-          ServiceCard(
-            status: 'Completed',
-            imageUrl: 'https://your-image-url.jpg', // Replace with actual image URL
-            serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-            price: 25.00,
-            duration: 2,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ServiceCard extends StatelessWidget {
-  final String status;
-  final String imageUrl;
-  final String serviceDetails;
-  final double price;
-  final int duration;
-
-  ServiceCard({
-    required this.status,
-    required this.imageUrl,
-    required this.serviceDetails,
-    required this.price,
-    required this.duration,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imageUrl,
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Cleaning Service',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: status == 'Pending' ? Colors.orange : Colors.green,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          status,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Location: Mohakhali, Aqua Tower 10th Floor',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(height: 8),
-                  Text(serviceDetails),
-                  SizedBox(height: 16),
-                  Divider(),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Price Details'),
-                      Text('€${price.toStringAsFixed(2)}hr'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Duration'),
-                      Text('$duration hr'),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '€${(price * duration).toStringAsFixed(2)}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+      appBar: AppBar(title: Text('Services')),
+      body: GridView.builder(
+        padding: EdgeInsets.all(8),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Number of columns
+          crossAxisSpacing: 8.0, // Space between columns
+          mainAxisSpacing: 8.0, // Space between rows
+          childAspectRatio: 0.75, // Aspect ratio of each item
         ),
+        itemCount: services.length,
+        itemBuilder: (context, index) {
+          final service = services[index];
+          return Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Service Image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    service['image']!,
+                    height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Service Title
+                      Text(
+                        service['title']!,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4),
+                      // Rating
+                      Row(
+                        children: [
+                          Icon(Icons.star, color: Colors.orange, size: 14),
+                          SizedBox(width: 4),
+                          Text(service['rating']!),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      // Price
+                      Text(service['price']!),
+                      SizedBox(height: 8),
+                      // Additional Info (Current bookings, Date)
+                      Text(
+                        'Bookings: ${service['bookings']}',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      Text(
+                        'Published: ${service['date']}',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

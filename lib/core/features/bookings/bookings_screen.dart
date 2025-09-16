@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
@@ -19,8 +20,49 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
   final bookingController = Get.find<BookingController>();
 
+  String status="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+    _initializeData();
+  }
+
+  void _initializeData() async {
+
+    if (Get.arguments[0]["status"] != null) {
+      status = Get.arguments[0]["status"];
+
+      if(status=="accept"){
+        bookingController.selectedIndex(2);
+
+      } if(status=="reject"){
+        bookingController.selectedIndex(4);
+
+      } if(status=="completed"){
+        bookingController.selectedIndex(3);
+      }
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    // Create a List of Strings
+    List<String> statusList = [
+      'Pending',
+      'Completed',
+      'Ongoing',
+      'Cancelled',
+      'Completed',
+      'Ongoing',
+    ];
+
     return DefaultTabController(
       length: 4, // The number of tabs
       child: Scaffold(
@@ -54,25 +96,146 @@ class _BookingsScreenState extends State<BookingsScreen> {
         body: SingleChildScrollView(
           child: Obx(
             () {
+
+
+
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
 
+                  /// all list
+                  if(bookingController.selectedIndex.value==0)
+                    ListView.builder(
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context,index){
+
+                          return  InkWell(
+                            onTap: (){
+
+                              Get.toNamed(AppRoutes.serviceDetailsScreen,
+                                  arguments: [
+                                    {
+                                      "status":statusList[index].toLowerCase()
+                                    }
+                                  ]);
+                            },
+                            child: ServiceCard(
+                              status: statusList[index],
+                              imageUrl: AppImages.clean_image, // Replace with actual image URL
+                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                              price: 25.00,
+                              duration: 2,
+                            ),
+                          );
+                        }),
+
+                  /// Pending list
                   if(bookingController.selectedIndex.value==1)
                   ListView.builder(
-                      itemCount: 8,
+                      itemCount: 6,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context,index){
 
-                     return  ServiceCard(
-                      status: 'Pending',
-                      imageUrl: AppImages.clean_image, // Replace with actual image URL
-                      serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                      price: 25.00,
-                      duration: 2,
-                    );
-                  })
+                     return  InkWell(
+                       onTap: (){
+
+                         Get.toNamed(AppRoutes.serviceDetailsScreen);
+
+                       },
+                       child: ServiceCard(
+                        status: 'Pending',
+                        imageUrl: AppImages.clean_image, // Replace with actual image URL
+                        serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                        price: 25.00,
+                        duration: 2,
+                                           ),
+                     );
+                  }),
+
+
+                  /// ongoing list
+                  if(bookingController.selectedIndex.value==2)
+                    ListView.builder(
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context,index){
+
+                          return  InkWell(
+                            onTap: (){
+
+                              Get.toNamed(AppRoutes.serviceDetailsScreen,
+                                  arguments: [
+                                    {
+                                      "status":"ongoing"
+                                    }
+                                  ]);
+                            },
+                            child: ServiceCard(
+                              status: 'Ongoing',
+                              imageUrl: AppImages.clean_image, // Replace with actual image URL
+                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                              price: 25.00,
+                              duration: 2,
+                            ),
+                          );
+                        }),
+
+                  /// completed list
+                  if(bookingController.selectedIndex.value==3)
+                    ListView.builder(
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context,index){
+
+                          return  InkWell(
+                            onTap: (){
+
+                           Get.toNamed(AppRoutes.serviceDetailsScreen);
+
+                            },
+                            child: ServiceCard(
+                              status: 'Completed',
+                              imageUrl: AppImages.clean_image, // Replace with actual image URL
+                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                              price: 25.00,
+                              duration: 2,
+                            ),
+                          );
+                        }),
+
+                  /// cancelled list
+                  if(bookingController.selectedIndex.value==4)
+                    ListView.builder(
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context,index){
+
+                          return  InkWell(
+                            onTap: (){
+
+                              Get.toNamed(AppRoutes.serviceDetailsScreen,
+                                  arguments: [
+                                  {
+                                  "status":"cancelled"
+                                  }
+                                  ]);
+
+                            },
+                            child: ServiceCard(
+                              status: 'Cancelled',
+                              imageUrl: AppImages.clean_image, // Replace with actual image URL
+                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                              price: 25.00,
+                              duration: 2,
+                            ),
+                          );
+                        }),
                 ],
               );
             }
@@ -82,8 +245,6 @@ class _BookingsScreenState extends State<BookingsScreen> {
       ),
     );
   }
-
-
 }
 
 
@@ -104,102 +265,135 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+      return Card(
       elevation: 5,
-      margin: EdgeInsets.symmetric(vertical: 12,horizontal: 12),
+      margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
         padding: EdgeInsets.all(16),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: CustomImage(imageSrc:
-                imageUrl,
-               // width: 100,
-               // height: 100,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CustomImage(
+                    imageSrc: imageUrl,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+               SizedBox(width: 16),
+                Expanded( // Wrap this Column in an Expanded widget
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Cleaning Service',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: status == 'Pending' ? Colors.orange : Colors.green,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          status,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'Cleaning Service',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                        ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: CustomText(
+                              text: status,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      CustomText(
+                        text: 'Location: Mohakhali, Aqua Tower 10th Floor',
+                        color: AppColors.neutral03,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(height: 8),
+                      CustomText(
+                        text: serviceDetails,
+                        color: AppColors.neutral03,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Location: Mohakhali, Aqua Tower 10th Floor',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(height: 8),
-                  Text(serviceDetails),
-                  SizedBox(height: 16),
-                  Divider(),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Price Details'),
-                      Text('€${price.toStringAsFixed(2)}hr'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Duration'),
-                      Text('$duration hr'),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '€${(price * duration).toStringAsFixed(2)}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            CustomText(
+              text: 'Price Details',
+              color: AppColors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                  text: 'Price',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  maxLines: 2,
+                  textAlign: TextAlign.start,
+                  color: AppColors.black,
+                ),
+                CustomText(
+                  text: '€${price.toStringAsFixed(2)}hr',
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(text: 'Duration'),
+                CustomText(text: '$duration hr'),
+              ],
+            ),
+            SizedBox(height: 8),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(text:
+                  'Total',
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.lightBlue,
+                ),
+                CustomText(text:
+                  '€${(price * duration).toStringAsFixed(2)}',
+                   fontWeight: FontWeight.w600,
+                  color: AppColors.lightBlue,
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
+
   }
 }

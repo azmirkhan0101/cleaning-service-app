@@ -14,5 +14,6 @@ class BookingController extends GetxController {
     "Pending",
     "Ongoing",
     "Completed",
+    "Cancelled",
   ].obs;
 }

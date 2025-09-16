@@ -2,6 +2,9 @@
 import 'package:cleaning_service_app/core/features/auth/login_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/signup_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/singup_otp_screen.dart';
+import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/core/features/bookings/qr_scanner_screen.dart';
+import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
@@ -23,6 +26,9 @@ class AppRoutes {
   static const String selectionScreen = "/SelectionScreen";
   static const String paymentScreen = "/PaymentScreen";
   static const String providerHome = "/ProviderHome";
+  static const String serviceDetailsScreen = "/ServiceDetailsScreen";
+  static const String bookingsScreen = "/BookingsScreen";
+  static const String qrScannerScreen = "/QrScannerScreen";
 
 
 
@@ -48,6 +54,12 @@ class AppRoutes {
    GetPage(name: paymentScreen, page: () => PaymentScreen()),
 
    GetPage(name: providerHome, page: () => ProviderHome()),
+
+   GetPage(name: serviceDetailsScreen, page: () => ServiceDetailsScreen()),
+
+   GetPage(name: bookingsScreen, page: () => BookingsScreen()),
+
+   GetPage(name: qrScannerScreen, page: () => QrScannerScreen()),
 
 
   ];

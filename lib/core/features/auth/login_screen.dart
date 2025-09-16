@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                ElevatedButton(
                 onPressed: () {
 
-                //  Get.offNamed(AppRoutes.loginScreen);
+                  Get.offAllNamed(AppRoutes.providerHome);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.appColors,

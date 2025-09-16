@@ -405,7 +405,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                     avatarUrl: appointments[index]['avatar']!,
                   );
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -470,7 +470,8 @@ class AppointmentCard extends StatelessWidget {
 
                  const SizedBox(height: 12.0),
 
-                  CustomText(text:
+                  CustomText(
+                    text:
                     appointment,
                     fontSize: 12.0,
                     fontWeight: FontWeight.w400,

@@ -50,6 +50,10 @@ class AppColors {
   static const Color neutral02 = Color(0xffF2F2F2);
   static const Color neutral03 = Color(0xff4F4F59);
 
+  static const Color danger = Color(0xffDE5640);
+  static const Color cancle = Color(0xfffB7185);
+  static const Color normal = Color(0xff1B2D51);
+
 
 
 

@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
+import 'package:cleaning_service_app/core/features/service/service_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -184,7 +186,7 @@ class _NavBarState extends State<NavBar> {
            Get.offAll(() => BookingsScreen());
           break;
         case 2:
-          // Get.offAll(() => FitnessScreen());
+            Get.offAll(() => ServiceScreen());
 
           break;
         case 3:

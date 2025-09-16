@@ -18,5 +18,9 @@ class AppImages {
   static const String base = "$basePath/base.png";
   static const String notification = "$basePath/notification.svg";
   static const String clean_image = "$basePath/clean_image.png";
+  static const String user_image = "$basePath/user_image.png";
+  static const String chart = "$basePath/chart.svg";
+  static const String qr_code_image = "$basePath/qr_code_image.png";
+  static const String down_array = "$basePath/down_array.svg";
 
 }
