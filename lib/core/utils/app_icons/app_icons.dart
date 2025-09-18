@@ -34,12 +34,7 @@ class AppIcons {
 
   static const String message = "$basePath/message.svg";
 
-
-
-
-
-
-
+  static const String send_icon = "$basePath/send_icon.svg";
 
 
 

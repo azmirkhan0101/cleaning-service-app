@@ -1,10 +1,15 @@
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
+import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
@@ -57,8 +62,12 @@ class _LocationScreenState extends State<LocationScreen> {
             SizedBox(
               height: 16,
             ),
+
             ElevatedButton(
               onPressed: () {
+
+                Get.toNamed(AppRoutes.pickerMapScreen);
+
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.white_50,
@@ -75,17 +84,80 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                //  Icon(Icons.sendr),
+                  CustomImage(imageSrc: AppIcons.send_icon),
+
+                  SizedBox(
+                    width: 8,
+                  ),
 
                   CustomText(
                     text: 'Use my current location',
                     color: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                  )
+                  ),
+
                 ],
               ),
             ),
+
+            SizedBox(
+              height: 16,
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const  CustomText(text:
+                "Show results within",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+
+                Slider(
+                  value: 5.0,          // Initial value
+                  min: 5.0,            // Minimum value
+                  max: 100.0,          // Maximum value
+                  // divisions: 95,       // Number of discrete steps
+                  onChanged: (double value) {
+                    // Handle the slider value change
+                    print("Selected distance: $value miles");
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16,right: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      CustomText(text: "5 miles",fontWeight: FontWeight.w600, color: AppColors.black_04,fontSize: 14,),
+
+                      CustomText(text: "100 Miles",fontWeight: FontWeight.w600, color: AppColors.black_04,fontSize: 14,),
+
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(
+              height: 32,
+            ),
+
+            /// Continue Button
+            CustomButton(
+              onTap: () {
+
+              },
+              title: "Save",
+              fontSize: 16, // Bigger button text for tablets
+              width: double.infinity,
+              height:  50,
+              fillColor: AppColors.appColors,
+              borderRadius: 24,
+              // Wider button on tablets
+            )
           ],
         ),
       ),

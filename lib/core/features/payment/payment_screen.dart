@@ -35,7 +35,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-              /// payment card
+
+             /// payment card
              Container(
               padding: const EdgeInsets.all(24.0),
               decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/nav_bar.dart';
@@ -5,7 +6,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 
 class ServiceScreen extends StatefulWidget {
@@ -68,84 +69,91 @@ class _ServiceScreenState extends State<ServiceScreen> {
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
-          return Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Service Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    service['image']!,
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                // Wrap the content in an Expanded widget
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title and Rating Row
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: service['title']!,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
+          return InkWell(
+            onTap: (){
 
-                            SizedBox(height: 4),
-
-                            // Rating
-                            Row(
-                              children: [
-                                Icon(Icons.star, color: Colors.orange, size: 14),
-                                SizedBox(width: 4),
-                                CustomText(
-                                  text: service['rating']!,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        // Additional Info
-                        CustomText(
-                          text: 'Current booking: ${service['bookings']}',
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        CustomText(
-                          text: 'Published: ${service['date']}',
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        SizedBox(height: 8),
-                        // Price
-                        CustomText(
-                          text: service['price']!,
-                          fontSize: 12,
-                          color: AppColors.lightBlue,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ],
+              ///serviceDetails
+              Get.toNamed(AppRoutes.serviceDetails);
+            },
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Service Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      service['image']!,
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ],
+                  // Wrap the content in an Expanded widget
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Title and Rating Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                text: service['title']!,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+
+                              SizedBox(height: 4),
+
+                              // Rating
+                              Row(
+                                children: [
+                                  Icon(Icons.star, color: Colors.orange, size: 14),
+                                  SizedBox(width: 4),
+                                  CustomText(
+                                    text: service['rating']!,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          // Additional Info
+                          CustomText(
+                            text: 'Current booking: ${service['bookings']}',
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          CustomText(
+                            text: 'Published: ${service['date']}',
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          SizedBox(height: 8),
+                          // Price
+                          CustomText(
+                            text: service['price']!,
+                            fontSize: 12,
+                            color: AppColors.lightBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },

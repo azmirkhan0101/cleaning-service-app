@@ -8,7 +8,7 @@ import '../custom_text/custom_text.dart';
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? titleName;
   final String? rightIcon;
-  //final void Function()? leftOnTap;
+   final void Function()? leftOnTap;
   final void Function()? rightOnTap;
   final bool? leftIcon;
   final double fontSize;
@@ -16,7 +16,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
     super.key,
     this.titleName,
-   // this.leftOnTap,
+     this.leftOnTap,
     this.rightIcon,
     this.rightOnTap,
     this.leftIcon = false,

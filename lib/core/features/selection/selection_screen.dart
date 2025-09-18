@@ -259,32 +259,56 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                     const SizedBox(height: 24),
 
-                    /// email Field
+                    /// address Field
                     CustomFormCard(
-                        title: AppStrings.email,
-                        hintText: AppStrings.enterYourEmail,
+                        title: "Enter your address",
+                        hintText: "your address",
                         hasBackgroundColor: true,
-                        controller: selectionController.loginEmailController.value
+                        controller: TextEditingController()
                     ),
 
-                     SizedBox(
+
+                    SizedBox(
                        height: 16,
                      ),
 
                     ///============ Location ============
-                    CustomFormCard(
-                      title: AppStrings.location,
-                      hintText: AppStrings.enterYourLocation,
-                      hasBackgroundColor: true,
-                      readOnly: true,
-                      suffixIcon: Icon(Icons.location_pin),
-                      controller: selectionController.locationController.value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppStrings.fieldCantBeEmpty;
-                        }
-                        return null;
+                    ElevatedButton(
+                      onPressed: () {
+
+                        Get.offAllNamed(AppRoutes.pickerMapScreen);
+
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.white_50,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50), // pill shape
+                          side: const BorderSide(color: Colors.lightBlue, width: 1), // border
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                        elevation: 0, // flat style, remove shadow
+
+                        minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),  // 90% of screen width
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          CustomImage(imageSrc: AppIcons.send_icon),
+
+                          SizedBox(
+                            width: 8,
+                          ),
+
+                          CustomText(
+                            text: 'Use my current location',
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+
+                        ],
+                      ),
                     ),
 
                     SizedBox(

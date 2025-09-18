@@ -23,4 +23,6 @@ class AppImages {
   static const String qr_code_image = "$basePath/qr_code_image.png";
   static const String down_array = "$basePath/down_array.svg";
 
+  static const String banner_im4 = "$basePath/banner_im4.png";
+
 }

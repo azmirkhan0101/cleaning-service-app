@@ -135,7 +135,12 @@ class _ProviderHomeState extends State<ProviderHome> {
                     fontWeight: FontWeight.w400,
                     color:AppColors.black,
                   ),
-                  CustomImage(imageSrc: AppImages.notification,),
+
+                  InkWell(
+                    onTap: (){
+                      Get.toNamed(AppRoutes.notificationScreen);
+                    },
+                      child: CustomImage(imageSrc: AppImages.notification,)),
                 ],
               ),
             ],
