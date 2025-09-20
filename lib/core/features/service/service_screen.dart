@@ -161,6 +161,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Action when button is pressed
+
+          Get.toNamed(AppRoutes.serviceAddScreen);
         },
         backgroundColor: Colors.orange,
         child: Icon(Icons.add),

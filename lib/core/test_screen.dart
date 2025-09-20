@@ -1,111 +1,62 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ServiceCardScreen(),
+      home: const FilePickerDemo(),
     );
   }
 }
 
-class ServiceCardScreen extends StatelessWidget {
+class FilePickerDemo extends StatelessWidget {
+  const FilePickerDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cleaning Service"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Container(
+          width: 300,
+          height: 120,
+          decoration: BoxDecoration(
+            color: const Color(0xF0F2F7FF), // light background
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Service info (name, price, rating)
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Cleaning Service',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          '€25/hr',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '4.8',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                  ],
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () {
+              // Handle file selection logic here
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Select file tapped")),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.image_outlined,
+                  size: 32,
+                  color: Colors.black54,
                 ),
-              ),
-
-              // Description
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Our professional cleaning service is designed to keep your home and office spotless, hygienic, and fresh. From floor to ceiling, we handle dusting, mopping, bathroom cleaning, kitchen deep cleaning, and more. Flexible scheduling and trusted cleaners ensure you get the service you need at the time that suits you best.',
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-
-              // Photos
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SizedBox(
-                  height: 200,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Image.asset('assets/photo1.jpg', width: 150, fit: BoxFit.cover),
-                      SizedBox(width: 8),
-                      Image.asset('assets/photo2.jpg', width: 150, fit: BoxFit.cover),
-                      SizedBox(width: 8),
-                      Image.asset('assets/photo3.jpg', width: 150, fit: BoxFit.cover),
-                    ],
+                const SizedBox(height: 8),
+                Text(
+                  "Select file",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.7),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

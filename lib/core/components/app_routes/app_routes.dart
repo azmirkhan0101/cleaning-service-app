@@ -11,7 +11,10 @@ import 'package:cleaning_service_app/core/features/location/location_screen.dart
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
+import 'package:cleaning_service_app/core/features/service/edit_service_screen.dart';
+import 'package:cleaning_service_app/core/features/service/service_add_screen.dart';
 import 'package:cleaning_service_app/core/features/service/service_details.dart';
+import 'package:cleaning_service_app/core/features/service/work_schedule_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_second_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/splash_screen.dart';
@@ -37,6 +40,9 @@ class AppRoutes {
   static const String pickerMapScreen = "/PickerMapScreen";
   static const String notificationScreen = "/NotificationScreen";
   static const String serviceDetails = "/ServiceDetails";
+  static const String editServiceScreen = "/EditServiceScreen";
+  static const String workScheduleScreen = "/WorkScheduleScreen";
+  static const String serviceAddScreen = "/ServiceAddScreen";
 
 
 
@@ -76,6 +82,12 @@ class AppRoutes {
    GetPage(name: notificationScreen, page: () => NotificationScreen()),
 
    GetPage(name: serviceDetails, page: () => ServiceDetails()),
+
+   GetPage(name: editServiceScreen, page: () => EditServiceScreen()),
+
+   GetPage(name: workScheduleScreen, page: () => WorkScheduleScreen()),
+
+   GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
 
 
   ];
