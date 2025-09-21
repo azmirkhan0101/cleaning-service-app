@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
@@ -14,30 +15,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+
+class BoostPaymentScreen extends StatefulWidget {
+  const BoostPaymentScreen({super.key});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  State<BoostPaymentScreen> createState() => _BoostPaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _BoostPaymentScreenState extends State<BoostPaymentScreen> {
 
   final  paymentController = Get.find<PaymentController>();
-
-  final storage = GetStorage();
-
-  String userType = "";
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    if (storage.read("userType") != null) {
-      userType = storage.read("userType");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,127 +39,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-             /// payment card
-             Container(
-              padding: const EdgeInsets.all(24.0),
-              decoration: BoxDecoration(
-                color:AppColors.lightBlue,
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(
-                  color: Color(0xFF1E88E5) ,// The blue border for selected
-                  width: 2.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.grey_3.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:   [
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(text:
-                      '€29 / month',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white_50,
-                      ),
-
-
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0), // Padding inside the container
-                        decoration: BoxDecoration(
-                          color:AppColors.white_50, // Background color
-                          borderRadius: BorderRadius.circular(20.0), // Rounded corners
-                          border: Border.all(color: AppColors.white_50), // Border color
-                        ),
-                        child: CustomText(
-                          text: 'Pro Plan',
-                          color: AppColors.black, // Text color
-                          fontSize: 10.0, // Font size
-                          fontWeight: FontWeight.bold, // Bold text
-                        ),
-                      ),
-
-                    ],
-                  ),
-
-                  SizedBox(height: 6.0),
-
-                  CustomText(text:
-                  'Commission: 10%',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.white_50,
-                  ),
-
-                  SizedBox(height: 8.0),
-
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle,color:AppColors.white_50,),
-
-                      SizedBox(width: 6.0),
-
-                      CustomText(text:
-                      'Priority listing',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color:AppColors.white_50,
-                      ),
-
-                    ],
-                  ),
-
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle,color: AppColors.white_50,),
-
-                      SizedBox(width: 6.0),
-
-                      CustomText(text:
-                      'Pro badge',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color:AppColors.white_50,
-                      ),
-
-                    ],
-                  ),
-
-                  SizedBox(height: 8.0),
-
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle,color:AppColors.white_50,),
-
-                      SizedBox(width: 6.0),
-
-                      CustomText(text:
-                      ' €20 credits/month',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color:AppColors.white_50,
-                      ),
-
-                    ],
-                  ),
-
-                ],
-              ),
-            ),
-
-           const SizedBox(
-              height: 16,
-            ),
 
             CustomText(text:
             'Payment Method',
@@ -186,10 +53,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             CustomImage(imageSrc: AppImages.visaCard),
 
-            const  SizedBox(
-              height: 12,
+            const SizedBox(
+              height: 16,
             ),
 
+            CustomText(text:
+            'Card Number',
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color:AppColors.black,
+            ),
+
+            const SizedBox(
+              height: 8,
+            ),
             ///Card Input
             Container(
               height: 60,
@@ -220,7 +97,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               height: 16,
             ),
 
-         /// **Expiration Date & cvc Code
+            /// **Expiration Date & cvc Code
             Row(
               children: [
                 Expanded(
@@ -325,7 +202,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-
   void showCustomDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -334,7 +210,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           backgroundColor: Colors.white,
           insetPadding: EdgeInsets.all(8),
           contentPadding: EdgeInsets.all(8),
-        // Optional title if provided
+          // Optional title if provided
           content: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: Padding(
@@ -356,10 +232,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                   CustomButton(onTap: (){
 
-                    if(userType=="provider") {
-                      Get.offNamed(AppRoutes.providerHome);
-                    }
-                   // Navigator.of(context).pop();
+                    //  if(userType=="provider"){
+                    Get.offNamed(AppRoutes.providerHome);
+
+                    // Navigator.of(context).pop();
                   },
                     title: "Back to Home",
                     fontSize: 16, // Bigger button text for tablets
@@ -377,5 +253,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       },
     );
   }
-
 }
+
+
+
+
+

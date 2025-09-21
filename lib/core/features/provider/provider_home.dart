@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/nav_bar.dart';
+import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -152,49 +152,58 @@ class _ProviderHomeState extends State<ProviderHome> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      elevation: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                    child: InkWell(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.bookingsScreen,arguments: [
+                          {
+                            "status":"accept"
+                          }
+                        ]);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: [
-                               CustomText(text:
-                               'Current Bookings',
-                                 fontSize: 12.0,
-                                 fontWeight: FontWeight.w500,
-                                 color: Colors.black,
-                               ),
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                               children: [
+                                 CustomText(text:
+                                 'Current Bookings',
+                                   fontSize: 12.0,
+                                   fontWeight: FontWeight.w500,
+                                   color: Colors.black,
+                                 ),
 
-                               CustomImage(imageSrc: AppIcons.current_icon)
-                             ],
-                           ),
+                                 CustomImage(imageSrc: AppIcons.current_icon)
+                               ],
+                             ),
 
-                            SizedBox(height: 8.0),
+                              SizedBox(height: 8.0),
 
-                            CustomText(text:
-                            '05',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
+                              CustomText(text:
+                              '05',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
 
-                            SizedBox(height: 8.0),
+                              SizedBox(height: 8.0),
 
-                            CustomText(text:
-                            'Current Bookings',
-                              fontSize: 8.0,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.neutral03,
-                            ),
-                          ],
+                              CustomText(text:
+                              'Current Bookings',
+                                fontSize: 8.0,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.neutral03,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -259,113 +268,125 @@ class _ProviderHomeState extends State<ProviderHome> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      elevation: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 Expanded(
+                      child: InkWell(
+                        onTap: (){
+                          Get.toNamed(AppRoutes.inboxScreen);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          elevation: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
 
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    CustomText(text:
+                                    'New Message',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+
+                                    CustomImage(imageSrc: AppIcons.message)
+                                  ],
+                                ),
+
+                                SizedBox(height: 8.0),
+
                                 CustomText(text:
-                                'New Message',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
+                                '03',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.black,
                                 ),
 
-                                CustomImage(imageSrc: AppIcons.message)
-                              ],
-                            ),
-
-                            SizedBox(height: 8.0),
-
-                            CustomText(text:
-                            '03',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-
-                            SizedBox(height: 8.0),
-
-                            CustomText(text:
-                            'Unread',
-                              fontSize: 8.0,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.neutral03,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      elevation: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                                SizedBox(height: 8.0),
 
                                 CustomText(text:
-                                'Current Plan',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
-
-                                CustomImage(imageSrc: AppIcons.current_plan)
-                              ],
-                            ),
-                            SizedBox(height: 8.0),
-
-                            CustomText(text:
-                            'Pro Plan',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-
-                            SizedBox(height: 8.0),
-
-                            Row(
-                              children: [
-                                CustomText(
-                                  text:
-                                  'Expired date:',
+                                'Unread',
                                   fontSize: 8.0,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.neutral03,
                                 ),
-
-                                CustomText(
-                                  text:
-                                  '10 October 2025',
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightBlue,
-                                ),
                               ],
-                            )
-                          ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+                   Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.proPlanSubscriptionScreen);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  CustomText(text:
+                                  'Current Plan',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+
+                                  CustomImage(imageSrc: AppIcons.current_plan)
+                                ],
+                              ),
+                              SizedBox(height: 8.0),
+
+                              CustomText(text:
+                              'Pro Plan',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+
+                              SizedBox(height: 8.0),
+
+                              Row(
+                                children: [
+                                  CustomText(
+                                    text:
+                                    'Expired date:',
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.neutral03,
+                                  ),
+
+                                  CustomText(
+                                    text:
+                                    '10 October 2025',
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.lightBlue,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -387,14 +408,23 @@ class _ProviderHomeState extends State<ProviderHome> {
                    color: AppColors.black,
                  ),
 
-                 Padding(
-                   padding: const EdgeInsets.only(right: 8),
-                   child: CustomText(
-                     text:
-                     'See all',
-                     fontSize: 14,
-                     fontWeight: FontWeight.w600,
-                     color: AppColors.lightBlue,
+                 InkWell(
+                   onTap: (){
+                     Get.toNamed(AppRoutes.bookingsScreen,arguments: [
+                       {
+                         "status":"Pending"
+                       }
+                     ]);
+                   },
+                   child: Padding(
+                     padding: const EdgeInsets.only(right: 8),
+                     child: CustomText(
+                       text:
+                       'See all',
+                       fontSize: 14,
+                       fontWeight: FontWeight.w600,
+                       color: AppColors.lightBlue,
+                     ),
                    ),
                  ),
 
@@ -441,58 +471,67 @@ class AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 30.0,
-              backgroundImage: NetworkImage(avatarUrl),
-            ),
-            SizedBox(width: 16.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       CustomText(text:
-                       name,
-                         fontSize: 16.0,
-                         fontWeight: FontWeight.w500,
-                       ),
-
-                       CustomText(text:
-                        time,
-                         fontSize: 12.0,
-                         fontWeight: FontWeight.w400,
-                         color: AppColors.neutral03,
-                       ),
-                     ],
-                   ),
-
-                 const SizedBox(height: 12.0),
-
-                  CustomText(
-                    text:
-                    appointment,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.neutral03,
-                    maxLines: 2,
-                    textAlign: TextAlign.start,
-                  ),
-                ],
+    return InkWell(
+      onTap: (){
+        Get.toNamed(AppRoutes.bookingsScreen,arguments: [
+          {
+            "status":"Pending"
+          }
+        ]);
+      },
+      child: Card(
+        elevation: 1.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 30.0,
+                backgroundImage: NetworkImage(avatarUrl),
               ),
-            ),
-          ],
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         CustomText(text:
+                         name,
+                           fontSize: 16.0,
+                           fontWeight: FontWeight.w500,
+                         ),
+
+                         CustomText(text:
+                          time,
+                           fontSize: 12.0,
+                           fontWeight: FontWeight.w400,
+                           color: AppColors.neutral03,
+                         ),
+                       ],
+                     ),
+
+                   const SizedBox(height: 12.0),
+
+                    CustomText(
+                      text:
+                      appointment,
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.neutral03,
+                      maxLines: 2,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,64 +1,92 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const FilePickerDemo(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Discount Banner"),
+        ),
+        body: Center(
+          child: DiscountBanner(),
+        ),
+      ),
     );
   }
 }
 
-class FilePickerDemo extends StatelessWidget {
-  const FilePickerDemo({super.key});
-
+class DiscountBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          width: 300,
-          height: 120,
-          decoration: BoxDecoration(
-            color: const Color(0xF0F2F7FF), // light background
-            borderRadius: BorderRadius.circular(12),
+    return Container(
+      width: double.infinity,
+      height: 180,
+      decoration: BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () {
-              // Handle file selection logic here
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Select file tapped")),
-              );
+        ],
+      ),
+      padding: EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "30% Off",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Special Deals",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue.shade800,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Get discount for every Cleaning order",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.blue.shade600,
+                ),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Define the action when the button is pressed
             },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.image_outlined,
-                  size: 32,
-                  color: Colors.black54,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Select file",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black.withOpacity(0.7),
-                  ),
-                ),
-              ],
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              padding: MaterialStateProperty.all(
+                EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+            ),
+            child: Text(
+              "Order Now",
+              style: TextStyle(fontSize: 16),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

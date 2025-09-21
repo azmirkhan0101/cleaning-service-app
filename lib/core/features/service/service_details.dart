@@ -88,6 +88,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       fontWeight: FontWeight.w500,
                     ),
                     onTap: () {
+
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -103,15 +104,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
 
-                                  Icon(Icons.delete_forever_outlined,size: 90,color: AppColors.red,),
-
-                                //  CustomImage(imageSrc: AppImages.alertImage),
-
-                                  CustomText(text: "Delete this Service",
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                    color:AppColors.black,
-                                  ),
 
                                   SizedBox(
                                     height: 8,
@@ -135,7 +127,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       title: "Yes",
                                       height: 45,
                                       fontSize: 12,
-                                      fillColor: AppColors.brinkPink),
+                                      fillColor: AppColors.appColors),
 
                                   SizedBox(
                                     height: 12,
@@ -184,12 +176,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ),
 
               // Service info (name, price, rating)
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -211,18 +203,49 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+
                       children: [
-                        Text(
-                          '4.8',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: 20,
+
+                       Row(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           const Icon(
+                             Icons.star,
+                             color: Colors.yellow,
+                             size: 20,
+                           ),
+
+                           const Text(
+                             '4.8',
+                             style: TextStyle(
+                               fontSize: 16,
+                               fontWeight: FontWeight.bold,
+                             ),
+                           ),
+                           const SizedBox(
+                             width: 6,
+                           ),
+
+                           InkWell(
+                             onTap: (){
+                                Get.toNamed(AppRoutes.reviewScreen);
+                             },
+                             child: const CustomText(text:
+                               'View',
+                               fontSize: 14,
+                               fontWeight: FontWeight.w600,
+                               color: AppColors.lightBlue,
+                             ),
+                           ),
+                         ],
+                       ),
+
+                        const CustomText(text:
+                        '306 Orders',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.lightBlue,
                         ),
                       ],
                     ),

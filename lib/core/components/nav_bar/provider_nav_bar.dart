@@ -2,6 +2,8 @@
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
 import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/features/service/service_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
@@ -190,12 +192,11 @@ class _NavBarState extends State<NavBar> {
 
           break;
         case 3:
-        //  Get.offAll(() => PrayersScreen());
+          Get.offAll(() => InboxScreen());
           break;
 
         case 4:
-
-          // Get.offAll(() => QiblaDirectionScreen());
+          Get.offAll(() => ProfileScreen());
           break;
       }
     }

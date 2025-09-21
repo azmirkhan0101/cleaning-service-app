@@ -43,9 +43,54 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
                     height: 6,
                   ),
 
-                  CustomText(text: "Cleaning",fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: AppColors.lightBlue,
+                  Card(
+                    elevation: 0.5,
+                    child: SizedBox(
+                      width: 200,
+                      child: DropdownButton<String>(
+                        value: serviceController.selectedCategoryName.value.isEmpty
+                            ? null
+                            : serviceController.selectedCategoryName.value,  // Bind to the GetX value
+                        onChanged: (String? newValue) {
+                          serviceController.selectedCategoryName.value = newValue!;
+                        },
+                        items: <String>['Cleaning', 'Laundry', 'Handyman', 'Electrical']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            enabled: true,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0,),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  Text(value),
+
+                                  Radio<bool>(
+                                    value:
+                                    false, // Value for "No"
+                                    fillColor:
+                                    WidgetStateColor.resolveWith((states) =>
+                                    AppColors.black_04),
+                                    groupValue: true,
+
+                                    onChanged:(bool? value) {
+
+                                      // serviceController.genderType.value=value!;
+                                    },
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        icon: Icon(Icons.arrow_drop_down),  // Adding the dropdown icon
+                        iconSize: 24,  // Adjust the icon size if needed
+                        isExpanded: true,  // Makes the DropdownButton take up all available space
+                      ),
+                    ),
                   ),
 
                   SizedBox(

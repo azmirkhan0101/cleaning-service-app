@@ -1,6 +1,8 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/features/service/service_controller.dart';
 import 'package:cleaning_service_app/core/features/service/service_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,10 @@ class WorkScheduleScreen extends StatefulWidget {
 }
 
 class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
+
+  final  serviceController = Get.find<ServiceController>();
+
+
   final List<DaySchedule> _days = [
     DaySchedule(weekday: Weekday.monday,     start: const TimeOfDay(hour: 9,  minute: 0), end: const TimeOfDay(hour: 18, minute: 0), available: true),
     DaySchedule(weekday: Weekday.tuesday,    start: const TimeOfDay(hour: 9,  minute: 0), end: const TimeOfDay(hour: 18, minute: 0), available: true),
@@ -77,7 +83,10 @@ class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
     // Only allow editing if the day is available
     if (!day.available) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${day.label} is set to Not available')),
+        SnackBar(content: Text('${day.label} is set to Not available',style: TextStyle(fontSize: 18,
+            fontWeight: FontWeight.w600),),backgroundColor: AppColors.lightRed,
+         padding: EdgeInsets.all(24),
+        ),
       );
       return;
     }
@@ -155,10 +164,190 @@ class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
     }
   }
 
+  /// set buffer time setup
   void _setBufferTime(DaySchedule day) {
     // Hook your buffer-time flow here
-    ScaffoldMessenger.of(context).showSnackBar(
+ /*   ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Set Buffer Time • ${day.label}')),
+    );*/
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
+        insetPadding: EdgeInsets.all(8),
+        contentPadding: EdgeInsets.all(8),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomText(text: "Set Buffer Time",
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color:AppColors.lightBlue,
+            ),
+
+            InkWell(child: Icon(Icons.close,size: 32,),
+              onTap: (){
+              Navigator.of(context).pop();
+            },)
+          ],
+        ),
+        content: SizedBox(
+          width: MediaQuery.sizeOf(context).width,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Obx(
+               () {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Radio<bool>(
+                         value:false  // Value for "No"
+                         ,
+                         fillColor:
+                         WidgetStateColor.resolveWith((states) =>
+                         AppColors.black_04),
+                         groupValue: serviceController.setBufferTimeType.value,
+                         onChanged:(bool? value) {
+                           serviceController.setBufferTimeType.value=value!;
+                         },
+                       ),
+
+                       const CustomText(
+                         text:
+                         "15 minutes",
+                         fontSize:
+                         14,
+                         color: AppColors
+                             .black,
+                         fontWeight:
+                         FontWeight
+                             .w600,
+                       ),
+
+                     ],
+                   ),
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Radio<bool>(
+                         value:
+                         true, // Value for "No"
+                         fillColor:
+                         WidgetStateColor.resolveWith((states) =>
+                         AppColors.black_04),
+                         groupValue: serviceController.setBufferTimeType.value,
+                         onChanged:(bool? value) {
+                           serviceController.setBufferTimeType.value=value!;
+                         },
+                       ),
+
+                       const CustomText(
+                         text:
+                         "30 minutes",
+                         fontSize:
+                         14,
+                         color: AppColors
+                             .black,
+                         fontWeight:
+                         FontWeight
+                             .w600,
+                       ),
+
+                     ],
+                   ),
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Radio<bool>(
+                         value:
+                         false, // Value for "No"
+                         fillColor:
+                         WidgetStateColor.resolveWith((states) =>
+                         AppColors.black_04),
+                         groupValue: serviceController.setBufferTimeType.value,
+                         onChanged:(bool? value) {
+                           serviceController.setBufferTimeType.value=value!;
+                         },
+                       ),
+
+                       const CustomText(
+                         text:
+                         "45 minutes",
+                         fontSize:
+                         14,
+                         color: AppColors
+                             .black,
+                         fontWeight:
+                         FontWeight
+                             .w600,
+                       ),
+
+                     ],
+                   ),
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     crossAxisAlignment: CrossAxisAlignment.center,
+                     children: [
+                       Radio<bool>(
+                         value:
+                         true, // Value for "No"
+                         fillColor:
+                         WidgetStateColor.resolveWith((states) =>
+                         AppColors.black_04),
+                         groupValue: serviceController.setBufferTimeType.value,
+                         onChanged:(bool? value) {
+                           serviceController.setBufferTimeType.value = value!;
+                         },
+                       ),
+
+                       const CustomText(
+                         text:
+                         "1 hour   ",
+                         fontSize:
+                         14,
+                         color: AppColors
+                             .black,
+                         fontWeight:
+                         FontWeight
+                             .w600,
+                         maxLines: 2,
+                       ),
+
+                     ],
+                   ),
+
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                    CustomButton(
+                        onTap: () {
+                          Navigator.of(context).pop();
+
+                        },
+                        title: "Yes",
+                        height: 45,
+                        fontSize: 12,
+                        fillColor: AppColors.appColors),
+
+
+                  ],
+                );
+              }
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -212,7 +401,7 @@ class DaySchedule {
   }
 }
 
-/// UI widgets
+///===================== UI widgets =========================
 
 class DayRow extends StatelessWidget {
   const DayRow({
@@ -247,6 +436,7 @@ class DayRow extends StatelessWidget {
             Switch(
               value: schedule.available,
               onChanged: onToggle,
+               activeColor: AppColors.lightBlue,
             ),
             const SizedBox(width: 8),
             Text(
@@ -261,6 +451,7 @@ class DayRow extends StatelessWidget {
         const SizedBox(height: 6),
         Row(
           children: [
+
             Expanded(
               child: InkWell(
                 onTap: onTapDay,
@@ -280,8 +471,9 @@ class DayRow extends StatelessWidget {
               onPressed: schedule.available ? onSetBuffer : null,
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                backgroundColor: AppColors.lightBlue,
               ),
-              child: const Text('Set Buffer Time'),
+              child: const Text('Set Buffer Time',style: TextStyle(color: AppColors.white),),
             ),
           ],
         ),

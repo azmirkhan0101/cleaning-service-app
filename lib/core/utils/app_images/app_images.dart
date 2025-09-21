@@ -25,4 +25,10 @@ class AppImages {
 
   static const String banner_im4 = "$basePath/banner_im4.png";
 
+  static const String earning_image = "$basePath/earning_image.svg";
+
+  static const String refer_image = "$basePath/refer_image.png";
+
+  static const String banner_im5 = "$basePath/banner_im5.png";
+
 }

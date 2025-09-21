@@ -8,10 +8,24 @@ import 'package:cleaning_service_app/core/features/bookings/service_details_scre
 import 'package:cleaning_service_app/core/features/location/map_picker.dart';
 import 'package:cleaning_service_app/core/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/core/features/location/location_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/inbox/message_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/about_us_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/boost_payment_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/change_password.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/earning_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/privacy_policy_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/profile_edit_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/refer_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/profile/terms_condition_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
 import 'package:cleaning_service_app/core/features/service/edit_service_screen.dart';
+import 'package:cleaning_service_app/core/features/service/review_screen.dart';
 import 'package:cleaning_service_app/core/features/service/service_add_screen.dart';
 import 'package:cleaning_service_app/core/features/service/service_details.dart';
 import 'package:cleaning_service_app/core/features/service/work_schedule_screen.dart';
@@ -43,6 +57,24 @@ class AppRoutes {
   static const String editServiceScreen = "/EditServiceScreen";
   static const String workScheduleScreen = "/WorkScheduleScreen";
   static const String serviceAddScreen = "/ServiceAddScreen";
+  static const String messageScreen = "/MessageScreen";
+  static const String profileScreen = "/ProfileScreen";
+  static const String boostPaymentScreen = "/BoostPaymentScreen";
+  static const String editPersonProfileScreen = "/EditPersonProfileScreen";
+  static const String myEarningScreen = "/MyEarningScreen";
+  static const String changePasswordScreen = "/ChangePasswordScreen";
+  static const String referScreen = "/ReferScreen";
+  static const String aboutUsScreen = "/AboutUsScreen";
+  static const String privacyPolicyScreen = "/PrivacyPolicyScreen";
+
+  static const String termsConditionScreen = "/termsConditionScreen";
+
+  static const String inboxScreen = "/InboxScreen";
+  static const String proPlanSubscriptionScreen = "/ProPlanSubscriptionScreen";
+
+  static const String reviewScreen = "/ReviewScreen";
+
+  static const String ownerHomeScreen = "/OwnerHomeScreen";
 
 
 
@@ -88,6 +120,34 @@ class AppRoutes {
    GetPage(name: workScheduleScreen, page: () => WorkScheduleScreen()),
 
    GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
+
+   GetPage(name: messageScreen, page: () => MessageScreen()),
+
+   GetPage(name: profileScreen, page: () => ProfileScreen()),
+
+   GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
+
+   GetPage(name: editPersonProfileScreen, page: () => EditPersonProfileScreen()),
+
+   GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
+
+   GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
+
+   GetPage(name: referScreen, page: () => ReferScreen()),
+
+   GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
+
+   GetPage(name: privacyPolicyScreen, page: () => PrivacyPolicyScreen()),
+
+   GetPage(name: termsConditionScreen, page: () => TermsConditionScreen()),
+
+   GetPage(name: inboxScreen, page: () => InboxScreen()),
+
+   GetPage(name: proPlanSubscriptionScreen, page: () => ProPlanSubscriptionScreen()),
+
+   GetPage(name: reviewScreen, page: () => ReviewScreen()),
+
+   GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
 
 
   ];

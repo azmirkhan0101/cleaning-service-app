@@ -14,6 +14,7 @@ import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 const Color primaryDarkBlue = Color(0xFF13224B);
 const Color primaryYellow = Color(0xFFFFC000);
@@ -33,6 +34,22 @@ class _SelectionScreenState extends State<SelectionScreen> {
   final  selectionController = Get.find<SelectionController>();
 
   final authController = Get.put(AuthController());
+
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if(selectionController.typeModeStatues.value==false){
+
+      storage.write("userType", "owner");
+    }
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +137,8 @@ class _SelectionScreenState extends State<SelectionScreen> {
                          groupValue: selectionController.typeModeStatues.value,
                          onChanged: (bool? value) {
                            selectionController.typeModeStatues.value = value!;
+
+                           storage.write("userType", "owner");
                          },
                        ),
                        // Owner Card
@@ -179,6 +198,8 @@ class _SelectionScreenState extends State<SelectionScreen> {
                          groupValue: selectionController.typeModeStatues.value,
                          onChanged: (bool? value) {
                            selectionController.typeModeStatues.value = value!;
+
+                           storage.write("userType", "provider");
                          },
                        ),
                        // Service Provider Card
@@ -276,7 +297,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     ElevatedButton(
                       onPressed: () {
 
-                        Get.offAllNamed(AppRoutes.pickerMapScreen);
+                        Get.toNamed(AppRoutes.pickerMapScreen);
 
                       },
                       style: ElevatedButton.styleFrom(
@@ -387,7 +408,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.5, // 50% of the screen width
                               height: MediaQuery.of(context).size.width * 0.5, // Maintain a square aspect ratio
-                              child: CustomImage(imageSrc: AppIcons.profileIcons),
+                              child: CustomImage(imageSrc: AppIcons.add_image),
                             ),
                           )
                         ],

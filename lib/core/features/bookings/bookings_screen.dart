@@ -2,7 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/nav_bar.dart';
+import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,10 @@ class _BookingsScreenState extends State<BookingsScreen> {
     if (Get.arguments[0]["status"] != null) {
       status = Get.arguments[0]["status"];
 
-      if(status=="accept"){
+      if(status=="Pending"){
+        bookingController.selectedIndex(1);
+
+      }if(status=="accept"){
         bookingController.selectedIndex(2);
 
       } if(status=="reject"){

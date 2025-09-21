@@ -24,6 +24,8 @@ class AppIcons {
 
   static const String profileIcons = "$basePath/profile.svg";
 
+  static const String add_image = "$basePath/add_image.svg";
+
   static const String cardImage = "$basePath/card.svg";
 
   static const String current_icon = "$basePath/current_icon.svg";

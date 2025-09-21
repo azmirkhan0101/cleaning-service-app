@@ -80,5 +80,8 @@ class AppColors {
   static const Color contentColorCyan = Color(0xFF50E4FF);
 
 
-
+  static Color primaryDarkBlue = Color(0xFF13224B);
+  static Color primaryYellow = Color(0xFFFFC000);
+  static Color cardBorderBlue = Color(0xFF1E88E5);
+  static Color unselectedTextColor = Color(0xFF6A6A6A);
 }

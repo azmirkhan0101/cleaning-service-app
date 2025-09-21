@@ -11,6 +11,13 @@ class ServiceController  extends GetxController {
   RxBool genderType= false.obs;
 
 
+  RxBool setBufferTimeType = false.obs;
+
+
+  // Define an observable variable to store the selected value
+  RxString selectedCategoryName = ''.obs;
+
+
   // Define an observable variable to store the selected value
   RxString selectedCountry = ''.obs;
 
@@ -19,5 +26,7 @@ class ServiceController  extends GetxController {
   void onInit() {
     super.onInit();
     selectedCountry.value = 'USA'; // Default selection
+
+    selectedCategoryName.value = 'Cleaning'; // Default selection
   }
 }

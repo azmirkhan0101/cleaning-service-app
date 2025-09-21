@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
@@ -103,7 +104,57 @@ class _LoginScreenState extends State<LoginScreen> {
                ElevatedButton(
                 onPressed: () {
 
-                  Get.offAllNamed(AppRoutes.providerHome);
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      insetPadding: EdgeInsets.all(8),
+                      contentPadding: EdgeInsets.all(8),
+                      title: SizedBox(),
+                      content: SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+
+                              CustomButton(
+                                  onTap: () {
+
+                                    Get.offAllNamed(AppRoutes.providerHome);
+                                  },
+                                  title: "provider",
+                                  height: 45,
+                                  width: 100,
+                                  fontSize: 12,
+                                  fillColor: AppColors.appColors),
+
+                              SizedBox(
+                                width: 12,
+                              ),
+
+                              CustomButton(
+                                onTap: () {
+
+                                  Get.offAllNamed(AppRoutes.ownerHomeScreen);
+
+                               ///Navigator.of(context).pop();
+                                },
+                                title: "owner",
+                                height: 45,
+                                width: 100,
+                                fontSize: 12,
+                                fillColor: AppColors.appColors,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.appColors,
