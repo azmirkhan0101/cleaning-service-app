@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/nav_bar/owner_nav_bar.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
@@ -450,7 +451,7 @@ class _ProviderHomeState extends State<ProviderHome> {
           ),
         ),
       ),
-      bottomNavigationBar: NavBar(currentIndex: 0),
+      bottomNavigationBar: OwnerNavBar(currentIndex: 0),
     );
   }
 

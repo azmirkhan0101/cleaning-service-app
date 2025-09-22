@@ -32,7 +32,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   itemCount: 6,
                   itemBuilder: (BuildContext context,index){
 
-                    return   _buildTestimonial(
+                    return _buildTestimonial(
                       name: 'Daniel Brown',
                       rating: 5,
                       testimonial: 'Excellent service! Professional, reliable, and exceeded my expectations. Highly recommended!',

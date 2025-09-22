@@ -8,7 +8,13 @@ import 'package:cleaning_service_app/core/features/bookings/service_details_scre
 import 'package:cleaning_service_app/core/features/location/map_picker.dart';
 import 'package:cleaning_service_app/core/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/core/features/location/location_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/service/owner_category_by_service.dart';
+import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/service/service_book_second_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/service/service_booking.dart';
+import 'package:cleaning_service_app/core/features/owner/service/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/inbox/message_screen.dart';
@@ -75,6 +81,18 @@ class AppRoutes {
   static const String reviewScreen = "/ReviewScreen";
 
   static const String ownerHomeScreen = "/OwnerHomeScreen";
+
+  static const String ownerCategoryByService = "/OwnerCategoryByService";
+
+  static const String ownerServiceDetailsScreen = "/OwnerServiceDetailsScreen";
+
+  static const String serviceBooking = "/ServiceBooking";
+
+  static const String serviceBookSecondScreen = "/ServiceBookSecondScreen";
+
+  static const String ownerCategoryScreen = "/OwnerCategoryScreen";
+
+  static const String ownerScannerScreen = "/OwnerScannerScreen";
 
 
 
@@ -148,6 +166,18 @@ class AppRoutes {
    GetPage(name: reviewScreen, page: () => ReviewScreen()),
 
    GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
+
+   GetPage(name: ownerCategoryByService, page: () => OwnerCategoryByService()),
+
+   GetPage(name: ownerServiceDetailsScreen, page: () => OwnerServiceDetailsScreen()),
+
+   GetPage(name: serviceBooking, page: () => ServiceBooking()),
+
+   GetPage(name: serviceBookSecondScreen, page: () => ServiceBookSecondScreen()),
+
+   GetPage(name: ownerCategoryScreen, page: () => OwnerCategoryScreen()),
+
+   GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
 
 
   ];

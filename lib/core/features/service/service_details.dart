@@ -311,26 +311,3 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 }
 
-class _ImageSkeleton extends StatelessWidget {
-  const _ImageSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return const DecoratedBox(
-      decoration: BoxDecoration(color: Color(0xFFEFEFEF)),
-      child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-    );
-  }
-}
-
-class _ImageError extends StatelessWidget {
-  const _ImageError();
-
-  @override
-  Widget build(BuildContext context) {
-    return const DecoratedBox(
-      decoration: BoxDecoration(color: Color(0xFFF5F5F5)),
-      child: Center(child: Icon(Icons.broken_image_outlined)),
-    );
-  }
-}

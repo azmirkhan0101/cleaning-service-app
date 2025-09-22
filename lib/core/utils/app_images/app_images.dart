@@ -31,4 +31,14 @@ class AppImages {
 
   static const String banner_im5 = "$basePath/banner_im5.png";
 
+  static const String banner_im6 = "$basePath/banner_im6.png";
+
+  static const String arrayicon = "$basePath/arrayicon.svg";
+
+  static const String location = "$basePath/location.svg";
+
+  static const String cancelled_image = "$basePath/cancelled_image.svg";
+
+
+
 }

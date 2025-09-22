@@ -100,8 +100,6 @@ class _BookingsScreenState extends State<BookingsScreen> {
           child: Obx(
             () {
 
-
-
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -144,9 +142,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
                      return  InkWell(
                        onTap: (){
-
                          Get.toNamed(AppRoutes.serviceDetailsScreen);
-
                        },
                        child: ServiceCard(
                         status: 'Pending',

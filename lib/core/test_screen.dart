@@ -1,93 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Discount Banner"),
-        ),
-        body: Center(
-          child: DiscountBanner(),
-        ),
-      ),
+      home: RatingPopup(),
     );
   }
 }
 
-class DiscountBanner extends StatelessWidget {
+class RatingPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 180,
-      decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(title: Text('Rating Popup Example')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            _showRatingDialog(context);
+          },
+          child: Text('Rate Provider'),
+        ),
       ),
-      padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
+  void _showRatingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Completed'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "30% Off",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+              Text('Give your Rating'),
+              SizedBox(height: 10),
+              RatingBar.builder(
+                initialRating: 5,
+                minRating: 1,
+                itemSize: 40,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 2),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                ),
+                onRatingUpdate: (rating) {
+                  print('Rating: $rating');
+                },
+              ),
+              SizedBox(height: 10),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Comments',
+                  hintText: 'Nice work',
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                "Special Deals",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.blue.shade800,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                "Get discount for every Cleaning order",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.blue.shade600,
-                ),
-              ),
+              SizedBox(height: 10),
+              Text('Provider name: Jorge Bond'),
             ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              // Define the action when the button is pressed
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.blue),
-              padding: MaterialStateProperty.all(
-                EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Handle submit
+                Navigator.of(context).pop();
+              },
+              child: Text('Submit'),
             ),
-            child: Text(
-              "Order Now",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
