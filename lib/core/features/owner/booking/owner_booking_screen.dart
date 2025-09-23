@@ -2,6 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/nav_bar/owner_nav_bar.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -132,7 +133,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
                             );
                           }),
 
-                    /// Pending list
+                    /// pending list
                     if(bookingController.selectedIndex.value==1)
                       ListView.builder(
                           itemCount: 6,
@@ -181,7 +182,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
                               },
                               child: ServiceCard(
                                 status: 'Ongoing',
-                                imageUrl: AppImages.clean_image, // Replace with actual image URL
+                                imageUrl: AppImages.clean_image, ///Replace with actual image URL
                                 serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
                                 price: 25.00,
                                 duration: 2,
@@ -251,7 +252,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
               }
           ),
         ),
-        bottomNavigationBar: NavBar(currentIndex: 1),
+        bottomNavigationBar: OwnerNavBar(currentIndex: 2),
       ),
     );
   }

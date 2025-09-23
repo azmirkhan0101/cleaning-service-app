@@ -10,14 +10,14 @@ import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProviderInboxScreen extends StatefulWidget {
-  const ProviderInboxScreen({super.key});
+class OwnerInboxScreen extends StatefulWidget {
+  const OwnerInboxScreen({super.key});
 
   @override
-  State<ProviderInboxScreen> createState() => _ProviderInboxScreenState();
+  State<OwnerInboxScreen> createState() => _OwnerInboxScreenState();
 }
 
-class _ProviderInboxScreenState extends State<ProviderInboxScreen> {
+class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +137,7 @@ class _ProviderInboxScreenState extends State<ProviderInboxScreen> {
 
             GestureDetector(
               onTap: (){
-                 Get.toNamed(AppRoutes.messageScreen);
+                 Get.toNamed(AppRoutes.ownerMessageScreen);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

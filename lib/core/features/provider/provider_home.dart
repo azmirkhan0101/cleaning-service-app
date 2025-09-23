@@ -273,7 +273,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                  Expanded(
                       child: InkWell(
                         onTap: (){
-                          Get.toNamed(AppRoutes.inboxScreen);
+                          Get.toNamed(AppRoutes.providerInboxScreen);
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(

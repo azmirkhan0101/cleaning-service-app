@@ -2,9 +2,15 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/features/owner/service/owner_service_controller.dart';
+import 'package:cleaning_service_app/core/test_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'dart:math' as math;
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class ServiceBooking extends StatefulWidget {
   const ServiceBooking({super.key});
@@ -14,6 +20,11 @@ class ServiceBooking extends StatefulWidget {
 }
 
 class _ServiceBookingState extends State<ServiceBooking> {
+
+  final ownerController = Get.find<OwnerServiceController>();
+
+  DateTime? selected;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +99,13 @@ class _ServiceBookingState extends State<ServiceBooking> {
                   hintText: "Enter date and time",
                   hasBackgroundColor: true,
                   prefixIcon: Icon(Icons.calendar_month),
-                  controller: TextEditingController()
+                  controller: TextEditingController(),
+                  readOnly: true,
+                 onTap: ()async{
+
+                   _openBottomSheet(context);
+
+                },
               ),
 
               SizedBox(
@@ -140,7 +157,8 @@ class _ServiceBookingState extends State<ServiceBooking> {
               ElevatedButton(
                 onPressed: () {
 
-                  Get.toNamed(AppRoutes.serviceBookSecondScreen);
+                   Get.toNamed(AppRoutes.serviceBookSecondScreen);
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.appColors,
@@ -160,6 +178,144 @@ class _ServiceBookingState extends State<ServiceBooking> {
           ),
       ),
 
+    );
+  }
+
+  void _openBottomSheet(BuildContext context) {
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // fullscreen feel
+      isDismissible: false, // Prevent tap outside dismiss
+      enableDrag: false, // Prevent drag down dismiss
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return DefaultTabController(
+          length: 2,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Column(
+              children: [
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    const Text(
+                      "",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: IconButton(
+                        icon: const Icon(Icons.close,size: 32,),
+                        onPressed: () {
+                          Navigator.pop(context); // close bottom sheet
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                /// ---------- Custom Segmented Tab ----------
+                Container(
+                  margin:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: TabBar(
+                    indicator: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.black54,
+                    dividerColor: Colors.transparent,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: const [
+                      Tab(text: "Date",),
+                      Tab(text: "Time"),
+                    ],
+                  ),
+                ),
+
+                /// ---------- Tab Content ----------
+
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      /// ---------- Date Picker ----------
+                      Obx(() {
+                        return CalendarDatePicker2(
+                          config:   CalendarDatePicker2Config(
+                            calendarType: CalendarDatePicker2Type.single,
+                          ),
+                          value: ownerController.selectedDate.value == null
+                              ? []
+                              : [ownerController.selectedDate.value!],
+                          onValueChanged: (dates) {
+                            if (dates.isNotEmpty) {
+                              ownerController.setDate(dates.first!);
+                            }
+                          },
+                        );
+                      }),
+
+                      /// ---------- Time Picker ----------
+                      /// ---------- Time Picker Inline ----------
+                      Obx(() {
+                        return SizedBox(
+                          height: 250,
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.time,
+                            initialDateTime: DateTime(
+                              2023,
+                              1,
+                              1,
+                              ownerController.selectedTime.value?.hour ?? TimeOfDay.now().hour,
+                              ownerController.selectedTime.value?.minute ?? TimeOfDay.now().minute,
+                            ),
+                            use24hFormat: false,
+                            onDateTimeChanged: (DateTime newTime) {
+                              ownerController.setTime(
+                                TimeOfDay(hour: newTime.hour, minute: newTime.minute),
+                              );
+                            },
+                          ),
+                        );
+                      }),
+
+                    ],
+                  ),
+                ),
+
+                /// ---------- Confirm Button ----------
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      final date = ownerController.selectedDate.value;
+                      final time = ownerController.selectedTime.value;
+                      Get.snackbar(
+                        "Selection",
+                        "Date: ${date ?? "Not set"}\nTime: ${time?.format(context) ?? "Not set"}",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    },
+                    child: const Text("Confirm"),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -189,5 +345,11 @@ class StepCircle extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
 
 

@@ -2,6 +2,8 @@
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/features/owner/booking/owner_booking_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
@@ -188,11 +190,11 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
 
           break;
         case 3:
-         // Get.offAll(() => InboxScreen());
+          Get.offAll(() => OwnerInboxScreen());
           break;
 
         case 4:
-         /// Get.offAll(() => ProfileScreen());
+            Get.offAll(() => OwnerProfileScreen());
           break;
       }
     }

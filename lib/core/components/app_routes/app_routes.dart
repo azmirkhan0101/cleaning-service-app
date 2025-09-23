@@ -9,15 +9,21 @@ import 'package:cleaning_service_app/core/features/location/map_picker.dart';
 import 'package:cleaning_service_app/core/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/core/features/location/location_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/booking/owner_scanner_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/education/home/bribk_opportunities_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/education/home/education_home_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/education/home/education_training_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/education/home/legal_regulatory_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_category_by_service.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/service_book_second_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/service_booking.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/inbox/owner_message_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/inbox/message_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/about_us_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/boost_payment_screen.dart';
@@ -39,6 +45,8 @@ import 'package:cleaning_service_app/core/features/splash/onboarding_screen.dart
 import 'package:cleaning_service_app/core/features/splash/onboarding_second_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/splash_screen.dart';
 import 'package:get/get.dart';
+
+import '../../features/owner/education/home/industry_trends_screen.dart';
 
 
 
@@ -75,7 +83,8 @@ class AppRoutes {
 
   static const String termsConditionScreen = "/termsConditionScreen";
 
-  static const String inboxScreen = "/InboxScreen";
+  static const String providerInboxScreen = "/ProviderInboxScreen";
+
   static const String proPlanSubscriptionScreen = "/ProPlanSubscriptionScreen";
 
   static const String reviewScreen = "/ReviewScreen";
@@ -93,6 +102,24 @@ class AppRoutes {
   static const String ownerCategoryScreen = "/OwnerCategoryScreen";
 
   static const String ownerScannerScreen = "/OwnerScannerScreen";
+
+  static const String ownerInboxScreen = "/OwnerInboxScreen";
+
+  static const String ownerMessageScreen = "/OwnerMessageScreen";
+
+  static const String ownerProfileScreen = "/OwnerProfileScreen";
+
+  static const String educationHomeScreen = "/EducationHomeScreen";
+
+  static const String legalRegulatoryScreen = "/LegalRegulatoryScreen";
+
+  static const String industryTrendsScreen = "/IndustryTrendsScreen";
+
+  static const String bribkOpportunitiesScreen = "/BribkOpportunitiesScreen";
+
+  static const String educationTrainingScreen = "/EducationTrainingScreen";
+
+
 
 
 
@@ -139,7 +166,7 @@ class AppRoutes {
 
    GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
 
-   GetPage(name: messageScreen, page: () => MessageScreen()),
+   GetPage(name: messageScreen, page: () => OwnerMessageScreen()),
 
    GetPage(name: profileScreen, page: () => ProfileScreen()),
 
@@ -159,7 +186,7 @@ class AppRoutes {
 
    GetPage(name: termsConditionScreen, page: () => TermsConditionScreen()),
 
-   GetPage(name: inboxScreen, page: () => InboxScreen()),
+   GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
 
    GetPage(name: proPlanSubscriptionScreen, page: () => ProPlanSubscriptionScreen()),
 
@@ -178,6 +205,22 @@ class AppRoutes {
    GetPage(name: ownerCategoryScreen, page: () => OwnerCategoryScreen()),
 
    GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
+
+   GetPage(name: ownerInboxScreen, page: () => OwnerInboxScreen()),
+
+   GetPage(name: ownerMessageScreen, page: () => OwnerMessageScreen()),
+
+   GetPage(name: ownerProfileScreen, page: () => OwnerProfileScreen()),
+
+   GetPage(name: educationHomeScreen, page: () => EducationHomeScreen()),
+
+   GetPage(name: legalRegulatoryScreen, page: () => LegalRegulatoryScreen()),
+
+   GetPage(name: industryTrendsScreen, page: () => IndustryTrendsScreen()),
+
+   GetPage(name: bribkOpportunitiesScreen, page: () => BribkOpportunitiesScreen()),
+
+   GetPage(name: educationTrainingScreen, page: () => EducationTrainingScreen()),
 
 
   ];

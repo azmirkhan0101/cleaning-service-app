@@ -51,6 +51,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final List<Map<String, String>> services = [
       {
         'image':
@@ -69,11 +70,23 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
       },
     ];
 
+
+    final List<Map<String, String>> schedule = [
+      {'day': 'Monday', 'startTime': '9:00', 'endTime': '18:00', 'bufferTime': '30 Min', 'status': 'Available'},
+      {'day': 'Tuesday', 'startTime': '9:00', 'endTime': '18:00', 'bufferTime': '15 Min', 'status': 'Available'},
+      {'day': 'Wednesday', 'startTime': '9:00', 'endTime': '18:00', 'bufferTime': '15 Min', 'status': 'Available'},
+      {'day': 'Thursday', 'startTime': '9:00', 'endTime': '18:00', 'bufferTime': '15 Min', 'status': 'Available'},
+      {'day': 'Friday', 'startTime': '9:00', 'endTime': '18:00', 'bufferTime': '15 Min', 'status': 'Available'},
+      {'day': 'Saturday', 'startTime': '', 'endTime': '', 'bufferTime': '', 'status': 'Not available'},
+      {'day': 'Sunday', 'startTime': '', 'endTime': '', 'bufferTime': '', 'status': 'Not available'},
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const CustomText(text: "Service details",fontSize: 24,
           fontWeight: FontWeight.w500,
           color:AppColors.black,
+
         ),
         // Left icon (usually a menu or back button)
         leading: IconButton(
@@ -334,13 +347,13 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                          ),
 
                        if(status=="completed")
-                        SizedBox()
+                        SizedBox(),
 
-
-                     /*  ElevatedButton(
+                     if(status!="pending" && status!="completed" && status!="ongoing" && status!="cancelled")
+                      ElevatedButton(
                          onPressed: () {
 
-                           Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
+                           Get.toNamed(AppRoutes.serviceBooking); //ServiceBooking
                          },
                          style: ElevatedButton.styleFrom(
                            backgroundColor: AppColors.appColors,
@@ -354,7 +367,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                            fontSize: 16,
                            fontWeight: FontWeight.w600,
                          ),
-                       ),*/
+                       ),
                      ],
                    ),
 
@@ -468,7 +481,60 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                             rating: 5,
                             testimonial: 'Excellent service! Professional, reliable, and exceeded my expectations. Highly recommended!',
                           );
-                        })
+                        }),
+
+                  ///Schedule section
+                  if(ownerController.selectedIndex.value==3)
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: schedule.length,
+                      itemBuilder: (context, index) {
+                        final daySchedule = schedule[index];
+
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(text:
+                                  daySchedule['day']!,
+                                  fontSize: 18, fontWeight: FontWeight.w600,
+                                ),
+
+                                Row(
+                                  children: [
+
+                                    if (daySchedule['startTime']!.isNotEmpty)
+                                      CustomText(text:
+                                        "${daySchedule['startTime']} — ${daySchedule['endTime']}",
+                                          fontSize: 16
+                                      ),
+
+                                    const SizedBox(width: 10),
+
+                                    CustomText(text:
+                                      daySchedule['status']!,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: daySchedule['status'] == 'Available'
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )
                 ],
               );
             }
