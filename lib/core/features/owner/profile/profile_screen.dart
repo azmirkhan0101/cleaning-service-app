@@ -41,7 +41,7 @@ class OwnerProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: OwnerNavBar(currentIndex: 4),
+       bottomNavigationBar: OwnerNavBar(currentIndex: 4),
     );
   }
 
@@ -64,7 +64,7 @@ class OwnerProfileScreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            CustomText(text: 'Jorge Bond', fontWeight: FontWeight.bold, fontSize: 16),
+            CustomText(text: 'Mehedi Hasan ', fontWeight: FontWeight.bold, fontSize: 16),
             CustomText(text: 'jorgebong@gmail.com', fontSize: 14, color: Colors.grey),
           ],
         ),

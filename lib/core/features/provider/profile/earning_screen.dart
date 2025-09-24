@@ -43,6 +43,8 @@ class _MyEarningScreenState extends State<MyEarningScreen> {
           
                         Expanded(
                           child: Card(
+                            elevation: 0.5,
+                            color: AppColors.white,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -74,6 +76,7 @@ class _MyEarningScreenState extends State<MyEarningScreen> {
                         Expanded(
                           child: Card(
                             elevation: 0.5,
+                            color: AppColors.white,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -132,6 +135,8 @@ class _MyEarningScreenState extends State<MyEarningScreen> {
                   ),
 
                   Card(
+                    elevation: 0.5,
+                    color: AppColors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: ListView.separated(
@@ -142,8 +147,6 @@ class _MyEarningScreenState extends State<MyEarningScreen> {
                         ),
                         itemCount: 6,
                         itemBuilder: (context, index) {
-
-
 
                           return Padding(
                               padding: EdgeInsets.all(8.0),

@@ -78,7 +78,8 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
               Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
             },
             child: Card(
-              elevation: 5,
+              elevation: 0.2,
+              color: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

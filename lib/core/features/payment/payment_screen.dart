@@ -251,7 +251,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             ///century  & zip Code
             Row(
-
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
 
@@ -335,6 +334,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
           insetPadding: EdgeInsets.all(8),
           contentPadding: EdgeInsets.all(8),
         // Optional title if provided
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("",),
+
+              IconButton(onPressed: (){
+                Navigator.of(context).pop();
+              }, icon: Icon(Icons.close,size: 32,))
+            ],
+          ),
           content: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: Padding(
@@ -358,6 +367,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                     if(userType=="provider") {
                       Get.offNamed(AppRoutes.providerHome);
+                    }if(userType=="owner"){
+                      Get.offNamed(AppRoutes.ownerHomeScreen);
                     }
                    // Navigator.of(context).pop();
                   },

@@ -12,14 +12,20 @@ class OwnerController extends GetxController {
   RxInt sliderCurrentIndex = 0.obs;
 
 
-  ///  slider image Define the RxList holding the data
-  RxList<Map<String, String>> sliderImageIndex = <Map<String, String>>[
-    {
-      'name': 'John Doe',
-      'time': '34m ago',
-      'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-      'avatar': 'https://www.w3schools.com/w3images/avatar2.png',
-    },
-  ].obs;  // Using `.obs` to make it reactive
+  // Rx variable to hold the selected index
+  var selectedIndex = 0.obs;
 
+
+  // Function to update selected index
+  void updateSelectedIndex(int index) {
+    selectedIndex.value = index;
+  }
+
+  // List of services (this can be dynamic, or fetched from an API)
+  final RxList<String> categoryName = [
+    'All Service',
+    'Cleaning',
+    'Laundry',
+    'Home Care',
+  ].obs;
 }

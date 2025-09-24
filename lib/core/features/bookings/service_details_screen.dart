@@ -32,10 +32,16 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
   void _initializeData() async {
 
-    if (Get.arguments[0]["status"] != null) {
-      status = Get.arguments[0]["status"];
+    final arguments = Get.arguments;
 
+    if(arguments != null && arguments.isNotEmpty) {
+
+      if (arguments[0]["status"] != null) {
+        status = Get.arguments[0]["status"];
+
+      }
     }
+
   }
 
 
@@ -52,6 +58,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
               padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 6),
               child: Card(
                 elevation: 0.5,
+
                 color: AppColors.neutral02.withOpacity(0.8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -144,7 +151,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             SizedBox(height: 8),
 
             Card(
-              elevation: 4,
+              elevation: 0.2,
+              color: AppColors.white,
               margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -258,13 +266,18 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     ),
 
                     SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CustomImage(
-                          imageSrc: AppImages.chart,
-                          fit: BoxFit.cover,
+                    InkWell(
+                        onTap: (){
+                          Get.toNamed(AppRoutes.providerInboxScreen);
+                        },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: CustomImage(
+                            imageSrc: AppImages.chart,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -305,7 +318,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
               ),
             ),
 
-            if(status=="pending")
+           if(status=="pending")
            ElevatedButton(
               onPressed: () {
 
@@ -333,8 +346,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
-
           ],
          ),
 
@@ -387,7 +398,8 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-     elevation: 4,
+     elevation: 0.2,
+      color: AppColors.white,
       margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

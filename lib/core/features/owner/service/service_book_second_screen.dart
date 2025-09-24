@@ -78,7 +78,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          // Date and Day
+                          ///Date and Day
                           Row(
                             children: [
                               Container(
@@ -130,7 +130,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
                                       ),
                                       CustomText(text:
                                       "Buffer Time: 30 minutes",
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black87,
                                       ),
@@ -152,7 +152,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const  CustomText(text:
-                    "Show results within",
+                    "Service Duration",
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
@@ -239,6 +239,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
                     const SizedBox(
                       height: 8,
                     ),
+
                     ///Card Input
                     Container(
                       height: 60,
@@ -311,6 +312,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
                               height: 60,
                               child: Card(
                                 elevation: 0.5,
+                                color: AppColors.white,
                                 child: DropdownButton<String>(
                                   value: paymentController.selectedCountry.value.isEmpty
                                       ? null
@@ -493,7 +495,8 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 0.5,
+      color: AppColors.white,
       margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

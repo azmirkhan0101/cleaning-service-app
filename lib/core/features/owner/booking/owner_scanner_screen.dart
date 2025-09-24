@@ -109,6 +109,7 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
                       print('Rating: $rating');
                     },
                   ),
+
                   SizedBox(height: 10),
 
                 /// password Field

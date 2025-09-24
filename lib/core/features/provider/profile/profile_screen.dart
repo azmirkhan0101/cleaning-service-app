@@ -20,46 +20,48 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppbar(titleName: "Profile",),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Profile Section
-            _buildProfileSection(),
-            const SizedBox(height: 16),
-
-            // Boost Button
-            ElevatedButton(
-              onPressed: () {
-
-               // storage.write("userType", "provider");
-
-              Get.toNamed(AppRoutes.boostPaymentScreen);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.appColors,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.2, 40),  // 90% of screen width
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Profile Section
+              _buildProfileSection(),
+              const SizedBox(height: 16),
+        
+              // Boost Button
+              ElevatedButton(
+                onPressed: () {
+        
+                 // storage.write("userType", "provider");
+        
+                Get.toNamed(AppRoutes.boostPaymentScreen);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.appColors,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  minimumSize: Size(MediaQuery.of(context).size.width * 0.2, 40),  // 90% of screen width
+                ),
+                child: CustomText(
+                  text: 'Boost',
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              child: CustomText(
-                text: 'Boost',
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // General Section
-            const Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-
-            const SizedBox(height: 16),
-
-            _buildSettingsList(context),
-          ],
+        
+              const SizedBox(height: 32),
+        
+              // General Section
+              const Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        
+              const SizedBox(height: 16),
+        
+              _buildSettingsList(context),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: NavBar(currentIndex: 4),

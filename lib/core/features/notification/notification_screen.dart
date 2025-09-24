@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
 
@@ -49,6 +50,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     required String time,
   }) {
     return Card(
+      color:AppColors.white,
+      elevation: 0.5,
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: ListTile(
         leading: Icon(icon, color: Colors.blue),

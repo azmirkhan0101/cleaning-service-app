@@ -44,6 +44,7 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
                     Card(
                       elevation: 0.5,
+                      color: AppColors.white,
                       child: SizedBox(
                         width: 200,
                         child: DropdownButton<String>(
@@ -311,6 +312,7 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
                     Card(
                       elevation: 0.5,
+                      color: AppColors.white,
                       child: DropdownButton<String>(
                         value: serviceController.selectedCountry.value.isEmpty
                             ? null

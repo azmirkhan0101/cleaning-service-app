@@ -33,23 +33,30 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
   void _initializeData() async {
 
-    if (Get.arguments[0]["status"] != null) {
-      status = Get.arguments[0]["status"];
+    final arguments = Get.arguments;
 
-      if(status=="Pending"){
-        bookingController.selectedIndex(1);
+    if(arguments != null && arguments.isNotEmpty) {
 
-      }if(status=="accept"){
-        bookingController.selectedIndex(2);
+      if (Get.arguments[0]["status"] != null) {
+        status = Get.arguments[0]["status"];
 
-      } if(status=="reject"){
-        bookingController.selectedIndex(4);
+        if(status=="Pending"){
+          bookingController.selectedIndex(1);
 
-      } if(status=="completed"){
-        bookingController.selectedIndex(3);
+        }if(status=="accept"){
+          bookingController.selectedIndex(2);
+
+        } if(status=="reject"){
+          bookingController.selectedIndex(4);
+
+        } if(status=="completed"){
+          bookingController.selectedIndex(3);
+        }
+
       }
-
     }
+    
+
   }
 
   @override
@@ -70,6 +77,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
       length: 4, // The number of tabs
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: CustomText(text: 'My Booking',
            fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -142,7 +150,12 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
                      return  InkWell(
                        onTap: (){
-                         Get.toNamed(AppRoutes.serviceDetailsScreen);
+                         Get.toNamed(AppRoutes.serviceDetailsScreen,
+                             arguments: [
+                               {
+                                 "status":statusList[index].toLowerCase()
+                               }
+                             ]);
                        },
                        child: ServiceCard(
                         status: 'Pending',
@@ -240,7 +253,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
             }
           ),
         ),
-        bottomNavigationBar: NavBar(currentIndex: 1),
+       bottomNavigationBar: NavBar(currentIndex: 1),
       ),
     );
   }
@@ -265,7 +278,8 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return Card(
-      elevation: 5,
+        elevation: 0.5,
+        color: AppColors.white,
       margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -298,20 +312,22 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           CustomText(
                             text: 'Cleaning Service',
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: CustomText(
-                              text: status,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: CustomText(
+                                text: status,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                              ),
                             ),
                           ),
                         ],

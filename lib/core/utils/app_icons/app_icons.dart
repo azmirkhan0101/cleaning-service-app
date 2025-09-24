@@ -45,5 +45,14 @@ class AppIcons {
   static const String opport = "$basePath/opport.svg";
 
 
+  static const String service_all = "$basePath/service_all.svg";
+
+  static const String cleaning = "$basePath/cleaning.svg";
+
+  static const String laundry = "$basePath/laundry.svg";
+
+  static const String working = "$basePath/working.svg";
+
+
 
 }

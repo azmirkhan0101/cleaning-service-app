@@ -14,6 +14,7 @@ import 'package:cleaning_service_app/core/features/owner/education/home/educatio
 import 'package:cleaning_service_app/core/features/owner/education/home/education_training_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/education/home/legal_regulatory_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/home/owner_search_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_category_by_service.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
@@ -119,6 +120,8 @@ class AppRoutes {
 
   static const String educationTrainingScreen = "/EducationTrainingScreen";
 
+  static const String ownerSearchScreen = "/OwnerSearchScreen";
+
 
 
 
@@ -221,6 +224,8 @@ class AppRoutes {
    GetPage(name: bribkOpportunitiesScreen, page: () => BribkOpportunitiesScreen()),
 
    GetPage(name: educationTrainingScreen, page: () => EducationTrainingScreen()),
+
+   GetPage(name: ownerSearchScreen, page: () => OwnerSearchScreen()),
 
 
   ];

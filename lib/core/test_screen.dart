@@ -1,105 +1,48 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class LocationButton extends StatelessWidget {
+  const LocationButton({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Figma to Flutter Example')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Two cards per row
-            crossAxisSpacing: 16.0,
-            mainAxisSpacing: 16.0,
-            childAspectRatio: 1, // To maintain square shape of cards
-          ),
-          itemCount: 4, // Number of items
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: InkWell(
-                onTap: () {
-                  // Action on tap
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.info_outline, // Placeholder icon, replace with actual
-                      size: 40,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      _getCardTitle(index),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      _getCardDescription(index),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    SizedBox(height: 10),
-                    TextButton(
-                      onPressed: () {
-                        // View button action
-                      },
-                      child: Text('View'),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
+    return Container(
+      width: double.infinity, // You can adjust this width
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Colors.blue.withOpacity(0.5),
+          width: 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Icon(
+            Icons.near_me, // A similar icon to the one in the image
+            color: Colors.blue,
+            size: 20,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'Use my current location',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1E3A8A), // A dark blue color
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  String _getCardTitle(int index) {
-    switch (index) {
-      case 0:
-        return 'Education & Training';
-      case 1:
-        return 'Legal & Regulatory Updates';
-      case 2:
-        return 'Industry Trends';
-      case 3:
-        return 'Bribk Opportunities';
-      default:
-        return '';
-    }
-  }
-
-  String _getCardDescription(int index) {
-    switch (index) {
-      case 0:
-        return 'Practical guides on Property management and operation';
-      case 1:
-        return 'New laws short-changes, and compliance requirements';
-      case 2:
-        return 'Insights into real estate and custodiate factions';
-      case 3:
-        return 'New features-reals and programme from Bribk';
-      default:
-        return '';
-    }
   }
 }

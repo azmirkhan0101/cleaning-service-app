@@ -38,41 +38,44 @@ class CustomTabSingleText extends StatelessWidget {
         ),
       ),
       padding: isPadding!
-          ? const EdgeInsets.symmetric(horizontal: 8)
-          : const EdgeInsets.symmetric(horizontal: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(tabs.length, (index) {
-          return GestureDetector(
-            onTap: () => onTabSelected(index),
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                //color: AppColors.red,
-                border: Border(
-                  bottom: BorderSide(
+          ? const EdgeInsets.symmetric(horizontal: 6)
+          : const EdgeInsets.symmetric(vertical: 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(tabs.length, (index) {
+            return GestureDetector(
+              onTap: () => onTabSelected(index),
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 10,left: 24),
+                decoration: BoxDecoration(
+                  //color: AppColors.red,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: selectedIndex == index
+                          ? selectedColor
+                          : Colors.transparent,
+                       width: 3.0,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  tabs[index],
+                  style: GoogleFonts.poppins(
                     color: selectedIndex == index
                         ? selectedColor
-                        : Colors.transparent,
-                     width: 3.0,
+                        : isTextColorActive!
+                        ? textColor
+                        : unselectedColor,
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              child: Text(
-                tabs[index],
-                style: GoogleFonts.poppins(
-                  color: selectedIndex == index
-                      ? selectedColor
-                      : isTextColorActive!
-                      ? textColor
-                      : unselectedColor,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

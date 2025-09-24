@@ -30,12 +30,16 @@ class SelectionScreen extends StatefulWidget {
 
 class _SelectionScreenState extends State<SelectionScreen> {
 
-
   final  selectionController = Get.find<SelectionController>();
 
   final authController = Get.put(AuthController());
 
   final storage = GetStorage();
+
+
+  int? _selectedExperience;
+  bool? _instantBooking;
+  String? _selectedGender;
 
   @override
   void initState() {
@@ -46,8 +50,6 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
       storage.write("userType", "owner");
     }
-
-
 
   }
 
@@ -73,11 +75,11 @@ class _SelectionScreenState extends State<SelectionScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: Obx(
             () {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
                   SingleChildScrollView(
@@ -200,9 +202,11 @@ class _SelectionScreenState extends State<SelectionScreen> {
                            selectionController.typeModeStatues.value = value!;
 
                            storage.write("userType", "provider");
+
                          },
                        ),
-                       // Service Provider Card
+
+                       /// Service Provider Card
                        Expanded(
                          child: Container(
                            padding: const EdgeInsets.all(24.0),
@@ -336,7 +340,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       height: 16,
                     ),
 
-                    if(selectionController.typeModeStatues.value==false)
+                    //if(selectionController.typeModeStatues.value==false)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -350,13 +354,15 @@ class _SelectionScreenState extends State<SelectionScreen> {
                         Slider(
                           value: 5.0,          // Initial value
                           min: 5.0,            // Minimum value
-                          max: 100.0,          // Maximum value
+                          max: 100.0,
+                          activeColor: AppColors.lightBlue,// Maximum value
                           // divisions: 95,       // Number of discrete steps
                           onChanged: (double value) {
                             // Handle the slider value change
                             print("Selected distance: $value miles");
                           },
                         ),
+
                         Padding(
                           padding: const EdgeInsets.only(left: 16,right: 16),
                           child: Row(
@@ -914,10 +920,28 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       ],
                     ),
 
-
                   SizedBox(
-                    height: selectionController.currentIndex.value==4?40 :24,
+                    height: 16,
                   ),
+
+             ///Professional's Experience Section
+
+               if(selectionController.typeModeStatues.value==true && selectionController.currentIndex.value==1)
+               Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+
+                   _buildSectionHeader("Professional's experience"),
+                   const SizedBox(height: 16),
+                   _buildExperienceOptions(),
+                   const SizedBox(height: 16),
+                 ],
+               ),
+
+
+                 SizedBox(
+                  height: selectionController.currentIndex.value==4?40 :24,
+                 ),
 
                   /// Continue Button
                   CustomButton(
@@ -962,6 +986,59 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
         ),
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Widget _buildExperienceOptions() {
+    final options = [
+      "0-2 years of experience",
+      "2-5 years of experience",
+      "6-10 years of experience",
+      "11-20 years of experience",
+      "+20 years of experience",
+    ];
+
+    return Column(
+      children: List.generate(options.length, (index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12.0),
+          child: Row(
+            children: [
+              Checkbox(
+                value: _selectedExperience == index,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _selectedExperience = value == true ? index : null;
+                  });
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              CustomText(text:
+              options[index],
+                fontSize: 16,
+                color: Colors.black87,
+                fontWeight: FontWeight.w400,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 

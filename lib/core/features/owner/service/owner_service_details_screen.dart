@@ -42,9 +42,11 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
   }
 
   void _initializeData() async {
+    // Get the arguments passed through Get
+    final arguments = Get.arguments;
 
-    if (Get.arguments[0]["status"] != null) {
-      status = Get.arguments[0]["status"];
+     if(arguments != null && arguments.isNotEmpty) {
+      status = arguments[0]["status"];
 
     }
   }
@@ -288,7 +290,8 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                          itemBuilder: (context, index) {
                            final imageUrl = services[index]['image'] ?? '';
                            return Card(
-                             elevation: 4,
+                             elevation: 0.3,
+                             color: AppColors.white,
                              shape: RoundedRectangleBorder(
                                borderRadius: BorderRadius.circular(_radius),
                              ),

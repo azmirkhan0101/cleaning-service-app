@@ -28,29 +28,34 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
     // TODO: implement initState
     super.initState();
 
-
     _initializeData();
   }
 
   void _initializeData() async {
+    // Get the arguments passed through Get
+    final arguments = Get.arguments;
 
-    if (Get.arguments[0]["status"] != null) {
-      status = Get.arguments[0]["status"];
+    if(arguments != null && arguments.isNotEmpty) {
 
-      if(status=="Pending"){// Pending type
-        bookingController.selectedIndex(1);
+      if (arguments[0]["status"] != null) {
+        status = arguments[0]["status"];
 
-      }if(status=="Ongoing"){//ongoing type
-        bookingController.selectedIndex(2);
+        if(status=="Pending"){// Pending type
+          bookingController.selectedIndex(1);
 
-      } if(status=="reject"){// cancelled type
-        bookingController.selectedIndex(4);
+        }if(status=="Ongoing"){//ongoing type
+          bookingController.selectedIndex(2);
 
-      } if(status=="completed"){ // completed type
-        bookingController.selectedIndex(3);
+        } if(status=="reject"){// cancelled type
+          bookingController.selectedIndex(4);
+
+        } if(status=="completed"){ // completed type
+          bookingController.selectedIndex(3);
+        }
+
       }
-
     }
+
   }
 
   @override
@@ -71,6 +76,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
       length: 4, // The number of tabs
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: CustomText(text: 'My Booking',
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -277,7 +283,8 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 0.5,
+      color: AppColors.white,
       margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -313,17 +320,19 @@ class ServiceCard extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: CustomText(
-                              text: status,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                              decoration: BoxDecoration(
+                                color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: CustomText(
+                                text: status,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],

@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-        
+
                     Row(
                       children: [
                         CustomText(text: 'Create Account',fontSize: 24,fontWeight: FontWeight.w600,),
@@ -43,15 +43,15 @@ class _SignupScreenState extends State<SignupScreen> {
                         Icon(Icons.person_2)
                       ],
                     ),
-        
+
                     SizedBox(height: 8,),
                     CustomText(
                       text: 'Welcome back',
                       fontSize: 12,fontWeight: FontWeight.w600,
                     ),
-        
+
                     SizedBox(height: 40),
-        
+
                     /// name Field
                     CustomFormCard(
                         title: AppStrings.yourFirstName,
@@ -59,10 +59,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         hasBackgroundColor: true,
                         controller: authController.loginEmailController.value
                     ),
-        
-        
+
+
                     SizedBox(height: 12),
-        
+
                     /// phoneNumber Field
                     CustomFormCard(
                         title: AppStrings.phoneNumber,
@@ -70,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         hasBackgroundColor: true,
                         controller: authController.loginEmailController.value
                     ),
-        
+
                     SizedBox(height: 12),
                     /// email Field
                     CustomFormCard(
@@ -79,9 +79,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         hasBackgroundColor: true,
                         controller: authController.loginEmailController.value
                     ),
-        
+
                     SizedBox(height: 12),
-        
+
                     /// password Field
                     CustomFormCard(
                         titleColor: Colors.black,
@@ -89,9 +89,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: AppStrings.enterYourPassword,
                         controller:authController.loginPasswordController.value
                     ),
-        
+
                     SizedBox(height: 12),
-        
+
                     /// comfirmpassword password Field
                     CustomFormCard(
                         titleColor: Colors.black,
@@ -99,9 +99,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: AppStrings.enterYourPassword,
                         controller:authController.loginPasswordController.value
                     ),
-        
+
                     SizedBox(height: 12),
-        
+
                     /// comfirmpassword password Field
                     CustomFormCard(
                         titleColor: Colors.black,
@@ -109,15 +109,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: AppStrings.enterReferralCode,
                         controller:authController.loginPasswordController.value
                     ),
-        
+
                     SizedBox(height: 12),
-        
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
                         Row(
                           children: [
-        
+
                             Checkbox(
                               value: authController.rememberPassword.value,
                               onChanged: (value) {
@@ -157,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   TextSpan(
                                       text: 'Privacy Policy',
                                       style: GoogleFonts.lexend(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.lightBlue,
 
@@ -168,14 +169,14 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ],
                         ),
-        
+
                       ],
                     ),
                     SizedBox(height: 16),
-        
+
                     ElevatedButton(
                       onPressed: () {
-        
+
                          Get.offNamed(AppRoutes.singupOtpScreen);
                       },
                       style: ElevatedButton.styleFrom(
@@ -191,9 +192,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-        
+
                     const SizedBox(height: 16),
-        
+
                     // Or Divider
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -212,19 +213,19 @@ class _SignupScreenState extends State<SignupScreen> {
                         ],
                       ),
                     ),
-        
+
                     const SizedBox(height: 16),
 
                     // Social Buttons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  [
-        
-        
-        
+
+
+
                         GestureDetector(
                           onTap: ()  {
-        
+
                           },
                           child: Container(
                             padding: const EdgeInsets.all(12),
@@ -237,19 +238,19 @@ class _SignupScreenState extends State<SignupScreen> {
                                 backgroundColor: Colors.grey.shade200,
                                 radius: 20,
                                 child: CustomImage(imageSrc: AppImages.googleImage,width: 24,height: 24,)
-        
+
                             ),
                           ),
                         ),
-        
-        
+
+
                         SizedBox(
                           width: 24,
                         ),
-        
+
                         GestureDetector(
                           onTap: ()async{
-        
+
                           },
                           child: Container(
                             padding: const EdgeInsets.all(12),
@@ -272,28 +273,28 @@ class _SignupScreenState extends State<SignupScreen> {
                         //  SocialIconButton(icon: Icons.apple),
                       ],
                     ),
-        
+
                     SizedBox(height: 40),
-        
+
                     // Signup Link
                     GestureDetector(
                       onTap: (){
-        
-                         Get.toNamed(AppRoutes.signupScreen);
+
+                         Get.toNamed(AppRoutes.loginScreen);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:   [
-        
+
                           CustomText(text: "Don't have an account? ",fontSize: 14,fontWeight: FontWeight.w400,),
-        
+
                           SizedBox(
                             width: 6,
                           ),
                           CustomText(text:
-                          "Sign Up",
+                          "Sign In",
                              fontWeight:  FontWeight.w600, color: AppColors.lightBlue),
-        
+
                         ],
                       ),
                     ),

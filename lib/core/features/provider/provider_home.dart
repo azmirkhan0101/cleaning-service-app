@@ -60,7 +60,9 @@ class _ProviderHomeState extends State<ProviderHome> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(24), // Custom height
-        child: AppBar(),
+        child: AppBar(
+          scrolledUnderElevation: 0,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -124,7 +126,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                 children: [
 
                   Card(
-                    elevation: 0.2,
+                      elevation: 0.2,
+                      color: AppColors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(AppImages.base),
@@ -165,7 +168,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        elevation: 4,
+                        elevation: 0.5,
+                        color: AppColors.white,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
                           child: Column(
@@ -215,7 +219,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      elevation: 4,
+                      elevation: 0.5,
+                      color: AppColors.white,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
                         child: Column(
@@ -270,16 +275,17 @@ class _ProviderHomeState extends State<ProviderHome> {
                 children: [
 
 
-                 Expanded(
+                  Expanded(
                       child: InkWell(
                         onTap: (){
                           Get.toNamed(AppRoutes.providerInboxScreen);
                         },
                         child: Card(
+                          elevation: 0.5,
+                          color: AppColors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.0),
                           ),
-                          elevation: 4,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
                             child: Column(
@@ -335,7 +341,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        elevation: 4,
+                        elevation: 0.5,
+                        color: AppColors.white,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
                           child: Column(
@@ -451,7 +458,7 @@ class _ProviderHomeState extends State<ProviderHome> {
           ),
         ),
       ),
-      bottomNavigationBar: OwnerNavBar(currentIndex: 0),
+      bottomNavigationBar: NavBar(currentIndex: 0),
     );
   }
 
@@ -481,7 +488,8 @@ class AppointmentCard extends StatelessWidget {
         ]);
       },
       child: Card(
-        elevation: 1.0,
+        elevation: 0.5,
+        color: AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),

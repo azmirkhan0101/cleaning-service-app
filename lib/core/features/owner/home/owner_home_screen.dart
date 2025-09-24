@@ -75,6 +75,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               // My Location Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -112,15 +113,26 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     ],
                   ),
+
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Card(
-                        elevation: 0.2,
+                        color: AppColors.white,
+                        elevation: 0.1,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.search),
+                          child: InkWell(
+                            onTap: (){
+                              Get.toNamed(AppRoutes.ownerSearchScreen);
+                            },
+                              child: Icon(Icons.search)),
                         ),
+                      ),
+
+                      SizedBox(
+                        width: 9,
                       ),
                       InkWell(
                         onTap: () {
@@ -274,6 +286,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       },
                       child: Card(
                         elevation: 0.3,
+                        color: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -334,6 +347,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       },
                       child: Card(
                         elevation: 0.5,
+                        color: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

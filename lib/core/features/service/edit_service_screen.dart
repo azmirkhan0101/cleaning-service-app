@@ -45,6 +45,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
                   Card(
                     elevation: 0.5,
+                    color: AppColors.white,
                     child: SizedBox(
                       width: 200,
                       child: DropdownButton<String>(
@@ -310,6 +311,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
 
                   Card(
                     elevation: 0.5,
+                    color: AppColors.white,
                     child: DropdownButton<String>(
                       value: serviceController.selectedCountry.value.isEmpty
                           ? null

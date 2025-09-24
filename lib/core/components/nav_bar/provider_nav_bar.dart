@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
 import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/core/features/service/service_screen.dart';
@@ -185,14 +186,14 @@ class _NavBarState extends State<NavBar> {
          Get.offAll(() => ProviderHome());
           break;
         case 1:
-           Get.offAll(() => BookingsScreen());
+          Get.offAll(() => BookingsScreen());
           break;
         case 2:
             Get.offAll(() => ServiceScreen());
 
           break;
         case 3:
-          Get.offAll(() => OwnerInboxScreen());
+          Get.offAll(() => ProviderInboxScreen());
           break;
 
         case 4:

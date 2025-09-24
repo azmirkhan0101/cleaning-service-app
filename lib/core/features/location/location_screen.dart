@@ -120,7 +120,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   min: 5.0,            // Minimum value
                   max: 100.0,          // Maximum value
                   // divisions: 95,       // Number of discrete steps
-                  activeColor: AppColors.black,
+                  activeColor: AppColors.lightBlue,
                   onChanged: (double value) {
                     // Handle the slider value change
                     print("Selected distance: $value miles");

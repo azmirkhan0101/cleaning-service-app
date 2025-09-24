@@ -21,7 +21,6 @@ class EducationHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final List<Map<String, String>> imagelist = [
-
       {
         'image': AppIcons.book
       },
@@ -53,6 +52,7 @@ class EducationHomeScreen extends StatelessWidget {
             final image = imagelist[index];
             return Card(
               elevation: 0.8,
+              color: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -84,12 +84,8 @@ class EducationHomeScreen extends StatelessWidget {
 
                     CustomImage(imageSrc: "${image['image']}"),
 
-                 /*   SvgPicture.asset(
-                      image['image']!,
-                      semanticsLabel: 'My SVG Image',
-                    ),
-*/
                     SizedBox(height: 10),
+
                     CustomText(text:
                       _getCardTitle(index),
                        fontSize: 12,
@@ -118,7 +114,6 @@ class EducationHomeScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: OwnerNavBar(currentIndex: 4),
     );
   }
 

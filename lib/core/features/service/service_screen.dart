@@ -76,7 +76,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
               Get.toNamed(AppRoutes.serviceDetails);
             },
             child: Card(
-              elevation: 5,
+              elevation: 0.5,
+              color: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
