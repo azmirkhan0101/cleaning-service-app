@@ -22,6 +22,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final authController = Get.put(AuthController());
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -192,6 +192,8 @@ class _ServiceBookingState extends State<ServiceBooking> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) {
+
+
         return DefaultTabController(
           length: 2,
           child: SizedBox(
@@ -260,15 +262,14 @@ class _ServiceBookingState extends State<ServiceBooking> {
                               : [ownerController.selectedDate.value!],
                           onValueChanged: (dates) {
                             if (dates.isNotEmpty) {
-                              ownerController.setDate(dates.first!);
+                              ownerController.setDate(dates.first);
                             }
                           },
                         );
                       }),
 
                       /// ---------- Time Picker ----------
-                      /// ---------- Time Picker Inline ----------
-                      Obx(() {
+                     Obx(() {
                         return SizedBox(
                           height: 250,
                           child: CupertinoDatePicker(
@@ -289,6 +290,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                           ),
                         );
                       }),
+
 
                     ],
                   ),

@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oktoast/oktoast.dart';
-
+import 'package:device_preview/device_preview.dart';
 
 void main() async{
 
@@ -33,6 +33,16 @@ void main() async{
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
+
+/*     runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) =>
+    ///====================
+    MyApp(), // Wrap your app
+  ));*/
+
+
 
 }
 

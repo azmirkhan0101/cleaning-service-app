@@ -101,6 +101,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           // Title and Rating Row
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +114,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
                               SizedBox(height: 4),
 
-                              // Rating
+                              // rating
                               Row(
                                 children: [
                                   Icon(Icons.star, color: Colors.orange, size: 14),
@@ -135,13 +136,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
                           ),
+
                           CustomText(
                             text: 'Published: ${service['date']}',
                             fontSize: 12,
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
                           ),
+
                           SizedBox(height: 8),
+
                           // Price
                           CustomText(
                             text: service['price']!,

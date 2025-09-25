@@ -18,7 +18,8 @@ class OwnerServiceController extends GetxController {
   ].obs;
 
   var selectedDate = Rxn<DateTime>();
-  var selectedTime = Rxn<TimeOfDay>();
+
+  ///var selectedTime = Rxn<TimeOfDay>();
 
   void setDate(DateTime date) {
     selectedDate.value = date;
@@ -28,4 +29,16 @@ class OwnerServiceController extends GetxController {
     selectedTime.value = time;
   }
 
+
+  var selectedTime = Rx<TimeOfDay?>(null);
+
+  Future<void> pickTime(BuildContext context) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      selectedTime.value = picked;
+    }
+  }
 }

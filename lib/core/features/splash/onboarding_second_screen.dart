@@ -22,7 +22,8 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
-          // Background
+
+          ///Background
           Container(
             color: AppColors.lightBlue,   // blue background
             height: double.infinity,

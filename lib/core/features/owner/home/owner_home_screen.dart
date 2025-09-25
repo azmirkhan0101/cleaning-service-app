@@ -177,7 +177,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -210,7 +210,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                 child: Card(
                                   color: AppColors.white,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(7.0),
                                     child: Text(
                                       "Order Now",
                                       style: TextStyle(fontSize: 12),
