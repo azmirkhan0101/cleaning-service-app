@@ -21,24 +21,26 @@ class OwnerProfileScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppbar(titleName: "Profile",),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            // Profile Section
-            _buildProfileSection(),
-
-            const SizedBox(height: 16),
-
-            // General Section
-            const Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-
-            const SizedBox(height: 16),
-
-            _buildSettingsList(context),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+        
+              // Profile Section
+              _buildProfileSection(),
+        
+              const SizedBox(height: 16),
+        
+              // General Section
+              const Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        
+              const SizedBox(height: 16),
+        
+              _buildSettingsList(context),
+            ],
+          ),
         ),
       ),
        bottomNavigationBar: OwnerNavBar(currentIndex: 4),
@@ -216,7 +218,7 @@ class OwnerProfileScreen extends StatelessWidget {
   Widget _buildSettingsItem(String title, IconData icon) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue),
-      title: Text(title,),
+      title: Text(title,style: TextStyle(fontSize: 12),),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
     );

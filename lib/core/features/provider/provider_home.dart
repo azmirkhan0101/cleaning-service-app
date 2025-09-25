@@ -171,7 +171,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                         elevation: 0.5,
                         color: AppColors.white,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -287,7 +287,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -344,7 +344,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                         elevation: 0.5,
                         color: AppColors.white,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

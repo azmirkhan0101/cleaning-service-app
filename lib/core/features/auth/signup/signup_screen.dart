@@ -29,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
       appBar: CustomAppbar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(8.0),
           child: Obx(
                   () {
                 return Column(
@@ -110,68 +110,58 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller:authController.loginPasswordController.value
                     ),
 
-                    SizedBox(height: 12),
+                    SizedBox(height: 8),
 
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        Row(
-                          children: [
-
-                            Checkbox(
-                              value: authController.rememberPassword.value,
-                              onChanged: (value) {
-                                authController.rememberPassword.value = value!;
-                              },
-                              checkColor: AppColors.black_04, // Color of the check mark
-                              activeColor: AppColors.lightBlue, // Color of the checkbox when selected
-                              fillColor: MaterialStateProperty.all(AppColors.lightBlue.withOpacity(0.5)), // Background color when not selected
-                            ),
-
-                            Text.rich(
-                              textAlign: TextAlign.center,
-                              TextSpan(
-                                text: 'I agree with',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                                children: [
-                                  TextSpan(
-                                      text: ' terms',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.lightBlue,
-
-                                      )
-                                  ),
-
-                                  TextSpan(
-                                      text: ' of service and ',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.black_04,
-
-                                      )
-                                  ),
-
-                                  TextSpan(
-                                      text: 'Privacy Policy',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.lightBlue,
-
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        Checkbox(
+                          value: authController.rememberPassword.value,
+                          onChanged: (value) {
+                            authController.rememberPassword.value = value!;
+                          },
+                          checkColor: AppColors.black_04,
+                          activeColor: AppColors.lightBlue,
+                          fillColor: MaterialStateProperty.all(AppColors.lightBlue.withOpacity(0.5)),
                         ),
 
+                        Text.rich(
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                          TextSpan(
+                            text: 'I agree with terms of conditions and privacy policy',
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
+                            children: [
+                              /*  TextSpan(
+                                    text: ' terms',
+                                    style: GoogleFonts.lexend(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.lightBlue,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' of service and \n',
+                                    style: GoogleFonts.lexend(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.black_04,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'Privacy Policy',
+                                    style: GoogleFonts.lexend(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.lightBlue,
+                                    ),
+                                  ),*/
+                            ],
+                          ),
+                        ),
                       ],
                     ),
+
                     SizedBox(height: 16),
 
                     ElevatedButton(
@@ -199,13 +189,15 @@ class _SignupScreenState extends State<SignupScreen> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children:  [
                           SizedBox(
-                              width: 150,
+                              width: 120,
                               child: Divider(thickness: 1)),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: CustomText(text: 'or sig Up in with',fontWeight: FontWeight.w400,fontSize: 14,),
+                            child: CustomText(text: 'or Sign Up in with',fontWeight: FontWeight.w400,fontSize: 14,),
                           ),
                           SizedBox(
                               width: 150,
@@ -214,13 +206,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
 
                     // Social Buttons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  [
-
 
 
                         GestureDetector(
@@ -274,7 +265,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ],
                     ),
 
-                    SizedBox(height: 40),
+                    SizedBox(height: 16),
 
                     // Signup Link
                     GestureDetector(
@@ -293,11 +284,13 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           CustomText(text:
                           "Sign In",
-                             fontWeight:  FontWeight.w600, color: AppColors.lightBlue),
+                             fontWeight:  FontWeight.w600, color: AppColors.lightBlue,fontSize: 12,),
 
                         ],
                       ),
                     ),
+
+                    SizedBox(height: 8),
                   ],
                 );
               }

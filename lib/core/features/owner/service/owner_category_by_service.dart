@@ -18,10 +18,8 @@ class OwnerCategoryByService extends StatefulWidget {
 }
 
 class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
-
   @override
   Widget build(BuildContext context) {
-
     final List<Map<String, String>> services = [
       {
         'title': 'Cleaning Service',
@@ -29,7 +27,7 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/07/2025',
         'bookings': '05',
-        'image':"https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // You can replace with actual image asset or network URL
+        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
       },
       {
         'title': 'Laundry Service',
@@ -37,16 +35,15 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // Replace with actual image asset or network URL
+        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
       },
-
       {
         'title': 'CleanWave',
         'price': '€25/hr',
         'rating': '4.8',
         'date': '12/07/2025',
         'bookings': '05',
-        'image': "https://greenhorizon.ae/assets/general-cleaning.jpg", // You can replace with actual image asset or network URL
+        'image': "https://greenhorizon.ae/assets/general-cleaning.jpg",
       },
       {
         'title': 'BrightNest',
@@ -54,147 +51,139 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg" // Replace with actual image asset or network URL
+        'image': "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg",
       },
+      
+      
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Service",leftIcon: true,),
+      appBar: CustomAppbar(titleName: "Service", leftIcon: true),
       body: GridView.builder(
-        padding: EdgeInsets.all(8),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
+          crossAxisCount: 2, // Always 2 columns for phones
           crossAxisSpacing: 8.0, // Space between columns
           mainAxisSpacing: 8.0, // Space between rows
-          childAspectRatio: 0.70, // Aspect ratio of each item
+          childAspectRatio: 0.57, // Aspect ratio for grid items
         ),
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
           return InkWell(
-            onTap: (){
-
-              ///service Details screen owner
+            onTap: () {
               Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
             },
-            child: Card(
-              elevation: 0.2,
-              color: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Service Image
-                  ClipRRect(
+            child: ListView(
+              children: [
+                Card(
+                  elevation: 0.2,
+                  color: AppColors.white,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      service['image']!,
-                      height: 120,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
                   ),
-                  // Wrap the content in an Expanded widget
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title and Rating Row
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Service Image
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          service['image']!,
+                          height: 120,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              text: service['title']!,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-
-                            SizedBox(height: 4),
-
-                            // Rating
+                            // Title and Rating Row
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.star, color: Colors.orange, size: 14),
-                                SizedBox(width: 4),
                                 CustomText(
-                                  text: service['rating']!,
-                                  fontSize: 12,
+                                  text: service['title']!,
+                                  fontSize: 14, // Adjusted font size for smaller screens
                                   fontWeight: FontWeight.w600,
                                 ),
+                                SizedBox(height: 4),
+                                // Rating
+                                Row(
+                                  children: [
+                                    Icon(Icons.star, color: Colors.orange, size: 14),
+                                    SizedBox(width: 4),
+                                    CustomText(
+                                      text: service['rating']!,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            // Additional Info
+                            CustomText(
+                              text: 'Current booking: ${service['bookings']}',
+                              fontSize: 12,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            SizedBox(height: 4),
+                            // Service provider info
+                            Row(
+                              children: [
+                                CustomNetworkImage(
+                                  imageUrl: AppConstants.profileImage,
+                                  height: 24,
+                                  width: 24,
+                                  boxShape: BoxShape.circle,
+                                ),
+                                SizedBox(width: 4),
+                                CustomText(
+                                  text: 'Jorge Bond',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            CustomText(
+                              text: 'Start from- Instant Booking',
+                              fontSize: 10,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            SizedBox(height: 6),
+                            // Price and icon row
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: service['price']!,
+                                  fontSize: 12,
+                                  color: AppColors.lightBlue,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                CustomImage(imageSrc: AppImages.arrayicon)
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        // Additional Info
-                        CustomText(
-                          text: 'Current booking: ${service['bookings']}',
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-
-                        SizedBox(height: 4),
-                        ///Additional Info
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomNetworkImage(
-                              imageUrl: AppConstants.profileImage,
-                              height: 24,
-                              width: 24,
-                              boxShape: BoxShape.circle,
-                            ),
-
-                            SizedBox(
-                              width: 4,
-                            ),
-                            CustomText(
-                              text: 'Jorge Bond',
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-
-                        CustomText(
-                          text: 'Start from- Instant Booking',
-                          fontSize: 10,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        SizedBox(height: 6),
-                        
-                        // Price
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: service['price']!,
-                              fontSize: 12,
-                              color: AppColors.lightBlue,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            
-                            CustomImage(imageSrc: AppImages.arrayicon)
-                          ],
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                )
+              ],
             ),
           );
         },
       ),
-  //    bottomNavigationBar: OwnerNavBar(currentIndex: 2),
     );
   }
-  }
+}
+
 

@@ -42,8 +42,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
     return Scaffold(
     //  appBar: const CustomAppbar(titleName: 'Cleaning',leftIcon: true,rightIcon: Icon(Ic),),
-
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const CustomText(text: "Cleaning",fontSize: 24,
           fontWeight: FontWeight.w500,
           color:AppColors.black,
@@ -161,7 +161,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,25 +177,23 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
               // Service info (name, price, rating)
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        CustomText(text:
                           'Cleaning Service',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
                         SizedBox(height: 8),
                         Text(
                           '€25/hr',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 14,
                             color: Colors.green,
                           ),
                         ),
@@ -224,7 +222,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                              ),
                            ),
                            const SizedBox(
-                             width: 6,
+                             width: 8,
                            ),
 
                            InkWell(

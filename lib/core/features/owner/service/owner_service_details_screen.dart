@@ -4,7 +4,6 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/features/bookings/booking_controller.dart';
 import 'package:cleaning_service_app/core/features/owner/booking/owner_booking_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/service/owner_service_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
@@ -85,10 +84,10 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const CustomText(text: "Service details",fontSize: 24,
           fontWeight: FontWeight.w500,
           color:AppColors.black,
-
         ),
         // Left icon (usually a menu or back button)
         leading: IconButton(

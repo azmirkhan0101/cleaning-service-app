@@ -4,11 +4,12 @@ import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/owner_nav_bar.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
+import 'package:cleaning_service_app/core/features/provider/bookings/booking_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cleaning_service_app/core/features/bookings/booking_controller.dart';
+
 
 class OwnerBookingScreen extends StatefulWidget {
   const OwnerBookingScreen({super.key});
@@ -88,6 +89,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
               children: [
                 /// Custom Tab Button Widget
                 CustomTabSingleText(
+                  fontSize: 14,
                   tabs: bookingController.tabNameList,
                   selectedIndex: bookingController.selectedIndex.value,
                   onTabSelected: (value) {
@@ -285,12 +287,12 @@ class ServiceCard extends StatelessWidget {
     return Card(
       elevation: 0.5,
       color: AppColors.white,
-      margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,7 +319,7 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           CustomText(
                             text: 'Cleaning Service',
-                            fontSize: 16,
+                            fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
                           Flexible(

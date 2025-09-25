@@ -246,12 +246,12 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                GridView.builder(
                  shrinkWrap: true,
                  physics: NeverScrollableScrollPhysics(),
-                 padding: EdgeInsets.all(8),
+                // padding: EdgeInsets.all(8),
                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                    crossAxisCount: 2, // Number of columns
-                   crossAxisSpacing: 8.0, // Space between columns
+                   crossAxisSpacing: 6.0, // Space between columns
                    mainAxisSpacing: 8.0, // Space between rows
-                   childAspectRatio: 0.65, // Aspect ratio of each item
+                   childAspectRatio: 0.55, // Aspect ratio of each item
                  ),
                  itemCount: services.length,
                  itemBuilder: (context, index) {

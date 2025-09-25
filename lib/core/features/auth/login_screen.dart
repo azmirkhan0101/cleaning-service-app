@@ -26,257 +26,258 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: CustomAppbar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Obx(
-          () {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Obx(
+            () {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-               Row(
-                 children: [
-                   CustomText(text: 'Login Account',fontSize: 24,fontWeight: FontWeight.w600,),
-                   SizedBox(width: 6,),
-                   Icon(Icons.person_2)
-                 ],
-               ),
+                 Row(
+                   children: [
+                     CustomText(text: 'Login Account',fontSize: 24,fontWeight: FontWeight.w600,),
+                     SizedBox(width: 6,),
+                     Icon(Icons.person_2)
+                   ],
+                 ),
 
-                SizedBox(height: 8,),
-                CustomText(
-                  text: 'Welcome back',
-                  fontSize: 12,fontWeight: FontWeight.w600,
-                ),
+                  SizedBox(height: 8,),
+                  CustomText(
+                    text: 'Welcome back',
+                    fontSize: 12,fontWeight: FontWeight.w600,
+                  ),
 
-                SizedBox(height: 40),
+                  SizedBox(height: 40),
 
-                /// email Field
-                CustomFormCard(
-                  title: AppStrings.email,
-                  hintText: AppStrings.enterYourEmail,
-                  hasBackgroundColor: true,
-                  controller: authController.loginEmailController.value
-                ),
-
-
-                SizedBox(height: 20),
-
-                /// password Field
-                CustomFormCard(
-                  titleColor: Colors.black,
-                  title: AppStrings.password,
-                  hintText: AppStrings.enterYourPassword,
-                  hasBackgroundColor: true,
-                  isPassword: true,
-                  controller:authController.loginPasswordController.value
-                ),
+                  /// email Field
+                  CustomFormCard(
+                    title: AppStrings.email,
+                    hintText: AppStrings.enterYourEmail,
+                    hasBackgroundColor: true,
+                    controller: authController.loginEmailController.value
+                  ),
 
 
-                SizedBox(height: 12),
+                  SizedBox(height: 20),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
+                  /// password Field
+                  CustomFormCard(
+                    titleColor: Colors.black,
+                    title: AppStrings.password,
+                    hintText: AppStrings.enterYourPassword,
+                    hasBackgroundColor: true,
+                    isPassword: true,
+                    controller:authController.loginPasswordController.value
+                  ),
 
-                        Checkbox(
-                          value: authController.rememberPassword.value,
-                          onChanged: (value) {
-                            authController.rememberPassword.value = value!;
-                          },
-                          checkColor: AppColors.black_04, // Color of the check mark
-                          activeColor: AppColors.lightBlue, // Color of the checkbox when selected
-                         fillColor: MaterialStateProperty.all(AppColors.lightBlue.withOpacity(0.5)), // Background color when not selected
-                        ),
 
-                        CustomText(text: 'Remember me',color: AppColors.lightBlue,fontWeight: FontWeight.w400,fontSize: 14),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: CustomText(text: 'Forgot Password?',color: AppColors.lightBlue,fontWeight: FontWeight.w400,fontSize: 14,),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
+                  SizedBox(height: 12),
 
-               ElevatedButton(
-                onPressed: () {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
 
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      backgroundColor: Colors.white,
-                      insetPadding: EdgeInsets.all(8),
-                      contentPadding: EdgeInsets.all(8),
-                      title: SizedBox(),
-                      content: SizedBox(
-                        width: MediaQuery.sizeOf(context).width,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                          Checkbox(
+                            value: authController.rememberPassword.value,
+                            onChanged: (value) {
+                              authController.rememberPassword.value = value!;
+                            },
+                            checkColor: AppColors.black_04, // Color of the check mark
+                            activeColor: AppColors.lightBlue, // Color of the checkbox when selected
+                           fillColor: MaterialStateProperty.all(AppColors.lightBlue.withOpacity(0.5)), // Background color when not selected
+                          ),
 
-                              CustomButton(
+                          CustomText(text: 'Remember me',color: AppColors.lightBlue,fontWeight: FontWeight.w400,fontSize: 14),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: CustomText(text: 'Forgot Password?',color: AppColors.lightBlue,fontWeight: FontWeight.w400,fontSize: 14,),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+
+                 ElevatedButton(
+                  onPressed: () {
+
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        insetPadding: EdgeInsets.all(8),
+                        contentPadding: EdgeInsets.all(8),
+                        title: SizedBox(),
+                        content: SizedBox(
+                          width: MediaQuery.sizeOf(context).width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+
+                                CustomButton(
+                                    onTap: () {
+
+                                      Get.offAllNamed(AppRoutes.providerHome);
+                                    },
+                                    title: "provider",
+                                    height: 45,
+                                    width: 100,
+                                    fontSize: 12,
+                                    fillColor: AppColors.appColors),
+
+                                SizedBox(
+                                  width: 12,
+                                ),
+
+                                CustomButton(
                                   onTap: () {
 
-                                    Get.offAllNamed(AppRoutes.providerHome);
+                                    Get.offAllNamed(AppRoutes.ownerHomeScreen);
+
+                                 ///Navigator.of(context).pop();
                                   },
-                                  title: "provider",
+                                  title: "owner",
                                   height: 45,
                                   width: 100,
                                   fontSize: 12,
-                                  fillColor: AppColors.appColors),
-
-                              SizedBox(
-                                width: 12,
-                              ),
-
-                              CustomButton(
-                                onTap: () {
-
-                                  Get.offAllNamed(AppRoutes.ownerHomeScreen);
-
-                               ///Navigator.of(context).pop();
-                                },
-                                title: "owner",
-                                height: 45,
-                                width: 100,
-                                fontSize: 12,
-                                fillColor: AppColors.appColors,
-                              )
-                            ],
+                                  fillColor: AppColors.appColors,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
+                    );
 
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.appColors,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),  // 90% of screen width
-                ),
-                child: CustomText(
-                  text: 'Login',
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-                const SizedBox(height: 16),
-
-                // Or Divider
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children:  [
-                      SizedBox(
-                          width: 150,
-                          child: Divider(thickness: 1)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomText(text: 'or sign in with',fontWeight: FontWeight.w400,fontSize: 14,),
-                      ),
-                      SizedBox(
-                          width: 150,
-                          child: Divider(thickness: 1)),
-                    ],
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.appColors,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),  // 90% of screen width
+                  ),
+                  child: CustomText(
+                    text: 'Login',
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
-                const SizedBox(height: 16),
-                // Social Buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
+                  const SizedBox(height: 16),
 
-
-
-                    GestureDetector(
-                      onTap: ()  {
-
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(12),
+                  // Or Divider
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children:  [
+                        SizedBox(
+                            width: 100,
+                            child: Divider(thickness: 1)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: CustomText(text: 'or sign in with',fontWeight: FontWeight.w400,fontSize: 14,),
                         ),
-                        child: CircleAvatar(
+                        SizedBox(
+                            width: 150,
+                            child: Divider(thickness: 1)),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Social Buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:  [
+
+                      GestureDetector(
+                        onTap: ()  {
+
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: CircleAvatar(
+                              backgroundColor: Colors.grey.shade200,
+                              radius: 20,
+                              child: CustomImage(imageSrc: AppImages.googleImage,width: 24,height: 24,)
+
+                          ),
+                        ),
+                      ),
+
+
+                      SizedBox(
+                        width: 24,
+                      ),
+
+                      GestureDetector(
+                        onTap: ()async{
+
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: CircleAvatar(
                             backgroundColor: Colors.grey.shade200,
                             radius: 20,
-                            child: CustomImage(imageSrc: AppImages.googleImage,width: 24,height: 24,)
-
-                        ),
-                      ),
-                    ),
-
-
-                    SizedBox(
-                      width: 24,
-                    ),
-
-                    GestureDetector(
-                      onTap: ()async{
-
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade200,
-                          radius: 20,
-                          child: Icon(
-                            Icons.apple,
-                            color: Colors.black,
-                            size: 24,
+                            child: Icon(
+                              Icons.apple,
+                              color: Colors.black,
+                              size: 24,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    //  SocialIconButton(icon: Icons.apple),
-                  ],
-                ),
-
-                SizedBox(height: 40),
-
-                // Signup Link
-                GestureDetector(
-                  onTap: (){
-
-                   Get.toNamed(AppRoutes.signupScreen);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:   [
-
-                      CustomText(text: "Don't have an account? ",fontSize: 14,fontWeight: FontWeight.w400,),
-
-                      SizedBox(
-                        width: 6,
-                      ),
-                      CustomText(text:
-                        "Sign Up",
-                       fontWeight:  FontWeight.w600, color: AppColors.lightBlue),
-
+                      //  SocialIconButton(icon: Icons.apple),
                     ],
                   ),
-                ),
-              ],
-            );
-          }
+
+                  SizedBox(height: 40),
+
+                  // Signup Link
+                  GestureDetector(
+                    onTap: (){
+
+                     Get.toNamed(AppRoutes.signupScreen);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:   [
+
+                        CustomText(text: "Don't have an account? ",fontSize: 14,fontWeight: FontWeight.w400,),
+
+                        SizedBox(
+                          width: 6,
+                        ),
+                        CustomText(text:
+                          "Sign Up",
+                         fontWeight:  FontWeight.w600, color: AppColors.lightBlue),
+
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+          ),
         ),
       ),
     );

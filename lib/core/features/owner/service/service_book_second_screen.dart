@@ -529,10 +529,10 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           CustomText(
                             text: 'Cleaning Service',
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
-                          Container(
+                       /*   Container(
                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                               color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
@@ -544,7 +544,7 @@ class ServiceCard extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
-                          ),
+                          ),*/
                         ],
                       ),
                       SizedBox(height: 8),

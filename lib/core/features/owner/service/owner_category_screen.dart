@@ -62,12 +62,12 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
     return Scaffold(
       appBar: CustomAppbar(titleName: "Category",leftIcon: true,),
       body: GridView.builder(
-        padding: EdgeInsets.all(8),
+        //padding: EdgeInsets.all(8),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Number of columns
-          crossAxisSpacing: 8.0, // Space between columns
+          crossAxisSpacing: 3.0, // Space between columns
           mainAxisSpacing: 8.0, // Space between rows
-          childAspectRatio: 0.70, // Aspect ratio of each item
+          childAspectRatio: 0.56, // Aspect ratio of each item
         ),
         itemCount: services.length,
         itemBuilder: (context, index) {
@@ -78,118 +78,122 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
               ///service Details screen owner
               Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
             },
-            child: Card(
-              elevation: 0.5,
-              color: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Service Image
-                  ClipRRect(
+            child: ListView(
+              children: [
+                Card(
+                  elevation: 0.5,
+                  color: AppColors.white,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      service['image']!,
-                      height: 120,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
                   ),
-                  // Wrap the content in an Expanded widget
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title and Rating Row
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Service Image
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          service['image']!,
+                          height: 120,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      // Wrap the content in an Expanded widget
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              text: service['title']!,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                            ),
-
-                            SizedBox(height: 4),
-
-                            // Rating
+                            // Title and Rating Row
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.star, color: Colors.orange, size: 14),
-                                SizedBox(width: 4),
                                 CustomText(
-                                  text: service['rating']!,
-                                  fontSize: 12,
+                                  text: service['title']!,
+                                  fontSize: 10,
                                   fontWeight: FontWeight.w600,
+                                ),
+
+                                SizedBox(height: 4),
+
+                                // Rating
+                                Row(
+                                  children: [
+                                    Icon(Icons.star, color: Colors.orange, size: 14),
+                                    SizedBox(width: 4),
+                                    CustomText(
+                                      text: service['rating']!,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        // Additional Info
-                        CustomText(
-                          text: 'Current booking: ${service['bookings']}',
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-
-                        SizedBox(height: 4),
-                        ///Additional Info
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomNetworkImage(
-                              imageUrl: AppConstants.profileImage,
-                              height: 24,
-                              width: 24,
-                              boxShape: BoxShape.circle,
-                            ),
-
-                            SizedBox(
-                              width: 4,
-                            ),
+                            SizedBox(height: 8),
+                            // Additional Info
                             CustomText(
-                              text: 'Jorge Bond',
+                              text: 'Current booking: ${service['bookings']}',
                               fontSize: 12,
-                              color: Colors.black,
+                              color: Colors.grey,
                               fontWeight: FontWeight.w400,
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
 
-                        CustomText(
-                          text: 'Start from- Instant Booking',
-                          fontSize: 10,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        SizedBox(height: 6),
+                            SizedBox(height: 4),
+                            ///Additional Info
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomNetworkImage(
+                                  imageUrl: AppConstants.profileImage,
+                                  height: 24,
+                                  width: 24,
+                                  boxShape: BoxShape.circle,
+                                ),
 
-                        // Price
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: service['price']!,
-                              fontSize: 12,
-                              color: AppColors.lightBlue,
-                              fontWeight: FontWeight.w600,
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                CustomText(
+                                  text: 'Jorge Bond',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 8),
 
-                            CustomImage(imageSrc: AppImages.arrayicon)
+                            CustomText(
+                              text: 'Start from- Instant Booking',
+                              fontSize: 10,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            SizedBox(height: 6),
+
+                            // Price
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: service['price']!,
+                                  fontSize: 12,
+                                  color: AppColors.lightBlue,
+                                  fontWeight: FontWeight.w600,
+                                ),
+
+                                CustomImage(imageSrc: AppImages.arrayicon)
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                )
+              ],
             ),
           );
         },

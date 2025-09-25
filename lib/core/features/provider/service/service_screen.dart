@@ -59,12 +59,12 @@ class _ServiceScreenState extends State<ServiceScreen> {
     return Scaffold(
       appBar: CustomAppbar(titleName: "Service"),
       body: GridView.builder(
-        padding: EdgeInsets.all(8),
+        //padding: EdgeInsets.all(8),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Number of columns
           crossAxisSpacing: 8.0, // Space between columns
           mainAxisSpacing: 8.0, // Space between rows
-          childAspectRatio: 0.80, // Aspect ratio of each item
+          childAspectRatio: 0.70, // Aspect ratio of each item
         ),
         itemCount: services.length,
         itemBuilder: (context, index) {

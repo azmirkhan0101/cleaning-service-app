@@ -52,10 +52,10 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
         
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
         
               // General Section
-              const Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const CustomText(text: 'General',  fontSize: 18, fontWeight: FontWeight.w600),
         
               const SizedBox(height: 16),
         
@@ -238,7 +238,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildSettingsItem(String title, IconData icon) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue),
-      title: Text(title,),
+      title: Text(title,style: TextStyle(fontSize: 14),),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
     );

@@ -1,12 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
-import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/bookings/bookings_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
-import 'package:cleaning_service_app/core/features/service/service_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/service/service_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';

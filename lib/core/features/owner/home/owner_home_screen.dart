@@ -66,7 +66,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(24), // Custom height
-        child: AppBar(),
+        child: AppBar(
+          scrolledUnderElevation: 0,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -306,10 +308,13 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                               height: 8,
                             ),
 
-                            CustomText(
-                              text: service['title']!,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: CustomText(
+                                text: service['title']!,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
@@ -334,6 +339,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
               // service (Wrapped in SingleChildScrollView)
               SizedBox(
                 height: 300,  // Adjust the height based on your layout
+                width: double.infinity,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: category.length,  // Set the itemCount to match the data length
@@ -367,71 +373,80 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                             SizedBox(height: 8),
 
-                            // Title and Rating Row
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Padding(
+                            padding:   EdgeInsets.all(6.0),
+                            child: Column(
+                             // mainAxisAlignment: MainAxisAlignment.start,
+                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomText(
-                                  text: service['title']!,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
+
+                                // Title and Rating Row
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CustomText(
+                                      text: service['title']!,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    SizedBox(width: 16),
+
+                                    Row(
+                                      children: [
+                                        Icon(Icons.star, color: Colors.orange, size: 14),
+                                        SizedBox(width: 4),
+                                        CustomText(
+                                          text: service['rating']!,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 16),
-                                Align(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.star, color: Colors.orange, size: 14),
-                                      SizedBox(width: 4),
-                                      CustomText(
-                                        text: service['rating']!,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ],
-                                  ),
+
+                                SizedBox(height: 8),
+
+                                // Additional Info
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CustomNetworkImage(
+                                      imageUrl: AppConstants.profileImage,
+                                      height: 24,
+                                      width: 24,
+                                      boxShape: BoxShape.circle,
+                                    ),
+                                    SizedBox(width: 4),
+                                    CustomText(
+                                      text: 'Jorge Bond',
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ],
                                 ),
+
+                                SizedBox(height: 8),
+
+                                // Row with price and icon
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,  // Only take up as much space as needed
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: service['price']!,
+                                      fontSize: 12,
+                                      color: AppColors.lightBlue,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    // CustomImage(imageSrc: AppImages.arrayicon),
+                                  ],
+                                )
+
                               ],
                             ),
-
-                            SizedBox(height: 8),
-
-                            // Additional Info
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                CustomNetworkImage(
-                                  imageUrl: AppConstants.profileImage,
-                                  height: 24,
-                                  width: 24,
-                                  boxShape: BoxShape.circle,
-                                ),
-                                SizedBox(width: 4),
-                                CustomText(
-                                  text: 'Jorge Bond',
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 8),
-
-                            // Row with price and icon
-                            Row(
-                              mainAxisSize: MainAxisSize.min,  // Only take up as much space as needed
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomText(
-                                  text: service['price']!,
-                                  fontSize: 12,
-                                  color: AppColors.lightBlue,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                               // CustomImage(imageSrc: AppImages.arrayicon),
-                              ],
-                            )
-
+                          )
 
                           ],
                         ),

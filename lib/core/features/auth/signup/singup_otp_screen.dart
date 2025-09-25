@@ -29,16 +29,12 @@ import 'package:pin_code_fields/pin_code_fields.dart';
    final authController = Get.put(AuthController());
 
 
-
-
-
-
    @override
    Widget build(BuildContext context) {
      return Scaffold(
        appBar: CustomAppbar(leftIcon: true,),
        body: Padding(
-           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
            child: SingleChildScrollView(
              child: SizedBox(
                height: MediaQuery.of(context).size.height/1.1,
@@ -83,7 +79,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                            ///CustomPinCode(controller: authController.otpController.value),
 
                            Padding(
-                             padding: EdgeInsets.only(left: 8, right: 8),
+                             padding: EdgeInsets.only(left: 4, right: 4),
                              child: PinCodeTextField(
                                textStyle: TextStyle(color: Colors.white),
                                keyboardType: TextInputType.number,
@@ -96,7 +92,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                                pinTheme: PinTheme(
                                  shape: PinCodeFieldShape.box,
                                  borderRadius: BorderRadius.circular(16),
-                                 fieldHeight: 60,
+                                 fieldHeight: 50,
                                  fieldWidth: 45.0,
                                  inactiveColor: AppColors.grey_1,
                                  activeColor: AppColors.grey_1,

@@ -2,9 +2,6 @@
 import 'package:cleaning_service_app/core/features/auth/login_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/signup_screen.dart';
 import 'package:cleaning_service_app/core/features/auth/signup/singup_otp_screen.dart';
-import 'package:cleaning_service_app/core/features/bookings/bookings_screen.dart';
-import 'package:cleaning_service_app/core/features/bookings/qr_scanner_screen.dart';
-import 'package:cleaning_service_app/core/features/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/location/map_picker.dart';
 import 'package:cleaning_service_app/core/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/core/features/location/location_screen.dart';
@@ -12,6 +9,7 @@ import 'package:cleaning_service_app/core/features/owner/booking/owner_scanner_s
 import 'package:cleaning_service_app/core/features/owner/education/home/bribk_opportunities_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/education/home/education_home_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/education/home/education_training_screen.dart';
+import 'package:cleaning_service_app/core/features/owner/education/home/industry_trends_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/education/home/legal_regulatory_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/home/owner_search_screen.dart';
@@ -24,31 +22,31 @@ import 'package:cleaning_service_app/core/features/owner/service/owner_service_d
 import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/core/features/owner/inbox/owner_message_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/bookings/qr_scanner_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/about_us_screen.dart';
+import 'package:cleaning_service_app/core/features/policy/about_us_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/change_password.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/earning_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/privacy_policy_screen.dart';
+import 'package:cleaning_service_app/core/features/policy/privacy_policy_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/profile_edit_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/profile/refer_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/terms_condition_screen.dart';
+import 'package:cleaning_service_app/core/features/policy/terms_condition_screen.dart';
 import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
+import 'package:cleaning_service_app/core/features/provider/service/edit_service_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/service/review_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/service/service_add_screen.dart';
+import 'package:cleaning_service_app/core/features/provider/service/service_details.dart';
+import 'package:cleaning_service_app/core/features/provider/service/work_schedule_screen.dart';
 import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
-import 'package:cleaning_service_app/core/features/service/edit_service_screen.dart';
-import 'package:cleaning_service_app/core/features/service/review_screen.dart';
-import 'package:cleaning_service_app/core/features/service/service_add_screen.dart';
-import 'package:cleaning_service_app/core/features/service/service_details.dart';
-import 'package:cleaning_service_app/core/features/service/work_schedule_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/onboarding_second_screen.dart';
 import 'package:cleaning_service_app/core/features/splash/splash_screen.dart';
 import 'package:get/get.dart';
-
-import '../../features/owner/education/home/industry_trends_screen.dart';
-
 
 
 ///=========================App Routes=========================
