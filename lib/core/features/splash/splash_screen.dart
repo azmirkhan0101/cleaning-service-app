@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
 
-      Future.delayed(const Duration(seconds: 3), () async{
+      Future.delayed(const Duration(seconds: 1), () async{
 
         onboardingController.checkAndRequestPermissions();
 

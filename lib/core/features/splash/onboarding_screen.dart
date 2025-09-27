@@ -24,66 +24,19 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
       body:Stack(
         children: [
 
-          // Background
-          Container(
-            color: AppColors.lightBlue,  // blue background
-            height: double.infinity,
-            width: double.infinity,
-          ),
+          CustomImage(
+              imageSrc: AppImages.banner_im2),
 
-          ///Main content
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                CustomImage(
-                  imageSrc: AppImages.onboarding,
-                  fit:BoxFit.fill,
-                  width: 350,
-                ),
-
-                const SizedBox(height: 30),
-
-                // Heading text
-                CustomText(text:
-                'Professional Real Estate Services, Anytime',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  maxLines: 2,
-                  textAlign: TextAlign.start,
-                ),
-
-                const SizedBox(height: 8),
-
-                //Subheading text
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0,
-                  ),
-                  child: CustomText(
-                    text:  'Book trusted professionals in minutes. From home maintenance to repairing and more, we provide a variety of service for your property.',
-                    textAlign: TextAlign.center,
-                    fontSize: 16,
-                    color: Colors.white,
-                    maxLines: 3,
-                  ),
-                ),
-
-                const  SizedBox(height: 40),
-
-                InkWell(
-                  onTap: (){
-                    Get.offNamed(AppRoutes.onboardingSecondScreen);
-                  },
-                  child: CustomImage(
-                    imageSrc: AppIcons.startIcons,
-                    fit:BoxFit.fill,
-                  ),
-                ),
-              ],
+          Positioned(
+            bottom: 64,
+            child: InkWell(
+              onTap: (){
+                Get.offNamed(AppRoutes.onboardingSecondScreen);
+              },
+              child: CustomImage(
+                imageSrc: AppIcons.startIcons,
+                fit:BoxFit.fill,
+              ),
             ),
           ),
         ],
