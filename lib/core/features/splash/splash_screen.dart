@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
 
-      Future.delayed(const Duration(seconds: 1), () async{
+      Future.delayed(const Duration(seconds: 6), () async{
 
         onboardingController.checkAndRequestPermissions();
 
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
         if(token.isNotEmpty){
 
-          //Get.offAllNamed(AppRoutes.homeScreen);
+          ///Get.offAllNamed(AppRoutes.homeScreen);
 
         }else{
 

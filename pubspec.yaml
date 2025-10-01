@@ -78,6 +78,7 @@ dev_dependencies:
   flutter_rating_bar: ^4.0.1
   calendar_date_picker2: ^2.0.1
   flutter_picker_plus: ^1.5.4
+  dio: ^5.9.0
 
 
 # For information on the generic Dart part of this file, see the

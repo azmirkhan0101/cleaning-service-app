@@ -136,13 +136,80 @@ class _NavBarState extends State<NavBar> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
+          /*  SvgPicture.asset(
               selectedIcon[index],
               height:24.h,
               width: 24.w,
               color: AppColors.white_50,
             ),
+            */
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SvgPicture.asset(
+                  unselectedIcon[index],
+                  height: 24.h,
+                  width: 24.w,
+                  color: AppColors.grey_1,
+                ),
 
+                if(index==1)
+                  Positioned(
+                    top: -4,
+                    right: -10,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color:  AppColors.red,
+                        // color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+
+                if(index==3)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color:  AppColors.red,
+                        // color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             SizedBox(height: 6),
             CustomText(
               text: userNavText[index],
@@ -160,11 +227,79 @@ class _NavBarState extends State<NavBar> {
   Widget _buildUnselectedNavItem(int index, bool isTablet) {
     return Column(
       children: [
-        SvgPicture.asset(
+
+       /* SvgPicture.asset(
           unselectedIcon[index],
           height: 24.h,
           width: 24.w,
           color: AppColors.grey_1,
+        ),*/
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SvgPicture.asset(
+              unselectedIcon[index],
+              height: 24.h,
+              width: 24.w,
+              color: AppColors.grey_1,
+            ),
+
+            if(index==1)
+              Positioned(
+                top: -4,
+                right: -10,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color:  AppColors.red,
+                    // color: Colors.green,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1.5),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
+                  child: Text(
+                    '7',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+
+            if(index==3)
+              Positioned(
+                top: -4,
+                right: -4,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color:  AppColors.red,
+                    // color: Colors.green,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1.5),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
+                  child: Text(
+                    '7',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
         ),
         SizedBox(height: 4),
         CustomText(

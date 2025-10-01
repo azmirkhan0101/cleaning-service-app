@@ -24,17 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: CustomAppbar(),
-      body: SingleChildScrollView(
+       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Obx(
@@ -108,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
+
                   SizedBox(height: 16),
 
                  ElevatedButton(
@@ -275,6 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: 6,
                         ),
+
                         CustomText(text:
                           "Sign Up",
                          fontWeight:  FontWeight.w600, color: AppColors.lightBlue),

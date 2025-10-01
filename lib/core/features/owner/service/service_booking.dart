@@ -25,6 +25,14 @@ class _ServiceBookingState extends State<ServiceBooking> {
 
   DateTime? selected;
 
+
+  int? selectedHour;
+  int? selectedMinute;
+
+  final List<int> hours = List.generate(24, (i) => i); // 0–23
+  final List<int> minutes = List.generate(12, (i) => i * 5); // 0, 5, 10…55
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

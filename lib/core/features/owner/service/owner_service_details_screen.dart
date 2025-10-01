@@ -348,8 +348,8 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                            ),
                          ),
 
-                       if(status=="completed")
-                        SizedBox(),
+                    if(status=="completed")
+                    SizedBox(),
 
                      if(status!="pending" && status!="completed" && status!="ongoing" && status!="cancelled")
                       ElevatedButton(
@@ -364,7 +364,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                            minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),  // 90% of screen width
                          ),
                          child: CustomText(
-                           text: 'Booking',
+                           text: 'Book new',
                            color: Colors.white,
                            fontSize: 16,
                            fontWeight: FontWeight.w600,
