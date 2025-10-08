@@ -22,10 +22,13 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body:Stack(
+        clipBehavior: Clip.none,
         children: [
 
           CustomImage(
-              imageSrc: AppImages.banner_im2),
+              imageSrc: AppImages.banner_im2,
+             width:  MediaQuery.of(context).size.width
+          ),
 
        /*   Positioned(
             bottom: 64,
@@ -52,7 +55,7 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
                     topRight: Radius.circular(30), // Set the top-right corner radius
                   ),
                 ),
-                height: MediaQuery.of(context).size.height / 3.2,  // Adjust height based on screen size
+                height: MediaQuery.of(context).size.height / 2.3,  // Adjust height based on screen size
                 width: double.infinity, // Full width of the screen
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),  // Adjust padding for responsiveness

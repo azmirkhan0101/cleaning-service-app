@@ -9,7 +9,7 @@ class AppImages {
   static const String bagImage = "$basePath/bag_image.png";
   static const String banner_image2 = "$basePath/banner_image2.png";
   static const String onboarding = "$basePath/onboard1.png";
-  static const String onboarding2 = "$basePath/onboard2.png";
+  static const String onboarding2 = "$basePath/onboard4.png";
   static const String userImage = "$basePath/user2.png";
   static const String googleImage = "$basePath/google.svg";
   static const String banner_image = "$basePath/banner_image.png";
