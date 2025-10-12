@@ -1,11 +1,11 @@
 
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/bookings/bookings_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
-import 'package:cleaning_service_app/core/features/provider/service/service_screen.dart';
+import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/profile_screen.dart';
+import 'package:cleaning_service_app/features/provider/provider_home.dart';
+import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';

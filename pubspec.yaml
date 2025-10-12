@@ -35,17 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^5.0.0
-  cupertino_icons: ^1.0.8
   get: ^4.7.2
   intl: ^0.20.2
   device_preview: ^1.2.0
@@ -79,6 +68,34 @@ dev_dependencies:
   calendar_date_picker2: ^2.0.1
   flutter_picker_plus: ^1.5.4
   dio: ^5.9.0
+  dropdown_button2: ^2.3.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+  build_runner: ^2.7.1
+  flutter_gen_runner: ^5.11.0
+  # flutter_gen: ^5.11.0
+
+flutter_gen:
+  output: lib/core/assets-gen/ # Optional (default: lib/gen/)
+  line_length: 80 # Optional (default: 80)
+  # Optional
+  integrations:
+    flutter_svg: true
+    lottie: true
+
+    #===========>>>>>>>>>> Flutter Gen Code ==============>>>>>>>>>>>
+    # dart pub global activate flutter_gen
+    # flutter pub run build_runner build --delete-conflicting-outputs
+ 
 
 
 # For information on the generic Dart part of this file, see the

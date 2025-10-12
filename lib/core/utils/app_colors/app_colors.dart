@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColors {
-
   static const Color appColors = Color(0xffFBB03B);
   static const Color black = Color(0xff0E0E0E);
   static const Color black_02 = Color(0xff181818);
@@ -16,13 +15,12 @@ class AppColors {
   static const Color black_03 = Color(0xff171717);
   static const Color black_04 = Color(0xff4F4F59);
 
-
   static const Color lightGreen = Color(0xff5BD7BC);
   static const Color lightWhite = Color(0xffF8F8F8);
   static const Color light_Blue = Color(0xffE9EBF3);
-  static const Color lightBlue = Color(0xff0097B2);
+  // static const Color lightBlue = Color(0xff0097B2);
+  static const Color lightBlue = Color(0xff4899D1);
   static const Color orange = Color(0xffFF9800);
-
 
   static const Color onboardingCard = Color(0xffDFDDDA);
   static const Color brinkPink = Color(0xffE1B791); // #E1B791
@@ -54,9 +52,6 @@ class AppColors {
   static const Color cancle = Color(0xfffB7185);
   static const Color normal = Color(0xff1B2D51);
 
-
-
-
   static const Color primary = contentColorCyan;
   static const Color menuBackground = Color(0xFF090912);
   static const Color itemsBackground = Color(0xFF1B2339);
@@ -78,7 +73,6 @@ class AppColors {
   static const Color contentColorPink = Color(0xFFFF3AF2);
   static const Color contentColorRed = Color(0xFFE80054);
   static const Color contentColorCyan = Color(0xFF50E4FF);
-
 
   static Color primaryDarkBlue = Color(0xFF13224B);
   static Color primaryYellow = Color(0xFFFFC000);

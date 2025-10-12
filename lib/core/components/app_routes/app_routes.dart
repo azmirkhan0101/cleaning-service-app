@@ -1,53 +1,51 @@
-
-import 'package:cleaning_service_app/core/features/auth/login_screen.dart';
-import 'package:cleaning_service_app/core/features/auth/signup/signup_screen.dart';
-import 'package:cleaning_service_app/core/features/auth/signup/singup_otp_screen.dart';
-import 'package:cleaning_service_app/core/features/location/map_picker.dart';
-import 'package:cleaning_service_app/core/features/notification/notification_screen.dart';
-import 'package:cleaning_service_app/core/features/location/location_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/booking/owner_scanner_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/education/home/bribk_opportunities_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/education/home/education_home_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/education/home/education_training_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/education/home/industry_trends_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/education/home/legal_regulatory_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/home/owner_search_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/service/owner_category_by_service.dart';
-import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/service/service_book_second_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/service/service_booking.dart';
-import 'package:cleaning_service_app/core/features/owner/service/owner_service_details_screen.dart';
-import 'package:cleaning_service_app/core/features/payment/payment_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/inbox/owner_message_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/bookings/bookings_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/bookings/qr_scanner_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/bookings/service_details_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
-import 'package:cleaning_service_app/core/features/policy/about_us_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/boost_payment_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/change_password.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/earning_screen.dart';
-import 'package:cleaning_service_app/core/features/policy/privacy_policy_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/profile_edit_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/profile_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/profile/refer_screen.dart';
-import 'package:cleaning_service_app/core/features/policy/terms_condition_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/provider_home.dart';
-import 'package:cleaning_service_app/core/features/provider/service/edit_service_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/service/review_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/service/service_add_screen.dart';
-import 'package:cleaning_service_app/core/features/provider/service/service_details.dart';
-import 'package:cleaning_service_app/core/features/provider/service/work_schedule_screen.dart';
-import 'package:cleaning_service_app/core/features/selection/selection_screen.dart';
-import 'package:cleaning_service_app/core/features/splash/onboarding_screen.dart';
-import 'package:cleaning_service_app/core/features/splash/onboarding_second_screen.dart';
-import 'package:cleaning_service_app/core/features/splash/splash_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
+import 'package:cleaning_service_app/features/location/location_screen.dart';
+import 'package:cleaning_service_app/features/location/map_picker.dart';
+import 'package:cleaning_service_app/features/notification/notification_screen.dart';
+import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
+import 'package:cleaning_service_app/features/owner/education/home/bribk_opportunities_screen.dart';
+import 'package:cleaning_service_app/features/owner/education/home/education_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/education/home/education_training_screen.dart';
+import 'package:cleaning_service_app/features/owner/education/home/industry_trends_screen.dart';
+import 'package:cleaning_service_app/features/owner/education/home/legal_regulatory_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dart';
+import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
+import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/owner_category_by_service.dart';
+import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/service_booking.dart';
+import 'package:cleaning_service_app/features/payment/payment_screen.dart';
+import 'package:cleaning_service_app/features/policy/about_us_screen.dart';
+import 'package:cleaning_service_app/features/policy/privacy_policy_screen.dart';
+import 'package:cleaning_service_app/features/policy/terms_condition_screen.dart';
+import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/features/provider/bookings/qr_scanner_screen.dart';
+import 'package:cleaning_service_app/features/provider/bookings/service_details_screen.dart';
+import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
+import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/change_password.dart';
+import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/profile_edit_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/profile_screen.dart';
+import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
+import 'package:cleaning_service_app/features/provider/provider_home.dart';
+import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/service_details.dart';
+import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
+import 'package:cleaning_service_app/features/selection/selection_screen.dart';
+import 'package:cleaning_service_app/features/splash/onboarding++.dart';
+import 'package:cleaning_service_app/features/splash/onboarding_second_screen.dart';
+import 'package:cleaning_service_app/features/splash/splash_screen.dart';
 import 'package:get/get.dart';
-
 
 ///=========================App Routes=========================
 class AppRoutes {
@@ -120,112 +118,120 @@ class AppRoutes {
 
   static const String ownerSearchScreen = "/OwnerSearchScreen";
 
-
-
-
-
-
   static List<GetPage> routes = [
-
     ///===========================Authentication==========================
+    GetPage(name: splashScreen, page: () => SplashScreen()),
 
-   GetPage(name: splashScreen, page: () => SplashScreen()),
+    GetPage(name: onboardingScreen, page: () => Onboarding2Screen()),
 
-   GetPage(name: onboardingScreen, page: () => Onboardingscreen()),
-    
-   GetPage(name: onboardingSecondScreen, page: () => OnboardingSecondScreen()),
+    GetPage(name: onboardingSecondScreen, page: () => OnboardingSecondScreen()),
 
-   GetPage(name: loginScreen, page: () => LoginScreen()),
+    GetPage(name: loginScreen, page: () => LoginScreen()),
 
-   GetPage(name: signupScreen, page: () => SignupScreen()),
+    GetPage(name: signupScreen, page: () => SignupScreen()),
 
-   GetPage(name: singupOtpScreen, page: () => SingupOtpScreen()),
+    GetPage(name: singupOtpScreen, page: () => OtpVerifyScreen()),
 
-   GetPage(name: selectionScreen, page: () => SelectionScreen()),
+    GetPage(name: selectionScreen, page: () => SelectionScreen()),
 
-   GetPage(name: paymentScreen, page: () => PaymentScreen()),
+    GetPage(name: paymentScreen, page: () => PaymentScreen()),
 
-   GetPage(name: providerHome, page: () => ProviderHome()),
+    GetPage(name: providerHome, page: () => ProviderHome()),
 
-   GetPage(name: serviceDetailsScreen, page: () => ServiceDetailsScreen()),
+    GetPage(name: serviceDetailsScreen, page: () => ServiceDetailsScreen()),
 
-   GetPage(name: bookingsScreen, page: () => BookingsScreen()),
+    GetPage(name: bookingsScreen, page: () => BookingsScreen()),
 
-   GetPage(name: qrScannerScreen, page: () => QrScannerScreen()),
+    GetPage(name: qrScannerScreen, page: () => QrScannerScreen()),
 
-   GetPage(name: locationScreen, page: () => LocationScreen()),
+    GetPage(name: locationScreen, page: () => LocationScreen()),
 
-   GetPage(name: pickerMapScreen, page: () => PickerMapScreen()),
+    GetPage(name: pickerMapScreen, page: () => PickerMapScreen()),
 
-   GetPage(name: notificationScreen, page: () => NotificationScreen()),
+    GetPage(name: notificationScreen, page: () => NotificationScreen()),
 
-   GetPage(name: serviceDetails, page: () => ServiceDetails()),
+    GetPage(name: serviceDetails, page: () => ServiceDetails()),
 
-   GetPage(name: editServiceScreen, page: () => EditServiceScreen()),
+    GetPage(name: editServiceScreen, page: () => EditServiceScreen()),
 
-   GetPage(name: workScheduleScreen, page: () => WorkScheduleScreen()),
+    GetPage(name: workScheduleScreen, page: () => WorkScheduleScreen()),
 
-   GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
+    GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
 
-   GetPage(name: messageScreen, page: () => OwnerMessageScreen()),
+    GetPage(name: messageScreen, page: () => OwnerMessageScreen()),
 
-   GetPage(name: profileScreen, page: () => ProfileScreen()),
+    GetPage(name: profileScreen, page: () => ProfileScreen()),
 
-   GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
+    GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
 
-   GetPage(name: editPersonProfileScreen, page: () => EditPersonProfileScreen()),
+    GetPage(
+      name: editPersonProfileScreen,
+      page: () => EditPersonProfileScreen(),
+    ),
 
-   GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
+    GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
 
-   GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
+    GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
 
-   GetPage(name: referScreen, page: () => ReferScreen()),
+    GetPage(name: referScreen, page: () => ReferScreen()),
 
-   GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
+    GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
 
-   GetPage(name: privacyPolicyScreen, page: () => PrivacyPolicyScreen()),
+    GetPage(name: privacyPolicyScreen, page: () => PrivacyPolicyScreen()),
 
-   GetPage(name: termsConditionScreen, page: () => TermsConditionScreen()),
+    GetPage(name: termsConditionScreen, page: () => TermsConditionScreen()),
 
-   GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
+    GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
 
-   GetPage(name: proPlanSubscriptionScreen, page: () => ProPlanSubscriptionScreen()),
+    GetPage(
+      name: proPlanSubscriptionScreen,
+      page: () => ProPlanSubscriptionScreen(),
+    ),
 
-   GetPage(name: reviewScreen, page: () => ReviewScreen()),
+    GetPage(name: reviewScreen, page: () => ReviewScreen()),
 
-   GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
+    GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
 
-   GetPage(name: ownerCategoryByService, page: () => OwnerCategoryByService()),
+    GetPage(name: ownerCategoryByService, page: () => OwnerCategoryByService()),
 
-   GetPage(name: ownerServiceDetailsScreen, page: () => OwnerServiceDetailsScreen()),
+    GetPage(
+      name: ownerServiceDetailsScreen,
+      page: () => OwnerServiceDetailsScreen(),
+    ),
 
-   GetPage(name: serviceBooking, page: () => ServiceBooking()),
+    GetPage(name: serviceBooking, page: () => ServiceBooking()),
 
-   GetPage(name: serviceBookSecondScreen, page: () => ServiceBookSecondScreen()),
+    GetPage(
+      name: serviceBookSecondScreen,
+      page: () => ServiceBookSecondScreen(),
+    ),
 
-   GetPage(name: ownerCategoryScreen, page: () => OwnerCategoryScreen()),
+    GetPage(name: ownerCategoryScreen, page: () => OwnerCategoryScreen()),
 
-   GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
+    GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
 
-   GetPage(name: ownerInboxScreen, page: () => OwnerInboxScreen()),
+    GetPage(name: ownerInboxScreen, page: () => OwnerInboxScreen()),
 
-   GetPage(name: ownerMessageScreen, page: () => OwnerMessageScreen()),
+    GetPage(name: ownerMessageScreen, page: () => OwnerMessageScreen()),
 
-   GetPage(name: ownerProfileScreen, page: () => OwnerProfileScreen()),
+    GetPage(name: ownerProfileScreen, page: () => OwnerProfileScreen()),
 
-   GetPage(name: educationHomeScreen, page: () => EducationHomeScreen()),
+    GetPage(name: educationHomeScreen, page: () => EducationHomeScreen()),
 
-   GetPage(name: legalRegulatoryScreen, page: () => LegalRegulatoryScreen()),
+    GetPage(name: legalRegulatoryScreen, page: () => LegalRegulatoryScreen()),
 
-   GetPage(name: industryTrendsScreen, page: () => IndustryTrendsScreen()),
+    GetPage(name: industryTrendsScreen, page: () => IndustryTrendsScreen()),
 
-   GetPage(name: bribkOpportunitiesScreen, page: () => BribkOpportunitiesScreen()),
+    GetPage(
+      name: bribkOpportunitiesScreen,
+      page: () => BribkOpportunitiesScreen(),
+    ),
 
-   GetPage(name: educationTrainingScreen, page: () => EducationTrainingScreen()),
+    GetPage(
+      name: educationTrainingScreen,
+      page: () => EducationTrainingScreen(),
+    ),
 
-   GetPage(name: ownerSearchScreen, page: () => OwnerSearchScreen()),
-
-
+    GetPage(name: ownerSearchScreen, page: () => OwnerSearchScreen()),
   ];
-
 }
