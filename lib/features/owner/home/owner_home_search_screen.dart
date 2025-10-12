@@ -205,16 +205,16 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                   // const SizedBox(height: 16),
                   _buildGenderOptions(),
 
-                  // const SizedBox(height: 16),
-                  CustomText(
-                    text: "Spoken Language",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.black,
-                  ),
+                  const SizedBox(height: 16),
+                  // CustomText(
+                  //   text: "Spoken Language",
+                  //   fontSize: 16,
+                  //   fontWeight: FontWeight.w700,
+                  //   color: AppColors.black,
+                  // ),
+                  _buildSectionHeader("Spoken Language"),
 
-                  SizedBox(height: 12),
-
+                  // SizedBox(height: 12),
                   DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       value: _selectedLanguage,
@@ -432,11 +432,17 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
       children: [
         TextField(
           controller: _searchController,
+          onTap: () {
+            setState(() {
+              _showSuggestions = true;
+              _filteredServices = serviceOptions;
+            });
+          },
           onChanged: (value) {
             setState(() {
               if (value.isEmpty) {
-                _showSuggestions = false;
-                _filteredServices = [];
+                _showSuggestions = true;
+                _filteredServices = serviceOptions;
               } else {
                 _showSuggestions = true;
                 _filteredServices = serviceOptions
