@@ -1,25 +1,26 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/features/auth/auth_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:flutter/material.dart';
+import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/features/auth/screens/confirm_email_screen.dart';
+import 'package:cleaning_service_app/features/main-layout/screens/owner_main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.put(AuthController());
 
   @override
@@ -28,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
       appBar: CustomAppbar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Obx(() {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Row(
                   children: [
                     CustomText(
-                      text: 'Create Account',
+                      text: 'Login Account',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
@@ -54,122 +55,64 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 SizedBox(height: 40),
 
-                /// name Field
-                CustomFormCard(
-                  title: AppStrings.yourFirstName,
-                  hintText: AppStrings.enterYourName,
-                  hasBackgroundColor: true,
-                  keyboardType: TextInputType.name,
-                  controller: authController.signupNameController.value,
-                ),
-
-                SizedBox(height: 12),
-
-                /// phoneNumber Field
-                CustomFormCard(
-                  title: AppStrings.phoneNumber,
-                  hintText: AppStrings.enterYourPhone,
-                  hasBackgroundColor: true,
-                  keyboardType: TextInputType.phone,
-                  controller: authController.signupPhoneController.value,
-                ),
-
-                SizedBox(height: 12),
-
                 /// email Field
                 CustomFormCard(
                   title: AppStrings.email,
                   hintText: AppStrings.enterYourEmail,
                   hasBackgroundColor: true,
-                  keyboardType: TextInputType.emailAddress,
-                  controller: authController.signupEmailController.value,
+                  controller: authController.loginEmailController.value,
                 ),
 
-                SizedBox(height: 12),
+                SizedBox(height: 20),
 
                 /// password Field
                 CustomFormCard(
                   titleColor: Colors.black,
                   title: AppStrings.password,
                   hintText: AppStrings.enterYourPassword,
+                  hasBackgroundColor: true,
                   isPassword: true,
-                  controller: authController.signupPasswordController.value,
+                  controller: authController.loginPasswordController.value,
                 ),
 
                 SizedBox(height: 12),
-
-                /// confirm password Field
-                CustomFormCard(
-                  titleColor: Colors.black,
-                  title: AppStrings.comfirmpassword,
-                  hintText: AppStrings.enterYourPassword,
-                  isPassword: true,
-                  controller:
-                      authController.signupConfirmPasswordController.value,
-                ),
-
-                SizedBox(height: 12),
-
-                /// referral code Field
-                CustomFormCard(
-                  titleColor: Colors.black,
-                  title: AppStrings.referralCode,
-                  hintText: AppStrings.enterReferralCode,
-                  controller: authController.signupReferralController.value,
-                ),
-
-                SizedBox(height: 8),
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Checkbox(
-                      value: authController.rememberPassword.value,
-                      onChanged: (value) {
-                        authController.rememberPassword.value = value!;
-                      },
-                      checkColor: AppColors.black_04,
-                      activeColor: AppColors.lightBlue,
-                      fillColor: MaterialStateProperty.all(
-                        AppColors.lightBlue.withOpacity(0.5),
-                      ),
-                    ),
-
-                    Text.rich(
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      TextSpan(
-                        text:
-                            'I agree with terms of conditions and privacy policy',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: authController.rememberPassword.value,
+                          onChanged: (value) {
+                            authController.rememberPassword.value = value!;
+                          },
+                          checkColor:
+                              AppColors.black_04, // Color of the check mark
+                          activeColor: AppColors
+                              .lightBlue, // Color of the checkbox when selected
+                          fillColor: MaterialStateProperty.all(
+                            AppColors.lightBlue.withOpacity(0.5),
+                          ), // Background color when not selected
                         ),
-                        children: [
-                          /*  TextSpan(
-                                    text: ' terms',
-                                    style: GoogleFonts.lexend(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.lightBlue,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: ' of service and \n',
-                                    style: GoogleFonts.lexend(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.black_04,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: 'Privacy Policy',
-                                    style: GoogleFonts.lexend(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.lightBlue,
-                                    ),
-                                  ),*/
-                        ],
+
+                        CustomText(
+                          text: 'Remember me',
+                          color: AppColors.lightBlue,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => ConfirmEmailScreen());
+                      },
+                      child: CustomText(
+                        text: 'Forgot Password?',
+                        color: AppColors.lightBlue,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
                       ),
                     ),
                   ],
@@ -179,7 +122,53 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 ElevatedButton(
                   onPressed: () {
-                    Get.offNamed(AppRoutes.singupOtpScreen);
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        insetPadding: EdgeInsets.all(8),
+                        contentPadding: EdgeInsets.all(8),
+                        title: SizedBox(),
+                        content: SizedBox(
+                          width: MediaQuery.sizeOf(context).width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomButton(
+                                  onTap: () {
+                                    Get.offAllNamed(AppRoutes.providerHome);
+                                  },
+                                  title: "provider",
+                                  height: 45,
+                                  width: 100,
+                                  fontSize: 12,
+                                  fillColor: AppColors.appColors,
+                                ),
+
+                                SizedBox(width: 12),
+
+                                CustomButton(
+                                  onTap: () {
+                                    // Get.offAllNamed(AppRoutes.ownerHomeScreen);
+                                    Get.offAll(() => OwnerMainLayout());
+
+                                    ///Navigator.of(context).pop();
+                                  },
+                                  title: "owner",
+                                  height: 45,
+                                  width: 100,
+                                  fontSize: 12,
+                                  fillColor: AppColors.appColors,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.appColors,
@@ -193,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ), // 90% of screen width
                   ),
                   child: CustomText(
-                    text: AppStrings.signUp,
+                    text: 'Login',
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -206,14 +195,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(width: 120, child: Divider(thickness: 1)),
+                      SizedBox(width: 100, child: Divider(thickness: 1)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: CustomText(
-                          text: 'or Sign Up in with',
+                          text: 'or sign in with',
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
                         ),
@@ -223,7 +210,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
                 // Social Buttons
                 Row(
@@ -276,12 +263,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   ],
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 40),
 
                 // Signup Link
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(AppRoutes.loginScreen);
+                    Get.toNamed(AppRoutes.signupScreen);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -293,17 +280,15 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
 
                       SizedBox(width: 6),
+
                       CustomText(
-                        text: "Sign In",
+                        text: "Sign Up",
                         fontWeight: FontWeight.w600,
                         color: AppColors.lightBlue,
-                        fontSize: 12,
                       ),
                     ],
                   ),
                 ),
-
-                SizedBox(height: 8),
               ],
             );
           }),

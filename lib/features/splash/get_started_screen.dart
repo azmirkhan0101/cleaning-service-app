@@ -1,4 +1,4 @@
-import 'package:cleaning_service_app/features/auth/login_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/splash/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
