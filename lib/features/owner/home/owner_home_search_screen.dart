@@ -7,10 +7,13 @@ import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class OwnerHomeSearchScreen extends StatefulWidget {
-  OwnerHomeSearchScreen({super.key});
+  const OwnerHomeSearchScreen({super.key});
 
   @override
   State<OwnerHomeSearchScreen> createState() => _OwnerHomeSearchScreenState();
@@ -24,384 +27,391 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
   int? _selectedExperience;
   bool? _instantBooking;
   String? _selectedGender;
+  String? _selectedService;
+  DateTime _selectedDate = DateTime.now();
+  double _pricePerHour = 20.0;
+  final TextEditingController _searchController = TextEditingController();
+  bool _showSuggestions = false;
+  List<Map<String, dynamic>> _filteredServices = [];
+  String _selectedLanguage = 'English';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: SizedBox(
+      body: Container(
         width: MediaQuery.sizeOf(context).width,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSearchTextField(),
+        height: MediaQuery.sizeOf(context).height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Assets.images.onboardingBg.path),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildAppBar(),
+                  SizedBox(height: 16.h),
+                  _buildSearchTextField(),
 
-                ///================== Category show =============
-                // Row(
-                //   mainAxisSize:
-                //       MainAxisSize.min, // Ensure Row size is as small as needed
-                //   children: [
-                //     // First item
-                //     Container(
-                //       width: 110,
-                //       height: 45,
-                //       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                //       margin: EdgeInsets.only(bottom: 5),
-                //       decoration: BoxDecoration(
-                //         color: Colors.blue,
-                //         borderRadius: BorderRadius.circular(10),
-                //         border: Border.all(color: Colors.grey),
-                //       ),
-                //       child: Row(
-                //         children: [
-                //           CustomImage(imageSrc: AppIcons.service_all),
-                //           SizedBox(width: 2),
-                //           CustomText(
-                //             text: "All Service",
-                //             fontSize: 12,
-                //             fontWeight: FontWeight.w500,
-                //             color: AppColors.white,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     SizedBox(width: 12),
-                //     // Second item
-                //     Container(
-                //       width: 110,
-                //       height: 45,
-                //       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                //       margin: EdgeInsets.only(bottom: 5),
-                //       decoration: BoxDecoration(
-                //         color: Colors.transparent,
-                //         borderRadius: BorderRadius.circular(10),
-                //         border: Border.all(color: Colors.grey),
-                //       ),
-                //       child: Row(
-                //         children: [
-                //           CustomImage(imageSrc: AppIcons.cleaning),
-                //           SizedBox(width: 2),
-                //           CustomText(
-                //             text: "Cleaning",
-                //             fontSize: 12,
-                //             fontWeight: FontWeight.w500,
-                //             color: AppColors.black,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     SizedBox(width: 12),
+                  SizedBox(height: 16),
 
-                //     // Add more items as needed
-                //     Container(
-                //       width: 110,
-                //       height: 45,
-                //       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                //       margin: EdgeInsets.only(bottom: 5),
-                //       decoration: BoxDecoration(
-                //         color: Colors.transparent,
-                //         borderRadius: BorderRadius.circular(10),
-                //         border: Border.all(color: Colors.grey),
-                //       ),
-                //       child: Row(
-                //         children: [
-                //           CustomImage(imageSrc: AppIcons.laundry),
-                //           SizedBox(width: 2),
-                //           CustomText(
-                //             text: "Laundry",
-                //             fontSize: 12,
-                //             fontWeight: FontWeight.w500,
-                //             color: AppColors.black,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                SizedBox(height: 16),
-
-                ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.pickerMapScreen);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // pill shape
-                      side: const BorderSide(
-                        color: Color(0xFF4899D1),
-                        width: 1,
-                      ), // border
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.pickerMapScreen);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12), // pill shape
+                        side: const BorderSide(
+                          color: Color(0xFF4899D1),
+                          width: 1,
+                        ), // border
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 14,
+                      ),
+                      elevation: 0, // flat style, remove shadow
+                      // minimumSize: Size(50, 50),  // 90% of screen width
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 14,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomImage(imageSrc: AppIcons.send_icon),
+
+                        SizedBox(width: 8),
+
+                        CustomText(
+                          text: 'Use my current location',
+                          color: Color(0xFF4899D1),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ],
                     ),
-                    elevation: 0, // flat style, remove shadow
-                    // minimumSize: Size(50, 50),  // 90% of screen width
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+
+                  SizedBox(height: 8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomImage(imageSrc: AppIcons.send_icon),
-
-                      SizedBox(width: 8),
-
-                      CustomText(
-                        text: 'Use my current location',
-                        color: Color(0xFF4899D1),
+                      const CustomText(
+                        text: "Price/hour ",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        color: Color(0xFF0F0B18),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF4899D1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          '\$${_pricePerHour.toInt()}h',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontFamily: 'Lexend',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
 
-                SizedBox(height: 8),
-
-                const CustomText(
-                  text: "Price/hour ",
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-
-                Slider(
-                  value: 5.0, // Initial value
-                  min: 5.0, // Minimum value
-                  max: 100.0, // Maximum value
-                  // divisions: 95,       // Number of discrete steps
-                  activeColor: AppColors.lightBlue,
-                  onChanged: (double value) {
-                    // Handle the slider value change
-                    print("Selected distance: $value miles");
-                  },
-                ),
-
-                SizedBox(height: 12),
-
-                // CustomText(
-                //   text: "Select Rating",
-                //   fontSize: 16,
-                //   fontWeight: FontWeight.w400,
-                //   color: AppColors.black,
-                // ),
-
-                // SizedBox(height: 10),
-
-                // RatingBar.builder(
-                //   initialRating: 5,
-                //   minRating: 1,
-                //   itemSize: 40,
-                //   itemCount: 5,
-                //   itemPadding: EdgeInsets.symmetric(horizontal: 2),
-                //   itemBuilder: (context, _) =>
-                //       Icon(Icons.star, color: Colors.orange),
-                //   onRatingUpdate: (rating) {
-                //     print('Rating: $rating');
-                //   },
-                // ),
-
-                // SizedBox(width: 12),
-
-                ///Professional's Experience Section
-                _buildSectionHeader("Professional's experience"),
-                const SizedBox(height: 16),
-                _buildExperienceOptions(),
-                const SizedBox(height: 16),
-
-                ///Instant Booking Section
-                _buildSectionHeader("Instant Booking"),
-                const SizedBox(height: 16),
-                _buildInstantBookingOptions(),
-                const SizedBox(height: 16),
-
-                ///Gender Section
-                _buildSectionHeader("Gender"),
-                const SizedBox(height: 16),
-                _buildGenderOptions(),
-
-                const SizedBox(height: 16),
-
-                CustomText(
-                  text: "Spoken Language",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.black,
-                ),
-
-                // Obx(() {
-                //   return SizedBox(
-                //     height: 60,
-                //     child: Card(
-                //       color: AppColors.white,
-                //       elevation: 0.2,
-                //       child: DropdownButton<String>(
-                //         value: paymentController.selectedCountry.value.isEmpty
-                //             ? null
-                //             : paymentController
-                //                   .selectedCountry
-                //                   .value, // Bind to the GetX value
-                //         onChanged: (String? newValue) {
-                //           paymentController.selectedCountry.value = newValue!;
-                //         },
-                //         items: <String>['USA', 'Canada', 'India', 'Australia']
-                //             .map<DropdownMenuItem<String>>((String value) {
-                //               return DropdownMenuItem<String>(
-                //                 value: value,
-                //                 enabled: true,
-                //                 child: Padding(
-                //                   padding: const EdgeInsets.all(8.0),
-                //                   child: Text(value),
-                //                 ),
-                //               );
-                //             })
-                //             .toList(),
-                //         icon: Icon(
-                //           Icons.arrow_drop_down,
-                //         ), // Adding the dropdown icon
-                //         iconSize: 24, // Adjust the icon size if needed
-                //         isExpanded:
-                //             true, // Makes the DropdownButton take up all available space
-                //       ),
-                //     ),
-                //   );
-                // }),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 12,
-                  children: [
-                    Assets.icons.arrowDown.svg(),
-                    Text(
-                      'English',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: const Color(0xFF0F0B18),
-                        fontSize: 16,
-                        fontFamily: 'Lexend',
-                        fontWeight: FontWeight.w400,
-                        height: 1.50,
+                  SliderTheme(
+                    data: SliderThemeData(
+                      activeTrackColor: Color(0xFF4899D1),
+                      inactiveTrackColor: Color(0xFFE0E0E0),
+                      thumbColor: Colors.white,
+                      overlayColor: Color(0xFF4899D1).withValues(alpha: 0.2),
+                      thumbShape: RoundSliderThumbShape(
+                        enabledThumbRadius: 10,
+                        elevation: 2,
                       ),
+                      overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+                      trackHeight: 4,
                     ),
-                  ],
-                ),
-
-                const SizedBox(height: 16),
-
-                // CustomButton(
-                //   onTap: () {
-                //     Navigator.of(context).pop();
-                //     Get.toNamed(AppRoutes.ownerSearchScreen);
-                //   },
-                //   title: "Apply",
-                //   fontSize: 16, // Bigger button text for tablets
-                //   width: double.infinity,
-                //   height: 50,
-                //   fillColor: AppColors.appColors,
-                //   borderRadius: 24,
-                // ),
-                Container(
-                  width: double.infinity,
-                  height: 46,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 5,
-                  ),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFE9EBF3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    child: Slider(
+                      value: _pricePerHour,
+                      min: 5.0,
+                      max: 100.0,
+                      divisions: 95,
+                      onChanged: (double value) {
+                        setState(() {
+                          _pricePerHour = value;
+                        });
+                      },
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 176,
-                        children: [
-                          Text(
-                            'Clear all',
-                            style: TextStyle(
-                              color: const Color(0xFF0F0B18),
-                              fontSize: 14,
-                              fontFamily: 'Lexend',
-                              fontWeight: FontWeight.w600,
-                              height: 1.50,
-                            ),
-                          ),
-                          Container(
-                            width: 90,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFFF7A51D),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+
+                  SizedBox(height: 12),
+
+                  // CustomText(
+                  //   text: "Select Rating",
+                  //   fontSize: 16,
+                  //   fontWeight: FontWeight.w400,
+                  //   color: AppColors.black,
+                  // ),
+
+                  // SizedBox(height: 10),
+
+                  // RatingBar.builder(
+                  //   initialRating: 5,
+                  //   minRating: 1,
+                  //   itemSize: 40,
+                  //   itemCount: 5,
+                  //   itemPadding: EdgeInsets.symmetric(horizontal: 2),
+                  //   itemBuilder: (context, _) =>
+                  //       Icon(Icons.star, color: Colors.orange),
+                  //   onRatingUpdate: (rating) {
+                  //     print('Rating: $rating');
+                  //   },
+                  // ),
+
+                  // SizedBox(width: 12),
+
+                  ///Professional's Experience Section
+                  _buildSectionHeader("Professional's experience"),
+                  const SizedBox(height: 16),
+                  _buildExperienceOptions(),
+                  const SizedBox(height: 16),
+
+                  ///Instant Booking Section
+                  _buildSectionHeader("Instant Booking"),
+                  // 12.h.heightBox,
+                  _buildInstantBookingOptions(),
+                  // const SizedBox(height: 16),
+
+                  ///Gender Section
+                  _buildSectionHeader("Gender"),
+                  // const SizedBox(height: 16),
+                  _buildGenderOptions(),
+
+                  // const SizedBox(height: 16),
+                  CustomText(
+                    text: "Spoken Language",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.black,
+                  ),
+
+                  SizedBox(height: 12),
+
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      value: _selectedLanguage,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedLanguage = newValue!;
+                        });
+                      },
+                      items:
+                          <String>[
+                            'English',
+                            'Spanish',
+                            'French',
+                            'German',
+                            'Chinese',
+                            'Arabic',
+                            'Hindi',
+                            'Portuguese',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: const Color(0xFF0F0B18),
+                                  fontSize: 16,
+                                  fontFamily: 'Lexend',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
                               ),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color(0x6B4C4E64),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: -4,
+                            );
+                          }).toList(),
+                      selectedItemBuilder: (BuildContext context) {
+                        return <String>[
+                          'English',
+                          'Spanish',
+                          'French',
+                          'German',
+                          'Chinese',
+                          'Arabic',
+                          'Hindi',
+                          'Portuguese',
+                        ].map<Widget>((String value) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Assets.icons.arrowDown.svg(),
+                              SizedBox(width: 12),
+                              Text(
+                                value,
+                                style: TextStyle(
+                                  color: const Color(0xFF0F0B18),
+                                  fontSize: 16,
+                                  fontFamily: 'Lexend',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 22,
-                                    vertical: 7,
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    spacing: 8,
-                                    children: [
-                                      Text(
-                                        'Show',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontFamily: 'Lexend',
-                                          fontWeight: FontWeight.w600,
-                                          height: 1.50,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                              ),
+                            ],
+                          );
+                        }).toList();
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        height: 40,
+                        padding: EdgeInsets.zero,
                       ),
-                    ],
+                      dropdownStyleData: DropdownStyleData(
+                        maxHeight: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        elevation: 4,
+                        offset: Offset(0, 0),
+                      ),
+                      menuItemStyleData: MenuItemStyleData(
+                        height: 40,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: SizedBox.shrink(),
+                        iconSize: 0,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+
+                  const SizedBox(height: 16),
+
+                  // CustomButton(
+                  //   onTap: () {
+                  //     Navigator.of(context).pop();
+                  //     Get.toNamed(AppRoutes.ownerSearchScreen);
+                  //   },
+                  //   title: "Apply",
+                  //   fontSize: 16, // Bigger button text for tablets
+                  //   width: double.infinity,
+                  //   height: 50,
+                  //   fillColor: AppColors.appColors,
+                  //   borderRadius: 24,
+                  // ),
+                  Container(
+                    width: double.infinity,
+                    height: 46,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 5,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFE9EBF3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: 176,
+                          children: [
+                            Text(
+                              'Clear all',
+                              style: TextStyle(
+                                color: const Color(0xFF0F0B18),
+                                fontSize: 14,
+                                fontFamily: 'Lexend',
+                                fontWeight: FontWeight.w600,
+                                height: 1.50,
+                              ),
+                            ),
+                            Container(
+                              width: 90,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFFF7A51D),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x6B4C4E64),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: -4,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 22,
+                                      vertical: 7,
+                                    ),
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      spacing: 8,
+                                      children: [
+                                        Text(
+                                          'Show',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontFamily: 'Lexend',
+                                            fontWeight: FontWeight.w600,
+                                            height: 1.50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -409,24 +419,131 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  TextField _buildSearchTextField() {
-    return TextField(
-      // controller: ownerController.searchTextController,
-      decoration: InputDecoration(
-        hintText: 'Search Your Service',
-        hintStyle: TextStyle(
-          color: Color(0xFF4F4F59),
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
+  Widget _buildSearchTextField() {
+    final List<Map<String, dynamic>> serviceOptions = [
+      {'icon': AppIcons.service_all, 'label': 'All Service', 'isSvg': true},
+      {'icon': AppIcons.cleaning, 'label': 'Cleaning', 'isSvg': true},
+      {'icon': AppIcons.laundry, 'label': 'Laundry', 'isSvg': true},
+      {'icon': AppIcons.working, 'label': 'Handyman', 'isSvg': true},
+      {'icon': AppIcons.industry, 'label': 'Electrical', 'isSvg': true},
+    ];
+
+    return Column(
+      children: [
+        TextField(
+          controller: _searchController,
+          onChanged: (value) {
+            setState(() {
+              if (value.isEmpty) {
+                _showSuggestions = false;
+                _filteredServices = [];
+              } else {
+                _showSuggestions = true;
+                _filteredServices = serviceOptions
+                    .where(
+                      (service) => service['label']
+                          .toString()
+                          .toLowerCase()
+                          .contains(value.toLowerCase()),
+                    )
+                    .toList();
+              }
+            });
+          },
+          decoration: InputDecoration(
+            hintText: 'Search Your Service',
+            hintStyle: TextStyle(
+              color: Color(0xFF4F4F59),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Icon(Icons.search, color: Color(0xFF0F0B18)),
+            ),
+            filled: true,
+            fillColor: Color(0xFFE9EBF3),
+            border: _buildOutlineInputBorder(),
+            focusedBorder: _buildOutlineInputBorder(),
+            enabledBorder: _buildOutlineInputBorder(),
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          ),
         ),
-        prefixIcon: Icon(Icons.search, color: Color(0xFF0F0B18)),
-        filled: true,
-        fillColor: Color(0xFFE9EBF3),
-        border: _buildOutlineInputBorder(),
-        focusedBorder: _buildOutlineInputBorder(),
-        enabledBorder: _buildOutlineInputBorder(),
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-      ),
+        if (_showSuggestions && _filteredServices.isNotEmpty)
+          Container(
+            margin: EdgeInsets.only(top: 4),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Color(0xFF4F4F59), width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(8),
+              itemCount: _filteredServices.length,
+              itemBuilder: (context, index) {
+                final service = _filteredServices[index];
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      _searchController.text = service['label'];
+                      _selectedService = service['label'];
+                      _showSuggestions = false;
+                      _filteredServices = [];
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: index == _filteredServices.length - 1 ? 0 : 8,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: _selectedService == service['label']
+                          ? Color(0xFF4899D1)
+                          : Colors.white,
+                      border: Border.all(color: Color(0xFF4F4F59), width: 1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        CustomImage(
+                          imageSrc: service['icon'] as String,
+                          imageType: ImageType.svg,
+                          height: 20,
+                          width: 20,
+                          imageColor: _selectedService == service['label']
+                              ? Colors.white
+                              : null,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          service['label'] as String,
+                          style: TextStyle(
+                            color: _selectedService == service['label']
+                                ? Colors.white
+                                : Color(0xFF0F0B18),
+                            fontSize: 14,
+                            fontWeight: _selectedService == service['label']
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontFamily: 'Lexend',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 
@@ -437,58 +554,59 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: Text(
-        'Search',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: const Color(0xFF0F0B18),
-          fontSize: 24,
-          fontFamily: 'Lexend',
-          fontWeight: FontWeight.w600,
-          height: 1.40,
-          letterSpacing: -0.50,
+  Widget _buildAppBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Assets.icons.arrowLeft.svg(),
         ),
-      ),
-      centerTitle: true,
-      leading: IconButton(
-        onPressed: () {
-          Get.back();
-        },
-        icon: Assets.icons.arrowLeft.svg(),
-      ),
-      actions: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(width: 0.50, color: const Color(0xFF0D0D0D)),
-              borderRadius: BorderRadius.circular(2),
+        Text(
+          'Search',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFF0F0B18),
+            fontSize: 24,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.w600,
+            height: 1.40,
+            letterSpacing: -0.50,
+          ),
+        ),
+        GestureDetector(
+          onTap: _showCalendarPicker,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 0.50, color: const Color(0xFF0D0D0D)),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 4,
+              children: [
+                Text(
+                  DateFormat('dd MMM').format(_selectedDate),
+                  style: TextStyle(
+                    color: const Color(0xFF4F4F59),
+                    fontSize: 10,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                    height: 1.50,
+                  ),
+                ),
+                Assets.icons.calanderIcon.svg(),
+              ],
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 4,
-            children: [
-              Text(
-                '14 Sep',
-                style: TextStyle(
-                  color: const Color(0xFF4F4F59),
-                  fontSize: 10,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w400,
-                  height: 1.50,
-                ),
-              ),
-              Assets.icons.calanderIcon.svg(),
-            ],
-          ),
         ),
-
-        SizedBox(width: 16),
       ],
     );
   }
@@ -565,7 +683,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
         ),
 
         const SizedBox(width: 16),
-
         Row(
           children: [
             Checkbox(
@@ -637,5 +754,37 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
         ),
       ],
     );
+  }
+
+  Future<void> _showCalendarPicker() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color(0xFF4899D1), // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Color(0xFF0D0D0D), // Body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Color(0xFF4899D1), // Button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
   }
 }
