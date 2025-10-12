@@ -130,17 +130,11 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         width:
                             MediaQuery.of(context).size.width *
                             0.9, // Set a custom width for the carousel item
-                        decoration: BoxDecoration(
-                          color: AppColors.lightBlue,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF4899D1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         padding: EdgeInsets.all(6),
                         child: Row(
@@ -204,13 +198,16 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                   SizedBox(height: 16),
 
                   // Dots for Carousel
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      5,
-                      (index) => buildDot(index, context),
-                    ),
-                  ),
+                  Obx(() {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 4.w,
+                      children: List.generate(
+                        5,
+                        (index) => buildDot(index, context, ownerController),
+                      ),
+                    );
+                  }),
 
                   const SizedBox(height: 16),
 
@@ -539,16 +536,30 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
     );
   }
 
-  Container buildDot(int index, BuildContext context) {
+  Container buildDot(
+    int index,
+    BuildContext context,
+    OwnerController controller,
+  ) {
+    // return Container(
+    //   height: 4,
+    //   width: ownerController.sliderCurrentIndex.value == index ? 30 : 15,
+    //   margin: EdgeInsets.only(right: 5),
+    //   decoration: BoxDecoration(
+    //     borderRadius: BorderRadius.circular(20),
+    //     color: ownerController.sliderCurrentIndex.value == index
+    //         ? AppColors.lightRed
+    //         : AppColors.grey_1,
+    //   ),
+    // );
     return Container(
-      height: 4,
-      width: ownerController.sliderCurrentIndex.value == index ? 30 : 15,
-      margin: EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: ownerController.sliderCurrentIndex.value == index
-            ? AppColors.lightRed
-            : AppColors.grey_1,
+      width: 8,
+      height: 8,
+      decoration: ShapeDecoration(
+        color: controller.sliderCurrentIndex.value == index
+            ? const Color(0xFF4899D1)
+            : const Color(0xFFDDE1ED),
+        shape: OvalBorder(),
       ),
     );
   }
