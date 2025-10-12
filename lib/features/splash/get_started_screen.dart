@@ -97,39 +97,42 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
           ),
         ),
       ),
-      floatingActionButton: FilledButton(
-        onPressed: _onclickGetStarted,
-        style: FilledButton.styleFrom(
-          backgroundColor: Colors.white,
-          fixedSize: Size(double.maxFinite, 48),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: FilledButton(
+          onPressed: _onclickGetStarted,
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.white,
+            fixedSize: Size(double.maxFinite, 48),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 10,
-          children: [
-            Text(
-              'Get Started',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFFF7A51D),
-                fontSize: 16,
-                fontFamily: 'Lexend',
-                fontWeight: FontWeight.w600,
-                height: 1.50,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            children: [
+              Text(
+                'Get Started',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xFFF7A51D),
+                  fontSize: 16,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.w600,
+                  height: 1.50,
+                ),
               ),
-            ),
-            SvgPicture.asset(
-              'assets/icons/arrow-narrow-right.svg',
-              width: 24,
-              height: 24,
-            ),
-          ],
+              SvgPicture.asset(
+                'assets/icons/arrow-narrow-right.svg',
+                width: 24,
+                height: 24,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

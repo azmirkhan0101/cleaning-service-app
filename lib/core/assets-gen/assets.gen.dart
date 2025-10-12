@@ -91,11 +91,19 @@ class $AssetsIconsGen {
   /// File path: assets/icons/laundry.svg
   SvgGenImage get laundry => const SvgGenImage('assets/icons/laundry.svg');
 
+  /// File path: assets/icons/location-marker.svg
+  SvgGenImage get locationMarker =>
+      const SvgGenImage('assets/icons/location-marker.svg');
+
   /// File path: assets/icons/message.svg
   SvgGenImage get message => const SvgGenImage('assets/icons/message.svg');
 
   /// File path: assets/icons/note.svg
   SvgGenImage get note => const SvgGenImage('assets/icons/note.svg');
+
+  /// File path: assets/icons/notification-bell.svg
+  SvgGenImage get notificationBell =>
+      const SvgGenImage('assets/icons/notification-bell.svg');
 
   /// File path: assets/icons/opport.svg
   SvgGenImage get opport => const SvgGenImage('assets/icons/opport.svg');
@@ -110,6 +118,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
+
+  /// File path: assets/icons/search.svg
+  SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
 
   /// File path: assets/icons/send_icon.svg
   SvgGenImage get sendIcon => const SvgGenImage('assets/icons/send_icon.svg');
@@ -158,12 +169,15 @@ class $AssetsIconsGen {
     inboxOutline,
     industry,
     laundry,
+    locationMarker,
     message,
     note,
+    notificationBell,
     opport,
     profileFilled,
     profileOutliine,
     profile,
+    search,
     sendIcon,
     serviceOutline,
     service,
