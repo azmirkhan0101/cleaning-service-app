@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/features/owner/booking/owner_booking_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/home/owner_home_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/core/features/owner/service/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-
 
 class OwnerNavBar extends StatefulWidget {
   final int currentIndex;
@@ -32,9 +30,7 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
     AppIcons.booking,
     AppIcons.inbox,
     AppIcons.profile,
-
   ];
-
 
   final List<String> unselectedIcon = [
     AppIcons.home,
@@ -62,7 +58,6 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-
         final isTablet = constraints.maxWidth > 600;
 
         return Container(
@@ -70,10 +65,10 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
           decoration: BoxDecoration(
             color: AppColors.grey_3.withOpacity(0.5),
             borderRadius: BorderRadius.only(
-                topLeft:Radius.circular(50),
-                topRight: Radius.circular(50),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12)
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12),
             ),
           ),
           height: 80.h, // Adjust height for tablets
@@ -84,7 +79,8 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Equal spacing
             children: List.generate(
               selectedIcon.length,
-                  (index) => Expanded( // Ensures even distribution
+              (index) => Expanded(
+                // Ensures even distribution
                 child: GestureDetector(
                   onTap: () => onTap(index),
                   child: Column(
@@ -112,102 +108,102 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
       shadowColor: AppColors.lightBlue,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft:Radius.circular(50),
-            topRight: Radius.circular(50),
-            bottomLeft: Radius.circular(12),
-            bottomRight: Radius.circular(12)
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(12),
         ),
       ),
       color: Colors.transparent,
       child: Container(
         height: 70.h,
-        width:  70.w,
+        width: 70.w,
         decoration: BoxDecoration(
           color: AppColors.lightBlue,
-          borderRadius:  BorderRadius.only(
-              topLeft:Radius.circular(50),
-              topRight: Radius.circular(50),
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12)
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+            bottomLeft: Radius.circular(12),
+            bottomRight: Radius.circular(12),
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           /* SvgPicture.asset(
+            /* SvgPicture.asset(
               selectedIcon[index],
               height:24.h,
               width: 24.w,
               color: AppColors.white_50,
             ),
 */
-         Stack(
-           clipBehavior: Clip.none,
-           children: [
-             SvgPicture.asset(
-               unselectedIcon[index],
-               height: 24.h,
-               width: 24.w,
-               color: AppColors.grey_1,
-             ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SvgPicture.asset(
+                  unselectedIcon[index],
+                  height: 24.h,
+                  width: 24.w,
+                  color: AppColors.grey_1,
+                ),
 
-             if(index==2)
-               Positioned(
-                 top: -4,
-                 right: -10,
-                 child: Container(
-                   padding: const EdgeInsets.all(4),
-                   decoration: BoxDecoration(
-                     color:  AppColors.red,
-                     // color: Colors.green,
-                     shape: BoxShape.circle,
-                     border: Border.all(color: Colors.white, width: 1.5),
-                   ),
-                   constraints: const BoxConstraints(
-                     minWidth: 20,
-                     minHeight: 20,
-                   ),
-                   child: Text(
-                     '7',
-                     style: TextStyle(
-                       color: Colors.white,
-                       fontSize: 10,
-                       fontWeight: FontWeight.bold,
-                     ),
-                     textAlign: TextAlign.center,
-                   ),
-                 ),
-               ),
+                if (index == 2)
+                  Positioned(
+                    top: -4,
+                    right: -10,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.red,
+                        // color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
 
-             if(index==3)
-               Positioned(
-                 top: -4,
-                 right: -4,
-                 child: Container(
-                   padding: const EdgeInsets.all(4),
-                   decoration: BoxDecoration(
-                     color:  AppColors.red,
-                     // color: Colors.green,
-                     shape: BoxShape.circle,
-                     border: Border.all(color: Colors.white, width: 1.5),
-                   ),
-                   constraints: const BoxConstraints(
-                     minWidth: 20,
-                     minHeight: 20,
-                   ),
-                   child: Text(
-                     '7',
-                     style: TextStyle(
-                       color: Colors.white,
-                       fontSize: 10,
-                       fontWeight: FontWeight.bold,
-                     ),
-                     textAlign: TextAlign.center,
-                   ),
-                 ),
-               ),
-           ],
-         ),
+                if (index == 3)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.red,
+                        // color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
 
             SizedBox(height: 6),
             CustomText(
@@ -227,17 +223,15 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
- /*       SvgPicture.asset(
+        /*       SvgPicture.asset(
           unselectedIcon[index],
           height: 24.h,
           width: 24.w,
           color: AppColors.grey_1,
         ),*/
-
         Stack(
           clipBehavior: Clip.none,
           children: [
-
             SvgPicture.asset(
               unselectedIcon[index],
               height: 24.h,
@@ -245,42 +239,42 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
               color: AppColors.grey_1,
             ),
 
-            if(index==2)
-            Positioned(
-              top: -4,
-              right: -10,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color:  AppColors.red,
-                  // color: Colors.green,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1.5),
-                ),
-                constraints: const BoxConstraints(
-                  minWidth: 20,
-                  minHeight: 20,
-                ),
-                child: Text(
-                  '7',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
+            if (index == 2)
+              Positioned(
+                top: -4,
+                right: -10,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: AppColors.red,
+                    // color: Colors.green,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1.5),
                   ),
-                  textAlign: TextAlign.center,
+                  constraints: const BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
+                  child: Text(
+                    '7',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
 
-            if(index==3)
+            if (index == 3)
               Positioned(
                 top: -4,
                 right: -4,
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color:  AppColors.red,
+                    color: AppColors.red,
                     // color: Colors.green,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 1.5),
@@ -302,7 +296,6 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
               ),
           ],
         ),
-
 
         SizedBox(height: 4),
         CustomText(
@@ -334,7 +327,7 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
           break;
 
         case 4:
-            Get.offAll(() => OwnerProfileScreen());
+          Get.offAll(() => OwnerProfileScreen());
           break;
       }
     }
