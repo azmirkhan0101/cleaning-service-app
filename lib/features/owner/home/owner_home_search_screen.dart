@@ -7,8 +7,10 @@ import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class OwnerHomeSearchScreen extends StatefulWidget {
   const OwnerHomeSearchScreen({super.key});
@@ -31,6 +33,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   bool _showSuggestions = false;
   List<Map<String, dynamic>> _filteredServices = [];
+  String _selectedLanguage = 'English';
 
   @override
   void dispose() {
@@ -55,11 +58,10 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildAppBar(),
+                  SizedBox(height: 16.h),
                   _buildSearchTextField(),
 
                   SizedBox(height: 16),
@@ -194,17 +196,16 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
                   ///Instant Booking Section
                   _buildSectionHeader("Instant Booking"),
-                  const SizedBox(height: 16),
+                  // 12.h.heightBox,
                   _buildInstantBookingOptions(),
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 16),
 
                   ///Gender Section
                   _buildSectionHeader("Gender"),
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 16),
                   _buildGenderOptions(),
 
-                  const SizedBox(height: 16),
-
+                  // const SizedBox(height: 16),
                   CustomText(
                     text: "Spoken Language",
                     fontSize: 16,
@@ -212,63 +213,93 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     color: AppColors.black,
                   ),
 
-                  // Obx(() {
-                  //   return SizedBox(
-                  //     height: 60,
-                  //     child: Card(
-                  //       color: AppColors.white,
-                  //       elevation: 0.2,
-                  //       child: DropdownButton<String>(
-                  //         value: paymentController.selectedCountry.value.isEmpty
-                  //             ? null
-                  //             : paymentController
-                  //                   .selectedCountry
-                  //                   .value, // Bind to the GetX value
-                  //         onChanged: (String? newValue) {
-                  //           paymentController.selectedCountry.value = newValue!;
-                  //         },
-                  //         items: <String>['USA', 'Canada', 'India', 'Australia']
-                  //             .map<DropdownMenuItem<String>>((String value) {
-                  //               return DropdownMenuItem<String>(
-                  //                 value: value,
-                  //                 enabled: true,
-                  //                 child: Padding(
-                  //                   padding: const EdgeInsets.all(8.0),
-                  //                   child: Text(value),
-                  //                 ),
-                  //               );
-                  //             })
-                  //             .toList(),
-                  //         icon: Icon(
-                  //           Icons.arrow_drop_down,
-                  //         ), // Adding the dropdown icon
-                  //         iconSize: 24, // Adjust the icon size if needed
-                  //         isExpanded:
-                  //             true, // Makes the DropdownButton take up all available space
-                  //       ),
-                  //     ),
-                  //   );
-                  // }),
                   SizedBox(height: 12),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 12,
-                    children: [
-                      Assets.icons.arrowDown.svg(),
-                      Text(
-                        'English',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: const Color(0xFF0F0B18),
-                          fontSize: 16,
-                          fontFamily: 'Lexend',
-                          fontWeight: FontWeight.w400,
-                          height: 1.50,
-                        ),
+
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      value: _selectedLanguage,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedLanguage = newValue!;
+                        });
+                      },
+                      items:
+                          <String>[
+                            'English',
+                            'Spanish',
+                            'French',
+                            'German',
+                            'Chinese',
+                            'Arabic',
+                            'Hindi',
+                            'Portuguese',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: const Color(0xFF0F0B18),
+                                  fontSize: 16,
+                                  fontFamily: 'Lexend',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                      selectedItemBuilder: (BuildContext context) {
+                        return <String>[
+                          'English',
+                          'Spanish',
+                          'French',
+                          'German',
+                          'Chinese',
+                          'Arabic',
+                          'Hindi',
+                          'Portuguese',
+                        ].map<Widget>((String value) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Assets.icons.arrowDown.svg(),
+                              SizedBox(width: 12),
+                              Text(
+                                value,
+                                style: TextStyle(
+                                  color: const Color(0xFF0F0B18),
+                                  fontSize: 16,
+                                  fontFamily: 'Lexend',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList();
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        height: 40,
+                        padding: EdgeInsets.zero,
                       ),
-                    ],
+                      dropdownStyleData: DropdownStyleData(
+                        maxHeight: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        elevation: 4,
+                        offset: Offset(0, 0),
+                      ),
+                      menuItemStyleData: MenuItemStyleData(
+                        height: 40,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: SizedBox.shrink(),
+                        iconSize: 0,
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 16),
@@ -523,29 +554,28 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      title: Text(
-        'Search',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: const Color(0xFF0F0B18),
-          fontSize: 24,
-          fontFamily: 'Lexend',
-          fontWeight: FontWeight.w600,
-          height: 1.40,
-          letterSpacing: -0.50,
+  Widget _buildAppBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Assets.icons.arrowLeft.svg(),
         ),
-      ),
-      centerTitle: true,
-      leading: IconButton(
-        onPressed: () {
-          Get.back();
-        },
-        icon: Assets.icons.arrowLeft.svg(),
-      ),
-      actions: [
+        Text(
+          'Search',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFF0F0B18),
+            fontSize: 24,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.w600,
+            height: 1.40,
+            letterSpacing: -0.50,
+          ),
+        ),
         GestureDetector(
           onTap: _showCalendarPicker,
           child: Container(
@@ -577,8 +607,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
             ),
           ),
         ),
-
-        SizedBox(width: 16),
       ],
     );
   }
@@ -655,7 +683,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
         ),
 
         const SizedBox(width: 16),
-
         Row(
           children: [
             Checkbox(
