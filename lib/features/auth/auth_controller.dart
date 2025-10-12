@@ -4,18 +4,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class AuthController extends GetxController {
-
-
-
   RxBool rememberPassword = false.obs;
 
+  Rx<TextEditingController> signupNameController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
+
+  Rx<TextEditingController> signupPhoneController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
+
+  Rx<TextEditingController> signupEmailController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
+
+  Rx<TextEditingController> signupPasswordController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
+
+  Rx<TextEditingController> signupConfirmPasswordController =
+      TextEditingController(text: kDebugMode ? "" : "").obs;
+
+  Rx<TextEditingController> signupReferralController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
 
   Rx<TextEditingController> loginEmailController = TextEditingController(
     text: kDebugMode ? "" : "",
   ).obs;
-
 
   Rx<TextEditingController> loginPasswordController = TextEditingController(
     text: kDebugMode ? "" : "",
