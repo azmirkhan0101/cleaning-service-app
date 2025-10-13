@@ -50,7 +50,8 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Assets.images.onboardingBg.path),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
+            alignment: Alignment(0, -500),
           ),
         ),
         child: SafeArea(

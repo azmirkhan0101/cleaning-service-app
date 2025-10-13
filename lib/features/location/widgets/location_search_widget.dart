@@ -1,0 +1,205 @@
+import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class LocationSearchWidget extends StatefulWidget {
+  final LocationController controller;
+  final String hintText;
+  final VoidCallback? onResultSelected;
+  final bool showLabel;
+  final String? labelText;
+
+  const LocationSearchWidget({
+    super.key,
+    required this.controller,
+    this.hintText = "Search for a location...",
+    this.onResultSelected,
+    this.showLabel = false,
+    this.labelText,
+  });
+
+  @override
+  State<LocationSearchWidget> createState() => _LocationSearchWidgetState();
+}
+
+class _LocationSearchWidgetState extends State<LocationSearchWidget> {
+  void _onTextChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to text changes to update UI
+    widget.controller.selectedAddress.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    // Remove listener to prevent memory leaks and setState after dispose
+    widget.controller.selectedAddress.removeListener(_onTextChanged);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.showLabel && widget.labelText != null) ...[
+          Text(
+            widget.labelText!,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+        ],
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey.shade300, width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: TextField(
+            controller: widget.controller.selectedAddress,
+            onChanged: (value) {
+              widget.controller.searchLocations(value);
+            },
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
+              prefixIcon: Icon(Icons.search, color: Colors.grey),
+              suffixIcon: widget.controller.selectedAddress.text.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(Icons.clear, color: Colors.grey),
+                      onPressed: () {
+                        widget.controller.selectedAddress.clear();
+                        widget.controller.clearSearchResults();
+                      },
+                    )
+                  : null,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
+            ),
+            style: TextStyle(fontSize: 14),
+          ),
+        ),
+
+        // Search results dropdown
+        Obx(
+          () =>
+              widget.controller.showSearchResults.value &&
+                  widget.controller.searchResults.isNotEmpty
+              ? Container(
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade300, width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  constraints: BoxConstraints(maxHeight: 300),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.controller.searchResults.length,
+                    itemBuilder: (context, index) {
+                      final result = widget.controller.searchResults[index];
+                      return InkWell(
+                        onTap: () {
+                          widget.controller.selectSearchResult(result);
+                          if (widget.onResultSelected != null) {
+                            widget.onResultSelected!();
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            border:
+                                index <
+                                    widget.controller.searchResults.length - 1
+                                ? Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey.shade200,
+                                      width: 1,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 20,
+                                color: Colors.grey.shade600,
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      result['main_text']?.toString() ??
+                                          'Unknown location',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black87,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    if ((result['secondary_text']?.toString() ??
+                                            '')
+                                        .isNotEmpty) ...[
+                                      SizedBox(height: 2),
+                                      Text(
+                                        result['secondary_text']?.toString() ??
+                                            '',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : SizedBox.shrink(),
+        ),
+      ],
+    );
+  }
+}

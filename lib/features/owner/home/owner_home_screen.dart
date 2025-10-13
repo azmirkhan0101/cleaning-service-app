@@ -11,6 +11,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/demo/demo_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_search_screen.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
@@ -444,7 +445,10 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
       children: [
         Row(
           children: [
-            IconWhiteCircleBackground(icon: Assets.icons.locationMarker.svg()),
+            IconWhiteCircleBackground(
+              icon: Assets.icons.locationMarker.svg(),
+              onTap: () => Get.to(DemoScreen()),
+            ),
             SizedBox(width: 6),
 
             Column(
