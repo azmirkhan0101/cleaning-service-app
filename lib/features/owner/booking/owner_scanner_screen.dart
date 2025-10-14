@@ -1,15 +1,14 @@
-
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 
 class OwnerScannerScreen extends StatefulWidget {
   const OwnerScannerScreen({super.key});
@@ -22,34 +21,30 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "QR Code Scanner",leftIcon: true,),
+      appBar: CustomAppbar(titleName: "QR Code Scanner", leftIcon: true),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           InkWell(
-            onTap: (){
+            onTap: () {
               _showRatingDialog(context);
             },
             child: Center(
-              child: CustomImage(imageSrc: AppImages.qr_code_image,
+              child: CustomImage(
+                imageSrc: AppImages.qr_code_image,
                 width: 200,
                 height: 200,
-                fit: BoxFit.cover,),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
-          SizedBox(
-            height: 24,
-          ),
-
-
+          SizedBox(height: 24),
         ],
       ),
     );
   }
-
 
   void _showRatingDialog(BuildContext context) {
     showDialog(
@@ -60,21 +55,25 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
           insetPadding: EdgeInsets.all(8),
           contentPadding: EdgeInsets.all(8),
           // Optional title if provided
-           title: Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children: [
-               CustomText(text: "Completed",
-                 fontSize: 22,
-                 fontWeight: FontWeight.w600,
-                 color:AppColors.black,
-               ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText2(
+                text: "Completed",
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+                color: AppColors.black,
+              ),
 
-               IconButton(onPressed: (){
-                 Navigator.of(context).pop();
-               }, icon: Icon(Icons.close,size: 32,))
-             ],
-           ),
-           content: SizedBox(
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close, size: 32),
+              ),
+            ],
+          ),
+          content: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -84,15 +83,14 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
                 children: [
                   CustomImage(imageSrc: AppImages.alertImage),
 
-                  CustomText(text: "Give your Rating",
+                  CustomText2(
+                    text: "Give your Rating",
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color:AppColors.black,
+                    color: AppColors.black,
                   ),
 
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 8),
 
                   SizedBox(height: 10),
                   RatingBar.builder(
@@ -101,10 +99,8 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
                     itemSize: 40,
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 2),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.orange,
-                    ),
+                    itemBuilder: (context, _) =>
+                        Icon(Icons.star, color: Colors.orange),
                     onRatingUpdate: (rating) {
                       print('Rating: $rating');
                     },
@@ -112,36 +108,33 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
 
                   SizedBox(height: 10),
 
-                /// password Field
-                CustomFormCard(
+                  /// password Field
+                  CustomFormCard(
                     titleColor: Colors.black,
                     title: "Comments",
                     hintText: "Nice work",
                     hasBackgroundColor: true,
-                    controller:TextEditingController()
-                ),
-
-                  SizedBox(height: 10),
-                  CustomText(text: 'Provider name: Jorge Bond',fontSize: 18,),
-
-                  SizedBox(
-                    height: 12,
+                    controller: TextEditingController(),
                   ),
 
-                  CustomButton(onTap: (){
+                  SizedBox(height: 10),
+                  CustomText2(text: 'Provider name: Jorge Bond', fontSize: 18),
 
-                    Get.offNamed(AppRoutes.ownerHomeScreen);
+                  SizedBox(height: 12),
 
-                    // Navigator.of(context).pop();
-                  },
+                  CustomButton(
+                    onTap: () {
+                      Get.offNamed(AppRoutes.ownerHomeScreen);
+
+                      // Navigator.of(context).pop();
+                    },
                     title: "submit",
                     fontSize: 16,
                     width: double.infinity,
-                    height:  50,
+                    height: 50,
                     fillColor: AppColors.appColors,
                     borderRadius: 24,
                   ),
-
                 ],
               ),
             ),

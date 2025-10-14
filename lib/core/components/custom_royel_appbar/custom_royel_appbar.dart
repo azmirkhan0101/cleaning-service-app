@@ -2,13 +2,13 @@
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../custom_text/custom_text.dart';
+
+import '../custom_text/custom_text_2.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? titleName;
   final String? rightIcon;
-   final void Function()? leftOnTap;
+  final void Function()? leftOnTap;
   final void Function()? rightOnTap;
   final bool? leftIcon;
   final double fontSize;
@@ -16,41 +16,40 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
     super.key,
     this.titleName,
-     this.leftOnTap,
+    this.leftOnTap,
     this.rightIcon,
     this.rightOnTap,
     this.leftIcon = false,
-    this.fontSize=22
+    this.fontSize = 22,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        toolbarHeight: 50,
-        elevation: 0,
-       foregroundColor: Colors.transparent,
-        centerTitle: true,
-        scrolledUnderElevation: 0,
-        actions: [
-
-          IconButton(
-              onPressed: () {
-                rightOnTap!();
-              },
-              icon: rightIcon == null ? SizedBox():
-              CustomImage(imageSrc: rightIcon!, height: 26,width: 26,
-               )),
-        ],
-        backgroundColor: Colors.transparent,
-        leading: leftIcon == true
-            ? BackButton(color: AppColors.black,)
-            : null,
-        title: CustomText(
-          text: titleName ?? "",
-          fontSize: fontSize,
-          fontWeight: FontWeight.w700,
-          color: AppColors.black,
-        ));
+      toolbarHeight: 50,
+      elevation: 0,
+      foregroundColor: Colors.transparent,
+      centerTitle: true,
+      scrolledUnderElevation: 0,
+      actions: [
+        IconButton(
+          onPressed: () {
+            rightOnTap!();
+          },
+          icon: rightIcon == null
+              ? SizedBox()
+              : CustomImage(imageSrc: rightIcon!, height: 26, width: 26),
+        ),
+      ],
+      backgroundColor: Colors.transparent,
+      leading: leftIcon == true ? BackButton(color: AppColors.black) : null,
+      title: CustomText2(
+        text: titleName ?? "",
+        fontSize: fontSize,
+        fontWeight: FontWeight.w700,
+        color: AppColors.black,
+      ),
+    );
   }
 
   @override

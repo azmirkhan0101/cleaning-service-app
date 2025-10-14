@@ -2,7 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -108,7 +108,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
+                                CustomText2(
                                   text: service['title']!,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w600,
@@ -125,7 +125,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                                       size: 14,
                                     ),
                                     SizedBox(width: 4),
-                                    CustomText(
+                                    CustomText2(
                                       text: service['rating']!,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                             ),
                             SizedBox(height: 8),
                             // Additional Info
-                            CustomText(
+                            CustomText2(
                               text: 'Current booking: ${service['bookings']}',
                               fontSize: 12,
                               color: Colors.grey,
@@ -157,7 +157,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                                 ),
 
                                 SizedBox(width: 4),
-                                CustomText(
+                                CustomText2(
                                   text: 'Jorge Bond',
                                   fontSize: 12,
                                   color: Colors.black,
@@ -167,7 +167,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                             ),
                             SizedBox(height: 8),
 
-                            CustomText(
+                            CustomText2(
                               text: 'Start from- Instant Booking',
                               fontSize: 10,
                               color: Colors.grey,
@@ -179,7 +179,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
+                                CustomText2(
                                   text: service['price']!,
                                   fontSize: 12,
                                   color: AppColors.lightBlue,

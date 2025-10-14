@@ -2,8 +2,9 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../custom_button/custom_button.dart';
-import '../custom_text/custom_text.dart';
+import '../custom_text/custom_text_2.dart';
 import '../custom_text_field/custom_text_field.dart';
 
 class CustomQuickGoalPopup extends StatelessWidget {
@@ -19,8 +20,8 @@ class CustomQuickGoalPopup extends StatelessWidget {
   final TextEditingController quickPointController;
   final VoidCallback cancelButton;
   final VoidCallback submitButton;
-//  final String? Function(String?)? quickGoalValidaror;
-//  final String? Function(String?)? quickPointsValidaror;
+  //  final String? Function(String?)? quickGoalValidaror;
+  //  final String? Function(String?)? quickPointsValidaror;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -32,16 +33,14 @@ class CustomQuickGoalPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ///======================== Add Daliy Goal ===========================
-          const CustomText(
+          const CustomText2(
             textAlign: TextAlign.start,
             text: "AppStrings.addQuickGoal",
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: AppColors.black,
           ),
-          SizedBox(
-            height: 10.h,
-          ),
+          SizedBox(height: 10.h),
 
           ///======================== Line Border ===========================
           Container(
@@ -49,9 +48,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             color: AppColors.black,
           ),
-          SizedBox(
-            height: 10.h,
-          ),
+          SizedBox(height: 10.h),
 
           ///======================== Add New Goal ===========================
           Row(
@@ -62,7 +59,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                   fieldBorderRadius: 10,
                   fieldBorderColor: AppColors.black,
                   fillColor: AppColors.white,
-                 // hintText: AppStrings.addQuickGoal,
+                  // hintText: AppStrings.addQuickGoal,
                   textEditingController: quickGoalController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -72,9 +69,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
-                width: 10.w,
-              ),
+              SizedBox(width: 10.w),
               Expanded(
                 flex: 1,
                 child: CustomTextField(
@@ -82,7 +77,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                   fieldBorderRadius: 10,
                   fieldBorderColor: AppColors.black,
                   fillColor: AppColors.white,
-                 // hintText: AppStrings.point,
+                  // hintText: AppStrings.point,
                   textEditingController: quickPointController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -94,9 +89,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 10.h,
-          ),
+          SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -106,7 +99,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                   Navigator.pop(context);
                   cancelButton();
                 },
-               // title: AppStrings.cancel,
+                // title: AppStrings.cancel,
                 isBorder: true,
                 height: 40.h,
                 width: 80.w,
@@ -116,9 +109,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                 borderWidth: 1,
                 textColor: AppColors.black,
               ),
-              SizedBox(
-                width: 10.w,
-              ),
+              SizedBox(width: 10.w),
 
               ///======================== Submit Button ===========================
               CustomButton(
@@ -127,7 +118,7 @@ class CustomQuickGoalPopup extends StatelessWidget {
                     submitButton();
                   }
                 },
-               // title: AppStrings.submit,
+                // title: AppStrings.submit,
                 height: 40.h,
                 width: 80.w,
                 fontSize: 14,
@@ -135,9 +126,9 @@ class CustomQuickGoalPopup extends StatelessWidget {
                 borderRadius: 15,
                 borderWidth: 2,
                 textColor: AppColors.white,
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

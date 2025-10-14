@@ -1,7 +1,7 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
@@ -73,7 +73,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
       child: Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
-          title: CustomText(
+          title: CustomText2(
             text: 'My Booking',
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -311,7 +311,7 @@ class ServiceCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: 'Cleaning Service',
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -334,7 +334,7 @@ class ServiceCard extends StatelessWidget {
                                     : AppColors.white_50,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: CustomText(
+                              child: CustomText2(
                                 text: status,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -345,7 +345,7 @@ class ServiceCard extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 8),
-                      CustomText(
+                      CustomText2(
                         text: 'Location: Mohakhali, Aqua Tower 10th Floor',
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
@@ -353,7 +353,7 @@ class ServiceCard extends StatelessWidget {
                         textAlign: TextAlign.start,
                       ),
                       SizedBox(height: 8),
-                      CustomText(
+                      CustomText2(
                         text: serviceDetails,
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
@@ -368,7 +368,7 @@ class ServiceCard extends StatelessWidget {
             ),
             SizedBox(height: 16),
 
-            CustomText(
+            CustomText2(
               text: 'Price Details',
               color: AppColors.black,
               fontWeight: FontWeight.w600,
@@ -379,7 +379,7 @@ class ServiceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
+                CustomText2(
                   text: 'Price',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -387,15 +387,15 @@ class ServiceCard extends StatelessWidget {
                   textAlign: TextAlign.start,
                   color: AppColors.black,
                 ),
-                CustomText(text: '€${price.toStringAsFixed(2)}hr'),
+                CustomText2(text: '€${price.toStringAsFixed(2)}hr'),
               ],
             ),
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(text: 'Duration'),
-                CustomText(text: '$duration hr'),
+                CustomText2(text: 'Duration'),
+                CustomText2(text: '$duration hr'),
               ],
             ),
             SizedBox(height: 8),
@@ -403,12 +403,12 @@ class ServiceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
+                CustomText2(
                   text: 'Total',
                   fontWeight: FontWeight.bold,
                   color: AppColors.lightBlue,
                 ),
-                CustomText(
+                CustomText2(
                   text: '€${(price * duration).toStringAsFixed(2)}',
                   fontWeight: FontWeight.w600,
                   color: AppColors.lightBlue,

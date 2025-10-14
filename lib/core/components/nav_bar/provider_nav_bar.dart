@@ -1,21 +1,16 @@
-
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
+import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
-import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
-import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-
-
 
 class NavBar extends StatefulWidget {
   final int currentIndex;
@@ -34,9 +29,7 @@ class _NavBarState extends State<NavBar> {
     AppIcons.service,
     AppIcons.inbox,
     AppIcons.profile,
-
   ];
-
 
   final List<String> unselectedIcon = [
     AppIcons.home,
@@ -64,7 +57,6 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-
         final isTablet = constraints.maxWidth > 600;
 
         return Container(
@@ -72,10 +64,10 @@ class _NavBarState extends State<NavBar> {
           decoration: BoxDecoration(
             color: AppColors.grey_3.withOpacity(0.5),
             borderRadius: BorderRadius.only(
-                topLeft:Radius.circular(50),
-                topRight: Radius.circular(50),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12)
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12),
             ),
           ),
           height: 80.h, // Adjust height for tablets
@@ -86,7 +78,8 @@ class _NavBarState extends State<NavBar> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Equal spacing
             children: List.generate(
               selectedIcon.length,
-                  (index) => Expanded( // Ensures even distribution
+              (index) => Expanded(
+                // Ensures even distribution
                 child: GestureDetector(
                   onTap: () => onTap(index),
                   child: Column(
@@ -114,29 +107,29 @@ class _NavBarState extends State<NavBar> {
       shadowColor: AppColors.lightBlue,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft:Radius.circular(50),
-            topRight: Radius.circular(50),
-            bottomLeft: Radius.circular(12),
-            bottomRight: Radius.circular(12)
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(12),
         ),
       ),
       color: Colors.transparent,
       child: Container(
         height: 70.h,
-        width:  70.w,
+        width: 70.w,
         decoration: BoxDecoration(
           color: AppColors.lightBlue,
-          borderRadius:  BorderRadius.only(
-              topLeft:Radius.circular(50),
-              topRight: Radius.circular(50),
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12)
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+            bottomLeft: Radius.circular(12),
+            bottomRight: Radius.circular(12),
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          /*  SvgPicture.asset(
+            /*  SvgPicture.asset(
               selectedIcon[index],
               height:24.h,
               width: 24.w,
@@ -153,14 +146,14 @@ class _NavBarState extends State<NavBar> {
                   color: AppColors.grey_1,
                 ),
 
-                if(index==1)
+                if (index == 1)
                   Positioned(
                     top: -4,
                     right: -10,
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color:  AppColors.red,
+                        color: AppColors.red,
                         // color: Colors.green,
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 1.5),
@@ -181,14 +174,14 @@ class _NavBarState extends State<NavBar> {
                     ),
                   ),
 
-                if(index==3)
+                if (index == 3)
                   Positioned(
                     top: -4,
                     right: -4,
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color:  AppColors.red,
+                        color: AppColors.red,
                         // color: Colors.green,
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 1.5),
@@ -211,7 +204,7 @@ class _NavBarState extends State<NavBar> {
               ],
             ),
             SizedBox(height: 6),
-            CustomText(
+            CustomText2(
               text: userNavText[index],
               color: AppColors.white,
               fontWeight: FontWeight.w600,
@@ -227,8 +220,7 @@ class _NavBarState extends State<NavBar> {
   Widget _buildUnselectedNavItem(int index, bool isTablet) {
     return Column(
       children: [
-
-       /* SvgPicture.asset(
+        /* SvgPicture.asset(
           unselectedIcon[index],
           height: 24.h,
           width: 24.w,
@@ -244,14 +236,14 @@ class _NavBarState extends State<NavBar> {
               color: AppColors.grey_1,
             ),
 
-            if(index==1)
+            if (index == 1)
               Positioned(
                 top: -4,
                 right: -10,
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color:  AppColors.red,
+                    color: AppColors.red,
                     // color: Colors.green,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 1.5),
@@ -272,14 +264,14 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
 
-            if(index==3)
+            if (index == 3)
               Positioned(
                 top: -4,
                 right: -4,
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color:  AppColors.red,
+                    color: AppColors.red,
                     // color: Colors.green,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 1.5),
@@ -302,7 +294,7 @@ class _NavBarState extends State<NavBar> {
           ],
         ),
         SizedBox(height: 4),
-        CustomText(
+        CustomText2(
           text: userNavText[index],
           color: AppColors.grey_1,
           fontWeight: FontWeight.w600,
@@ -317,13 +309,13 @@ class _NavBarState extends State<NavBar> {
     if (index != bottomNavIndex) {
       switch (index) {
         case 0:
-         Get.offAll(() => ProviderHome());
+          Get.offAll(() => ProviderHome());
           break;
         case 1:
           Get.offAll(() => BookingsScreen());
           break;
         case 2:
-            Get.offAll(() => ServiceScreen());
+          Get.offAll(() => ServiceScreen());
 
           break;
         case 3:

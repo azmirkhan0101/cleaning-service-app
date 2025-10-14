@@ -1,6 +1,6 @@
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/features/auth/selection_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -20,7 +20,7 @@ class SetRoleSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         // Main Heading and Subheading
-        const CustomText(
+        const CustomText2(
           text: 'How will you use our app?',
           fontSize: 24,
           fontWeight: FontWeight.w600,
@@ -29,7 +29,7 @@ class SetRoleSection extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        CustomText(
+        CustomText2(
           text:
               'Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.',
           fontSize: 12,

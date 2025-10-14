@@ -1,14 +1,13 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
-import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
@@ -18,52 +17,43 @@ class BookingsScreen extends StatefulWidget {
 }
 
 class _BookingsScreenState extends State<BookingsScreen> {
-
   final bookingController = Get.find<BookingController>();
 
-  String status="";
+  String status = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-
     _initializeData();
   }
 
   void _initializeData() async {
-
     final arguments = Get.arguments;
 
-    if(arguments != null && arguments.isNotEmpty) {
-
+    if (arguments != null && arguments.isNotEmpty) {
       if (Get.arguments[0]["status"] != null) {
         status = Get.arguments[0]["status"];
 
-        if(status=="Pending"){
+        if (status == "Pending") {
           bookingController.selectedIndex(1);
-
-        }if(status=="accept"){
+        }
+        if (status == "accept") {
           bookingController.selectedIndex(2);
-
-        } if(status=="reject"){
+        }
+        if (status == "reject") {
           bookingController.selectedIndex(4);
-
-        } if(status=="completed"){
+        }
+        if (status == "completed") {
           bookingController.selectedIndex(3);
         }
-
       }
     }
-    
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     // Create a List of Strings
     List<String> statusList = [
       'Pending',
@@ -79,13 +69,15 @@ class _BookingsScreenState extends State<BookingsScreen> {
       child: Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
-          title: CustomText(text: 'My Booking',
-           fontSize: 24,
+          title: CustomText2(
+            text: 'My Booking',
+            fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50.0), // Height of the tab bar
-            child: Obx(()=> Column(
+            child: Obx(
+              () => Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   /// Custom Tab Button Widget
@@ -100,167 +92,165 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     unselectedColor: AppColors.grey_1,
                   ),
 
-                 ///_buildTab('All', 0),
+                  ///_buildTab('All', 0),
                 ],
               ),
             ),
           ),
         ),
         body: SingleChildScrollView(
-          child: Obx(
-            () {
-
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-
-                  /// all list
-                  if(bookingController.selectedIndex.value==0)
-                    ListView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context,index){
-
-                          return  InkWell(
-                            onTap: (){
-
-                              Get.toNamed(AppRoutes.serviceDetailsScreen,
-                                  arguments: [
-                                    {
-                                      "status":statusList[index].toLowerCase()
-                                    }
-                                  ]);
-                            },
-                            child: ServiceCard(
-                              status: statusList[index],
-                              imageUrl: AppImages.clean_image, // Replace with actual image URL
-                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                              price: 25.00,
-                              duration: 2,
-                            ),
-                          );
-                        }),
-
-                  /// Pending list
-                  if(bookingController.selectedIndex.value==1)
+          child: Obx(() {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /// all list
+                if (bookingController.selectedIndex.value == 0)
                   ListView.builder(
-                      itemCount: 6,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context,index){
-
-                     return  InkWell(
-                       onTap: (){
-                         Get.toNamed(AppRoutes.serviceDetailsScreen,
-                             arguments: [
-                               {
-                                 "status":statusList[index].toLowerCase()
-                               }
-                             ]);
-                       },
-                       child: ServiceCard(
-                        status: 'Pending',
-                        imageUrl: AppImages.clean_image, // Replace with actual image URL
-                        serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                        price: 25.00,
-                        duration: 2,
-                                           ),
-                     );
-                  }),
-
-
-                  /// ongoing list
-                  if(bookingController.selectedIndex.value==2)
-                    ListView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context,index){
-
-                          return  InkWell(
-                            onTap: (){
-
-                              Get.toNamed(AppRoutes.serviceDetailsScreen,
-                                  arguments: [
-                                    {
-                                      "status":"ongoing"
-                                    }
-                                  ]);
-                            },
-                            child: ServiceCard(
-                              status: 'Ongoing',
-                              imageUrl: AppImages.clean_image, // Replace with actual image URL
-                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                              price: 25.00,
-                              duration: 2,
-                            ),
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.serviceDetailsScreen,
+                            arguments: [
+                              {"status": statusList[index].toLowerCase()},
+                            ],
                           );
-                        }),
+                        },
+                        child: ServiceCard(
+                          status: statusList[index],
+                          imageUrl: AppImages
+                              .clean_image, // Replace with actual image URL
+                          serviceDetails:
+                              'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                          price: 25.00,
+                          duration: 2,
+                        ),
+                      );
+                    },
+                  ),
 
-                  /// completed list
-                  if(bookingController.selectedIndex.value==3)
-                    ListView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context,index){
-
-                          return  InkWell(
-                            onTap: (){
-
-                           Get.toNamed(AppRoutes.serviceDetailsScreen);
-
-                            },
-                            child: ServiceCard(
-                              status: 'Completed',
-                              imageUrl: AppImages.clean_image, // Replace with actual image URL
-                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                              price: 25.00,
-                              duration: 2,
-                            ),
+                /// Pending list
+                if (bookingController.selectedIndex.value == 1)
+                  ListView.builder(
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.serviceDetailsScreen,
+                            arguments: [
+                              {"status": statusList[index].toLowerCase()},
+                            ],
                           );
-                        }),
+                        },
+                        child: ServiceCard(
+                          status: 'Pending',
+                          imageUrl: AppImages
+                              .clean_image, // Replace with actual image URL
+                          serviceDetails:
+                              'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                          price: 25.00,
+                          duration: 2,
+                        ),
+                      );
+                    },
+                  ),
 
-                  /// cancelled list
-                  if(bookingController.selectedIndex.value==4)
-                    ListView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context,index){
-
-                          return  InkWell(
-                            onTap: (){
-
-                              Get.toNamed(AppRoutes.serviceDetailsScreen,
-                                  arguments: [
-                                  {
-                                  "status":"cancelled"
-                                  }
-                                  ]);
-
-                            },
-                            child: ServiceCard(
-                              status: 'Cancelled',
-                              imageUrl: AppImages.clean_image, // Replace with actual image URL
-                              serviceDetails: 'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-                              price: 25.00,
-                              duration: 2,
-                            ),
+                /// ongoing list
+                if (bookingController.selectedIndex.value == 2)
+                  ListView.builder(
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.serviceDetailsScreen,
+                            arguments: [
+                              {"status": "ongoing"},
+                            ],
                           );
-                        }),
-                ],
-              );
-            }
-          ),
+                        },
+                        child: ServiceCard(
+                          status: 'Ongoing',
+                          imageUrl: AppImages
+                              .clean_image, // Replace with actual image URL
+                          serviceDetails:
+                              'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                          price: 25.00,
+                          duration: 2,
+                        ),
+                      );
+                    },
+                  ),
+
+                /// completed list
+                if (bookingController.selectedIndex.value == 3)
+                  ListView.builder(
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.serviceDetailsScreen);
+                        },
+                        child: ServiceCard(
+                          status: 'Completed',
+                          imageUrl: AppImages
+                              .clean_image, // Replace with actual image URL
+                          serviceDetails:
+                              'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                          price: 25.00,
+                          duration: 2,
+                        ),
+                      );
+                    },
+                  ),
+
+                /// cancelled list
+                if (bookingController.selectedIndex.value == 4)
+                  ListView.builder(
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.serviceDetailsScreen,
+                            arguments: [
+                              {"status": "cancelled"},
+                            ],
+                          );
+                        },
+                        child: ServiceCard(
+                          status: 'Cancelled',
+                          imageUrl: AppImages
+                              .clean_image, // Replace with actual image URL
+                          serviceDetails:
+                              'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
+                          price: 25.00,
+                          duration: 2,
+                        ),
+                      );
+                    },
+                  ),
+              ],
+            );
+          }),
         ),
-       bottomNavigationBar: NavBar(currentIndex: 1),
+        bottomNavigationBar: NavBar(currentIndex: 1),
       ),
     );
   }
 }
-
 
 class ServiceCard extends StatelessWidget {
   final String status;
@@ -279,13 +269,11 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Card(
-        elevation: 0.5,
-        color: AppColors.white,
+    return Card(
+      elevation: 0.5,
+      color: AppColors.white,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Container(
         padding: EdgeInsets.all(8),
         child: Column(
@@ -304,27 +292,39 @@ class ServiceCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-               SizedBox(width: 16),
-                Expanded( // Wrap this Column in an Expanded widget
+                SizedBox(width: 16),
+                Expanded(
+                  // Wrap this Column in an Expanded widget
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: 'Cleaning Service',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                           Flexible(
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
-                                color:status=="Pending"? AppColors.danger:status=="Completed"?AppColors.normal:status=="Ongoing"?AppColors.lightBlue:status=="Cancelled"?AppColors.cancle:AppColors.white_50,
+                                color: status == "Pending"
+                                    ? AppColors.danger
+                                    : status == "Completed"
+                                    ? AppColors.normal
+                                    : status == "Ongoing"
+                                    ? AppColors.lightBlue
+                                    : status == "Cancelled"
+                                    ? AppColors.cancle
+                                    : AppColors.white_50,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: CustomText(
+                              child: CustomText2(
                                 text: status,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -335,7 +335,7 @@ class ServiceCard extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 8),
-                      CustomText(
+                      CustomText2(
                         text: 'Location: Mohakhali, Aqua Tower 10th Floor',
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
@@ -343,7 +343,7 @@ class ServiceCard extends StatelessWidget {
                         textAlign: TextAlign.start,
                       ),
                       SizedBox(height: 8),
-                      CustomText(
+                      CustomText2(
                         text: serviceDetails,
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
@@ -358,7 +358,7 @@ class ServiceCard extends StatelessWidget {
             ),
             SizedBox(height: 16),
 
-            CustomText(
+            CustomText2(
               text: 'Price Details',
               color: AppColors.black,
               fontWeight: FontWeight.w600,
@@ -369,7 +369,7 @@ class ServiceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
+                CustomText2(
                   text: 'Price',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -377,17 +377,15 @@ class ServiceCard extends StatelessWidget {
                   textAlign: TextAlign.start,
                   color: AppColors.black,
                 ),
-                CustomText(
-                  text: '€${price.toStringAsFixed(2)}hr',
-                ),
+                CustomText2(text: '€${price.toStringAsFixed(2)}hr'),
               ],
             ),
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(text: 'Duration'),
-                CustomText(text: '$duration hr'),
+                CustomText2(text: 'Duration'),
+                CustomText2(text: '$duration hr'),
               ],
             ),
             SizedBox(height: 8),
@@ -395,14 +393,14 @@ class ServiceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(text:
-                  'Total',
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.lightBlue,
+                CustomText2(
+                  text: 'Total',
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.lightBlue,
                 ),
-                CustomText(text:
-                  '€${(price * duration).toStringAsFixed(2)}',
-                   fontWeight: FontWeight.w600,
+                CustomText2(
+                  text: '€${(price * duration).toStringAsFixed(2)}',
+                  fontWeight: FontWeight.w600,
                   color: AppColors.lightBlue,
                 ),
               ],
@@ -411,6 +409,5 @@ class ServiceCard extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

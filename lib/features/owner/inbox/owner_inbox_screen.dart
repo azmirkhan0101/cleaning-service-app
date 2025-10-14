@@ -2,7 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -46,14 +46,14 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: "Mehedi Hassan",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             left: 10,
                           ),
 
-                          CustomText(
+                          CustomText2(
                             text: "This is text to use on this messages. ",
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -64,7 +64,7 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       ),
                     ],
                   ),
-                  CustomText(
+                  CustomText2(
                     text: "3.00 pm",
                     fontSize: 14,
                     color: AppColors.grey_2.withOpacity(0.5),
@@ -94,14 +94,14 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: "Joseph Miller",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             left: 10,
                           ),
 
-                          CustomText(
+                          CustomText2(
                             text: "This is text to use on this messages. ",
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -112,7 +112,7 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       ),
                     ],
                   ),
-                  CustomText(
+                  CustomText2(
                     text: "1d",
                     fontSize: 14,
                     color: AppColors.grey_2.withOpacity(0.5),
@@ -142,14 +142,14 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: "William Garcia",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             left: 10,
                           ),
 
-                          CustomText(
+                          CustomText2(
                             text: "This is text to use on this messages. ",
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -160,7 +160,7 @@ class _OwnerInboxScreenState extends State<OwnerInboxScreen> {
                       ),
                     ],
                   ),
-                  CustomText(
+                  CustomText2(
                     text: "1d",
                     fontSize: 14,
                     color: AppColors.grey_2.withOpacity(0.5),

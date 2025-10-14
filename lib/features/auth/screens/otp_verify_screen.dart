@@ -1,12 +1,10 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart'
-    show CustomImage;
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +39,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CustomText(
+                  CustomText2(
                     text: 'Verify Account',
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
@@ -49,7 +47,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
                   SizedBox(height: 8),
 
-                  CustomText(
+                  CustomText2(
                     text: 'Welcome back',
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -58,14 +56,14 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomText(
+                      CustomText2(
                         top: 40.h,
                         text: AppStrings.enterCode,
                         fontSize: 32,
                         fontWeight: FontWeight.w600,
                         bottom: 20.h,
                       ),
-                      CustomText(
+                      CustomText2(
                         text: AppStrings.enterTheCodeTitle,
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
@@ -109,7 +107,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomText(
+                          CustomText2(
                             text: AppStrings.ididntFind,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -122,7 +120,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                             onTap: () {
                               /// authController.otpResetValidation(email.toString());
                             },
-                            child: CustomText(
+                            child: CustomText2(
                               text: AppStrings.sendAgain,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

@@ -2,7 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:flutter/material.dart';
@@ -62,12 +62,12 @@ class OwnerProfileScreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            CustomText(
+            CustomText2(
               text: 'Mehedi Hasan ',
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            CustomText(
+            CustomText2(
               text: 'jorgebong@gmail.com',
               fontSize: 14,
               color: Colors.grey,
@@ -168,7 +168,7 @@ class OwnerProfileScreen extends StatelessWidget {
                         ),
 
                         //  CustomImage(imageSrc: AppImages.alertImage),
-                        CustomText(
+                        CustomText2(
                           text: "Delete Account",
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
@@ -177,7 +177,7 @@ class OwnerProfileScreen extends StatelessWidget {
 
                         SizedBox(height: 8),
 
-                        CustomText(
+                        CustomText2(
                           text: "Are you sure you want to delete ?",
                           fontSize: 16,
                           fontWeight: FontWeight.w400,

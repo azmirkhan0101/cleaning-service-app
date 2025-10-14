@@ -2,10 +2,11 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/selection_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,28 +19,17 @@ class SetLocationSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Set Your Location',
-          style: TextStyle(
-            color: const Color(0xFF0F0B18),
-            fontSize: 24,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            height: 1.40,
-            letterSpacing: -0.50,
-          ),
-        ),
-        // Main Heading and Subheading
-        const CustomText(
+        CustomText(
           text: AppStrings.setLocation,
           fontSize: 24,
           fontWeight: FontWeight.w600,
-          color: Colors.black,
+          height: 1.40,
+          letterSpacing: -0.50,
         ),
 
         const SizedBox(height: 12),
 
-        const CustomText(
+        const CustomText2(
           text: AppStrings.locationTitle,
           fontSize: 12,
           color: unselectedTextColor,
@@ -89,7 +79,7 @@ class SetLocationSection extends StatelessWidget {
 
               SizedBox(width: 8),
 
-              CustomText(
+              CustomText2(
                 text: 'Use my current location',
                 color: Colors.black,
                 fontSize: 16,
@@ -105,7 +95,7 @@ class SetLocationSection extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(
+            const CustomText2(
               text: "Show results within",
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -129,14 +119,14 @@ class SetLocationSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
+                  CustomText2(
                     text: "5 miles",
                     fontWeight: FontWeight.w600,
                     color: AppColors.black_04,
                     fontSize: 14,
                   ),
 
-                  CustomText(
+                  CustomText2(
                     text: "100 Miles",
                     fontWeight: FontWeight.w600,
                     color: AppColors.black_04,

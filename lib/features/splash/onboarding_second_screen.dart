@@ -1,6 +1,6 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
                         SizedBox(height: 24),
 
                         // Heading text
-                        CustomText(
+                        CustomText2(
                           text: 'Solutions to make your life easy!',
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
 
                         SizedBox(height: 16),
 
-                        CustomText(
+                        CustomText2(
                           text:
                               'Find the perfect Service for your home, fast and worry-free',
                           fontSize: 16,
@@ -112,7 +112,7 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
                               50,
                             ), // 90% of screen width
                           ),
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'Get Started',
                             color: Colors.white,
                             fontSize: 16,
@@ -147,7 +147,7 @@ class _OnboardingSecondScreenState extends State<OnboardingSecondScreen> {
                             // Handle button press
                             Get.offNamed(AppRoutes.signupScreen);
                           },
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'Already have an account',
                             color: AppColors.lightBlue,
                             fontSize: 16,

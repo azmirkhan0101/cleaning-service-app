@@ -1,9 +1,6 @@
-
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/owner_nav_bar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
@@ -19,150 +16,139 @@ class ProviderHome extends StatefulWidget {
 }
 
 class _ProviderHomeState extends State<ProviderHome> {
-
-
   @override
   Widget build(BuildContext context) {
-
     final List<Map<String, String>> appointments = [
       {
         'name': 'John Doe',
         'time': '34m ago',
         'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-        'avatar': 'https://www.w3schools.com/w3images/avatar2.png'
+        'avatar': 'https://www.w3schools.com/w3images/avatar2.png',
       },
       {
         'name': 'Sarah Lee',
         'time': '40m ago',
         'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-        'avatar': 'https://www.w3schools.com/w3images/avatar3.png'
+        'avatar': 'https://www.w3schools.com/w3images/avatar3.png',
       },
       {
         'name': 'John Doe',
         'time': '50m ago',
         'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-        'avatar': 'https://www.w3schools.com/w3images/avatar1.png'
+        'avatar': 'https://www.w3schools.com/w3images/avatar1.png',
       },
       {
         'name': 'John Doe',
         'time': '55m ago',
         'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-        'avatar': 'https://www.w3schools.com/w3images/avatar4.png'
+        'avatar': 'https://www.w3schools.com/w3images/avatar4.png',
       },
       {
         'name': 'Hasan',
         'time': '55m ago',
         'appointment': 'Sep 10, 2025 - 11:30 AM with John Doe (Cleaning)',
-        'avatar': 'https://www.w3schools.com/w3images/avatar4.png'
+        'avatar': 'https://www.w3schools.com/w3images/avatar4.png',
       },
     ];
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(24), // Custom height
-        child: AppBar(
-          scrolledUnderElevation: 0,
-        ),
+        child: AppBar(scrolledUnderElevation: 0),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-
-             Row(
-               children: [
-
-                 Icon(Icons.location_pin,color: AppColors.lightBlue,),
-
-                 SizedBox(
-                   width: 6,
-                 ),
-
-                 Column(
-                  children: [
-
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   Row(
                     children: [
-                      CustomText(text:
-                      'My Location',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color:AppColors.black,
-                      ),
+                      Icon(Icons.location_pin, color: AppColors.lightBlue),
 
-                      SizedBox(
-                        width: 8,
+                      SizedBox(width: 6),
+
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              CustomText2(
+                                text: 'My Location',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                              ),
+
+                              SizedBox(width: 8),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.locationScreen);
+                                },
+                                child: Icon(Icons.edit, size: 18),
+                              ),
+                            ],
+                          ),
+
+                          CustomText2(
+                            text: 'Dhaka',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
+                          ),
+                        ],
                       ),
-                      InkWell(
-                        onTap: (){
-                          Get.toNamed(AppRoutes.locationScreen);
-                        },
-                          child: Icon(Icons.edit,size: 18,))
                     ],
                   ),
 
-                    CustomText(text:
-                    'Dhaka',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color:AppColors.black,
-                    ),
-                  ],
-                )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
 
-               ],
-             ),
+                    children: [
+                      Card(
+                        elevation: 0.2,
+                        color: AppColors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(AppImages.base),
+                        ),
+                      ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                      CustomText2(
+                        text: 'Pro Badge',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
+                      ),
 
-                children: [
-
-                  Card(
-                      elevation: 0.2,
-                      color: AppColors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(AppImages.base),
-                      )),
-
-                  CustomText(text:
-                  'Pro Badge',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color:AppColors.black,
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.notificationScreen);
+                        },
+                        child: CustomImage(imageSrc: AppImages.notification),
+                      ),
+                    ],
                   ),
-
-                  InkWell(
-                    onTap: (){
-                      Get.toNamed(AppRoutes.notificationScreen);
-                    },
-                      child: CustomImage(imageSrc: AppImages.notification,)),
                 ],
               ),
-            ],
-            ),
 
-            SizedBox(height: 16,),
+              SizedBox(height: 16),
 
-             Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: (){
-                        Get.toNamed(AppRoutes.bookingsScreen,arguments: [
-                          {
-                            "status":"accept"
-                          }
-                        ]);
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.bookingsScreen,
+                          arguments: [
+                            {"status": "accept"},
+                          ],
+                        );
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -171,29 +157,32 @@ class _ProviderHomeState extends State<ProviderHome> {
                         elevation: 0.5,
                         color: AppColors.white,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 12,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText2(
+                                    text: 'Current Bookings',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 
-                             Row(
-                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                               children: [
-                                 CustomText(text:
-                                 'Current Bookings',
-                                   fontSize: 12.0,
-                                   fontWeight: FontWeight.w500,
-                                   color: Colors.black,
-                                 ),
-
-                                 CustomImage(imageSrc: AppIcons.current_icon)
-                               ],
-                             ),
+                                  CustomImage(imageSrc: AppIcons.current_icon),
+                                ],
+                              ),
 
                               SizedBox(height: 8.0),
 
-                              CustomText(text:
-                              '05',
+                              CustomText2(
+                                text: '05',
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
@@ -201,8 +190,8 @@ class _ProviderHomeState extends State<ProviderHome> {
 
                               SizedBox(height: 8.0),
 
-                              CustomText(text:
-                              'Current Bookings',
+                              CustomText2(
+                                text: 'Current Bookings',
                                 fontSize: 8.0,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.neutral03,
@@ -222,30 +211,31 @@ class _ProviderHomeState extends State<ProviderHome> {
                       elevation: 0.5,
                       color: AppColors.white,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 18),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 18,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText2(
+                                  text: 'Earnings',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
 
-                             Row(
-                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                               children: [
-
-                                 CustomText(text:
-                                 'Earnings',
-                                   fontSize: 12.0,
-                                   fontWeight: FontWeight.w500,
-                                   color: Colors.black,
-                                 ),
-
-                                 CustomImage(imageSrc: AppIcons.earning_icon)
-                               ],
-                             ),
+                                CustomImage(imageSrc: AppIcons.earning_icon),
+                              ],
+                            ),
 
                             SizedBox(height: 8.0),
 
-                            CustomText(text:
-                            '€2,450',
+                            CustomText2(
+                              text: '€2,450',
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
@@ -253,9 +243,8 @@ class _ProviderHomeState extends State<ProviderHome> {
 
                             SizedBox(height: 8.0),
 
-                            CustomText(
-                              text:
-                              'This Month',
+                            CustomText2(
+                              text: 'This Month',
                               fontSize: 8.0,
                               fontWeight: FontWeight.w400,
                               color: AppColors.neutral03,
@@ -265,76 +254,73 @@ class _ProviderHomeState extends State<ProviderHome> {
                       ),
                     ),
                   ),
-
                 ],
               ),
-
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
-
                   Expanded(
-                      child: InkWell(
-                        onTap: (){
-                          Get.toNamed(AppRoutes.providerInboxScreen);
-                        },
-                        child: Card(
-                          elevation: 0.5,
-                          color: AppColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.providerInboxScreen);
+                      },
+                      child: Card(
+                        elevation: 0.5,
+                        color: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 12,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText2(
+                                    text: 'New Message',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
+                                  CustomImage(imageSrc: AppIcons.message),
+                                ],
+                              ),
 
-                                    CustomText(text:
-                                    'New Message',
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
+                              SizedBox(height: 8.0),
 
-                                    CustomImage(imageSrc: AppIcons.message)
-                                  ],
-                                ),
+                              CustomText2(
+                                text: '03',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
 
-                                SizedBox(height: 8.0),
+                              SizedBox(height: 8.0),
 
-                                CustomText(text:
-                                '03',
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-
-                                SizedBox(height: 8.0),
-
-                                CustomText(text:
-                                'Unread',
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.neutral03,
-                                ),
-                              ],
-                            ),
+                              CustomText2(
+                                text: 'Unread',
+                                fontSize: 8.0,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.neutral03,
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
+                  ),
 
-
-                   Expanded(
+                  Expanded(
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         Get.toNamed(AppRoutes.proPlanSubscriptionScreen);
                       },
                       child: Card(
@@ -344,29 +330,31 @@ class _ProviderHomeState extends State<ProviderHome> {
                         elevation: 0.5,
                         color: AppColors.white,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 12,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-
-                                  CustomText(text:
-                                  'Current Plan',
+                                  CustomText2(
+                                    text: 'Current Plan',
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black,
                                   ),
 
-                                  CustomImage(imageSrc: AppIcons.current_plan)
+                                  CustomImage(imageSrc: AppIcons.current_plan),
                                 ],
                               ),
                               SizedBox(height: 8.0),
 
-                              CustomText(text:
-                              'Pro Plan',
+                              CustomText2(
+                                text: 'Pro Plan',
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
@@ -376,23 +364,21 @@ class _ProviderHomeState extends State<ProviderHome> {
 
                               Row(
                                 children: [
-                                  CustomText(
-                                    text:
-                                    'Expired date:',
+                                  CustomText2(
+                                    text: 'Expired date:',
                                     fontSize: 8.0,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.neutral03,
                                   ),
 
-                                  CustomText(
-                                    text:
-                                    '10 October 2025',
+                                  CustomText2(
+                                    text: '10 October 2025',
                                     fontSize: 8.0,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.lightBlue,
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -402,44 +388,41 @@ class _ProviderHomeState extends State<ProviderHome> {
                 ],
               ),
 
-              const SizedBox(height: 16,),
+              const SizedBox(height: 16),
 
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomText2(
+                    text: 'Pending Bookings',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black,
+                  ),
 
-                const CustomText(
-                   text:
-                   'Pending Bookings',
-                   fontSize: 16,
-                   fontWeight: FontWeight.w600,
-                   color: AppColors.black,
-                 ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(
+                        AppRoutes.bookingsScreen,
+                        arguments: [
+                          {"status": "Pending"},
+                        ],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: CustomText2(
+                        text: 'See all',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.lightBlue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
-                 InkWell(
-                   onTap: (){
-                     Get.toNamed(AppRoutes.bookingsScreen,arguments: [
-                       {
-                         "status":"Pending"
-                       }
-                     ]);
-                   },
-                   child: Padding(
-                     padding: const EdgeInsets.only(right: 8),
-                     child: CustomText(
-                       text:
-                       'See all',
-                       fontSize: 14,
-                       fontWeight: FontWeight.w600,
-                       color: AppColors.lightBlue,
-                     ),
-                   ),
-                 ),
-
-               ],
-             ),
-
-              const SizedBox(height: 12,),
+              const SizedBox(height: 12),
 
               ListView.builder(
                 shrinkWrap: true,
@@ -461,7 +444,6 @@ class _ProviderHomeState extends State<ProviderHome> {
       bottomNavigationBar: NavBar(currentIndex: 0),
     );
   }
-
 }
 
 class AppointmentCard extends StatelessWidget {
@@ -480,12 +462,13 @@ class AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Get.toNamed(AppRoutes.bookingsScreen,arguments: [
-          {
-            "status":"Pending"
-          }
-        ]);
+      onTap: () {
+        Get.toNamed(
+          AppRoutes.bookingsScreen,
+          arguments: [
+            {"status": "Pending"},
+          ],
+        );
       },
       child: Card(
         elevation: 0.5,
@@ -507,29 +490,28 @@ class AppointmentCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         CustomText(text:
-                         name,
-                           fontSize: 16.0,
-                           fontWeight: FontWeight.w500,
-                         ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText2(
+                          text: name,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
 
-                         CustomText(text:
-                          time,
-                           fontSize: 12.0,
-                           fontWeight: FontWeight.w400,
-                           color: AppColors.neutral03,
-                         ),
-                       ],
-                     ),
+                        CustomText2(
+                          text: time,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.neutral03,
+                        ),
+                      ],
+                    ),
 
-                   const SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
 
-                    CustomText(
-                      text:
-                      appointment,
+                    CustomText2(
+                      text: appointment,
                       fontSize: 12.0,
                       fontWeight: FontWeight.w400,
                       color: AppColors.neutral03,

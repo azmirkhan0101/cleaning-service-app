@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:cleaning_service_app/core/components/custom_Controller/custom_controller.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +20,6 @@ class CustomRoyelDropdown extends StatelessWidget {
   final double? borderWidth;
   final double? borderRadius;
 
-
   CustomRoyelDropdown({
     this.height = 55,
     this.width = double.maxFinite,
@@ -33,7 +32,8 @@ class CustomRoyelDropdown extends StatelessWidget {
     this.fontSize,
     this.borderWidth,
     this.borderRadius,
-    super.key});
+    super.key,
+  });
   final CustomController customController = Get.find<CustomController>();
   @override
   Widget build(BuildContext context) {
@@ -46,25 +46,27 @@ class CustomRoyelDropdown extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
           border: Border.all(
-              color: Colors.black, style: BorderStyle.solid, width: 1),
-        /*  border: isBorder
+            color: Colors.black,
+            style: BorderStyle.solid,
+            width: 1,
+          ),
+          /*  border: isBorder
               ? Border.all(color: textColor, width: borderWidth ?? .05)
               : null,*/
-         color: fillColor,
+          color: fillColor,
         ),
         child: DropdownButton<String>(
-
           padding: EdgeInsets.only(right: 20),
-          hint: CustomText(
-              text: title,
-              fontSize: fontSize ?? 18.sp,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              right: 15.w,
+          hint: CustomText2(
+            text: title,
+            fontSize: fontSize ?? 18.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            right: 15.w,
           ),
           borderRadius: BorderRadius.circular(10),
           elevation: 2,
-         dropdownColor: AppColors.white,
+          dropdownColor: AppColors.white,
           icon: const Icon(
             Icons.keyboard_arrow_down_rounded,
             color: AppColors.white,
@@ -72,18 +74,16 @@ class CustomRoyelDropdown extends StatelessWidget {
           iconSize: 25,
           underline: const SizedBox(),
           isExpanded: true, // This makes the dropdown full-width
-          style:  GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 12.w,
-          ),
-         /// value: customController.cetagoryList.value,
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 12.w),
+
+          /// value: customController.cetagoryList.value,
           onChanged: (String? newValue) {
             ///customController.currentCetagory.value = newValue!;
           },
           items: customController.cetagoryList.map((String item) {
             return DropdownMenuItem<String>(
               value: item,
-              child: CustomText(
+              child: CustomText2(
                 text: item,
                 color: AppColors.black,
                 fontSize: 15.w,

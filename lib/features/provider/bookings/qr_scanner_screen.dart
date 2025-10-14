@@ -1,9 +1,8 @@
-
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
@@ -20,51 +19,49 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "QR Code",leftIcon: true,),
+      appBar: CustomAppbar(titleName: "QR Code", leftIcon: true),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           InkWell(
-            onTap: (){
+            onTap: () {
               showCustomDialog(context);
             },
             child: Center(
-              child: CustomImage(imageSrc: AppImages.qr_code_image,
+              child: CustomImage(
+                imageSrc: AppImages.qr_code_image,
                 width: 150,
                 height: 150,
-                fit: BoxFit.cover,),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
-          SizedBox(
-            height: 24,
-          ),
-          
+          SizedBox(height: 24),
+
           Column(
             children: [
-
               Center(
-                child: CustomImage(imageSrc: AppImages.down_array,
-                  fit: BoxFit.cover,),
+                child: CustomImage(
+                  imageSrc: AppImages.down_array,
+                  fit: BoxFit.cover,
+                ),
               ),
 
-              SizedBox(
-                height: 8,
-              ),
+              SizedBox(height: 8),
 
-              CustomText(text: "Download",
+              CustomText2(
+                text: "Download",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
-
 
   void showCustomDialog(BuildContext context) {
     showDialog(
@@ -84,44 +81,42 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                 children: [
                   CustomImage(imageSrc: AppImages.alertImage),
 
-                  CustomText(text: "Booking Completed",
+                  CustomText2(
+                    text: "Booking Completed",
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
-                    color:AppColors.black,
+                    color: AppColors.black,
                   ),
 
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 8),
 
-                  CustomText(text: "You have successful made completed",
+                  CustomText2(
+                    text: "You have successful made completed",
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color:AppColors.black,
+                    color: AppColors.black,
                   ),
 
-                  SizedBox(
-                    height: 12,
-                  ),
+                  SizedBox(height: 12),
 
-                  CustomButton(onTap: (){
+                  CustomButton(
+                    onTap: () {
+                      Get.offNamed(
+                        AppRoutes.bookingsScreen,
+                        arguments: [
+                          {"status": "completed"},
+                        ],
+                      );
 
-                    Get.offNamed(AppRoutes.bookingsScreen,arguments: [
-                      {
-                        "status":"completed"
-                      }
-                    ]);
-
-                   // Navigator.of(context).pop();
-                  },
+                      // Navigator.of(context).pop();
+                    },
                     title: "Ok",
                     fontSize: 16, // Bigger button text for tablets
                     width: double.infinity,
-                    height:  50,
+                    height: 50,
                     fillColor: AppColors.appColors,
                     borderRadius: 24,
                   ),
-
                 ],
               ),
             ),

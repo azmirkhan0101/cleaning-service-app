@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_from_card/custom_fro
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
@@ -122,7 +122,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                             CustomImage(imageSrc: AppIcons.service_all),
 
                             SizedBox(width: 2),
-                            CustomText(
+                            CustomText2(
                               text: "All Service",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -155,7 +155,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
 
                             SizedBox(width: 2),
 
-                            CustomText(
+                            CustomText2(
                               text: "Cleaning",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -188,7 +188,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
 
                             SizedBox(width: 2),
 
-                            CustomText(
+                            CustomText2(
                               text: "Laundry",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -226,7 +226,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                             SizedBox(width: 2),
 
                             Expanded(
-                              child: CustomText(
+                              child: CustomText2(
                                 text: "Handyman",
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
@@ -290,7 +290,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CustomText(
+                                      CustomText2(
                                         text: service['title']!,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
@@ -307,7 +307,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                             size: 14,
                                           ),
                                           SizedBox(width: 4),
-                                          CustomText(
+                                          CustomText2(
                                             text: service['rating']!,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
@@ -318,7 +318,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                   ),
                                   SizedBox(height: 8),
                                   // Additional Info
-                                  CustomText(
+                                  CustomText2(
                                     text:
                                         'Current booking: ${service['bookings']}',
                                     fontSize: 12,
@@ -340,7 +340,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                       ),
 
                                       SizedBox(width: 4),
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Jorge Bond',
                                         fontSize: 12,
                                         color: Colors.black,
@@ -350,7 +350,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                   ),
                                   SizedBox(height: 8),
 
-                                  CustomText(
+                                  CustomText2(
                                     text: 'Start from- Instant Booking',
                                     fontSize: 10,
                                     color: Colors.grey,
@@ -363,7 +363,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CustomText(
+                                      CustomText2(
                                         text: service['price']!,
                                         fontSize: 12,
                                         color: AppColors.lightBlue,

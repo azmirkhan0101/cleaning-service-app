@@ -2,7 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
@@ -11,11 +11,11 @@ import 'package:cleaning_service_app/features/location/widgets/location_search_w
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 class OwnerHomeSearchScreen extends StatefulWidget {
   const OwnerHomeSearchScreen({super.key});
@@ -110,7 +110,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
                           SizedBox(width: 8),
 
-                          CustomText(
+                          CustomText2(
                             text: 'Use my current location',
                             color: Color(0xFF4899D1),
                             fontSize: 16,
@@ -125,7 +125,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const CustomText(
+                        const CustomText2(
                           text: "Price/hour ",
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -731,7 +731,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
             ),
 
             // const SizedBox(width: 8),
-            CustomText(
+            CustomText2(
               text: options[index],
               fontSize: 16,
               color: Colors.black87,

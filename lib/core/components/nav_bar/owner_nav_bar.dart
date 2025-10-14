@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
+import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
-import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
-import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -206,7 +206,7 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
             ),
 
             SizedBox(height: 6),
-            CustomText(
+            CustomText2(
               text: userNavText[index],
               color: AppColors.white,
               fontWeight: FontWeight.w600,
@@ -298,7 +298,7 @@ class _OwnerNavBarState extends State<OwnerNavBar> {
         ),
 
         SizedBox(height: 4),
-        CustomText(
+        CustomText2(
           text: userNavText[index],
           color: AppColors.grey_1,
           fontWeight: FontWeight.w600,

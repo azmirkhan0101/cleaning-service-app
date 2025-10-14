@@ -3,8 +3,9 @@
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../custom_button/custom_button.dart';
-import '../custom_text/custom_text.dart';
+import '../custom_text/custom_text_2.dart';
 import '../custom_text_field/custom_text_field.dart';
 
 class CustomAddQuotesPopup extends StatelessWidget {
@@ -26,16 +27,14 @@ class CustomAddQuotesPopup extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ///======================== Add Daliy Goal ===========================
-        const CustomText(
+        const CustomText2(
           textAlign: TextAlign.start,
           text: "",
           fontSize: 20,
           fontWeight: FontWeight.w700,
-         // color: AppColors.black_50,
+          // color: AppColors.black_50,
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
 
         ///======================== Line Border ===========================
         Container(
@@ -43,9 +42,7 @@ class CustomAddQuotesPopup extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           //color: AppColors.grey1,
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
 
         ///======================== Add New Goal ===========================
         CustomTextField(
@@ -55,9 +52,7 @@ class CustomAddQuotesPopup extends StatelessWidget {
           //hintText: AppStrings.addQuotes,
           textEditingController: addQuotesController,
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -68,7 +63,7 @@ class CustomAddQuotesPopup extends StatelessWidget {
 
                 cancelButton();
               },
-             // title: AppStrings.cancel,
+              // title: AppStrings.cancel,
               isBorder: true,
               height: 40.h,
               width: 80.w,
@@ -78,26 +73,24 @@ class CustomAddQuotesPopup extends StatelessWidget {
               borderWidth: 1,
               //textColor: AppColors.black_50,
             ),
-            SizedBox(
-              width: 10.w,
-            ),
+            SizedBox(width: 10.w),
 
             ///======================== Submit Button ===========================
             CustomButton(
               onTap: () {
                 submitButton();
               },
-             // title: AppStrings.submit,
+              // title: AppStrings.submit,
               height: 40.h,
               width: 80.w,
               fontSize: 14,
-             //fillColor: AppColors.softlimegreen,
+              //fillColor: AppColors.softlimegreen,
               borderRadius: 15,
               borderWidth: 2,
               textColor: AppColors.white,
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
