@@ -1,9 +1,8 @@
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class CustomNotificationCard extends StatelessWidget {
   const CustomNotificationCard({
@@ -40,16 +39,14 @@ class CustomNotificationCard extends StatelessWidget {
                     width: 50.h,
                     boxShape: BoxShape.circle,
                   ),
-                  SizedBox(
-                    width: 10.h,
-                  ),
+                  SizedBox(width: 10.h),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //============ Notification Titile ====================//
-                        CustomText(
+                        CustomText2(
                           text: notificationTitle,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
@@ -61,7 +58,7 @@ class CustomNotificationCard extends StatelessWidget {
                           children: [
                             //===================== Notification Subtitle ==============//
                             Expanded(
-                              child: CustomText(
+                              child: CustomText2(
                                 textAlign: TextAlign.left,
                                 text: notificationSubTitle,
                                 fontSize: 12.sp,
@@ -70,7 +67,7 @@ class CustomNotificationCard extends StatelessWidget {
                               ),
                             ),
                             //======================== Notification Time ================//
-                            CustomText(
+                            CustomText2(
                               text: notificationTime ?? '',
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w300,
@@ -86,17 +83,10 @@ class CustomNotificationCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 12.h,
-        ),
+        SizedBox(height: 12.h),
         //======================== Divider ========================//
-        Divider(
-          height: 1,
-          color: AppColors.white.withOpacity(.2),
-        ),
-        SizedBox(
-          height: 16.h,
-        ),
+        Divider(height: 1, color: AppColors.white.withOpacity(.2)),
+        SizedBox(height: 16.h),
       ],
     );
   }

@@ -1,9 +1,8 @@
-
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -27,7 +26,8 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/07/2025',
         'bookings': '05',
-        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
       },
       {
         'title': 'Laundry Service',
@@ -35,7 +35,8 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
       },
       {
         'title': 'CleanWave',
@@ -51,10 +52,9 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg",
+        'image':
+            "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg",
       },
-      
-      
     ];
 
     return Scaffold(
@@ -103,18 +103,23 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
+                                CustomText2(
                                   text: service['title']!,
-                                  fontSize: 14, // Adjusted font size for smaller screens
+                                  fontSize:
+                                      14, // Adjusted font size for smaller screens
                                   fontWeight: FontWeight.w600,
                                 ),
                                 SizedBox(height: 4),
                                 // Rating
                                 Row(
                                   children: [
-                                    Icon(Icons.star, color: Colors.orange, size: 14),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                      size: 14,
+                                    ),
                                     SizedBox(width: 4),
-                                    CustomText(
+                                    CustomText2(
                                       text: service['rating']!,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
@@ -125,7 +130,7 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                             ),
                             SizedBox(height: 8),
                             // Additional Info
-                            CustomText(
+                            CustomText2(
                               text: 'Current booking: ${service['bookings']}',
                               fontSize: 12,
                               color: Colors.grey,
@@ -142,7 +147,7 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                                   boxShape: BoxShape.circle,
                                 ),
                                 SizedBox(width: 4),
-                                CustomText(
+                                CustomText2(
                                   text: 'Jorge Bond',
                                   fontSize: 12,
                                   color: Colors.black,
@@ -151,7 +156,7 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                               ],
                             ),
                             SizedBox(height: 8),
-                            CustomText(
+                            CustomText2(
                               text: 'Start from- Instant Booking',
                               fontSize: 10,
                               color: Colors.grey,
@@ -162,13 +167,13 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
+                                CustomText2(
                                   text: service['price']!,
                                   fontSize: 12,
                                   color: AppColors.lightBlue,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                CustomImage(imageSrc: AppImages.arrayicon)
+                                CustomImage(imageSrc: AppImages.arrayicon),
                               ],
                             ),
                           ],
@@ -176,7 +181,7 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           );
@@ -185,5 +190,3 @@ class _OwnerCategoryByServiceState extends State<OwnerCategoryByService> {
     );
   }
 }
-
-

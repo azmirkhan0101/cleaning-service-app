@@ -2,15 +2,13 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:flutter/material.dart';
+import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -35,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 Row(
                   children: [
-                    CustomText(
+                    CustomText2(
                       text: 'Create Account',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -46,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
 
                 SizedBox(height: 8),
-                CustomText(
+                CustomText2(
                   text: 'Welcome back',
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -192,7 +190,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       50,
                     ), // 90% of screen width
                   ),
-                  child: CustomText(
+                  child: CustomText2(
                     text: AppStrings.signUp,
                     color: Colors.white,
                     fontSize: 16,
@@ -212,7 +210,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       SizedBox(width: 120, child: Divider(thickness: 1)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomText(
+                        child: CustomText2(
                           text: 'or Sign Up in with',
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -286,14 +284,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomText(
+                      CustomText2(
                         text: "Don't have an account? ",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
 
                       SizedBox(width: 6),
-                      CustomText(
+                      CustomText2(
                         text: "Sign In",
                         fontWeight: FontWeight.w600,
                         color: AppColors.lightBlue,

@@ -4,7 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_button/custom_button
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
@@ -121,7 +121,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: const CustomText(
+        title: const CustomText2(
           text: "Service details",
           fontSize: 24,
           fontWeight: FontWeight.w500,
@@ -182,7 +182,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                                 const Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomText(
+                                    CustomText2(
                                       text: 'Start from',
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -210,7 +210,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Map View',
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -248,7 +248,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                                   ],
                                 ),
 
-                                const CustomText(
+                                const CustomText2(
                                   text: '306 Orders',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -273,7 +273,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
                           SizedBox(width: 8),
 
-                          CustomText(
+                          CustomText2(
                             text: 'Instant Booking',
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -283,7 +283,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
                       SizedBox(height: 16),
 
-                      const CustomText(
+                      const CustomText2(
                         text: 'Description',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -355,7 +355,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                               50,
                             ), // 90% of screen width
                           ),
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'Cancel',
                             color: Colors.white,
                             fontSize: 16,
@@ -379,7 +379,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                               50,
                             ), // 90% of screen width
                           ),
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'Scan',
                             color: Colors.white,
                             fontSize: 16,
@@ -410,7 +410,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                               50,
                             ), // 90% of screen width
                           ),
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'Book now',
                             color: Colors.white,
                             fontSize: 16,
@@ -441,13 +441,13 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
+                            CustomText2(
                               text: 'Jorge Bond',
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
 
-                            CustomText(
+                            CustomText2(
                               text: 'jorgebong@gmail.com',
                               fontSize: 14,
                               color: AppColors.neutral03,
@@ -463,13 +463,13 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
+                            CustomText2(
                               text: 'Address',
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
 
-                            CustomText(
+                            CustomText2(
                               text: 'Los Angeles, California',
                               fontSize: 14,
                               color: AppColors.neutral03,
@@ -486,13 +486,13 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
+                            CustomText2(
                               text: 'Experience',
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
 
-                            CustomText(
+                            CustomText2(
                               text: '2 Years',
                               fontSize: 14,
                               color: AppColors.neutral03,
@@ -509,7 +509,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
+                            CustomText2(
                               text: 'About me',
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
@@ -585,7 +585,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CustomText(
+                              CustomText2(
                                 text: daySchedule['day']!,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -594,7 +594,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                               Row(
                                 children: [
                                   if (daySchedule['startTime']!.isNotEmpty)
-                                    CustomText(
+                                    CustomText2(
                                       text:
                                           "${daySchedule['startTime']} — ${daySchedule['endTime']}",
                                       fontSize: 16,
@@ -602,7 +602,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
                                   const SizedBox(width: 10),
 
-                                  CustomText(
+                                  CustomText2(
                                     text: daySchedule['status']!,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -638,7 +638,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomText(text: ""),
+              CustomText2(text: ""),
 
               IconButton(
                 onPressed: () {
@@ -659,7 +659,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                 children: [
                   CustomImage(imageSrc: AppImages.cancelled_image),
 
-                  CustomText(
+                  CustomText2(
                     text: "Booking Cancelled",
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -668,7 +668,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
 
                   SizedBox(height: 8),
 
-                  CustomText(
+                  CustomText2(
                     text: "Your booking has been Cancelled \n successfully.",
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -720,7 +720,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
+                CustomText2(
                   text: name,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
@@ -737,7 +737,7 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                 ),
                 SizedBox(height: 6),
 
-                CustomText(
+                CustomText2(
                   text: testimonial,
                   maxLines: 2,
                   textAlign: TextAlign.start,

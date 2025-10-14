@@ -2,7 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
@@ -45,7 +45,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                   Column(
                     children: [
                       StepCircle(isActive: true, isCompleted: true),
-                      CustomText(
+                      CustomText2(
                         text: "Step 1",
                         color: AppColors.black,
                         fontSize: 12,
@@ -54,7 +54,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                     ],
                   ),
                   SizedBox(width: 20),
-                  CustomText(
+                  CustomText2(
                     text: "-------------",
                     color: AppColors.black,
                     fontSize: 24,
@@ -87,7 +87,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                           ),
                         ),
                       ),
-                      CustomText(
+                      CustomText2(
                         text: "Step 2",
                         color: AppColors.lightBlue,
                         fontSize: 12,
@@ -100,7 +100,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
 
               SizedBox(height: 16),
 
-              CustomText(
+              CustomText2(
                 text: "Enter Your Information",
                 color: AppColors.black,
                 fontSize: 18,
@@ -175,7 +175,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                     50,
                   ), // 90% of screen width
                 ),
-                child: CustomText(
+                child: CustomText2(
                   text: 'Confirm',
                   color: Colors.white,
                   fontSize: 16,

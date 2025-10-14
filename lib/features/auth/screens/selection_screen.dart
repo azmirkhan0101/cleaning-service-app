@@ -1,12 +1,12 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
-import 'package:cleaning_service_app/features/auth/selection_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_role_section.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(16.0),
           child: Obx(() {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Main Heading and Subheading
-                        const CustomText(
+                        const CustomText2(
                           text: AppStrings.uploadPhoto,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                         const SizedBox(height: 12),
 
-                        const CustomText(
+                        const CustomText2(
                           text: AppStrings.profileTitle,
                           fontSize: 12,
                           color: unselectedTextColor,
@@ -150,7 +150,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Main Heading and Subheading
-                      const CustomText(
+                      const CustomText2(
                         text: AppStrings.VerifyProfile,
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -159,7 +159,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                       const SizedBox(height: 12),
 
-                      const CustomText(
+                      const CustomText2(
                         text: AppStrings.VerifyProfileTitle,
                         fontSize: 12,
                         color: unselectedTextColor,
@@ -187,7 +187,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
+                              CustomText2(
                                 text: "Upload the Front Side of Your ID",
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -195,7 +195,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                               SizedBox(height: 6),
 
-                              CustomText(
+                              CustomText2(
                                 text:
                                     "Take a clear photo or upload the front side of your identity card. Make sure all details are visible.",
                                 fontSize: 12,
@@ -212,7 +212,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                   print("Upload Front Side clicked");
                                 },
                                 icon: Icon(Icons.add),
-                                label: CustomText(
+                                label: CustomText2(
                                   text: 'Upload Front Side',
                                   color: Colors.blue,
                                   fontWeight: FontWeight.w600,
@@ -257,7 +257,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
+                              CustomText2(
                                 text: "Upload the Back Side of Your ID",
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -265,7 +265,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                               SizedBox(height: 6),
 
-                              CustomText(
+                              CustomText2(
                                 text:
                                     "Now, upload a clear photo of the back side of your identity card.",
                                 fontSize: 12,
@@ -282,7 +282,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                   print("Upload Front Side clicked");
                                 },
                                 icon: Icon(Icons.add),
-                                label: CustomText(
+                                label: CustomText2(
                                   text: 'Upload Back Side',
                                   color: Colors.blue,
                                   fontWeight: FontWeight.w600,
@@ -378,7 +378,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Main Heading and Subheading
-                      const CustomText(
+                      const CustomText2(
                         text: AppStrings.chooseYourPlan,
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -387,7 +387,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                       const SizedBox(height: 12),
 
-                      const CustomText(
+                      const CustomText2(
                         text: AppStrings.chooseYourPlanTitle,
                         fontSize: 12,
                         color: unselectedTextColor,
@@ -454,7 +454,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CustomText(
+                                      CustomText2(
                                         text: '€0 / month',
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -487,7 +487,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                           ), // Rounded corners
                                           // border: Border.all(color: Colors.blue), // Border color
                                         ),
-                                        child: CustomText(
+                                        child: CustomText2(
                                           text: 'Pro Plan',
                                           color:
                                               selectionController
@@ -506,7 +506,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                   SizedBox(height: 6.0),
 
-                                  CustomText(
+                                  CustomText2(
                                     text: 'Commission: 15%',
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -536,7 +536,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                       SizedBox(height: 8.0),
 
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Standard visibility ',
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -568,7 +568,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                       SizedBox(height: 8.0),
 
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Standard support',
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -645,7 +645,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CustomText(
+                                      CustomText2(
                                         text: '€29 / month',
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -678,7 +678,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                                             color: Colors.blue,
                                           ), // Border color
                                         ),
-                                        child: CustomText(
+                                        child: CustomText2(
                                           text: 'Pro Plan',
                                           color:
                                               selectionController
@@ -697,7 +697,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                   SizedBox(height: 6.0),
 
-                                  CustomText(
+                                  CustomText2(
                                     text: 'Commission: 10%',
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -727,7 +727,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                       SizedBox(height: 8.0),
 
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Priority listing',
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -758,7 +758,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                       SizedBox(height: 8.0),
 
-                                      CustomText(
+                                      CustomText2(
                                         text: 'Pro badge',
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -790,7 +790,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
                                       SizedBox(height: 8.0),
 
-                                      CustomText(
+                                      CustomText2(
                                         text: ' €20 credits/month',
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -917,7 +917,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
               const SizedBox(width: 8),
 
-              CustomText(
+              CustomText2(
                 text: options[index],
                 fontSize: 16,
                 color: Colors.black87,

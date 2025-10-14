@@ -1,11 +1,10 @@
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +37,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CustomText(
+                  CustomText2(
                     text: 'Forgot Password',
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
@@ -46,7 +45,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
 
                   SizedBox(height: 8),
 
-                  CustomText(
+                  CustomText2(
                     text: 'Welcome back',
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -56,14 +55,14 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(
+                      CustomText2(
                         top: 150.h,
                         text: "Email Confirmation",
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                       ),
 
-                      CustomText(
+                      CustomText2(
                         text: "Enter Your email for verification.",
                         fontSize: 15,
                         fontWeight: FontWeight.w400,

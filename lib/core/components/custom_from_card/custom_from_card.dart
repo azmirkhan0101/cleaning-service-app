@@ -1,10 +1,9 @@
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/custom_text_field/custom_text_field.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class CustomFormCard extends StatelessWidget {
   final String title;
@@ -40,7 +39,8 @@ class CustomFormCard extends StatelessWidget {
     this.maxLine,
     this.fontSize,
     this.titleColor,
-    this.prefixIcon, this.keyboardType,
+    this.prefixIcon,
+    this.keyboardType,
   });
 
   @override
@@ -48,13 +48,13 @@ class CustomFormCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        CustomText(
+        CustomText2(
           text: title,
           color: titleColor ?? AppColors.black,
           fontWeight: FontWeight.w600,
           fontSize: fontSize ?? 16.sp,
-         ///bottom: 4.h,
+
+          ///bottom: 4.h,
           maxLines: 2,
         ),
         CustomTextField(
@@ -63,9 +63,10 @@ class CustomFormCard extends StatelessWidget {
           readOnly: readOnly,
           hintText: hintText,
           hintStyle: GoogleFonts.lexend(
-              fontWeight: FontWeight.w400,
-              fontSize: 14.sp,
-              color: AppColors.lightBlue),//grey_1
+            fontWeight: FontWeight.w400,
+            fontSize: 14.sp,
+            color: AppColors.lightBlue,
+          ), //grey_1
           suffixIcon: suffixIcon,
           suffixIconColor: AppColors.brinkPink,
           isPassword: isPassword,
@@ -74,12 +75,14 @@ class CustomFormCard extends StatelessWidget {
           // fillColor: hasBackgroundColor ? AppColors.black_80 : AppColors.white,
           fillColor: AppColors.white,
           fieldBorderColor: AppColors.grey001,
-          keyboardType: keyboardType ?? (isPassword ? TextInputType.visiblePassword : TextInputType.text),
+          keyboardType:
+              keyboardType ??
+              (isPassword ? TextInputType.visiblePassword : TextInputType.text),
           onTap: onTap,
           maxLines: isPassword ? 1 : maxLine,
           fieldBorderRadius: 12,
         ),
-       // SizedBox(height: 8.h),
+        // SizedBox(height: 8.h),
       ],
     );
   }

@@ -1,9 +1,7 @@
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -42,7 +40,9 @@ class CustomButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.h),
         margin: EdgeInsets.symmetric(
-            vertical: marginVertical, horizontal: marginHorizontal),
+          vertical: marginVertical,
+          horizontal: marginHorizontal,
+        ),
         alignment: Alignment.center,
         height: height,
         width: width,
@@ -52,15 +52,13 @@ class CustomButton extends StatelessWidget {
               : null,
           borderRadius: BorderRadius.circular(borderRadius ?? 8),
           color: fillColor,
-
         ),
-        child: CustomText(
+        child: CustomText2(
           fontSize: fontSize ?? 18.sp,
           fontWeight: FontWeight.w600,
           color: textColor,
           textAlign: TextAlign.center,
           text: title,
-
         ),
       ),
     );

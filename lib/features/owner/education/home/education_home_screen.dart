@@ -1,43 +1,26 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
-import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/owner_nav_bar.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart' show NavBar;
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class EducationHomeScreen extends StatelessWidget {
   const EducationHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final List<Map<String, String>> imagelist = [
-      {
-        'image': AppIcons.book
-      },
-      {
-        'image': AppIcons.note
-      },
-      {
-        'image': AppIcons.opport
-      },
-      {
-        'image': AppIcons.opport
-      },
+      {'image': AppIcons.book},
+      {'image': AppIcons.note},
+      {'image': AppIcons.opport},
+      {'image': AppIcons.opport},
     ];
 
-
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Knowledge Hub",leftIcon: true,),
+      appBar: CustomAppbar(titleName: "Knowledge Hub", leftIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
@@ -60,37 +43,31 @@ class EducationHomeScreen extends StatelessWidget {
                 onTap: () {
                   // Action on tap
 
-                    if(index==0){
-
-                      Get.toNamed(AppRoutes.educationTrainingScreen);
-
-                    }if(index==1){
-
-                      Get.toNamed(AppRoutes.legalRegulatoryScreen);
-                    }
-                    if(index==2){
-
-                      Get.toNamed(AppRoutes.industryTrendsScreen);
-
-                    }  if(index==3){
-
-                      Get.toNamed(AppRoutes.bribkOpportunitiesScreen);
-                    }
-
+                  if (index == 0) {
+                    Get.toNamed(AppRoutes.educationTrainingScreen);
+                  }
+                  if (index == 1) {
+                    Get.toNamed(AppRoutes.legalRegulatoryScreen);
+                  }
+                  if (index == 2) {
+                    Get.toNamed(AppRoutes.industryTrendsScreen);
+                  }
+                  if (index == 3) {
+                    Get.toNamed(AppRoutes.bribkOpportunitiesScreen);
+                  }
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     CustomImage(imageSrc: "${image['image']}"),
 
                     SizedBox(height: 10),
 
-                    CustomText(text:
-                      _getCardTitle(index),
-                       fontSize: 12,
-                       fontWeight: FontWeight.w500,
-                        color: AppColors.lightBlue
+                    CustomText2(
+                      text: _getCardTitle(index),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.lightBlue,
                     ),
 
                     SizedBox(height: 5),
@@ -105,7 +82,12 @@ class EducationHomeScreen extends StatelessWidget {
                       onPressed: () {
                         // View button action
                       },
-                      child: CustomText(text: 'View',fontSize: 14,fontWeight: FontWeight.w500,color: AppColors.lightBlue,),
+                      child: CustomText2(
+                        text: 'View',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.lightBlue,
+                      ),
                     ),
                   ],
                 ),
@@ -116,8 +98,6 @@ class EducationHomeScreen extends StatelessWidget {
       ),
     );
   }
-
-
 
   String _getCardTitle(int index) {
     switch (index) {
@@ -148,5 +128,4 @@ class EducationHomeScreen extends StatelessWidget {
         return '';
     }
   }
-
 }

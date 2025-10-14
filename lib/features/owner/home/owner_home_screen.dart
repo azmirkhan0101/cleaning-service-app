@@ -4,14 +4,13 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
-import 'package:cleaning_service_app/features/demo/demo_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_search_screen.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
@@ -147,7 +146,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  CustomText(
+                                  CustomText2(
                                     text: "30% Off \n Special Deals",
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -155,7 +154,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                     textAlign: TextAlign.start,
                                   ),
                                   SizedBox(height: 8),
-                                  CustomText(
+                                  CustomText2(
                                     text:
                                         "Get discount for every Cleaning order",
                                     fontSize: 12,
@@ -215,7 +214,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CustomText(
+                      const CustomText2(
                         text: 'Select Category',
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -228,7 +227,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: CustomText(
+                          child: CustomText2(
                             text: 'View all',
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -275,7 +274,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: CustomText(
+                                  child: CustomText2(
                                     text: service['title']!,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
@@ -292,7 +291,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                   const SizedBox(height: 16),
 
                   // Near for you
-                  const CustomText(
+                  const CustomText2(
                     text: 'Near for you',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -353,7 +352,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          CustomText(
+                                          CustomText2(
                                             text: service['title']!,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
@@ -368,7 +367,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                                 size: 14,
                                               ),
                                               SizedBox(width: 4),
-                                              CustomText(
+                                              CustomText2(
                                                 text: service['rating']!,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600,
@@ -392,7 +391,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                             boxShape: BoxShape.circle,
                                           ),
                                           SizedBox(width: 4),
-                                          CustomText(
+                                          CustomText2(
                                             text: 'Jorge Bond',
                                             fontSize: 12,
                                             color: Colors.black,
@@ -410,7 +409,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
+                                          CustomText2(
                                             text: service['price']!,
                                             fontSize: 12,
                                             color: AppColors.lightBlue,
@@ -693,7 +692,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                           children: [
                             CustomImage(imageSrc: AppIcons.service_all),
                             SizedBox(width: 2),
-                            CustomText(
+                            CustomText2(
                               text: "All Service",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -721,7 +720,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                           children: [
                             CustomImage(imageSrc: AppIcons.cleaning),
                             SizedBox(width: 2),
-                            CustomText(
+                            CustomText2(
                               text: "Cleaning",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -750,7 +749,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                           children: [
                             CustomImage(imageSrc: AppIcons.laundry),
                             SizedBox(width: 2),
-                            CustomText(
+                            CustomText2(
                               text: "Laundry",
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -791,7 +790,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                         SizedBox(width: 8),
 
-                        CustomText(
+                        CustomText2(
                           text: 'Use my current location',
                           color: Colors.black,
                           fontSize: 16,
@@ -803,7 +802,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                   SizedBox(height: 8),
 
-                  const CustomText(
+                  const CustomText2(
                     text: "Price/hour ",
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -824,7 +823,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                   SizedBox(height: 12),
 
-                  CustomText(
+                  CustomText2(
                     text: "Select Rating",
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -867,7 +866,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
                   const SizedBox(height: 16),
 
-                  CustomText(
+                  CustomText2(
                     text: "Spoken Language",
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -975,7 +974,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
               const SizedBox(width: 8),
 
-              CustomText(
+              CustomText2(
                 text: options[index],
                 fontSize: 16,
                 color: Colors.black87,

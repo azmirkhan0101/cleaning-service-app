@@ -2,7 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
@@ -31,7 +31,7 @@ class _LocationScreenState extends State<LocationScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
+              CustomText2(
                 text: "Set Your Location",
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
@@ -39,7 +39,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
               SizedBox(height: 8),
 
-              CustomText(
+              CustomText2(
                 text:
                     "Choose your location directly from the map to get the best service experience. This helps us connect you with nearby providers and ensures faster, more reliable service right at your doorstep.",
                 fontWeight: FontWeight.w400,
@@ -92,7 +92,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
                     SizedBox(width: 8),
 
-                    CustomText(
+                    CustomText2(
                       text: 'Use my current location',
                       color: Colors.black,
                       fontSize: 16,
@@ -107,7 +107,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomText(
+                  const CustomText2(
                     text: "Show results within",
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -130,14 +130,14 @@ class _LocationScreenState extends State<LocationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText(
+                        CustomText2(
                           text: "5 miles",
                           fontWeight: FontWeight.w600,
                           color: AppColors.black_04,
                           fontSize: 14,
                         ),
 
-                        CustomText(
+                        CustomText2(
                           text: "100 Miles",
                           fontWeight: FontWeight.w600,
                           color: AppColors.black_04,

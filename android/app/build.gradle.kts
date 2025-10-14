@@ -51,10 +51,16 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+            // Use safe accessors to avoid ClassCastException when properties are missing
+            val keyAliasProp = keystoreProperties.getProperty("keyAlias")
+            val keyPasswordProp = keystoreProperties.getProperty("keyPassword")
+            val storeFileProp = keystoreProperties.getProperty("storeFile")
+            val storePasswordProp = keystoreProperties.getProperty("storePassword")
+
+            if (!keyAliasProp.isNullOrEmpty()) keyAlias = keyAliasProp
+            if (!keyPasswordProp.isNullOrEmpty()) keyPassword = keyPasswordProp
+            if (!storePasswordProp.isNullOrEmpty()) storePassword = storePasswordProp
+            if (!storeFileProp.isNullOrEmpty()) storeFile = file(storeFileProp)
         }
     }
 

@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_button/custom_button
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Row(
                   children: [
-                    CustomText(
+                    CustomText2(
                       text: 'Login Account',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 SizedBox(height: 8),
-                CustomText(
+                CustomText2(
                   text: 'Welcome back',
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ), // Background color when not selected
                         ),
 
-                        CustomText(
+                        CustomText2(
                           text: 'Remember me',
                           color: AppColors.lightBlue,
                           fontWeight: FontWeight.w400,
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Get.to(() => ConfirmEmailScreen());
                       },
-                      child: CustomText(
+                      child: CustomText2(
                         text: 'Forgot Password?',
                         color: AppColors.lightBlue,
                         fontWeight: FontWeight.w400,
@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       50,
                     ), // 90% of screen width
                   ),
-                  child: CustomText(
+                  child: CustomText2(
                     text: 'Login',
                     color: Colors.white,
                     fontSize: 16,
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(width: 100, child: Divider(thickness: 1)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomText(
+                        child: CustomText2(
                           text: 'or sign in with',
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -273,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomText(
+                      CustomText2(
                         text: "Don't have an account? ",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -281,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       SizedBox(width: 6),
 
-                      CustomText(
+                      CustomText2(
                         text: "Sign Up",
                         fontWeight: FontWeight.w600,
                         color: AppColors.lightBlue,

@@ -2,8 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
@@ -25,32 +24,32 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     final List<Map<String, String>> services = [
       {
         'image':
-        'https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg',
+            'https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg',
       },
       {
         'image':
-        'https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg',
+            'https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg',
       },
-      {
-        'image': 'https://greenhorizon.ae/assets/general-cleaning.jpg',
-      },
+      {'image': 'https://greenhorizon.ae/assets/general-cleaning.jpg'},
       {
         'image':
-        'https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg',
+            'https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg',
       },
     ];
 
     return Scaffold(
-    //  appBar: const CustomAppbar(titleName: 'Cleaning',leftIcon: true,rightIcon: Icon(Ic),),
+      //  appBar: const CustomAppbar(titleName: 'Cleaning',leftIcon: true,rightIcon: Icon(Ic),),
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: const CustomText(text: "Cleaning",fontSize: 24,
+        title: const CustomText2(
+          text: "Cleaning",
+          fontSize: 24,
           fontWeight: FontWeight.w500,
-          color:AppColors.black,
+          color: AppColors.black,
         ),
         // Left icon (usually a menu or back button)
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded,color: AppColors.black,),
+          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.black),
           onPressed: () {
             // Handle left icon press
             Get.back();
@@ -58,9 +57,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ),
         // Right icons
         actions: [
-
           IconButton(
-            icon: const Icon(Icons.menu,color: AppColors.black,),
+            icon: const Icon(Icons.menu, color: AppColors.black),
             onPressed: () {
               // Handle notifications
               showMenu(
@@ -68,13 +66,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 position: RelativeRect.fromLTRB(300.0, 130.0, 0.0, 0.0),
                 color: Colors.white,
                 items: [
-
                   PopupMenuItem<String>(
                     value: 'Edit',
-                    child: CustomText(
-                        text: "Edit",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                    child: CustomText2(
+                      text: "Edit",
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                     onTap: () {
                       Get.toNamed(AppRoutes.editServiceScreen);
                     },
@@ -82,13 +80,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                   PopupMenuItem<String>(
                     value: 'Delete',
-                    child: CustomText(
+                    child: CustomText2(
                       text: "Delete",
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
                     onTap: () {
-
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -103,35 +100,29 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  SizedBox(height: 8),
 
-
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-
-                                  CustomText(text: "Are you sure you want to delete this service ?",
+                                  CustomText2(
+                                    text:
+                                        "Are you sure you want to delete this service ?",
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
-                                    color:AppColors.grey_2,
+                                    color: AppColors.grey_2,
                                   ),
 
-                                  SizedBox(
-                                    height: 8,
-                                  ),
+                                  SizedBox(height: 8),
 
                                   CustomButton(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-
-                                      },
-                                      title: "Yes",
-                                      height: 45,
-                                      fontSize: 12,
-                                      fillColor: AppColors.appColors),
-
-                                  SizedBox(
-                                    height: 12,
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: "Yes",
+                                    height: 45,
+                                    fontSize: 12,
+                                    fillColor: AppColors.appColors,
                                   ),
+
+                                  SizedBox(height: 12),
 
                                   CustomButton(
                                     onTap: () {
@@ -144,7 +135,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     textColor: AppColors.brinkPink,
                                     isBorder: true,
                                     borderWidth: 1,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -153,7 +144,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       );
                     },
                   ),
-
                 ],
               );
             },
@@ -184,18 +174,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(text:
-                          'Cleaning Service',
+                        CustomText2(
+                          text: 'Cleaning Service',
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                         SizedBox(height: 8),
                         Text(
                           '€25/hr',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.green,
-                          ),
+                          style: TextStyle(fontSize: 14, color: Colors.green),
                         ),
                       ],
                     ),
@@ -204,43 +191,40 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       mainAxisAlignment: MainAxisAlignment.end,
 
                       children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                              size: 20,
+                            ),
 
-                       Row(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           const Icon(
-                             Icons.star,
-                             color: Colors.yellow,
-                             size: 20,
-                           ),
+                            const Text(
+                              '4.8',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
 
-                           const Text(
-                             '4.8',
-                             style: TextStyle(
-                               fontSize: 16,
-                               fontWeight: FontWeight.bold,
-                             ),
-                           ),
-                           const SizedBox(
-                             width: 8,
-                           ),
-
-                           InkWell(
-                             onTap: (){
+                            InkWell(
+                              onTap: () {
                                 Get.toNamed(AppRoutes.reviewScreen);
-                             },
-                             child: const CustomText(text:
-                               'View',
-                               fontSize: 14,
-                               fontWeight: FontWeight.w600,
-                               color: AppColors.lightBlue,
-                             ),
-                           ),
-                         ],
-                       ),
+                              },
+                              child: const CustomText2(
+                                text: 'View',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.lightBlue,
+                              ),
+                            ),
+                          ],
+                        ),
 
-                        const CustomText(text:
-                        '306 Orders',
+                        const CustomText2(
+                          text: '306 Orders',
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.lightBlue,
@@ -263,9 +247,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 maxLines: 5,
               ),
 
-
               const SizedBox(height: 16),
-
 
               const Text(
                 'Photos',
@@ -308,4 +290,3 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 }
-

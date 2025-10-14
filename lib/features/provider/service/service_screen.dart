@@ -1,13 +1,10 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
-import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
@@ -19,7 +16,6 @@ class ServiceScreen extends StatefulWidget {
 class _ServiceScreenState extends State<ServiceScreen> {
   @override
   Widget build(BuildContext context) {
-
     final List<Map<String, String>> services = [
       {
         'title': 'Cleaning Service',
@@ -27,7 +23,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
         'rating': '4.8',
         'date': '12/07/2025',
         'bookings': '05',
-        'image':"https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // You can replace with actual image asset or network URL
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // You can replace with actual image asset or network URL
       },
       {
         'title': 'Laundry Service',
@@ -35,7 +32,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // Replace with actual image asset or network URL
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg", // Replace with actual image asset or network URL
       },
 
       {
@@ -44,7 +42,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
         'rating': '4.8',
         'date': '12/07/2025',
         'bookings': '05',
-        'image': "https://greenhorizon.ae/assets/general-cleaning.jpg", // You can replace with actual image asset or network URL
+        'image':
+            "https://greenhorizon.ae/assets/general-cleaning.jpg", // You can replace with actual image asset or network URL
       },
       {
         'title': 'BrightNest',
@@ -52,7 +51,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
         'rating': '4.8',
         'date': '12/08/2025',
         'bookings': '03',
-        'image': "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg" // Replace with actual image asset or network URL
+        'image':
+            "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg", // Replace with actual image asset or network URL
       },
     ];
 
@@ -70,8 +70,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
         itemBuilder: (context, index) {
           final service = services[index];
           return InkWell(
-            onTap: (){
-
+            onTap: () {
               ///serviceDetails
               Get.toNamed(AppRoutes.serviceDetails);
             },
@@ -101,12 +100,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           // Title and Rating Row
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CustomText(
+                              CustomText2(
                                 text: service['title']!,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -117,9 +115,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               // rating
                               Row(
                                 children: [
-                                  Icon(Icons.star, color: Colors.orange, size: 14),
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.orange,
+                                    size: 14,
+                                  ),
                                   SizedBox(width: 4),
-                                  CustomText(
+                                  CustomText2(
                                     text: service['rating']!,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
@@ -130,14 +132,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           ),
                           SizedBox(height: 8),
                           // Additional Info
-                          CustomText(
+                          CustomText2(
                             text: 'Current booking: ${service['bookings']}',
                             fontSize: 12,
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
                           ),
 
-                          CustomText(
+                          CustomText2(
                             text: 'Published: ${service['date']}',
                             fontSize: 12,
                             color: Colors.grey,
@@ -147,7 +149,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           SizedBox(height: 8),
 
                           // Price
-                          CustomText(
+                          CustomText2(
                             text: service['price']!,
                             fontSize: 12,
                             color: AppColors.lightBlue,
@@ -174,9 +176,5 @@ class _ServiceScreenState extends State<ServiceScreen> {
       ),
       bottomNavigationBar: NavBar(currentIndex: 2),
     );
-
   }
 }
-
-
-
