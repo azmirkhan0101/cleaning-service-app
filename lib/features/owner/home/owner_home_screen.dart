@@ -442,100 +442,169 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 12.w,
       children: [
-        Row(
-          children: [
-            IconWhiteCircleBackground(
-              icon: Assets.icons.locationMarker.svg(),
-              onTap: () => Get.to(DemoScreen()),
+        Expanded(
+          child: TextField(
+            readOnly: true,
+            onTap: () {
+              Get.to(OwnerHomeSearchScreen());
+            },
+            decoration: InputDecoration(
+              hintText: "Find Your Service",
+              hintStyle: TextStyle(
+                color: const Color(0xFF4F4F59),
+                fontSize: 12,
+                fontFamily: 'Lexend',
+                fontWeight: FontWeight.w400,
+                height: 1.50,
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Assets.icons.search.svg(),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
             ),
-            SizedBox(width: 6),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CustomText(
-                      text: 'My Location',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-                    SizedBox(width: 8),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.locationScreen);
-                      },
-                      child: Icon(Icons.edit, size: 18),
-                    ),
-                  ],
-                ),
-                CustomText(
-                  text: 'Dhaka',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.black,
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
+        IconWhiteCircleBackground(
+          icon: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Assets.icons.notificationBell.svg(width: 24, height: 24),
+              ),
+              Positioned(
+                right: 0,
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF00B046) /* green */,
+                    shape: OvalBorder(),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '1',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            // showCustomDialog(context);
+            Get.toNamed(AppRoutes.notificationScreen);
+          },
+        ),
+
+        // Row(
+        //   children: [
+        //     IconWhiteCircleBackground(
+        //       icon: Assets.icons.locationMarker.svg(),
+        //       onTap: () => Get.to(DemoScreen()),
+        //     ),
+        //     SizedBox(width: 6),
+
+        //     Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Row(
+        //           children: [
+        //             CustomText(
+        //               text: 'My Location',
+        //               fontSize: 14,
+        //               fontWeight: FontWeight.w400,
+        //               color: AppColors.black,
+        //             ),
+        //             SizedBox(width: 8),
+        //             InkWell(
+        //               onTap: () {
+        //                 Get.toNamed(AppRoutes.locationScreen);
+        //               },
+        //               child: Icon(Icons.edit, size: 18),
+        //             ),
+        //           ],
+        //         ),
+        //         CustomText(
+        //           text: 'Dhaka',
+        //           fontSize: 16,
+        //           fontWeight: FontWeight.w500,
+        //           color: AppColors.black,
+        //           textAlign: TextAlign.start,
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
 
         /// Notification and Search Icon
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          spacing: 8.w,
-          children: [
-            IconWhiteCircleBackground(
-              icon: Assets.icons.search.svg(width: 24, height: 24),
-              onTap: () {
-                // showCustomDialog(context);
-                Get.to(OwnerHomeSearchScreen());
-              },
-            ),
-            // Notification Icon
-            IconWhiteCircleBackground(
-              icon: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Assets.icons.notificationBell.svg(
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: Container(
-                      width: 14,
-                      height: 14,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFF00B046) /* green */,
-                        shape: OvalBorder(),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '1',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                // showCustomDialog(context);
-                Get.toNamed(AppRoutes.notificationScreen);
-              },
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   spacing: 8.w,
+        //   children: [
+        // IconWhiteCircleBackground(
+        //   icon: Assets.icons.search.svg(width: 24, height: 24),
+        //   onTap: () {
+        //     // showCustomDialog(context);
+        //     Get.to(OwnerHomeSearchScreen());
+        //   },
+        // ),
+        // Notification Icon
+        //     IconWhiteCircleBackground(
+        //       icon: Stack(
+        //         children: [
+        //           Padding(
+        //             padding: const EdgeInsets.all(2.0),
+        //             child: Assets.icons.notificationBell.svg(
+        //               width: 24,
+        //               height: 24,
+        //             ),
+        //           ),
+        //           Positioned(
+        //             right: 0,
+        //             child: Container(
+        //               width: 14,
+        //               height: 14,
+        //               decoration: ShapeDecoration(
+        //                 color: const Color(0xFF00B046) /* green */,
+        //                 shape: OvalBorder(),
+        //               ),
+        //               child: Center(
+        //                 child: Text(
+        //                   '1',
+        //                   style: TextStyle(
+        //                     color: Colors.white,
+        //                     fontSize: 10,
+        //                     fontWeight: FontWeight.w600,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //       onTap: () {
+        //         // showCustomDialog(context);
+        //         Get.toNamed(AppRoutes.notificationScreen);
+        //       },
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

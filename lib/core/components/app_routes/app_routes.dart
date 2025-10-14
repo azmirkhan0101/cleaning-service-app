@@ -41,7 +41,7 @@ import 'package:cleaning_service_app/features/provider/service/review_screen.dar
 import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
-import 'package:cleaning_service_app/features/selection/selection_screen.dart';
+import 'package:cleaning_service_app/features/auth/selection_screen.dart';
 import 'package:cleaning_service_app/features/splash/onboarding++.dart';
 import 'package:cleaning_service_app/features/splash/onboarding_second_screen.dart';
 import 'package:cleaning_service_app/features/splash/splash_screen.dart';
