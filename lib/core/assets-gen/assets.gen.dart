@@ -54,6 +54,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/cleaning.svg
   SvgGenImage get cleaning => const SvgGenImage('assets/icons/cleaning.svg');
 
+  /// File path: assets/icons/clock.svg
+  SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
+
   /// File path: assets/icons/current_icon.svg
   SvgGenImage get currentIcon =>
       const SvgGenImage('assets/icons/current_icon.svg');
@@ -159,6 +162,7 @@ class $AssetsIconsGen {
     calanderIcon,
     card,
     cleaning,
+    clock,
     currentIcon,
     currentPlan,
     earningIcon,
