@@ -33,6 +33,10 @@ class $AssetsIconsGen {
   SvgGenImage get arrowNarrowRight =>
       const SvgGenImage('assets/icons/arrow-narrow-right.svg');
 
+  /// File path: assets/icons/bell-ringing.svg
+  SvgGenImage get bellRinging =>
+      const SvgGenImage('assets/icons/bell-ringing.svg');
+
   /// File path: assets/icons/book.svg
   SvgGenImage get book => const SvgGenImage('assets/icons/book.svg');
 
@@ -156,6 +160,7 @@ class $AssetsIconsGen {
     arrowDown,
     arrowLeft,
     arrowNarrowRight,
+    bellRinging,
     book,
     bookingsFilled,
     bookingsOutline,

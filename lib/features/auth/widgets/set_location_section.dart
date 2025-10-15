@@ -29,7 +29,7 @@ class SetLocationSection extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        const CustomText2(
+        const CustomText(
           text: AppStrings.locationTitle,
           fontSize: 12,
           color: unselectedTextColor,
@@ -79,7 +79,7 @@ class SetLocationSection extends StatelessWidget {
 
               SizedBox(width: 8),
 
-              CustomText2(
+              CustomText(
                 text: 'Use my current location',
                 color: Colors.black,
                 fontSize: 16,
@@ -95,7 +95,7 @@ class SetLocationSection extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText2(
+            const CustomText(
               text: "Show results within",
               fontSize: 14,
               fontWeight: FontWeight.w600,

@@ -562,7 +562,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
             });
           },
           decoration: InputDecoration(
-            hintText: 'Search Your Service',
+            hintText: 'Search',
             hintStyle: TextStyle(
               color: Color(0xFF4F4F59),
               fontSize: 16,

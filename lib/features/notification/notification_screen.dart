@@ -1,5 +1,6 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,22 +17,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: CustomAppbar(titleName: "Notification", leftIcon: true),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ListView.builder(
+              ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 8,
+                itemCount: 3,
                 itemBuilder: (BuildContext context, index) {
                   return _buildNotification(
-                    icon: Icons.notification_important,
+                    index: index,
                     title: 'Booking Request',
                     subtitle: 'from Mia Carter for Dec 20, 2024.',
                     time: '34m ago',
                   );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(height: 1, color: Color(0xFFF1F1F2));
                 },
               ),
             ],
@@ -42,25 +46,48 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Widget _buildNotification({
-    required IconData icon,
+    required int index,
     required String title,
     required String subtitle,
     required String time,
   }) {
-    return Card(
-      color: AppColors.white,
-      elevation: 0.5,
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      child: ListTile(
-        leading: Icon(icon, color: Colors.blue),
-        title: CustomText2(
-          text: title,
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-          textAlign: TextAlign.start,
+    return ListTile(
+      // leading: Icon(icon, color: Colors.blue),
+      leading: Assets.icons.bellRinging.svg(
+        colorFilter: ColorFilter.mode(
+          index == 0 ? AppColors.blue : AppColors.black,
+          BlendMode.srcIn,
         ),
-        subtitle: Text(subtitle),
-        trailing: Text(time, style: const TextStyle(color: Colors.grey)),
+      ),
+      title: CustomText(
+        text: title,
+        fontWeight: FontWeight.w500,
+        fontSize: 14,
+        textAlign: TextAlign.start,
+        fontFamily: FontFamily.lexend,
+        color: index == 0 ? AppColors.blue : AppColors.black,
+      ),
+      subtitle: CustomText(
+        text: subtitle,
+        fontWeight: FontWeight.w400,
+        fontSize: 12,
+        textAlign: TextAlign.start,
+        fontFamily: FontFamily.lexend,
+        color: index == 0 ? AppColors.blue : Color(0xFF4F4F59),
+      ),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          CustomText(
+            text: time,
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            textAlign: TextAlign.start,
+            fontFamily: FontFamily.lexend,
+            color: index == 0 ? AppColors.blue : Color(0xFF4F4F59),
+          ),
+        ],
       ),
     );
   }
