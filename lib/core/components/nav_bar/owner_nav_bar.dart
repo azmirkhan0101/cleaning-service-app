@@ -7,7 +7,7 @@ import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen
 import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

@@ -55,6 +55,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/card.svg
   SvgGenImage get card => const SvgGenImage('assets/icons/card.svg');
 
+  /// File path: assets/icons/check-circle.svg
+  SvgGenImage get checkCircle =>
+      const SvgGenImage('assets/icons/check-circle.svg');
+
+  /// File path: assets/icons/circle.svg
+  SvgGenImage get circle => const SvgGenImage('assets/icons/circle.svg');
+
   /// File path: assets/icons/cleaning.svg
   SvgGenImage get cleaning => const SvgGenImage('assets/icons/cleaning.svg');
 
@@ -104,6 +111,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/message.svg
   SvgGenImage get message => const SvgGenImage('assets/icons/message.svg');
+
+  /// File path: assets/icons/new_base.svg
+  SvgGenImage get newBase => const SvgGenImage('assets/icons/new_base.svg');
 
   /// File path: assets/icons/note.svg
   SvgGenImage get note => const SvgGenImage('assets/icons/note.svg');
@@ -166,6 +176,8 @@ class $AssetsIconsGen {
     bookingsOutline,
     calanderIcon,
     card,
+    checkCircle,
+    circle,
     cleaning,
     clock,
     currentIcon,
@@ -180,6 +192,7 @@ class $AssetsIconsGen {
     laundry,
     locationMarker,
     message,
+    newBase,
     note,
     notificationBell,
     opport,

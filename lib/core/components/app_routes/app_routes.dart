@@ -1,6 +1,7 @@
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
-import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
@@ -15,9 +16,9 @@ import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dar
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_category_by_service.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_booking.dart';
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
@@ -41,7 +42,6 @@ import 'package:cleaning_service_app/features/provider/service/review_screen.dar
 import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
-import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:cleaning_service_app/features/splash/onboarding++.dart';
 import 'package:cleaning_service_app/features/splash/onboarding_second_screen.dart';
 import 'package:cleaning_service_app/features/splash/splash_screen.dart';
@@ -192,7 +192,10 @@ class AppRoutes {
 
     GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
 
-    GetPage(name: ownerCategoryByService, page: () => OwnerCategoryByService()),
+    GetPage(
+      name: ownerCategoryByService,
+      page: () => OwnerServicesByCategoryScreen(),
+    ),
 
     GetPage(
       name: ownerServiceDetailsScreen,

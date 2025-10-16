@@ -9,7 +9,7 @@ import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';

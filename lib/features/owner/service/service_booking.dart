@@ -1,12 +1,16 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ServiceBooking extends StatefulWidget {
@@ -18,6 +22,7 @@ class ServiceBooking extends StatefulWidget {
 
 class _ServiceBookingState extends State<ServiceBooking> {
   final ownerController = Get.find<OwnerServiceController>();
+  final serviceBookingController = Get.find<ServiceBookingController>();
 
   DateTime? selected;
 
@@ -41,60 +46,28 @@ class _ServiceBookingState extends State<ServiceBooking> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 16.w,
                 children: [
-                  Column(
-                    children: [
-                      StepCircle(isActive: true, isCompleted: true),
-                      CustomText2(
-                        text: "Step 1",
-                        color: AppColors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 20),
-                  CustomText2(
-                    text: "-------------",
-                    color: AppColors.black,
-                    fontSize: 24,
-                  ),
-                  SizedBox(width: 20),
-
-                  Column(
-                    children: [
-                      ///StepCircle(isActive: false, isCompleted: false),
-                      Container(
-                        width: 70, // Width of the circle
-                        height: 70.0, // Height of the circle
+                  _buildCircularStep(label: "Step 1", isCompleted: true),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 4.w,
+                    children: List.generate(
+                      12,
+                      (index) => Container(
+                        width: 8,
+                        height: 2,
                         decoration: BoxDecoration(
-                          color: AppColors.grey_1.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.blue, // Circle color
-                            width: 2.0, // Border thickness
-                          ),
-                        ),
-                        child: Container(
-                          width: 20.0, // Width of the circle
-                          height: 20.0, // Height of the circle
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              // color: AppColors.lightBlue, // Circle color
-                              width: 1.0, // Border thickness
-                            ),
-                          ),
+                          color: Color(0xFF4899D1),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      CustomText2(
-                        text: "Step 2",
-                        color: AppColors.lightBlue,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
+                    ),
                   ),
+
+                  _buildCircularStep(label: "Step 2", isCompleted: false),
                 ],
               ),
 
@@ -115,7 +88,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 hintText: "Enter date and time",
                 hasBackgroundColor: true,
                 prefixIcon: Icon(Icons.calendar_month),
-                controller: TextEditingController(),
+                controller: serviceBookingController.dateTimeController,
                 readOnly: true,
                 onTap: () async {
                   _openBottomSheet(context);
@@ -130,7 +103,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 hintText: "Enter phone number",
                 hasBackgroundColor: true,
                 prefixIcon: Icon(Icons.phone),
-                controller: TextEditingController(),
+                controller: serviceBookingController.phoneNumberController,
               ),
 
               SizedBox(height: 12),
@@ -141,7 +114,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 hintText: "Enter address",
                 prefixIcon: Icon(Icons.location_pin),
                 hasBackgroundColor: true,
-                controller: TextEditingController(),
+                controller: serviceBookingController.addressController,
               ),
 
               SizedBox(height: 12),
@@ -153,7 +126,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 hasBackgroundColor: true,
 
                 maxLine: 2,
-                controller: TextEditingController(),
+                controller: serviceBookingController.descriptionController,
               ),
 
               SizedBox(height: 12),
@@ -189,12 +162,45 @@ class _ServiceBookingState extends State<ServiceBooking> {
     );
   }
 
+  Widget _buildCircularStep({
+    required String label,
+    required bool isCompleted,
+  }) {
+    return Column(
+      children: [
+        Container(
+          width: 50,
+          height: 50,
+          padding: const EdgeInsets.all(11),
+          decoration: ShapeDecoration(
+            color: isCompleted ? const Color(0xFF4899D1) : Color(0xFFDDE1ED),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+          ),
+          child: isCompleted
+              ? Assets.icons.checkCircle.svg()
+              : Assets.icons.circle.svg(),
+        ),
+        // StepCircle(isActive: true, isCompleted: true),
+        CustomText(
+          text: label,
+          textAlign: TextAlign.center,
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+          fontFamily: FontFamily.lexend,
+          color: isCompleted ? AppColors.black : const Color(0xFFB9C2DB),
+        ),
+      ],
+    );
+  }
+
   void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // fullscreen feel
-      isDismissible: false, // Prevent tap outside dismiss
-      enableDrag: false, // Prevent drag down dismiss
+      // isDismissible: false, // Prevent tap outside dismiss
+      // enableDrag: false, // Prevent drag down dismiss
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -202,7 +208,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
         return DefaultTabController(
           length: 2,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
+            height: MediaQuery.of(context).size.height * 0.7,
             child: Column(
               children: [
                 Row(
@@ -263,39 +269,231 @@ class _ServiceBookingState extends State<ServiceBooking> {
                         return CalendarDatePicker2(
                           config: CalendarDatePicker2Config(
                             calendarType: CalendarDatePicker2Type.single,
+                            animateToDisplayedMonthDate: true,
+                            currentDate: DateTime.now(),
+                            selectedDayHighlightColor: Colors.blue,
                           ),
-                          value: ownerController.selectedDate.value == null
-                              ? []
-                              : [ownerController.selectedDate.value!],
-                          onValueChanged: (dates) {
-                            if (dates.isNotEmpty) {
-                              ownerController.setDate(dates.first);
-                            }
+                          value: [serviceBookingController.selectedDate.value],
+                          onValueChanged: (value) {
+                            serviceBookingController.setSelectedDate(
+                              value.first,
+                            );
                           },
                         );
                       }),
 
                       /// ---------- Time Picker ----------
-                      TimePickerWidget(),
+                      TimePickerWidget(
+                        onTimeSelected: (time) {
+                          serviceBookingController.setSelectedTime(time);
+                          print(serviceBookingController.selectedTime.value);
+                        },
+                      ),
                     ],
                   ),
                 ),
 
                 /// ---------- Confirm Button ----------
                 Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: ElevatedButton(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FilledButton(
                     onPressed: () {
-                      Navigator.pop(context);
-                      final date = ownerController.selectedDate.value;
-                      final time = ownerController.selectedTime.value;
-                      Get.snackbar(
-                        "Selection",
-                        "Date: ${date ?? "Not set"}\nTime: ${time?.format(context) ?? "Not set"}",
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
+                      if (serviceBookingController.unAvailableSlots.contains(
+                        serviceBookingController.selectedTime.value,
+                      )) {
+                        Get.dialog(
+                          Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(
+                                color: Color(0xFF1B2D51),
+                                width: 1.6,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 27,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Title
+                                  const Text(
+                                    'Booking Conflict',
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend',
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0F0B18),
+                                      letterSpacing: -1,
+                                      height: 1.3,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 12),
+
+                                  // Clock Icon with X Badge
+                                  Stack(
+                                    children: [
+                                      // Clock Icon
+                                      // Container(
+                                      //   width: 90,
+                                      //   height: 90,
+                                      //   decoration: BoxDecoration(
+                                      //     shape: BoxShape.circle,
+                                      //     color: const Color(
+                                      //       0xFFB9C2DB,
+                                      //     ).withOpacity(0.3),
+                                      //   ),
+                                      //   child: const Icon(
+                                      //     Icons.access_time,
+                                      //     size: 50,
+                                      //     color: Color(0xFF4899D1),
+                                      //   ),
+                                      // ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Assets.icons.clock.svg(
+                                          width: 68,
+                                          height: 68,
+                                          colorFilter: ColorFilter.mode(
+                                            const Color(0xFF4899D1),
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                      ),
+                                      // X Badge
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFFDE5640),
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            size: 24,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+
+                                  // Unavailable message
+                                  RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
+                                        fontFamily: 'Lexend',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF4F4F59),
+                                        height: 1.5,
+                                      ),
+                                      children: [
+                                        const TextSpan(
+                                          text:
+                                              'The provider is unavailable at ',
+                                        ),
+                                        TextSpan(
+                                          text: _formatTime(
+                                            serviceBookingController
+                                                .selectedTime
+                                                .value,
+                                          ),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF0F0B18),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+
+                                  // Next available message
+                                  RichText(
+                                    text: const TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'Lexend',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF4F4F59),
+                                        height: 1.5,
+                                      ),
+                                      children: [
+                                        TextSpan(text: 'Next available: '),
+                                        TextSpan(
+                                          text: '08:30 AM',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF1B2D51),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 12),
+
+                                  // OK Button
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(
+                                          0xFFF7A51D,
+                                        ),
+                                        foregroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            24,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 100,
+                                        ),
+                                        elevation: 0,
+                                      ),
+                                      child: const Text(
+                                        'OK',
+                                        style: TextStyle(
+                                          fontFamily: 'Lexend',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        serviceBookingController.setDateTimeController();
+                        Get.back();
+                      }
                     },
-                    child: const Text("Confirm"),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.appColors,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      fixedSize: Size(double.maxFinite, 48.w),
+                    ),
+                    child: Text("Done"),
                   ),
                 ),
               ],
@@ -305,26 +503,11 @@ class _ServiceBookingState extends State<ServiceBooking> {
       },
     );
   }
-}
 
-class StepCircle extends StatelessWidget {
-  final bool isActive;
-  final bool isCompleted;
-
-  StepCircle({required this.isActive, required this.isCompleted});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 32,
-      backgroundColor: isCompleted
-          ? AppColors.lightBlue
-          : isActive
-          ? Colors.blueAccent
-          : Colors.grey[300],
-      child: isCompleted
-          ? Icon(Icons.check, color: Colors.white, size: 32)
-          : null,
-    );
+  String _formatTime(TimeOfDay time) {
+    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return '$hour:$minute $period';
   }
 }

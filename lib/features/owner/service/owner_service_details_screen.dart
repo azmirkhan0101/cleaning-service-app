@@ -4,13 +4,14 @@ import 'package:cleaning_service_app/core/components/custom_button/custom_button
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -441,16 +442,22 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText2(
+                            CustomText(
+                              text: 'Name',
+                              color: const Color(0xFF0F0B18),
+                              fontSize: 14,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
+                            ),
+
+                            CustomText(
                               text: 'Jorge Bond',
-                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF4F4F59),
                               fontSize: 14,
-                            ),
-
-                            CustomText2(
-                              text: 'jorgebong@gmail.com',
-                              fontSize: 14,
-                              color: AppColors.neutral03,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w400,
+                              height: 1.50,
                             ),
                           ],
                         ),
@@ -463,16 +470,22 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText2(
+                            CustomText(
                               text: 'Address',
-                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF0F0B18),
                               fontSize: 14,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
                             ),
 
-                            CustomText2(
+                            CustomText(
                               text: 'Los Angeles, California',
+                              color: const Color(0xFF4F4F59),
                               fontSize: 14,
-                              color: AppColors.neutral03,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w400,
+                              height: 1.50,
                             ),
                           ],
                         ),
@@ -486,16 +499,22 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText2(
+                            CustomText(
                               text: 'Experience',
-                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF0F0B18),
                               fontSize: 14,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
                             ),
 
-                            CustomText2(
+                            CustomText(
                               text: '2 Years',
+                              color: const Color(0xFF4F4F59),
                               fontSize: 14,
-                              color: AppColors.neutral03,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w400,
+                              height: 1.50,
                             ),
                           ],
                         ),
@@ -509,10 +528,13 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText2(
+                            CustomText(
                               text: 'About me',
-                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF0F0B18),
                               fontSize: 14,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
                             ),
 
                             /* CustomText(text: 'Hello! I’m a dedicated cleaning service provider with a  passion for creating spotless,comfortable, and healthy spaces.',
@@ -524,17 +546,21 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
                                 text:
                                     'Hello! I’m a dedicated cleaning service provider with a  passion for creating spotless,comfortable, and healthy spaces.',
                                 style: TextStyle(
+                                  color: const Color(0xFF4F4F59),
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.neutral03,
+                                  fontFamily: 'Lexend',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
                                 ),
                                 children: [
                                   TextSpan(
                                     text: ' Read More',
                                     style: TextStyle(
+                                      color: const Color(0xFF4899D1),
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.lightBlue,
+                                      fontFamily: 'Lexend',
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.50,
                                     ),
                                   ),
                                 ],

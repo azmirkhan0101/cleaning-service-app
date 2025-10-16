@@ -1,0 +1,208 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
+import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
+import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class OwnerServicesByCategoryScreen extends StatefulWidget {
+  const OwnerServicesByCategoryScreen({super.key});
+
+  @override
+  State<OwnerServicesByCategoryScreen> createState() =>
+      _OwnerServicesByCategoryScreenState();
+}
+
+class _OwnerServicesByCategoryScreenState
+    extends State<OwnerServicesByCategoryScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> services = [
+      {
+        'title': 'Cleaning Service',
+        'price': '€25/hr',
+        'rating': '4.8',
+        'date': '12/07/2025',
+        'bookings': '05',
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
+        'new': true,
+      },
+      {
+        'title': 'Laundry Service',
+        'price': '€30/hr',
+        'rating': '4.8',
+        'date': '12/08/2025',
+        'bookings': '03',
+        'image':
+            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
+        'new': false,
+      },
+      {
+        'title': 'CleanWave',
+        'price': '€25/hr',
+        'rating': '4.8',
+        'date': '12/07/2025',
+        'bookings': '05',
+        'image': "https://greenhorizon.ae/assets/general-cleaning.jpg",
+        'new': false,
+      },
+      {
+        'title': 'BrightNest',
+        'price': '€30/hr',
+        'rating': '4.8',
+        'date': '12/08/2025',
+        'bookings': '03',
+        'image':
+            "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg",
+        'new': true,
+      },
+    ];
+
+    return Scaffold(
+      appBar: CustomAppbar(titleName: "Service", leftIcon: true),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Always 2 columns for phones
+            crossAxisSpacing: 8.0, // Space between columns
+            mainAxisSpacing: 8.0, // Space between rows
+            childAspectRatio: 0.70, // Aspect ratio for grid items
+          ),
+          itemCount: services.length,
+          itemBuilder: (context, index) {
+            final service = services[index];
+            return InkWell(
+              onTap: () {
+                Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
+              },
+              child: ListView(
+                children: [
+                  Card(
+                    elevation: 0.2,
+                    color: AppColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Service Image
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            service['image']!,
+                            height: 120,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Title and Rating Row
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText2(
+                                    text: service['title']!,
+                                    fontSize:
+                                        14, // Adjusted font size for smaller screens
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(height: 4),
+                                  // Rating
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.orange,
+                                        size: 14,
+                                      ),
+                                      SizedBox(width: 4),
+                                      CustomText2(
+                                        text: service['rating']!,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              // Additional Info
+                              // CustomText2(
+                              //   text: 'Current booking: ${service['bookings']}',
+                              //   fontSize: 12,
+                              //   color: Colors.grey,
+                              //   fontWeight: FontWeight.w400,
+                              // ),
+                              // SizedBox(height: 4),
+                              // Service provider info
+                              Row(
+                                children: [
+                                  CustomNetworkImage(
+                                    imageUrl: AppConstants.profileImage,
+                                    height: 24,
+                                    width: 24,
+                                    boxShape: BoxShape.circle,
+                                  ),
+                                  SizedBox(width: 4),
+                                  CustomText2(
+                                    text: 'Jorge Bond',
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  SizedBox(width: 4),
+                                  service['new']
+                                      ? Assets.icons.newBase.svg()
+                                      : const SizedBox.shrink(),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              CustomText2(
+                                text: 'Start from- Instant Booking',
+                                fontSize: 10,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              SizedBox(height: 6),
+                              // Price and icon row
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText2(
+                                    text: service['price']!,
+                                    fontSize: 12,
+                                    color: AppColors.lightBlue,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomImage(imageSrc: AppImages.arrayicon),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
