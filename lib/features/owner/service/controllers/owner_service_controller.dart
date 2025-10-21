@@ -29,7 +29,6 @@ class OwnerServiceController extends GetxController {
     selectedTime.value = time;
   }
 
-
   var selectedTime = Rx<TimeOfDay?>(null);
 
   Future<void> pickTime(BuildContext context) async {

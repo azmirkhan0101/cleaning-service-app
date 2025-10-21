@@ -3,11 +3,11 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

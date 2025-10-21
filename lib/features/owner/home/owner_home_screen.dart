@@ -248,42 +248,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       itemBuilder: (BuildContext context, index) {
                         final service = category[index];
 
-                        return InkWell(
-                          onTap: () {
-                            ///Navigate to owner service  page
-                            Get.toNamed(AppRoutes.ownerCategoryByService);
-                          },
-                          child: Card(
-                            elevation: 0.3,
-                            color: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Service Image
-                                CustomImage(
-                                  imageSrc: AppImages.banner_im6,
-                                  height: 80,
-                                  width: 110,
-                                  fit: BoxFit.fill,
-                                ),
-
-                                SizedBox(height: 8),
-
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: CustomText2(
-                                    text: service['title']!,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                        return ServiceCategoryCard(service: service);
                       },
                     ),
                   ),
@@ -1083,6 +1048,57 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class ServiceCategoryCard extends StatelessWidget {
+  const ServiceCategoryCard({super.key, required this.service});
+
+  final Map<String, String> service;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        ///Navigate to owner service  page
+        Get.toNamed(AppRoutes.ownerCategoryByService);
+      },
+      child: Card(
+        elevation: 0.3,
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(0),
+            bottomRight: Radius.circular(0),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Service Image
+            CustomImage(
+              imageSrc: AppImages.banner_im6,
+              height: 80,
+              width: 110,
+              fit: BoxFit.fill,
+            ),
+
+            SizedBox(height: 8),
+
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CustomText2(
+                text: service['title']!,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -69,6 +69,7 @@ dependencies:
   flutter_picker_plus: ^1.5.4
   dio: ^5.9.0
   dropdown_button2: ^2.3.9
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:

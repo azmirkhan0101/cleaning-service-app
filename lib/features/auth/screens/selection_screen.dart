@@ -1,7 +1,9 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -10,6 +12,7 @@ import 'package:cleaning_service_app/features/auth/controllers/selection_control
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_role_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -48,22 +51,11 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Current index: ${selectionController.currentIndex.value}");
+
     return Scaffold(
       // appBar: CustomAppbar(leftIcon: true,),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.black, size: 32),
-          onPressed: () {
-            if (selectionController.currentIndex.value > 0) {
-              selectionController.currentIndex.value--;
-            } else {
-              // Action for the left icon
-              Navigator.pop(context);
-              // Get.offNamed(AppRoutes.loginScreen);
-            }
-          },
-        ),
-      ),
+      appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -71,25 +63,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 5,
-                  children: List.generate(5, (index) {
-                    return Expanded(
-                      child: Container(
-                        height: 6,
-                        decoration: ShapeDecoration(
-                          color: index == selectionController.currentIndex.value
-                              ? AppColors.lightBlue
-                              : AppColors.grey_3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
+                _buildLineIndicator(),
 
                 SizedBox(height: 22),
 
@@ -852,6 +826,28 @@ class _SelectionScreenState extends State<SelectionScreen> {
                   borderRadius: 24,
                   // Wider button on tablets
                 ),
+
+                16.w.heightBox,
+
+                // Skip button
+                if (selectionController.currentIndex.value == 1 ||
+                    selectionController.currentIndex.value == 2)
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        selectionController.currentIndex.value =
+                            selectionController.currentIndex.value + 1;
+                      },
+                      child: CustomText(
+                        text: 'Skip',
+                        color: const Color(0xFF98A1B2),
+                        fontSize: 14,
+                        fontFamily: 'Plus Jakarta Sans',
+                        fontWeight: FontWeight.w500,
+                        height: 1.50,
+                      ),
+                    ),
+                  ),
               ],
             );
           }),
@@ -860,7 +856,46 @@ class _SelectionScreenState extends State<SelectionScreen> {
     );
   }
 
-  buildDot(int index, BuildContext context) {
+  Widget _buildLineIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 5,
+      children: List.generate(5, (index) {
+        return Expanded(
+          child: Container(
+            height: 6,
+            decoration: ShapeDecoration(
+              color: index == selectionController.currentIndex.value
+                  ? AppColors.lightBlue
+                  : AppColors.grey_3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: AppColors.black, size: 32),
+        onPressed: () {
+          if (selectionController.currentIndex.value > 0) {
+            selectionController.currentIndex.value--;
+          } else {
+            // Action for the left icon
+            Navigator.pop(context);
+            // Get.offNamed(AppRoutes.loginScreen);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildDot(int index, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 8),
       child: Container(

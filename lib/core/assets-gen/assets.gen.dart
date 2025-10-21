@@ -33,6 +33,10 @@ class $AssetsIconsGen {
   SvgGenImage get arrowNarrowRight =>
       const SvgGenImage('assets/icons/arrow-narrow-right.svg');
 
+  /// File path: assets/icons/bell-ringing.svg
+  SvgGenImage get bellRinging =>
+      const SvgGenImage('assets/icons/bell-ringing.svg');
+
   /// File path: assets/icons/book.svg
   SvgGenImage get book => const SvgGenImage('assets/icons/book.svg');
 
@@ -50,6 +54,13 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/card.svg
   SvgGenImage get card => const SvgGenImage('assets/icons/card.svg');
+
+  /// File path: assets/icons/check-circle.svg
+  SvgGenImage get checkCircle =>
+      const SvgGenImage('assets/icons/check-circle.svg');
+
+  /// File path: assets/icons/circle.svg
+  SvgGenImage get circle => const SvgGenImage('assets/icons/circle.svg');
 
   /// File path: assets/icons/cleaning.svg
   SvgGenImage get cleaning => const SvgGenImage('assets/icons/cleaning.svg');
@@ -101,6 +112,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/message.svg
   SvgGenImage get message => const SvgGenImage('assets/icons/message.svg');
 
+  /// File path: assets/icons/new_base.svg
+  SvgGenImage get newBase => const SvgGenImage('assets/icons/new_base.svg');
+
   /// File path: assets/icons/note.svg
   SvgGenImage get note => const SvgGenImage('assets/icons/note.svg');
 
@@ -110,6 +124,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/opport.svg
   SvgGenImage get opport => const SvgGenImage('assets/icons/opport.svg');
+
+  /// File path: assets/icons/phone.svg
+  SvgGenImage get phone => const SvgGenImage('assets/icons/phone.svg');
 
   /// File path: assets/icons/profile-filled.svg
   SvgGenImage get profileFilled =>
@@ -156,11 +173,14 @@ class $AssetsIconsGen {
     arrowDown,
     arrowLeft,
     arrowNarrowRight,
+    bellRinging,
     book,
     bookingsFilled,
     bookingsOutline,
     calanderIcon,
     card,
+    checkCircle,
+    circle,
     cleaning,
     clock,
     currentIcon,
@@ -175,9 +195,11 @@ class $AssetsIconsGen {
     laundry,
     locationMarker,
     message,
+    newBase,
     note,
     notificationBell,
     opport,
+    phone,
     profileFilled,
     profileOutliine,
     profile,

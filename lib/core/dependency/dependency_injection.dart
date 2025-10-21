@@ -1,10 +1,12 @@
+import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
 import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection extends Bindings {
@@ -18,5 +20,9 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => OwnerController(), fenix: true);
     Get.lazyPut(() => OwnerServiceController(), fenix: true);
     Get.lazyPut(() => LocationController(), fenix: true);
+    Get.lazyPut(() => ServiceBookingController(), fenix: true);
+
+    /// === => Owner Booking Controller ===
+    Get.lazyPut(() => OwnerBookingController(), fenix: true);
   }
 }

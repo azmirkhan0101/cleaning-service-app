@@ -5,14 +5,17 @@ import 'package:get/get.dart';
 class TimePickerWidget extends StatefulWidget {
   // final OwnerServiceController ownerController;
 
-  const TimePickerWidget({super.key});
+  const TimePickerWidget({super.key, this.onTimeSelected});
+  final void Function(TimeOfDay time)? onTimeSelected;
 
   @override
   State<TimePickerWidget> createState() => _TimePickerWidgetState();
 }
 
 class _TimePickerWidgetState extends State<TimePickerWidget> {
-  final TimePickerController ownerController = Get.put(TimePickerController());
+  final TimePickerController timePickerController = Get.put(
+    TimePickerController(),
+  );
 
   late int _hour;
   late int _minute; // Will be 0 or 30
@@ -22,10 +25,13 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   void initState() {
     super.initState();
     // Initialize from controller or defaults
+    // final currentTime =
+    //     ownerController.selectedTime.value ??
+    //     const TimeOfDay(hour: 1, minute: 30);
+    // const TimeOfDay(hour: 1, minute: 30);
     final currentTime =
-        ownerController.selectedTime.value ??
+        timePickerController.selectedTime.value ??
         const TimeOfDay(hour: 1, minute: 30);
-    const TimeOfDay(hour: 1, minute: 30);
 
     _hour = currentTime.hourOfPeriod == 0 ? 12 : currentTime.hourOfPeriod;
     _minute = currentTime.minute >= 30 ? 30 : 0;
@@ -35,7 +41,8 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   void _updateTime() {
     // Convert to 24-hour format for TimeOfDay
     int hour24 = _hour == 12 ? (_isAM ? 0 : 12) : (_isAM ? _hour : _hour + 12);
-    ownerController.setTime(TimeOfDay(hour: hour24, minute: _minute));
+    timePickerController.setTime(TimeOfDay(hour: hour24, minute: _minute));
+    widget.onTimeSelected?.call(TimeOfDay(hour: hour24, minute: _minute));
   }
 
   void _incrementHour() {
