@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
@@ -9,103 +10,63 @@ class DetailsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ///Profile Image
-        CustomNetworkImage(
-          imageUrl: AppConstants.profileImage,
-          height: 120,
-          width: 120,
-          boxShape: BoxShape.circle,
+        Center(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomNetworkImage(
+                  imageUrl: AppConstants.profileImage,
+                  height: 102,
+                  width: 102,
+                  boxShape: BoxShape.circle,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x14000000),
+                        blurRadius: 16,
+                        offset: Offset(0, 8),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Assets.icons.badge.svg(),
+                ),
+              ),
+            ],
+          ),
         ),
 
         SizedBox(height: 24),
 
-        Align(
-          alignment: Alignment.topLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: 'Name',
-                color: const Color(0xFF0F0B18),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w600,
-                height: 1.50,
-              ),
-
-              CustomText(
-                text: 'Jorge Bond',
-                color: const Color(0xFF4F4F59),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w400,
-                height: 1.50,
-              ),
-            ],
-          ),
-        ),
+        _buildInfoSection("Name", "Jorge Bond"),
         const SizedBox(height: 16),
-
-        Align(
-          alignment: Alignment.topLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: 'Address',
-                color: const Color(0xFF0F0B18),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w600,
-                height: 1.50,
-              ),
-
-              CustomText(
-                text: 'Los Angeles, California',
-                color: const Color(0xFF4F4F59),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w400,
-                height: 1.50,
-              ),
-            ],
-          ),
-        ),
-
+        _buildInfoSection("Phone Number", "01840-560614"),
         const SizedBox(height: 16),
-
-        Align(
-          alignment: Alignment.topLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: 'Experience',
-                color: const Color(0xFF0F0B18),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w600,
-                height: 1.50,
-              ),
-
-              CustomText(
-                text: '2 Years',
-                color: const Color(0xFF4F4F59),
-                fontSize: 14,
-                fontFamily: FontFamily.lexend,
-                fontWeight: FontWeight.w400,
-                height: 1.50,
-              ),
-            ],
-          ),
-        ),
-
+        _buildInfoSection("Email", "jorgebong@gmail.com"),
         const SizedBox(height: 16),
-
+        _buildInfoSection("Address", "Los Angeles, California"),
+        const SizedBox(height: 16),
+        _buildInfoSection("Experience", "2 Years"),
+        const SizedBox(height: 16),
         Align(
           alignment: Alignment.topLeft,
           child: Column(
@@ -152,6 +113,43 @@ class DetailsTabView extends StatelessWidget {
               ),
             ],
           ),
+        ),
+
+        // Chat Icon
+        SizedBox(height: 16),
+        Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: const Color(0xFF4899D1),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Assets.icons.chat.svg(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoSection(String title, String value) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          text: title,
+          color: const Color(0xFF0F0B18),
+          fontSize: 14,
+          fontFamily: FontFamily.lexend,
+          fontWeight: FontWeight.w600,
+          height: 1.50,
+        ),
+
+        CustomText(
+          text: value,
+          color: const Color(0xFF4F4F59),
+          fontSize: 14,
+          fontFamily: FontFamily.lexend,
+          fontWeight: FontWeight.w400,
+          height: 1.50,
         ),
       ],
     );

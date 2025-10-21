@@ -33,6 +33,9 @@ class $AssetsIconsGen {
   SvgGenImage get arrowNarrowRight =>
       const SvgGenImage('assets/icons/arrow-narrow-right.svg');
 
+  /// File path: assets/icons/badge.svg
+  SvgGenImage get badge => const SvgGenImage('assets/icons/badge.svg');
+
   /// File path: assets/icons/bell-ringing.svg
   SvgGenImage get bellRinging =>
       const SvgGenImage('assets/icons/bell-ringing.svg');
@@ -54,6 +57,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/card.svg
   SvgGenImage get card => const SvgGenImage('assets/icons/card.svg');
+
+  /// File path: assets/icons/chat.svg
+  SvgGenImage get chat => const SvgGenImage('assets/icons/chat.svg');
 
   /// File path: assets/icons/check-circle.svg
   SvgGenImage get checkCircle =>
@@ -173,12 +179,14 @@ class $AssetsIconsGen {
     arrowDown,
     arrowLeft,
     arrowNarrowRight,
+    badge,
     bellRinging,
     book,
     bookingsFilled,
     bookingsOutline,
     calanderIcon,
     card,
+    chat,
     checkCircle,
     circle,
     cleaning,
