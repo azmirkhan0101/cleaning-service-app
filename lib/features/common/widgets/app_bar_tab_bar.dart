@@ -8,10 +8,12 @@ class AppBarTabBar extends StatefulWidget implements PreferredSizeWidget {
     required this.title,
     required this.tabTitles,
     required this.onTabSelected,
+    this.leading,
   });
   final String title;
   final List<String> tabTitles;
   final Function(int) onTabSelected;
+  final Widget? leading;
 
   @override
   State<AppBarTabBar> createState() => _AppBarTabBarState();
@@ -26,6 +28,7 @@ class _AppBarTabBarState extends State<AppBarTabBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: widget.leading,
       title: CustomText(
         text: widget.title,
         fontSize: 24,
