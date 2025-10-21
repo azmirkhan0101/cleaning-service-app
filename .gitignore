@@ -48,3 +48,6 @@ app.*.map.json
 *.jks
 *.keystore
 key.properties
+
+# FVM Version Cache
+.fvm/

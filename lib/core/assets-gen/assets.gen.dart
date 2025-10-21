@@ -125,6 +125,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/opport.svg
   SvgGenImage get opport => const SvgGenImage('assets/icons/opport.svg');
 
+  /// File path: assets/icons/phone.svg
+  SvgGenImage get phone => const SvgGenImage('assets/icons/phone.svg');
+
   /// File path: assets/icons/profile-filled.svg
   SvgGenImage get profileFilled =>
       const SvgGenImage('assets/icons/profile-filled.svg');
@@ -196,6 +199,7 @@ class $AssetsIconsGen {
     note,
     notificationBell,
     opport,
+    phone,
     profileFilled,
     profileOutliine,
     profile,

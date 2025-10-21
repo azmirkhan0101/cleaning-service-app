@@ -10,7 +10,7 @@ import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart'
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
-import 'package:cleaning_service_app/features/owner/booking/owner_booking_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,23 +120,23 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const CustomText2(
-          text: "Service details",
-          fontSize: 24,
-          fontWeight: FontWeight.w500,
-          color: AppColors.black,
-        ),
-        // Left icon (usually a menu or back button)
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.black),
-          onPressed: () {
-            // Handle left icon press
-            Get.back();
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   scrolledUnderElevation: 0,
+      //   title: const CustomText2(
+      //     text: "Service details",
+      //     fontSize: 24,
+      //     fontWeight: FontWeight.w500,
+      //     color: AppColors.black,
+      //   ),
+      //   // Left icon (usually a menu or back button)
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back_rounded, color: AppColors.black),
+      //     onPressed: () {
+      //       // Handle left icon press
+      //       Get.back();
+      //     },
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

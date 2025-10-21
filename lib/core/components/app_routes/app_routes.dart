@@ -16,7 +16,7 @@ import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dar
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/services/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
