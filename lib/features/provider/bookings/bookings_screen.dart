@@ -2,7 +2,6 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
@@ -246,7 +245,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
             );
           }),
         ),
-        bottomNavigationBar: NavBar(currentIndex: 1),
+        // bottomNavigationBar: NavBar(currentIndex: 1),
       ),
     );
   }

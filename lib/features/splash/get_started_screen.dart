@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/splash/onboarding_controller.dart';
 import 'package:flutter/material.dart';
@@ -126,10 +127,11 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                   height: 1.50,
                 ),
               ),
-              SvgPicture.asset(
-                'assets/icons/arrow-narrow-right.svg',
-                width: 24,
-                height: 24,
+              Assets.icons.arrowNarrowRight.svg(
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFFF7A51D),
+                  BlendMode.srcIn,
+                ),
               ),
             ],
           ),

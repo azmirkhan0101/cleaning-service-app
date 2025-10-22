@@ -1,16 +1,17 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/confirm_email_screen.dart';
-import 'package:cleaning_service_app/features/main-layout/screens/owner_main_layout.dart';
+import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,31 +30,40 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: CustomAppbar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0),
           child: Obx(() {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    CustomText2(
+                    CustomText(
                       text: 'Login Account',
+                      color: const Color(0xFF0F0B18),
                       fontSize: 24,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
+                      height: 1.40,
+                      letterSpacing: -0.50,
                     ),
-                    SizedBox(width: 6),
-                    Icon(Icons.person_2),
+                    // SizedBox(width: 6),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Assets.icons.user.svg(),
+                    ),
                   ],
                 ),
 
-                SizedBox(height: 8),
-                CustomText2(
+                CustomText(
                   text: 'Welcome back',
+                  color: const Color(0xFF4F4F59),
                   fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: 56.h),
 
                 /// email Field
                 CustomFormCard(
@@ -139,7 +149,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 CustomButton(
                                   onTap: () {
-                                    Get.offAllNamed(AppRoutes.providerHome);
+                                    // Get.offAllNamed(AppRoutes.providerHome);
+                                    Get.offAll(
+                                      () => MainLayout(isOwner: false),
+                                    );
                                   },
                                   title: "provider",
                                   height: 45,
@@ -153,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 CustomButton(
                                   onTap: () {
                                     // Get.offAllNamed(AppRoutes.ownerHomeScreen);
-                                    Get.offAll(() => OwnerMainLayout());
+                                    Get.offAll(() => MainLayout(isOwner: true));
 
                                     ///Navigator.of(context).pop();
                                   },
@@ -192,25 +205,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16),
 
                 // Or Divider
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 100, child: Divider(thickness: 1)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomText2(
-                          text: 'or sign in with',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
+                Row(
+                  spacing: 8,
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: const Color(0xFF0F0B18),
                       ),
-                      SizedBox(width: 150, child: Divider(thickness: 1)),
-                    ],
-                  ),
+                    ),
+                    CustomText(
+                      text: 'or sign in with',
+                      color: const Color(0xFF0F0B18),
+                      fontSize: 14,
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.w400,
+                      height: 1.50,
+                    ),
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: const Color(0xFF0F0B18),
+                      ),
+                    ),
+                  ],
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 24.h),
 
                 // Social Buttons
                 Row(
@@ -222,43 +243,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
                           borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x26000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 0),
+                              spreadRadius: 0,
+                            ),
+                          ],
                         ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade200,
-                          radius: 20,
-                          child: CustomImage(
-                            imageSrc: AppImages.googleImage,
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
+                        child: Assets.icons.googleLogo.svg(),
                       ),
                     ),
 
-                    SizedBox(width: 24),
+                    // SizedBox(width: 24),
 
-                    GestureDetector(
-                      onTap: () async {},
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade200,
-                          radius: 20,
-                          child: Icon(
-                            Icons.apple,
-                            color: Colors.black,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () async {},
+                    //   child: Container(
+                    //     padding: const EdgeInsets.all(12),
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       border: Border.all(color: Colors.grey.shade300),
+                    //       borderRadius: BorderRadius.circular(12),
+                    //     ),
+                    //     child: CircleAvatar(
+                    //       backgroundColor: Colors.grey.shade200,
+                    //       radius: 20,
+                    //       child: Icon(
+                    //         Icons.apple,
+                    //         color: Colors.black,
+                    //         size: 24,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     //  SocialIconButton(icon: Icons.apple),
                   ],
                 ),

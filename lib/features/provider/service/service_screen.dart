@@ -1,7 +1,6 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
-import 'package:cleaning_service_app/core/components/nav_bar/provider_nav_bar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -174,7 +173,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
         backgroundColor: Colors.orange,
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: NavBar(currentIndex: 2),
+      // bottomNavigationBar: NavBar(currentIndex: 2),
     );
   }
 }
