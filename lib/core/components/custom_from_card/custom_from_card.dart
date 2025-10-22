@@ -1,4 +1,4 @@
-import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text_field/custom_text_field.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -48,14 +48,13 @@ class CustomFormCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText2(
+        CustomText(
           text: title,
-          color: titleColor ?? AppColors.black,
+          color: titleColor ?? const Color(0xFF0F0B18),
+          fontSize: 16,
+          fontFamily: 'Lexend',
           fontWeight: FontWeight.w600,
-          fontSize: fontSize ?? 16.sp,
-
-          ///bottom: 4.h,
-          maxLines: 2,
+          height: 1.50,
         ),
         CustomTextField(
           prefixIcon: prefixIcon,
@@ -73,7 +72,7 @@ class CustomFormCard extends StatelessWidget {
           textEditingController: controller,
           inputTextStyle: GoogleFonts.lexend(color: AppColors.black),
           // fillColor: hasBackgroundColor ? AppColors.black_80 : AppColors.white,
-          fillColor: AppColors.white,
+          fillColor: const Color(0xFFE9EBF3),
           fieldBorderColor: AppColors.grey001,
           keyboardType:
               keyboardType ??

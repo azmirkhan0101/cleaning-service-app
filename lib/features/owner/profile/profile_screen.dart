@@ -5,6 +5,7 @@ import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -93,59 +94,65 @@ class OwnerProfileScreen extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          child: _buildSettingsItem('Profile Information', Icons.person),
+          child: _buildSettingsItem(
+            'Profile Information',
+            Icons.person_outline,
+          ),
           onTap: () {
             Get.toNamed(AppRoutes.editPersonProfileScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem('Password Management', Icons.lock),
+          child: _buildSettingsItem('Password Management', Icons.lock_outline),
           onTap: () {
             Get.toNamed(AppRoutes.changePasswordScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem(
-            'Knowledge Hub',
-            Icons.account_balance_wallet,
-          ),
+          child: _buildSettingsItem('Knowledge Hub', Icons.menu_book_sharp),
           onTap: () {
             Get.toNamed(AppRoutes.educationHomeScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem('About Us', Icons.info),
+          child: _buildSettingsItem('About Us', Icons.info_outline),
           onTap: () {
             Get.toNamed(AppRoutes.aboutUsScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem('Privacy Policy', Icons.privacy_tip),
+          child: _buildSettingsItem(
+            'Privacy Policy',
+            Icons.privacy_tip_outlined,
+          ),
           onTap: () {
             Get.toNamed(AppRoutes.privacyPolicyScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem('Terms & Conditions', Icons.description),
+          child: _buildSettingsItem(
+            'Terms & Conditions',
+            Icons.description_outlined,
+          ),
           onTap: () {
             Get.toNamed(AppRoutes.termsConditionScreen);
           },
         ),
 
         InkWell(
-          child: _buildSettingsItem('Invite Friend', Icons.person_add),
+          child: _buildSettingsItem('Invite Friend', Icons.people_outline),
           onTap: () {
             //ReferScreen
             Get.toNamed(AppRoutes.referScreen);
           },
         ),
         InkWell(
-          child: _buildSettingsItem('Delete Account', Icons.delete),
+          child: _buildSettingsItem('Delete Account', Icons.delete_outline),
           onTap: () {
             showDialog(
               context: context,
@@ -188,7 +195,7 @@ class OwnerProfileScreen extends StatelessWidget {
 
                         CustomButton(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            Get.offAll(LoginScreen());
                           },
                           title: "Yes",
                           height: 45,
@@ -225,7 +232,7 @@ class OwnerProfileScreen extends StatelessWidget {
   // Settings Item with Icon, Text, and Arrow
   Widget _buildSettingsItem(String title, IconData icon) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blue),
+      leading: Icon(icon, color: Colors.blue, size: 24),
       title: Text(title, style: TextStyle(fontSize: 12)),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
     );

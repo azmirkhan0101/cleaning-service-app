@@ -17,6 +17,9 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/User.svg
+  SvgGenImage get user => const SvgGenImage('assets/icons/User.svg');
+
   /// File path: assets/icons/add_image.svg
   SvgGenImage get addImage => const SvgGenImage('assets/icons/add_image.svg');
 
@@ -85,6 +88,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/earning_icon.svg
   SvgGenImage get earningIcon =>
       const SvgGenImage('assets/icons/earning_icon.svg');
+
+  /// File path: assets/icons/google-logo.svg
+  SvgGenImage get googleLogo =>
+      const SvgGenImage('assets/icons/google-logo.svg');
 
   /// File path: assets/icons/home-filled.svg
   SvgGenImage get homeFilled =>
@@ -174,6 +181,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+    user,
     addImage,
     appLogo,
     arrowDown,
@@ -194,6 +202,7 @@ class $AssetsIconsGen {
     currentIcon,
     currentPlan,
     earningIcon,
+    googleLogo,
     homeFilled,
     homeOutline,
     home,
