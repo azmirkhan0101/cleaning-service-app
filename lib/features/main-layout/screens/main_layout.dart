@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class OwnerMainLayout extends StatelessWidget {
-  const OwnerMainLayout({super.key, this.isOwner = false});
+class MainLayout extends StatelessWidget {
+  const MainLayout({super.key, this.isOwner = false});
   final bool isOwner;
 
   @override

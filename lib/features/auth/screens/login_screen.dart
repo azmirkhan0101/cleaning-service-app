@@ -9,7 +9,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/confirm_email_screen.dart';
-import 'package:cleaning_service_app/features/main-layout/screens/owner_main_layout.dart';
+import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -149,7 +149,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 CustomButton(
                                   onTap: () {
-                                    Get.offAllNamed(AppRoutes.providerHome);
+                                    // Get.offAllNamed(AppRoutes.providerHome);
+                                    Get.offAll(
+                                      () => MainLayout(isOwner: false),
+                                    );
                                   },
                                   title: "provider",
                                   height: 45,
@@ -163,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 CustomButton(
                                   onTap: () {
                                     // Get.offAllNamed(AppRoutes.ownerHomeScreen);
-                                    Get.offAll(() => OwnerMainLayout());
+                                    Get.offAll(() => MainLayout(isOwner: true));
 
                                     ///Navigator.of(context).pop();
                                   },

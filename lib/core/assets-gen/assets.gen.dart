@@ -158,6 +158,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/send_icon.svg
   SvgGenImage get sendIcon => const SvgGenImage('assets/icons/send_icon.svg');
 
+  /// File path: assets/icons/service-outline-provider.svg
+  SvgGenImage get serviceOutlineProvider =>
+      const SvgGenImage('assets/icons/service-outline-provider.svg');
+
   /// File path: assets/icons/service-outline.svg
   SvgGenImage get serviceOutline =>
       const SvgGenImage('assets/icons/service-outline.svg');
@@ -222,6 +226,7 @@ class $AssetsIconsGen {
     profile,
     search,
     sendIcon,
+    serviceOutlineProvider,
     serviceOutline,
     service,
     serviceAll,
