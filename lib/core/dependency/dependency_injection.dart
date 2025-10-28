@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
@@ -12,6 +13,9 @@ import 'package:get/get.dart';
 class DependencyInjection extends Bindings {
   @override
   void dependencies() {
+    /// ========================== Core Services ==========================
+    Get.put(NetworkHelper(), permanent: true);
+
     ///==========================Default Custom Controller ==================
     Get.lazyPut(() => SelectionController(), fenix: true);
     Get.lazyPut(() => PaymentController(), fenix: true);
