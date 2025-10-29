@@ -22,7 +22,7 @@ class _MyEarningScreenState extends State<MyEarningScreen> {
     return Directionality(
       textDirection: ui.TextDirection.ltr,
       child: Scaffold(
-        appBar: CustomAppbar(titleName: "My Earning", leftIcon: true),
+        appBar: CustomAppBar(titleName: "My Earning", leftIcon: true),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(

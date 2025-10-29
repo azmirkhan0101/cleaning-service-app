@@ -56,7 +56,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Category", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Category", leftIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         // child: Column(

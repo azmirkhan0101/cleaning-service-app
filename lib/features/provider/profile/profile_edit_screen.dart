@@ -28,7 +28,7 @@ class _EditPersonProfileScreenState extends State<EditPersonProfileScreen> {
         final isTablet = constraints.maxWidth > 600;
 
         return Scaffold(
-          appBar: const CustomAppbar(titleName: "Edit Profile", leftIcon: true),
+          appBar: const CustomAppBar(titleName: "Edit Profile", leftIcon: true),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(

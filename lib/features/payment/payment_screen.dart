@@ -42,7 +42,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Payment", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Payment", leftIcon: true),
 
       body: SingleChildScrollView(
         child: Padding(

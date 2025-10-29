@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
     final storage = GetStorage();
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Profile"),
+      appBar: CustomAppBar(titleName: "Profile"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

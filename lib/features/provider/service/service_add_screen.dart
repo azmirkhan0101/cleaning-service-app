@@ -20,7 +20,7 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Add Service", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Add Service", leftIcon: true),
 
       body: SingleChildScrollView(
         child: Padding(

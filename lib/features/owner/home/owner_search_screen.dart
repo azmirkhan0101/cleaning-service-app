@@ -72,7 +72,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Search", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Search", leftIcon: true),
       body: ListView(
         children: [
           Padding(

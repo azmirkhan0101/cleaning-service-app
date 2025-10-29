@@ -38,7 +38,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Cleaning Service", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Cleaning Service", leftIcon: true),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

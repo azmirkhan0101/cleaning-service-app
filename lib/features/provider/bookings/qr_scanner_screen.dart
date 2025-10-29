@@ -19,7 +19,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "QR Code", leftIcon: true),
+      appBar: CustomAppBar(titleName: "QR Code", leftIcon: true),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

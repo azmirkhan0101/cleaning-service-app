@@ -20,7 +20,7 @@ class EducationHomeScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Knowledge Hub", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Knowledge Hub", leftIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(

@@ -16,7 +16,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Review", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Review", leftIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(

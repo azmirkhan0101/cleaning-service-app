@@ -65,7 +65,7 @@ class _OwnerServicesByCategoryScreenState
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Service", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Service", leftIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(

@@ -187,26 +187,54 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   SizedBox(height: 16),
 
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.offNamed(AppRoutes.singupOtpScreen);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.appColors,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                  // Signup Button
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: authController.isSigningUp.value
+                          ? null
+                          : () => _onTapSignUp(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.appColors,
+                        disabledBackgroundColor: AppColors.appColors
+                            .withOpacity(0.6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        minimumSize: Size(
+                          MediaQuery.of(context).size.width * 0.9,
+                          50,
+                        ), // 90% of screen width
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      minimumSize: Size(
-                        MediaQuery.of(context).size.width * 0.9,
-                        50,
-                      ), // 90% of screen width
-                    ),
-                    child: CustomText2(
-                      text: AppStrings.signUp,
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      child: authController.isSigningUp.value
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                CustomText2(
+                                  text: 'Creating Account...',
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ],
+                            )
+                          : CustomText2(
+                              text: AppStrings.signUp,
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                     ),
                   ),
 
@@ -327,5 +355,42 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  void _onTapSignUp() async {
+    // Dismiss keyboard
+    FocusScope.of(context).unfocus();
+
+    // Check terms and conditions checkbox
+    if (!authController.rememberPassword.value) {
+      Get.snackbar(
+        'Terms & Conditions',
+        'Please accept the terms of conditions and privacy policy',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange.withOpacity(0.8),
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+      return;
+    }
+
+    // Call signup function
+    final success = await authController.signUp();
+
+    // Navigate to OTP screen if successful
+    if (success) {
+      // Wait a bit for the success message to show
+      await Future.delayed(const Duration(milliseconds: 1500));
+
+      // Navigate to OTP verification screen
+      Get.toNamed(
+        AppRoutes.singupOtpScreen,
+        arguments: {
+          'email': authController.signupEmailController.value.text.trim(),
+          'otp': authController.signupResponse.value?.otp ?? '',
+          'userId': authController.signupResponse.value?.user.id ?? '',
+        },
+      );
+    }
   }
 }

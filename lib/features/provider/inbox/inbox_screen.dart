@@ -20,7 +20,7 @@ class _ProviderInboxScreenState extends State<ProviderInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Inbox"),
+      appBar: CustomAppBar(titleName: "Inbox"),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         child: Column(

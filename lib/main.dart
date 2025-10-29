@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/dependency/dependency_injection.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:oktoast/oktoast.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -19,10 +22,12 @@ void main() async {
     ),
   );
 
+  // Initialize storage services
+  await AppStorageService.init();
+  await GetStorage.init();
+
   DependencyInjection di = DependencyInjection();
   di.dependencies();
-
-  await GetStorage.init();
 
   runApp(
     DevicePreview(
@@ -67,6 +72,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: AppColors.white,
               iconTheme: IconThemeData(color: AppColors.white),
             ),
+            inputDecorationTheme: _buildInputDecorationTheme(),
           ),
           debugShowCheckedModeBanner: false,
           defaultTransition: Transition.fadeIn,
@@ -75,6 +81,35 @@ class MyApp extends StatelessWidget {
           navigatorKey: Get.key,
           getPages: AppRoutes.routes,
         ),
+      ),
+    );
+  }
+
+  InputDecorationTheme _buildInputDecorationTheme() {
+    return InputDecorationTheme(
+      // contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      errorMaxLines: 2,
+      hintStyle: TextStyle(
+        color: const Color(0xFF4899D1),
+        fontSize: 14,
+        fontFamily: 'Lexend',
+        fontWeight: FontWeight.w400,
+        height: 1.50,
+      ),
+      suffixIconColor: Color(0xFF4899D1),
+      filled: true,
+      fillColor: Color(0xFFE9EBF3),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide.none,
       ),
     );
   }

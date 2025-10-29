@@ -20,7 +20,7 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Edit Service", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Edit Service", leftIcon: true),
 
       body: SingleChildScrollView(
         child: Padding(

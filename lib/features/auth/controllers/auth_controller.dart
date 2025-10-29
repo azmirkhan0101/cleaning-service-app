@@ -1,42 +1,11 @@
-import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:cleaning_service_app/features/auth/controllers/login_mixin.dart';
+import 'package:cleaning_service_app/features/auth/controllers/signup_mixin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthController extends GetxController {
+class AuthController extends GetxController with SignupMixin, LoginMixin {
   RxBool rememberPassword = false.obs;
-
-  Rx<TextEditingController> signupNameController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> signupPhoneController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> signupEmailController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> signupPasswordController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> signupConfirmPasswordController =
-      TextEditingController(text: kDebugMode ? "" : "").obs;
-
-  Rx<TextEditingController> signupReferralController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> loginEmailController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
-  Rx<TextEditingController> loginPasswordController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
 
   Rx<TextEditingController> newTextEditingController = TextEditingController(
     text: kDebugMode ? "" : "",

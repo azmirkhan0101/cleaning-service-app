@@ -22,7 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "", leftIcon: true),
+      appBar: CustomAppBar(titleName: "", leftIcon: true),
 
       body: SingleChildScrollView(
         child: Padding(

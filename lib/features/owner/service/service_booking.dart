@@ -35,7 +35,7 @@ class _ServiceBookingState extends State<ServiceBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Book Details", leftIcon: true),
+      appBar: CustomAppBar(titleName: "Book Details", leftIcon: true),
 
       body: Padding(
         padding: const EdgeInsets.all(12.0),
