@@ -1,12 +1,8 @@
-import 'package:cleaning_service_app/features/auth/controllers/login_mixin.dart';
-import 'package:cleaning_service_app/features/auth/controllers/signup_mixin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthController extends GetxController with SignupMixin, LoginMixin {
-  RxBool rememberPassword = false.obs;
-
+class AuthController extends GetxController {
   Rx<TextEditingController> newTextEditingController = TextEditingController(
     text: kDebugMode ? "" : "",
   ).obs;

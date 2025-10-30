@@ -7,8 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-mixin LoginMixin on GetxController {
+class LoginController extends GetxController {
+  // Create a unique key for each controller instance
   final loginFormKey = GlobalKey<FormState>();
+
   final TextEditingController loginEmailController = TextEditingController(
     text: kDebugMode ? "provider1@example.com" : null,
   );
@@ -16,6 +18,8 @@ mixin LoginMixin on GetxController {
   final TextEditingController loginPasswordController = TextEditingController(
     text: kDebugMode ? "12345678" : null,
   );
+
+  final isRememberMe = false.obs;
 
   final isLoggingIn = false.obs;
   final loginErrorMessage = ''.obs;
@@ -64,7 +68,9 @@ mixin LoginMixin on GetxController {
       (data) async {
         loginResponse.value = data;
         // Save token and user data
-        await AppStorageService.saveAuthToken(data.token);
+        if (isRememberMe.value) {
+          await AppStorageService.saveAuthToken(data.token);
+        }
         await AppStorageService.saveUserId(data.userData.id);
         await AppStorageService.saveUserName(data.userData.userName);
         await AppStorageService.saveUserEmail(data.userData.email);

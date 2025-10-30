@@ -3,4 +3,6 @@ class ApiUrl {
 
   static const String signup = '$baseUrl/auth/register';
   static const String login = '$baseUrl/auth/login';
+
+  static const String validateToken = '$baseUrl/auth/check-token-validity';
 }
