@@ -1,7 +1,10 @@
-import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class SetRoleSection extends StatelessWidget {
@@ -18,9 +21,10 @@ class SetRoleSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Main Heading and Subheading
-        const CustomText2(
+        const CustomText(
           text: 'How will you use our app?',
           fontSize: 24,
           fontWeight: FontWeight.w600,
@@ -29,7 +33,7 @@ class SetRoleSection extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        CustomText2(
+        CustomText(
           text:
               'Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.',
           fontSize: 12,
@@ -39,128 +43,100 @@ class SetRoleSection extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 50.h),
 
-        Row(
-          children: [
-            Radio<bool>(
-              value: false, // Value for "No"
-              fillColor: WidgetStateColor.resolveWith(
-                (states) => AppColors.lightBlue,
-              ),
-              groupValue: selectionController.typeModeStatues.value,
-              onChanged: (bool? value) {
-                selectionController.typeModeStatues.value = value!;
-
-                storage.write("userType", "owner");
-              },
-            ),
-            // Owner Card
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: selectionController.typeModeStatues.value == false
-                        ? Color(0xFF1E88E5) // The blue border for selected
-                        : Colors.white, // The white border for unselected
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(12.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.grey_3.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Owner',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF333333),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'As an Owner, you can easily book trusted services in just a few taps. Browse available providers, compare options, and schedule at your convenience. The app ensures a seamless experience, from booking to payment, so you can get the service you need without any hassle',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF555555)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        Obx(
+          () => _buildSelectableRole(
+            title: 'Owner',
+            description:
+                'As an Owner, you can easily book trusted services in just a few taps. Browse available providers, compare options, and schedule at your convenience. The app ensures a seamless experience, from booking to payment, so you can get the service you need without any hassle',
+            isSelected: selectionController.selectedType.value == "owner",
+          ),
         ),
-
-        const SizedBox(height: 20.0), // Spacing between cards
-
-        Row(
-          children: [
-            Radio<bool>(
-              value: true, // Value for "Yes"
-              fillColor: WidgetStateColor.resolveWith(
-                (states) => AppColors.primary,
-              ),
-              groupValue: selectionController.typeModeStatues.value,
-              onChanged: (bool? value) {
-                selectionController.typeModeStatues.value = value!;
-
-                storage.write("userType", "provider");
-              },
-            ),
-
-            /// Service Provider Card
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.0),
-                  border: Border.all(
-                    color: selectionController.typeModeStatues.value
-                        ? Color(0xFF1E88E5) // The blue border for selected
-                        : Colors.white, // The white border for unselected
-                    width: 2.0,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.grey_3.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Service Provider',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF333333),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'As a Service provider, you get a powerful platform to showcase your skills and connect with new clients. Manage your availability, accept bookings, and grow your business with ease. Our app gives you the tools to build trust, increase visibility, and succeed in your profession.',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF555555)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        SizedBox(height: 20.h),
+        Obx(
+          () => _buildSelectableRole(
+            title: 'Service Provider',
+            description:
+                'As a Service Provider, you can offer your services to a wide range of customers. Manage your bookings, communicate with clients, and get paid seamlessly through the app.',
+            isSelected:
+                selectionController.selectedType.value == "service_provider",
+          ),
         ),
+        SizedBox(height: 100.h),
       ],
+    );
+  }
+
+  Widget _buildSelectableRole({
+    required String title,
+    required String description,
+    required bool isSelected,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        if (title == "Owner") {
+          selectionController.changeType("owner");
+          // storage.write("userType", "owner");
+        } else {
+          selectionController.changeType("service_provider");
+          // storage.write("userType", "service_provider");
+        }
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 12.w,
+        children: [
+          isSelected
+              ? Assets.icons.checkCircleBlue.svg(width: 20.w, height: 20.h)
+              : Assets.icons.circle.svg(width: 20.w, height: 20.h),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
+              decoration: ShapeDecoration(
+                color: const Color(0xFFE9EBF3),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: isSelected ? 1.60 : 0.3,
+                    color: isSelected
+                        ? const Color(0xFF4899D1)
+                        : Color(0xFF4F4F59),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: const Color(0xFF0F0B18),
+                      fontSize: 16.sp,
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.w600,
+                      height: 1.50,
+                    ),
+                  ),
+                  CustomText(
+                    text: description,
+                    color: const Color(0xFF4F4F59),
+                    fontSize: 10.sp,
+                    fontFamily: 'Lexend',
+                    fontWeight: FontWeight.w400,
+                    height: 1.50,
+                    maxLines: 5,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

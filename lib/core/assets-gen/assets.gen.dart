@@ -64,6 +64,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/icons/chat.svg');
 
+  /// File path: assets/icons/check-circle-blue.svg
+  SvgGenImage get checkCircleBlue =>
+      const SvgGenImage('assets/icons/check-circle-blue.svg');
+
   /// File path: assets/icons/check-circle.svg
   SvgGenImage get checkCircle =>
       const SvgGenImage('assets/icons/check-circle.svg');
@@ -199,6 +203,7 @@ class $AssetsIconsGen {
     calanderIcon,
     card,
     chat,
+    checkCircleBlue,
     checkCircle,
     circle,
     cleaning,

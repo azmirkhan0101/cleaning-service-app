@@ -36,8 +36,8 @@ class _SelectionScreenState extends State<SelectionScreen> {
   final storage = GetStorage();
 
   int? _selectedExperience;
-  bool? _instantBooking;
-  String? _selectedGender;
+  // bool? _instantBooking;
+  // String? _selectedGender;
 
   @override
   void initState() {

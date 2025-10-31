@@ -25,7 +25,7 @@ class CustomSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-      onPressed: onPressed,
+      onPressed: isLoading != true ? onPressed : null,
       style: FilledButton.styleFrom(
         backgroundColor: isLoading == true
             ? fillColor?.withValues(alpha: 0.5)

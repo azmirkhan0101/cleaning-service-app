@@ -19,6 +19,7 @@ class DependencyInjection extends Bindings {
 
     /// ========================== Auth Controller ==========================
     Get.put(AuthController(), permanent: true);
+    // OtpVerifyController is created per-screen to ensure fresh state
     // LoginController and SignupController are created per-screen with tags
 
     ///==========================Default Custom Controller ==================

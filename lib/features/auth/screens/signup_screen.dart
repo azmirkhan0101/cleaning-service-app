@@ -374,7 +374,6 @@ class SignupScreen extends GetView<SignupController> {
   }
 
   Future<void> _onPressedSignup() async {
-    Get.to(() => OtpVerifyScreen());
     try {
       // Dismiss keyboard
       FocusScope.of(Get.context!).unfocus();
@@ -397,16 +396,11 @@ class SignupScreen extends GetView<SignupController> {
 
       // Navigate to OTP screen if successful
       if (success) {
-        // Navigate to OTP verification screen
-        // Get.toNamed(
-        //   AppRoutes.singUpOtpScreen,
-        //   arguments: {
-        //     'email': controller.signupEmailController.text.trim(),
-        //     'otp': controller.signupResponse.value?.otp ?? '',
-        //     'userId': controller.signupResponse.value?.user.id ?? '',
-        //   },
-        // );
-        Get.to(() => OtpVerifyScreen());
+        Get.to(
+          () => OtpVerifyScreen(
+            email: controller.signupEmailController.text.trim(),
+          ),
+        );
       }
     } catch (e) {
       // Handle any errors that occur during signup

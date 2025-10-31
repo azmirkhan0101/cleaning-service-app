@@ -10,24 +10,17 @@ class SignupController extends GetxController {
   // Create a unique key for each controller instance
   final signupFormKey = GlobalKey<FormState>();
 
-  final TextEditingController signupNameController = TextEditingController(
-    text: kDebugMode ? "John Doe" : null,
-  );
+  final TextEditingController signupNameController = TextEditingController();
 
-  final TextEditingController signupPhoneController = TextEditingController(
-    text: kDebugMode ? "1234567890" : null,
-  );
+  final TextEditingController signupPhoneController = TextEditingController();
 
-  final TextEditingController signupEmailController = TextEditingController(
-    text: kDebugMode ? "test@example.com" : null,
-  );
+  final TextEditingController signupEmailController = TextEditingController();
 
-  final TextEditingController signupPasswordController = TextEditingController(
-    text: kDebugMode ? "12345678" : null,
-  );
+  final TextEditingController signupPasswordController =
+      TextEditingController();
 
   final TextEditingController signupConfirmPasswordController =
-      TextEditingController(text: kDebugMode ? "12345678" : null);
+      TextEditingController();
 
   final TextEditingController signupReferralController =
       TextEditingController();
