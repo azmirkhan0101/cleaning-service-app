@@ -5,7 +5,6 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/common/widgets/custom_form_field.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,18 +44,16 @@ class SetLocationSection extends StatelessWidget {
         const SizedBox(height: 24),
 
         // Address Field
-        CustomFormField(
-          controller: TextEditingController(),
-          labelText: "Your Address",
-          hintText: "Enter your address",
-        ),
-
-        SizedBox(height: 16),
-
+        // CustomFormField(
+        //   controller: TextEditingController(),
+        //   labelText: "Your Address",
+        //   hintText: "Enter your address",
+        // ),
         LocationSearchWidget(
           controller: Get.find<LocationController>(),
           onResultSelected: () {},
         ),
+        SizedBox(height: 16),
 
         ///============ Location ============
         ElevatedButton(

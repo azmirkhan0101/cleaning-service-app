@@ -19,11 +19,13 @@ class MainLayoutController extends GetxController {
   List<BottomNavModel> bottomNavItems = [];
   // Observable for current selected index
   final RxInt selectedIndex = 0.obs;
-  Widget selectedScreen = ProviderHome();
+  late Widget selectedScreen;
 
   @override
   void onInit() {
+    // initialize bottom nav items and the initial selected screen based on role
     organizeBottomNavItems(isOwner);
+    selectedScreen = isOwner ? const OwnerHomeScreen() : ProviderHome();
     super.onInit();
   }
 

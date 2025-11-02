@@ -125,6 +125,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                     itemCount: widget.controller.searchResults.length,
                     itemBuilder: (context, index) {
                       final result = widget.controller.searchResults[index];
+                      print(result);
                       return InkWell(
                         onTap: () {
                           widget.controller.selectSearchResult(result);

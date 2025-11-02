@@ -368,12 +368,20 @@ class LoginScreen extends GetView<LoginController> {
     try {
       final success = await controller.login();
       if (success) {
+        print('user role: ${controller.loginResponse.value?.userData.role}');
         // Navigate based on user role
-        if (controller.loginResponse.value?.userData.role == Role.owner) {
-          Get.offAll(() => MainLayout(isOwner: true));
-        } else {
-          Get.offAll(() => MainLayout(isOwner: false));
-        }
+        Get.offAll(
+          () => MainLayout(
+            isOwner:
+                controller.loginResponse.value?.userData.role ==
+                Role.owner.value,
+          ),
+        );
+        // if (controller.loginResponse.value?.userData.role == Role.owner.value) {
+        //   Get.offAll(() => MainLayout(isOwner: true));
+        // } else {
+        //   Get.offAll(() => MainLayout(isOwner: false));
+        // }
       }
     } catch (e) {
       // Handle any errors that occur during login
