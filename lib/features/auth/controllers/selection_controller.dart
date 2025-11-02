@@ -1,12 +1,13 @@
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SelectionController extends GetxController {
-  RxString selectedType = 'Owner'.obs;
+  Rx<Role> selectedRole = Role.owner.obs;
 
-  void changeType(String type) {
-    selectedType.value = type;
+  void changeType(Role type) {
+    selectedRole.value = type;
   }
 
   /// owner or provider type option

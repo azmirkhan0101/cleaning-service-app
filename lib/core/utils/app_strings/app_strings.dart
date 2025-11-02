@@ -109,7 +109,7 @@ class AppStrings {
 
   static const String profileTitle =
       "Add a clear photo to complete your profile. This helps providers recognize you easily and makes your bookings more secure and trustworthy.";
-  static const String setLocation = "Set Your Location";
+  static const String setLocation = "Set Your Location & Experience";
   static const String locationTitle =
       "Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.";
 

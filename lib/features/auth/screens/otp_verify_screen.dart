@@ -200,7 +200,8 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 Obx(
                   () => CustomSubmitButton(
                     title: AppStrings.verifyCode,
-                    onPressed: () => _onClickVerifyCode(otpVerifyController),
+                    onPressed: () => Get.to(() => const SelectionScreen()),
+                    // onPressed: () => _onClickVerifyCode(otpVerifyController),
                     isLoading: otpVerifyController.isVerifying.value,
                   ),
                 ),

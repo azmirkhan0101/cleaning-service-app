@@ -51,7 +51,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Current index: ${selectionController.currentIndex.value}");
+    // print("Current index: ${selectionController.currentIndex.value}");
 
     return Scaffold(
       // appBar: CustomAppbar(leftIcon: true,),

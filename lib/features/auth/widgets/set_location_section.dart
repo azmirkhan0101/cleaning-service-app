@@ -1,12 +1,13 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
-import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
+import 'package:cleaning_service_app/features/common/widgets/custom_form_field.dart';
+import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
+import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,9 @@ class SetLocationSection extends StatelessWidget {
       children: [
         CustomText(
           text: AppStrings.setLocation,
+          color: const Color(0xFF0F0B18),
           fontSize: 24,
+          fontFamily: 'Poppins',
           fontWeight: FontWeight.w600,
           height: 1.40,
           letterSpacing: -0.50,
@@ -30,25 +33,30 @@ class SetLocationSection extends StatelessWidget {
         const SizedBox(height: 12),
 
         const CustomText(
-          text: AppStrings.locationTitle,
+          text:
+              "Choose your location directly from the map to get the best service experience. This helps us connect you with nearby providers and ensures faster, more reliable service right at your doorstep.",
+          color: Color(0xFF4F4F59),
           fontSize: 12,
-          color: unselectedTextColor,
+          fontFamily: 'Poppins',
           fontWeight: FontWeight.w400,
-          maxLines: 3,
-          textAlign: TextAlign.start,
+          height: 1.50,
         ),
 
         const SizedBox(height: 24),
 
-        /// address Field
-        CustomFormCard(
-          title: "Enter your address",
-          hintText: "your address",
-          hasBackgroundColor: true,
+        // Address Field
+        CustomFormField(
           controller: TextEditingController(),
+          labelText: "Your Address",
+          hintText: "Enter your address",
         ),
 
         SizedBox(height: 16),
+
+        LocationSearchWidget(
+          controller: Get.find<LocationController>(),
+          onResultSelected: () {},
+        ),
 
         ///============ Location ============
         ElevatedButton(

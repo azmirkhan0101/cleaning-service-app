@@ -260,9 +260,10 @@ class SignupScreen extends GetView<SignupController> {
   Widget _buildSignupButton(BuildContext context) {
     return Obx(
       () => ElevatedButton(
-        onPressed: controller.isSigningUp.value
-            ? null
-            : () => _onPressedSignup(),
+        onPressed: () => Get.to(() => const OtpVerifyScreen()),
+        // onPressed: controller.isSigningUp.value
+        //     ? null
+        //     : () => _onPressedSignup(),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.appColors,
           disabledBackgroundColor: AppColors.appColors.withValues(alpha: 0.6),

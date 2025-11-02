@@ -2,6 +2,7 @@ import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,7 @@ class SetRoleSection extends StatelessWidget {
             title: 'Owner',
             description:
                 'As an Owner, you can easily book trusted services in just a few taps. Browse available providers, compare options, and schedule at your convenience. The app ensures a seamless experience, from booking to payment, so you can get the service you need without any hassle',
-            isSelected: selectionController.selectedType.value == "owner",
+            isSelected: selectionController.selectedRole.value == Role.owner,
           ),
         ),
         SizedBox(height: 20.h),
@@ -59,8 +60,7 @@ class SetRoleSection extends StatelessWidget {
             title: 'Service Provider',
             description:
                 'As a Service Provider, you can offer your services to a wide range of customers. Manage your bookings, communicate with clients, and get paid seamlessly through the app.',
-            isSelected:
-                selectionController.selectedType.value == "service_provider",
+            isSelected: selectionController.selectedRole.value == Role.provider,
           ),
         ),
         SizedBox(height: 100.h),
@@ -76,10 +76,10 @@ class SetRoleSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (title == "Owner") {
-          selectionController.changeType("owner");
+          selectionController.changeType(Role.owner);
           // storage.write("userType", "owner");
         } else {
-          selectionController.changeType("service_provider");
+          selectionController.changeType(Role.provider);
           // storage.write("userType", "service_provider");
         }
       },
