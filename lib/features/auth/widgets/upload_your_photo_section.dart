@@ -1,14 +1,15 @@
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UploadYourPhotoSection extends StatelessWidget {
   UploadYourPhotoSection({super.key});
 
-  final selectionController = Get.find<SelectionController>();
+  final selectionController = Get.find<ProfileSetupController>();
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,37 @@ class UploadYourPhotoSection extends StatelessWidget {
           //     child: CustomImage(imageSrc: AppIcons.add_image),
           //   ),
           // ),
+          const SizedBox(height: 40),
+
+          CustomButton(
+            onTap: () {
+              // Go to next step (Upload Documents) for both Owner and Provider
+              selectionController.currentIndex.value = 3;
+            },
+            title: AppStrings.continuetext,
+            fontSize: 16,
+            width: double.infinity,
+            height: 50,
+            fillColor: AppColors.appColors,
+            borderRadius: 24,
+          ),
+
+          const SizedBox(height: 16),
+
+          GestureDetector(
+            onTap: () {
+              // Go to next step (Upload Documents) for both Owner and Provider
+              selectionController.currentIndex.value = 3;
+            },
+            child: Center(
+              child: CustomText2(
+                text: "Skip for now",
+                color: AppColors.appColors,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ],
       ),
     );

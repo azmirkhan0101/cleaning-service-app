@@ -1,8 +1,11 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,8 +18,8 @@ const Color unselectedTextColor = Color(0xFF6A6A6A);
 class ChoosePlanSection extends StatelessWidget {
   ChoosePlanSection({super.key});
 
-  final SelectionController selectionController =
-      Get.find<SelectionController>();
+  final ProfileSetupController selectionController =
+      Get.find<ProfileSetupController>();
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +105,35 @@ class ChoosePlanSection extends StatelessWidget {
               '"Platinum Partner" featured badge',
               'Unlimited',
             ],
+          ),
+
+          SizedBox(height: 56.h),
+
+          Obx(
+            () => CustomButton(
+              onTap: selectionController.isLoading.value
+                  ? () {} // Disabled state - do nothing
+                  : () {
+                      // Call API for Provider after selecting plan
+                      selectionController.completeRegistration().then((
+                        success,
+                      ) {
+                        if (success) {
+                          Get.offNamed(AppRoutes.paymentScreen);
+                        }
+                      });
+                    },
+              title: selectionController.isLoading.value
+                  ? 'Processing...'
+                  : AppStrings.continuetext,
+              fontSize: 16,
+              width: double.infinity,
+              height: 50,
+              fillColor: selectionController.isLoading.value
+                  ? AppColors.grey_1
+                  : AppColors.appColors,
+              borderRadius: 24,
+            ),
           ),
         ],
       ),

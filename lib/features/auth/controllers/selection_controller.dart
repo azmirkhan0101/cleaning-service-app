@@ -12,6 +12,7 @@ class SelectionController extends GetxController {
   RxString latitude = ''.obs;
   RxString longitude = ''.obs;
   RxDouble resultRange = 25.0.obs;
+  RxString experience = ''.obs;
 
   // Image picker
   final ImagePicker _picker = ImagePicker();

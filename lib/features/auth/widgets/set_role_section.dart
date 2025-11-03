@@ -1,7 +1,9 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +12,7 @@ import 'package:get/get.dart';
 class SetRoleSection extends StatelessWidget {
   const SetRoleSection({super.key, required this.selectionController});
 
-  final SelectionController selectionController;
+  final ProfileSetupController selectionController;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,19 @@ class SetRoleSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 100.h),
+
+        // Continue Button
+        CustomButton(
+          onTap: () {
+            selectionController.currentIndex.value = 1;
+          },
+          title: AppStrings.continuetext,
+          fontSize: 16,
+          width: double.infinity,
+          height: 50,
+          fillColor: AppColors.appColors,
+          borderRadius: 24,
+        ),
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/otp_verify_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/reset_password_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +201,11 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 Obx(
                   () => CustomSubmitButton(
                     title: AppStrings.verifyCode,
-                    onPressed: () => Get.to(() => const SelectionScreen()),
+                    onPressed: () {
+                      // Initialize ProfileSetupController before navigating
+                      Get.put(ProfileSetupController());
+                      Get.to(() => const SelectionScreen());
+                    },
                     // onPressed: () => _onClickVerifyCode(otpVerifyController),
                     isLoading: otpVerifyController.isVerifying.value,
                   ),
@@ -220,6 +225,8 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
       if (widget.forgotPassword == true) {
         Get.to(() => ResetPasswordScreen());
       } else {
+        // Initialize ProfileSetupController before navigating
+        Get.put(ProfileSetupController());
         Get.offAll(SelectionScreen());
       }
     }

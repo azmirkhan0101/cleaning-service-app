@@ -1,14 +1,17 @@
+import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SetLocationSection extends StatefulWidget {
@@ -19,9 +22,7 @@ class SetLocationSection extends StatefulWidget {
 }
 
 class _SetLocationSectionState extends State<SetLocationSection> {
-  final selectionController = Get.find<SelectionController>();
-
-  int? _selectedExperience;
+  final selectionController = Get.find<ProfileSetupController>();
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +174,47 @@ class _SetLocationSectionState extends State<SetLocationSection> {
             ],
           ),
 
+        const SizedBox(height: 24),
+
+        CustomButton(
+          onTap: () {
+            if (selectionController.address.value.isEmpty) {
+              Toast.errorToast("Please select your location");
+              return;
+            }
+            if (selectionController.experience.value.isEmpty &&
+                selectionController.selectedRole.value == Role.provider) {
+              Toast.errorToast("Please select your experience");
+              return;
+            }
+            selectionController.currentIndex.value = 2;
+          },
+          title: AppStrings.continuetext,
+          fontSize: 16,
+          width: double.infinity,
+          height: 50,
+          fillColor: AppColors.appColors,
+          borderRadius: 24,
+        ),
+
+        const SizedBox(height: 16),
+
+        GestureDetector(
+          onTap: () {
+            selectionController.currentIndex.value = 2;
+          },
+          child: Center(
+            child: CustomText(
+              text: "Skip",
+              color: const Color(0xFF98A1B2),
+              fontSize: 14,
+              fontFamily: 'Plus Jakarta Sans',
+              fontWeight: FontWeight.w500,
+              height: 1.50,
+            ),
+          ),
+        ),
+
         SizedBox(height: 100),
       ],
     );
@@ -190,43 +232,44 @@ class _SetLocationSectionState extends State<SetLocationSection> {
   }
 
   Widget _buildExperienceOptions() {
-    final options = [
-      "0-2 years of experience",
-      "2-5 years of experience",
-      "6-10 years of experience",
-      "11-20 years of experience",
-      "+20 years of experience",
-    ];
+    final options = ["0-1", "1-5", "+5"];
 
     return Column(
+      spacing: 12.h,
       children: List.generate(options.length, (index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Row(
-            children: [
-              Checkbox(
-                value: _selectedExperience == index,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _selectedExperience = value == true ? index : null;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
+        return Obx(() {
+          return GestureDetector(
+            onTap: () {
+              selectionController.experience.value = options[index];
+            },
+            child: Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xFF4899D1), width: 1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: selectionController.experience.value == options[index]
+                      ? Icon(Icons.check, size: 16, color: Color(0xFF43AF79))
+                      : null,
                 ),
-              ),
 
-              const SizedBox(width: 8),
+                const SizedBox(width: 8),
 
-              CustomText2(
-                text: options[index],
-                fontSize: 16,
-                color: Colors.black87,
-                fontWeight: FontWeight.w400,
-              ),
-            ],
-          ),
-        );
+                CustomText(
+                  text: "${options[index]} years of experience",
+                  color: const Color(0xFF0F0B18),
+                  fontSize: 16,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
+                ),
+              ],
+            ),
+          );
+        });
       }),
     );
   }

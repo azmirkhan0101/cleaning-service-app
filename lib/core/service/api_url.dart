@@ -7,4 +7,6 @@ class ApiUrl {
   static const String validateToken = '$baseUrl/auth/check-token-validity';
   static const String verifyOtp = '$baseUrl/auth/verify-otp';
   static const String resendOtp = '$baseUrl/auth/resend-otp';
+  static const String completeRegistration =
+      '$baseUrl/auth/complete-registration';
 }
