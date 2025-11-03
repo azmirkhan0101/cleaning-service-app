@@ -6,17 +6,11 @@ import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class SetRoleSection extends StatelessWidget {
-  const SetRoleSection({
-    super.key,
-    required this.selectionController,
-    required this.storage,
-  });
+  const SetRoleSection({super.key, required this.selectionController});
 
   final SelectionController selectionController;
-  final GetStorage storage;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +44,7 @@ class SetRoleSection extends StatelessWidget {
           () => _buildSelectableRole(
             title: 'Owner',
             description:
-                'As an Owner, you can easily book trusted services in just a few taps. Browse available providers, compare options, and schedule at your convenience. The app ensures a seamless experience, from booking to payment, so you can get the service you need without any hassle',
+                'As a Owner, you can easily book trusted services in just a few taps. Browse available providers, compare options, and schedule at your convenience. The app ensures a seamless experience, from booking to payment, so you can get the service you need without any hassle',
             isSelected: selectionController.selectedRole.value == Role.owner,
           ),
         ),
@@ -59,7 +53,7 @@ class SetRoleSection extends StatelessWidget {
           () => _buildSelectableRole(
             title: 'Service Provider',
             description:
-                'As a Service Provider, you can offer your services to a wide range of customers. Manage your bookings, communicate with clients, and get paid seamlessly through the app.',
+                'As a Service provider, you get a powerful platform to showcase your skills and connect with new clients. Manage your availability, accept bookings, and grow your business with ease. Our app gives you the tools to build trust, increase visibility, and succeed in your profession.',
             isSelected: selectionController.selectedRole.value == Role.provider,
           ),
         ),
@@ -77,10 +71,8 @@ class SetRoleSection extends StatelessWidget {
       onTap: () {
         if (title == "Owner") {
           selectionController.changeType(Role.owner);
-          // storage.write("userType", "owner");
         } else {
           selectionController.changeType(Role.provider);
-          // storage.write("userType", "service_provider");
         }
       },
       child: Row(

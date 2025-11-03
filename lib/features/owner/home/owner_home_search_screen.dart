@@ -76,7 +76,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
                     /// Searchable Address Field
                     LocationSearchWidget(
-                      controller: locationController,
+                      // controller: locationController,
                       hintText: "Search for your address...",
                       showLabel: true,
                       labelText: "Enter your address",

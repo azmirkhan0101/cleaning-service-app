@@ -53,7 +53,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
               /// Searchable Address Field
               LocationSearchWidget(
-                controller: locationController,
+                // controller: locationController,
                 hintText: "Search for your address...",
                 showLabel: true,
                 labelText: "Enter your address",

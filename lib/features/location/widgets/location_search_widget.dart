@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LocationSearchWidget extends StatefulWidget {
-  final LocationController controller;
+  // final LocationController controller;
   final String hintText;
-  final VoidCallback? onResultSelected;
+  final Function(Map<String, dynamic>)? onResultSelected;
   final bool showLabel;
   final String? labelText;
 
   const LocationSearchWidget({
     super.key,
-    required this.controller,
+    // required this.controller,
     this.hintText = "Search for a location...",
     this.onResultSelected,
     this.showLabel = false,
@@ -23,6 +23,7 @@ class LocationSearchWidget extends StatefulWidget {
 }
 
 class _LocationSearchWidgetState extends State<LocationSearchWidget> {
+  final LocationController controller = Get.find<LocationController>();
   void _onTextChanged() {
     if (mounted) {
       setState(() {});
@@ -33,13 +34,13 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   void initState() {
     super.initState();
     // Listen to text changes to update UI
-    widget.controller.selectedAddress.addListener(_onTextChanged);
+    controller.selectedAddress.addListener(_onTextChanged);
   }
 
   @override
   void dispose() {
     // Remove listener to prevent memory leaks and setState after dispose
-    widget.controller.selectedAddress.removeListener(_onTextChanged);
+    controller.selectedAddress.removeListener(_onTextChanged);
     super.dispose();
   }
 
@@ -73,20 +74,20 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
             ],
           ),
           child: TextField(
-            controller: widget.controller.selectedAddress,
+            controller: controller.selectedAddress,
             onChanged: (value) {
-              widget.controller.searchLocations(value);
+              controller.searchLocations(value);
             },
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
               prefixIcon: Icon(Icons.search, color: Colors.grey),
-              suffixIcon: widget.controller.selectedAddress.text.isNotEmpty
+              suffixIcon: controller.selectedAddress.text.isNotEmpty
                   ? IconButton(
                       icon: Icon(Icons.clear, color: Colors.grey),
                       onPressed: () {
-                        widget.controller.selectedAddress.clear();
-                        widget.controller.clearSearchResults();
+                        controller.selectedAddress.clear();
+                        controller.clearSearchResults();
                       },
                     )
                   : null,
@@ -103,8 +104,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
         // Search results dropdown
         Obx(
           () =>
-              widget.controller.showSearchResults.value &&
-                  widget.controller.searchResults.isNotEmpty
+              controller.showSearchResults.value &&
+                  controller.searchResults.isNotEmpty
               ? Container(
                   margin: EdgeInsets.only(top: 8),
                   decoration: BoxDecoration(
@@ -122,15 +123,15 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                   constraints: BoxConstraints(maxHeight: 300),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: widget.controller.searchResults.length,
+                    itemCount: controller.searchResults.length,
                     itemBuilder: (context, index) {
-                      final result = widget.controller.searchResults[index];
-                      print(result);
+                      final result = controller.searchResults[index];
+                      // print(result);
                       return InkWell(
                         onTap: () {
-                          widget.controller.selectSearchResult(result);
+                          controller.selectSearchResult(result);
                           if (widget.onResultSelected != null) {
-                            widget.onResultSelected!();
+                            widget.onResultSelected!(result);
                           }
                         },
                         child: Container(
@@ -139,9 +140,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                             vertical: 12,
                           ),
                           decoration: BoxDecoration(
-                            border:
-                                index <
-                                    widget.controller.searchResults.length - 1
+                            border: index < controller.searchResults.length - 1
                                 ? Border(
                                     bottom: BorderSide(
                                       color: Colors.grey.shade200,

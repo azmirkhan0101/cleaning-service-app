@@ -60,13 +60,13 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
 
                   Row(
                     children: [
-                      Radio<bool>(
-                        value: false, // Value for "No"
+                      Radio<int>(
+                        value: 0, // Free Plan
                         fillColor: WidgetStateColor.resolveWith(
                           (states) => AppColors.lightBlue,
                         ),
                         groupValue: selectionController.typPaymentStatues.value,
-                        onChanged: (bool? value) {
+                        onChanged: (int? value) {
                           selectionController.typPaymentStatues.value = value!;
                         },
                       ),
@@ -77,14 +77,13 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
                             color:
-                                selectionController.typPaymentStatues.value ==
-                                    false
+                                selectionController.typPaymentStatues.value == 0
                                 ? AppColors.lightBlue
                                 : null,
                             border: Border.all(
                               color:
                                   selectionController.typPaymentStatues.value ==
-                                      false
+                                      0
                                   ? AppColors
                                         .lightBlue // The blue border for selected
                                   : Colors
@@ -116,7 +115,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            false
+                                            0
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -131,7 +130,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                           selectionController
                                                   .typPaymentStatues
                                                   .value ==
-                                              false
+                                              0
                                           ? AppColors.white_50
                                           : AppColors.grey_1.withOpacity(
                                               0.6,
@@ -147,7 +146,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                           selectionController
                                                   .typPaymentStatues
                                                   .value ==
-                                              false
+                                              0
                                           ? Colors.black
                                           : Colors.white, // Text color
                                       fontSize: 10.0, // Font size
@@ -167,7 +166,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                     selectionController
                                             .typPaymentStatues
                                             .value ==
-                                        false
+                                        0
                                     ? AppColors.white_50
                                     : Color(0xFF333333),
                               ),
@@ -182,7 +181,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            false
+                                            0
                                         ? AppColors.white_50
                                         : AppColors.lightBlue,
                                   ),
@@ -197,7 +196,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            false
+                                            0
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -214,7 +213,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            false
+                                            0
                                         ? AppColors.white_50
                                         : AppColors.lightBlue,
                                   ),
@@ -229,7 +228,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            false
+                                            0
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -246,13 +245,13 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
 
                   Row(
                     children: [
-                      Radio<bool>(
-                        value: true, // Value for "Yes"
+                      Radio<int>(
+                        value: 1, // Pro Plan
                         fillColor: WidgetStateColor.resolveWith(
                           (states) => AppColors.primary,
                         ),
                         groupValue: selectionController.typPaymentStatues.value,
-                        onChanged: (bool? value) {
+                        onChanged: (int? value) {
                           selectionController.typPaymentStatues.value = value!;
                         },
                       ),
@@ -263,8 +262,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                           padding: const EdgeInsets.all(24.0),
                           decoration: BoxDecoration(
                             color:
-                                selectionController.typPaymentStatues.value ==
-                                    true
+                                selectionController.typPaymentStatues.value == 1
                                 ? AppColors.lightBlue
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(12.0),
@@ -301,7 +299,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -316,7 +314,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                           selectionController
                                                   .typPaymentStatues
                                                   .value ==
-                                              true
+                                              1
                                           ? AppColors.white_50
                                           : Colors.blue, // Background color
                                       borderRadius: BorderRadius.circular(
@@ -332,7 +330,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                           selectionController
                                                   .typPaymentStatues
                                                   .value ==
-                                              true
+                                              1
                                           ? AppColors.black
                                           : Colors.white, // Text color
                                       fontSize: 10.0, // Font size
@@ -352,7 +350,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                     selectionController
                                             .typPaymentStatues
                                             .value ==
-                                        true
+                                        1
                                     ? AppColors.white_50
                                     : Color(0xFF333333),
                               ),
@@ -367,7 +365,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : AppColors.lightBlue,
                                   ),
@@ -382,7 +380,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -398,7 +396,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : AppColors.lightBlue,
                                   ),
@@ -413,7 +411,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
@@ -430,7 +428,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : AppColors.lightBlue,
                                   ),
@@ -445,7 +443,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                         selectionController
                                                 .typPaymentStatues
                                                 .value ==
-                                            true
+                                            1
                                         ? AppColors.white_50
                                         : Color(0xFF333333),
                                   ),
