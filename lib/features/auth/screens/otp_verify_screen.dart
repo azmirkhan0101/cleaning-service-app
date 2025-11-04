@@ -173,11 +173,14 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                               ),
                               child: GestureDetector(
                                 onTap: () async {
+                                  String otpType = widget.forgotPassword == true
+                                      ? "RESET_PASSWORD"
+                                      : "VERIFY_EMAIL";
                                   if (widget.email != null &&
                                       widget.email!.isNotEmpty) {
                                     await otpVerifyController.resendOtp(
                                       widget.email!,
-                                      "VERIFY_EMAIL",
+                                      otpType,
                                     );
                                   }
                                 },
@@ -219,11 +222,19 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
   }
 
   void _onClickVerifyCode(OtpVerifyController otpVerifyController) async {
-    final success = await otpVerifyController.verifyOtp(widget.email ?? "");
+    final success = await otpVerifyController.verifyOtp(
+      widget.email ?? "",
+      widget.forgotPassword == true,
+    );
     // print("OTP Verification Success: $success");
     if (success) {
       if (widget.forgotPassword == true) {
-        Get.to(() => ResetPasswordScreen());
+        Get.to(
+          () => ResetPasswordScreen(
+            email: widget.email ?? "",
+            otp: otpVerifyController.otpController.text.trim(),
+          ),
+        );
       } else {
         // Initialize ProfileSetupController before navigating
         Get.put(ProfileSetupController());

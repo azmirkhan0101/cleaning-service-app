@@ -34,8 +34,10 @@ class ForgotPasswordController extends GetxController {
       },
       // Success case
       (data) async {
-      
-        Toast.successToast('Login successful! Welcome back.');
+        String message =
+            data['message'] ??
+            'Six digit code sent to your email. verify to reset password.';
+        Toast.successToast(message);
         return true;
       },
     );

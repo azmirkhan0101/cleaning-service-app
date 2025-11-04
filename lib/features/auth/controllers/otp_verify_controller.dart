@@ -48,17 +48,25 @@ class OtpVerifyController extends GetxController {
     });
   }
 
-  Future<bool> verifyOtp(String email) async {
+  Future<bool> verifyOtp(String email, bool forgotPassword) async {
     isVerifying.value = true;
+
+    String url = forgotPassword
+        ? ApiUrl.verifyForgotPasswordOtp
+        : ApiUrl.verifyOtp;
+
+    final Map<String, dynamic> body = {
+      "email": email,
+      "otp": otpController.text.trim(),
+    };
+    if (!forgotPassword) {
+      body["otpType"] = "VERIFY_EMAIL";
+    }
 
     final response = await Get.find<NetworkHelper>().request(
       "POST",
-      ApiUrl.verifyOtp,
-      body: {
-        "email": email,
-        "otp": otpController.text.trim(),
-        "otpType": "VERIFY_EMAIL",
-      },
+      url,
+      body: body,
     );
 
     isVerifying.value = false;
