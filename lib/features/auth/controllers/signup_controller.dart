@@ -86,8 +86,8 @@ class SignupController extends GetxController {
         // Log OTP in debug mode
         if (kDebugMode) {
           debugPrint("===== SIGNUP SUCCESS =====");
-          debugPrint("User ID: ${data.user.id}");
-          debugPrint("Email: ${data.user.email}");
+          debugPrint("Email: ${data.email}");
+          debugPrint("User Name: ${data.userName}");
           debugPrint("OTP: ${data.otp}");
           debugPrint("==========================");
         }

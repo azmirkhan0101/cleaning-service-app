@@ -2,7 +2,7 @@ class AppStrings {
   static const String fieldCantBeEmpty = "Field can't be empty";
   static const String emailFieldCantBeEmpty = "Please enter your email";
   static const String passwordFieldCantBeEmpty = "Please enter your password";
-  static const String checknetworkconnection = "Check network connection";
+  static const String checkNetworkConnection = "Check network connection";
   static const String enterThe8Character = "Please Enter The 8 character";
   static const String passwordNotMatch = "Passwords do not match";
 
@@ -14,7 +14,7 @@ class AppStrings {
 
   ///================== singUP ===================
 
-  static const String continuetext = "Continue";
+  static const String continueText = "Continue";
   static const String skip = "Skip";
   static const String yourName = "Your Name";
 

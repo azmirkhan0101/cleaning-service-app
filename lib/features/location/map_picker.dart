@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -99,11 +100,9 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   void _onCameraIdle() {
     // Get address when user stops moving the map
     _getAddressFromLatLng(_selectedLocation);
-    
+
     // Update the map controller's position to ensure smooth movement
-    mapController.animateCamera(
-      CameraUpdate.newLatLng(_selectedLocation),
-    );
+    mapController.animateCamera(CameraUpdate.newLatLng(_selectedLocation));
   }
 
   // This method is no longer needed as we handle the search result directly in the onResultSelected callback
@@ -115,6 +114,13 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
     debugPrint("Longitude: ${_selectedLocation.longitude}");
     debugPrint("Address: $_selectedAddress");
     debugPrint("============================");
+    // Prepare the result to send back
+    final result = {
+      'latitude': _selectedLocation.latitude,
+      'longitude': _selectedLocation.longitude,
+      'address': _selectedAddress,
+    };
+
     // Update the location controller with the selected location
     locationController.updateLocation(
       _selectedAddress,
@@ -122,7 +128,8 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
       _selectedLocation.longitude,
     );
 
-    Get.back();
+    // Pop and return the result to the previous screen
+    Get.back(result: result);
 
     // You can also return the data or navigate back with the result
     // Navigator.pop(context, {
@@ -183,7 +190,10 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
                   const Icon(Icons.location_pin, size: 50, color: Colors.red),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -197,7 +207,10 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
                     ),
                     child: Text(
                       _selectedAddress.split(',').take(2).join(','),
-                      style: const TextStyle(fontSize: 12, color: Colors.black87),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black87,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -232,7 +245,10 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
                   hintText: 'Search for a location...',
                   prefixIcon: Icon(Icons.search, color: Colors.grey),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
                           icon: Icon(Icons.clear, color: Colors.grey),
@@ -251,57 +267,64 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
           ),
 
           // Search results
-          Obx(() => _locationController.showSearchResults.value &&
-                  _locationController.searchResults.isNotEmpty
-              ? Positioned(
-                  top: 80,
-                  left: 16,
-                  right: 16,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+          Obx(
+            () =>
+                _locationController.showSearchResults.value &&
+                    _locationController.searchResults.isNotEmpty
+                ? Positioned(
+                    top: 80,
+                    left: 16,
+                    right: 16,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      constraints: BoxConstraints(maxHeight: 200),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _locationController.searchResults.length,
+                        itemBuilder: (context, index) {
+                          final result =
+                              _locationController.searchResults[index];
+                          return ListTile(
+                            leading: Icon(
+                              Icons.location_on,
+                              color: Colors.blue,
+                            ),
+                            title: Text(
+                              result['main_text'] ?? 'Unknown location',
+                            ),
+                            subtitle: Text(result['secondary_text'] ?? ''),
+                            onTap: () {
+                              final location = LatLng(
+                                result['latitude'],
+                                result['longitude'],
+                              );
+                              setState(() {
+                                _selectedLocation = location;
+                                _selectedAddress = result['address'];
+                                _searchController.text = result['address'];
+                              });
+                              mapController.animateCamera(
+                                CameraUpdate.newLatLngZoom(location, 16),
+                              );
+                              _locationController.clearSearchResults();
+                              _searchFocusNode.unfocus();
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    constraints: BoxConstraints(maxHeight: 200),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _locationController.searchResults.length,
-                      itemBuilder: (context, index) {
-                        final result =
-                            _locationController.searchResults[index];
-                        return ListTile(
-                          leading: Icon(Icons.location_on, color: Colors.blue),
-                          title: Text(result['main_text'] ?? 'Unknown location'),
-                          subtitle: Text(result['secondary_text'] ?? ''),
-                          onTap: () {
-                            final location = LatLng(
-                              result['latitude'],
-                              result['longitude'],
-                            );
-                            setState(() {
-                              _selectedLocation = location;
-                              _selectedAddress = result['address'];
-                              _searchController.text = result['address'];
-                            });
-                            mapController.animateCamera(
-                              CameraUpdate.newLatLngZoom(location, 16),
-                            );
-                            _locationController.clearSearchResults();
-                            _searchFocusNode.unfocus();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                )
-              : SizedBox.shrink(),
+                  )
+                : SizedBox.shrink(),
           ),
 
           // OK Button and Current Location Button Row

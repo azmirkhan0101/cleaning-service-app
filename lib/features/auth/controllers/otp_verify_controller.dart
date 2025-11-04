@@ -26,7 +26,12 @@ class OtpVerifyController extends GetxController {
   @override
   void onClose() {
     _timer?.cancel();
-    otpController.dispose();
+    // Only dispose if not already disposed
+    try {
+      otpController.dispose();
+    } catch (e) {
+      // Controller already disposed, ignore
+    }
     super.onClose();
   }
 

@@ -201,12 +201,12 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 Obx(
                   () => CustomSubmitButton(
                     title: AppStrings.verifyCode,
-                    onPressed: () {
-                      // Initialize ProfileSetupController before navigating
-                      Get.put(ProfileSetupController());
-                      Get.to(() => const SelectionScreen());
-                    },
-                    // onPressed: () => _onClickVerifyCode(otpVerifyController),
+                    // onPressed: () {
+                    //   // Initialize ProfileSetupController before navigating
+                    //   Get.put(ProfileSetupController());
+                    //   Get.to(() => SelectionScreen(email: widget.email ?? ""));
+                    // },
+                    onPressed: () => _onClickVerifyCode(otpVerifyController),
                     isLoading: otpVerifyController.isVerifying.value,
                   ),
                 ),
@@ -227,7 +227,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
       } else {
         // Initialize ProfileSetupController before navigating
         Get.put(ProfileSetupController());
-        Get.offAll(SelectionScreen());
+        Get.offAll(SelectionScreen(email: widget.email ?? ""));
       }
     }
   }

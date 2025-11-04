@@ -68,9 +68,18 @@ class _SetLocationSectionState extends State<SetLocationSection> {
 
         ///============ Location ============
         ElevatedButton(
-          onPressed: () {
-            // Get.toNamed(AppRoutes.pickerMapScreen);
-            Get.to(() => PickerMapScreen());
+          onPressed: () async {
+            // Navigate to the map picker and await the result (latitude, longitude, address)
+            final result = await Get.to(() => PickerMapScreen());
+            // print("Map Picker Result: $result");
+
+            if (result != null && result is Map) {
+              selectionController.address.value = result['address'] ?? '';
+              selectionController.latitude.value =
+                  result['latitude']?.toString() ?? '';
+              selectionController.longitude.value =
+                  result['longitude']?.toString() ?? '';
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.white_50,
@@ -188,8 +197,12 @@ class _SetLocationSectionState extends State<SetLocationSection> {
               return;
             }
             selectionController.currentIndex.value = 2;
+
+            debugPrint(
+              'Location: ${selectionController.address.value}, Experience: ${selectionController.experience.value}',
+            );
           },
-          title: AppStrings.continuetext,
+          title: AppStrings.continueText,
           fontSize: 16,
           width: double.infinity,
           height: 50,

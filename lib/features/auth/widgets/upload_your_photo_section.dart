@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
@@ -93,10 +94,18 @@ class UploadYourPhotoSection extends StatelessWidget {
 
           CustomButton(
             onTap: () {
+              if (selectionController.profileImage.value == null) {
+                Toast.errorToast("Please upload a photo");
+                return;
+              }
               // Go to next step (Upload Documents) for both Owner and Provider
               selectionController.currentIndex.value = 3;
+
+              debugPrint(
+                'Photo uploaded: ${selectionController.profileImage.value}',
+              );
             },
-            title: AppStrings.continuetext,
+            title: "Confirm",
             fontSize: 16,
             width: double.infinity,
             height: 50,
@@ -110,6 +119,8 @@ class UploadYourPhotoSection extends StatelessWidget {
             onTap: () {
               // Go to next step (Upload Documents) for both Owner and Provider
               selectionController.currentIndex.value = 3;
+
+              debugPrint('Skipped photo upload');
             },
             child: Center(
               child: CustomText2(

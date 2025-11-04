@@ -27,7 +27,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
     return Scaffold(
       appBar: CustomAppBar(leftIcon: true),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.1,

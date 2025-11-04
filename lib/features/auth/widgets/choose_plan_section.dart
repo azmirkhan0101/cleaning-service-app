@@ -107,34 +107,39 @@ class ChoosePlanSection extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 56.h),
+          SizedBox(height: 20.h),
 
           Obx(
             () => CustomButton(
-              onTap: selectionController.isLoading.value
+              onTap: selectionController.isUploading.value
                   ? () {} // Disabled state - do nothing
-                  : () {
+                  : () async {
                       // Call API for Provider after selecting plan
-                      selectionController.completeRegistration().then((
-                        success,
-                      ) {
-                        if (success) {
-                          Get.offNamed(AppRoutes.paymentScreen);
+                      final success = await selectionController
+                          .completeRegistrationSetup();
+                      if (success) {
+                        if (selectionController.typPaymentStatues.value == 0) {
+                          // Free plan selected
+                          Get.offNamed(AppRoutes.loginScreen);
+                          return;
                         }
-                      });
+                        Get.offNamed(AppRoutes.paymentScreen);
+                      }
                     },
-              title: selectionController.isLoading.value
+              title: selectionController.isUploading.value
                   ? 'Processing...'
-                  : AppStrings.continuetext,
+                  : AppStrings.continueText,
               fontSize: 16,
               width: double.infinity,
               height: 50,
-              fillColor: selectionController.isLoading.value
+              fillColor: selectionController.isUploading.value
                   ? AppColors.grey_1
                   : AppColors.appColors,
               borderRadius: 24,
             ),
           ),
+
+          SizedBox(height: 20.h),
         ],
       ),
     );
@@ -152,6 +157,7 @@ class ChoosePlanSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         selectionController.typPaymentStatues.value = value;
+        debugPrint('Selected Plan Value: $value');
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

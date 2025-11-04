@@ -1,6 +1,5 @@
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
-import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
@@ -128,8 +127,6 @@ class AppRoutes {
     GetPage(name: signupScreen, page: () => SignupScreen()),
 
     GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
-
-    GetPage(name: selectionScreen, page: () => SelectionScreen()),
 
     GetPage(name: paymentScreen, page: () => PaymentScreen()),
 

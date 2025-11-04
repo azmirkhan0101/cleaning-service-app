@@ -1,155 +1,101 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
-import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
-import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/auth/models/profile_setup_response_model.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:get/get.dart';
 
 class ProfileSetupController extends SelectionController {
-  RxBool isLoading = false.obs;
+  RxString email = ''.obs;
   RxString errorMessage = ''.obs;
   Rx<ProfileSetupResponseModel?> profileSetupResponse =
       Rx<ProfileSetupResponseModel?>(null);
 
-  /// Complete registration for both Owner and Provider
-  Future<bool> completeRegistration() async {
-    // Validate required fields
-    if (!_validateFields()) {
-      return false;
+  RxBool isUploading = false.obs;
+
+  Future<bool> completeRegistrationSetup() async {
+    isUploading.value = true;
+
+    // Prepare fields as strings for multipart
+    final Map<String, String> fields = {
+      'email': email.value,
+      'lattitude': latitude.value,
+      'longitude': longitude.value,
+      'role': selectedRole.value.value,
+      'affiliationCondition': 'true',
+    };
+
+    if (selectedRole.value == Role.provider) {
+      fields['experience'] = experience.value;
+      // fields['experience'] = "0-2";
+    }
+    if (selectedRole.value == Role.owner) {
+      fields['resultRange'] = resultRange.value.toString();
+    }
+    if (typPaymentStatues.value < 10) {
+      fields['plan'] = _getPlanString();
+      // fields['plan'] = "BASIC";
     }
 
-    isLoading.value = true;
-    errorMessage.value = '';
+    final List<MultipartBody> files = [
+      MultipartBody(key: "NIDFront", file: frontIdImage.value!),
+      MultipartBody(key: "NIDBack", file: backIdImage.value!),
+    ];
+
+    if (selfieWithIdImage.value != null) {
+      files.add(
+        MultipartBody(key: "selfieWithNID", file: selfieWithIdImage.value!),
+      );
+    }
 
     try {
-      // Prepare multipart files based on role
-      final List<MultipartBody> files = [];
+      final response = await Get.find<NetworkHelper>().multipart(
+        url: ApiUrl.completeRegistration,
+        method: "POST",
+        fields: fields,
+        files: files,
+        withAuth: false,
+        parser: (data) {
+          return ProfileSetupResponseModel.fromJson(data);
+        },
+      );
 
-      // Add profile picture if available
-      if (profileImage.value != null) {
-        files.add(
-          MultipartBody(key: 'profilePicture', file: profileImage.value!),
-        );
-      }
+      isUploading.value = false;
 
-      // Add provider-specific documents
-      if (selectedRole.value == Role.provider) {
-        if (frontIdImage.value != null) {
-          files.add(MultipartBody(key: 'NIDFront', file: frontIdImage.value!));
-        }
-
-        if (backIdImage.value != null) {
-          files.add(MultipartBody(key: 'NIDBack', file: backIdImage.value!));
-        }
-
-        if (selfieWithIdImage.value != null) {
-          files.add(
-            MultipartBody(key: 'selfieWithNID', file: selfieWithIdImage.value!),
-          );
-        }
-      }
-
-      // Prepare form fields
-      final Map<String, String> fields = _prepareFormFields();
-
-      // Make API call
-      final response = await Get.find<NetworkHelper>()
-          .multipart<ProfileSetupResponseModel>(
-            url: ApiUrl.completeRegistration,
-            method: 'POST',
-            fields: fields,
-            files: files,
-            withAuth: true,
-            parser: (data) {
-              return ProfileSetupResponseModel.fromJson(data['data']);
-            },
-          );
-
-      isLoading.value = false;
-
-      // Handle response
       return response.fold(
-        // Error case
         (error) {
-          errorMessage.value = error.message ?? 'Registration failed';
-          Toast.errorToast(errorMessage.value);
+          // Log/show error and return false
+          Get.snackbar(
+            'Error',
+            error.message ?? 'Upload failed',
+            snackPosition: SnackPosition.BOTTOM,
+          );
           return false;
         },
-        // Success case
-        (data) async {
+        (data) {
+          // success
           profileSetupResponse.value = data;
-
-          // Save user data to storage
-          await AppStorageService.saveUserId(data.id);
-          await AppStorageService.saveUserName(data.userName);
-          await AppStorageService.saveUserEmail(data.email);
-
-          Toast.successToast('Registration completed successfully!');
+          Get.snackbar(
+            'Success',
+            'Profile setup completed successfully',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          resetState();
           return true;
         },
       );
     } catch (e) {
-      isLoading.value = false;
-      errorMessage.value = 'An unexpected error occurred: ${e.toString()}';
-      Toast.errorToast(errorMessage.value);
+      isUploading.value = false;
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
       return false;
     }
-  }
-
-  /// Validate required fields based on role
-  bool _validateFields() {
-    if (latitude.value.isEmpty || longitude.value.isEmpty) {
-      errorMessage.value = 'Please set your location';
-      Toast.errorToast(errorMessage.value);
-      return false;
-    }
-
-    if (selectedRole.value == Role.provider) {
-      // Provider specific validations
-      if (experience.value.isEmpty) {
-        errorMessage.value = 'Please select your experience level';
-        Toast.errorToast(errorMessage.value);
-        return false;
-      }
-
-      if (frontIdImage.value == null ||
-          backIdImage.value == null ||
-          selfieWithIdImage.value == null) {
-        errorMessage.value = 'Please upload all required documents';
-        Toast.errorToast(errorMessage.value);
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /// Prepare form fields for API request
-  Map<String, String> _prepareFormFields() {
-    final Map<String, String> fields = {
-      'lattitude': latitude.value,
-      'longitude': longitude.value,
-      'resultRange': resultRange.value.toString(),
-      'plan': _getPlanString(),
-      'role': selectedRole.value == Role.owner ? 'OWNER' : 'PROVIDER',
-      'affiliationCondition': 'true',
-    };
-
-    // Add provider-specific fields
-    if (selectedRole.value == Role.provider) {
-      fields['experience'] = experience.value;
-    }
-
-    return fields;
   }
 
   /// Convert plan index to plan string
   String _getPlanString() {
     switch (typPaymentStatues.value) {
       case 0:
-        return 'BASIC';
+        return 'FREE';
       case 1:
         return 'SILVER';
       case 2:
@@ -157,13 +103,12 @@ class ProfileSetupController extends SelectionController {
       case 3:
         return 'PLATINUM';
       default:
-        return 'BASIC';
+        return 'FREE';
     }
   }
 
   /// Reset controller state
   void resetState() {
-    isLoading.value = false;
     errorMessage.value = '';
     profileSetupResponse.value = null;
     profileImage.value = null;

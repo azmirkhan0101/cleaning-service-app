@@ -1,5 +1,4 @@
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/widgets/choose_plan_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
@@ -16,7 +15,8 @@ const Color cardBorderBlue = Color(0xFF1E88E5);
 const Color unselectedTextColor = Color(0xFF6A6A6A);
 
 class SelectionScreen extends StatefulWidget {
-  const SelectionScreen({super.key});
+  const SelectionScreen({super.key, required this.email});
+  final String email;
 
   @override
   State<SelectionScreen> createState() => _SelectionScreenState();
@@ -25,10 +25,11 @@ class SelectionScreen extends StatefulWidget {
 class _SelectionScreenState extends State<SelectionScreen> {
   final selectionController = Get.find<ProfileSetupController>();
 
-  final authController = Get.put(AuthController());
+  // final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
+    selectionController.email.value = widget.email;
     return Scaffold(
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(

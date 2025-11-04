@@ -9,4 +9,8 @@ class ApiUrl {
   static const String resendOtp = '$baseUrl/auth/resend-otp';
   static const String completeRegistration =
       '$baseUrl/auth/complete-registration';
+  static const String forgotPassword = '$baseUrl/auth/forgot-password';
+  static const String verifyForgotPasswordOtp =
+      '$baseUrl/auth/verify-forgot-password-otp';
+  static const String resetPassword = '$baseUrl/auth/reset-password';
 }

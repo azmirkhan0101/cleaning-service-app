@@ -65,8 +65,11 @@ class SetRoleSection extends StatelessWidget {
         CustomButton(
           onTap: () {
             selectionController.currentIndex.value = 1;
+            debugPrint(
+              'Selected Role: ${selectionController.selectedRole.value}',
+            );
           },
-          title: AppStrings.continuetext,
+          title: AppStrings.continueText,
           fontSize: 16,
           width: double.infinity,
           height: 50,

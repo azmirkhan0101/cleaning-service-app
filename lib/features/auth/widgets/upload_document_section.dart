@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -113,23 +114,63 @@ class UploadDocumentSection extends StatelessWidget {
 
         Obx(
           () => CustomButton(
-            onTap: selectionController.isLoading.value
-                ? () {} // Disabled state - do nothing
-                : () {
-                    _showAffiliationConditionDialog(context);
-                  },
-            title: selectionController.isLoading.value
+            onTap: () async {
+              if (selectionController.isUploading.value) {
+                return; // Disabled state - do nothing
+              }
+
+              if (selectionController.frontIdImage.value == null) {
+                Toast.errorToast("Please upload the front side of your ID");
+                return;
+              }
+
+              if (selectionController.backIdImage.value == null) {
+                Toast.errorToast("Please upload the back side of your ID");
+                return;
+              }
+
+              if (selectionController.selectedRole.value == Role.provider) {
+                if (selectionController.selfieWithIdImage.value == null) {
+                  Toast.errorToast("Please upload a selfie with your ID");
+                  return;
+                }
+              }
+              // Show affiliation condition dialog for Provider
+              _showAffiliationConditionDialog(context);
+              debugPrint(
+                'Front side of id: ${selectionController.frontIdImage.value}',
+              );
+              debugPrint(
+                'Back side of id: ${selectionController.backIdImage.value}',
+              );
+              debugPrint(
+                'Selfie with ID uploaded: ${selectionController.selfieWithIdImage.value}',
+              );
+              // // Upload all documents for Owner
+              // final result = await selectionController
+              //     .completeRegistrationSetup();
+              // if (result) {
+              //   Get.offAll(() => LoginScreen());
+              //   Get.snackbar(
+              //     "Registration complete successfully",
+              //     "Owner documents uploaded successfully. Please login to continue.",
+              //   );
+              // }
+            },
+            title: selectionController.isUploading.value
                 ? 'Processing...'
-                : AppStrings.continuetext,
+                : 'Confirm',
             fontSize: 16,
             width: double.infinity,
             height: 50,
-            fillColor: selectionController.isLoading.value
+            fillColor: selectionController.isUploading.value
                 ? AppColors.grey_1
                 : AppColors.appColors,
             borderRadius: 24,
           ),
         ),
+
+        SizedBox(height: 20),
       ],
     );
   }
@@ -137,8 +178,8 @@ class UploadDocumentSection extends StatelessWidget {
   void _showAffiliationConditionDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.5), // Blur effect
-      barrierDismissible: false,
+      barrierColor: Colors.white.withValues(alpha: 0.5), // Blur effect
+      barrierDismissible: true,
       builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
@@ -150,97 +191,6 @@ class UploadDocumentSection extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _showAffiliateDialog(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 2, color: const Color(0xFF1B2D51)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 16),
-
-          // Title
-          Text(
-            'Affiliation Condition',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF0F0B18),
-              fontSize: 24,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w700,
-              height: 1.3,
-            ),
-          ),
-
-          SizedBox(height: 24),
-
-          // Content
-          Text(
-            "By using the app, you agree to create an account and keep your login information secure. Users can book appointments, and service providers manage availability and appointments. Payments are handled between users and providers. Follow the provider's cancellation and refund policy. You must use the app responsibly, and we are not liable for any issues. The terms may change, and by continuing to use the app, you agree to any updates. For questions, contact us at [Contact Email]",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF0F0B18),
-              fontSize: 14,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w400,
-              height: 1.5,
-            ),
-          ),
-
-          SizedBox(height: 32),
-
-          // Accept Button - Call API for Owner
-          Obx(
-            () => GestureDetector(
-              onTap: selectionController.isLoading.value
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-                      // Call API to complete registration for Owner
-                      selectionController.completeRegistration().then((
-                        success,
-                      ) {
-                        if (success) {
-                          Get.offNamed(AppRoutes.paymentScreen);
-                        }
-                      });
-                    },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: selectionController.isLoading.value
-                      ? const Color(0xFFCCCCCC)
-                      : const Color(0xFFF7A51D),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Text(
-                  selectionController.isLoading.value
-                      ? 'Processing...'
-                      : 'Accept',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.w600,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 16),
-        ],
-      ),
     );
   }
 
@@ -326,6 +276,118 @@ class UploadDocumentSection extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _showAffiliateDialog(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 2, color: const Color(0xFF1B2D51)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 16),
+
+          // Title
+          Text(
+            'Affiliation Condition',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color(0xFF0F0B18),
+              fontSize: 24,
+              fontFamily: 'Lexend',
+              fontWeight: FontWeight.w700,
+              height: 1.3,
+            ),
+          ),
+
+          SizedBox(height: 24),
+
+          // Content
+          Text(
+            "By using the app, you agree to create an account and keep your login information secure. Users can book appointments, and service providers manage availability and appointments. Payments are handled between users and providers. Follow the provider's cancellation and refund policy. You must use the app responsibly, and we are not liable for any issues. The terms may change, and by continuing to use the app, you agree to any updates. For questions, contact us at [Contact Email]",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color(0xFF0F0B18),
+              fontSize: 14,
+              fontFamily: 'Lexend',
+              fontWeight: FontWeight.w400,
+              height: 1.5,
+            ),
+          ),
+
+          SizedBox(height: 32),
+
+          // Accept Button - Call API for Owner
+          Obx(() {
+            return GestureDetector(
+              onTap: () async {
+                // If role is Provider, go to next step
+                if (selectionController.selectedRole.value != Role.owner) {
+                  Navigator.pop(context);
+                  selectionController.currentIndex.value++;
+                } else {
+                  // else complete registration
+                  // Upload all documents for Owner
+                  final result = await selectionController
+                      .completeRegistrationSetup();
+                  if (result) {
+                    // Close the dialog first
+                    Navigator.pop(context);
+                    // Then navigate to login (this removes all previous routes)
+                    Get.offAll(() => LoginScreen());
+                    Get.snackbar(
+                      "Registration Complete",
+                      "Owner documents uploaded successfully. Please login to continue.",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  }
+                }
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF7A51D),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 16,
+                  children: [
+                    if (selectionController.isUploading.value)
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(),
+                      ),
+                    Text(
+                      selectionController.isUploading.value
+                          ? 'proceeding...'
+                          : 'Accept',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'Lexend',
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+
+          SizedBox(height: 16),
         ],
       ),
     );

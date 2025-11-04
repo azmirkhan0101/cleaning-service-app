@@ -5,6 +5,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -267,7 +268,9 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(12.0),
                             border: Border.all(
-                              color: selectionController.typeModeStatues.value
+                              color:
+                                  selectionController.selectedRole.value ==
+                                      Role.provider
                                   ? Color(
                                       0xFF1E88E5,
                                     ) // The blue border for selected
@@ -465,7 +468,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
 
                   Get.toNamed(AppRoutes.paymentScreen);
                 },
-                title: AppStrings.continuetext,
+                title: AppStrings.continueText,
                 fontSize: 16, // Bigger button text for tablets
                 width: double.infinity,
                 height: 50,

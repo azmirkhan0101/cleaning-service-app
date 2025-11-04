@@ -198,7 +198,7 @@ class SelectionController extends GetxController {
   }
 
   /// owner or provider type option
-  RxBool typeModeStatues = false.obs;
+  // RxBool typeModeStatues = false.obs;
 
   RxInt currentIndex = 0.obs;
 
@@ -210,15 +210,5 @@ class SelectionController extends GetxController {
   ).obs;
 
   /// plan selection (0: Free, 1: Silver, 2: Gold, 3: Platinum)
-  RxInt typPaymentStatues = 0.obs;
-
-  final Map<String, dynamic> data = {
-    "email": "alif6@gmail.com",
-    "lattitude": "40.7128",
-    "longitude": "-74.0600",
-    "resultRange": "25",
-    "plan": "BASIC",
-    "role": "OWNER",
-    "affiliationCondition": "true",
-  };
+  RxInt typPaymentStatues = 1000.obs;
 }

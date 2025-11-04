@@ -318,6 +318,7 @@ class NetworkHelper extends GetxService {
       }
 
       _logger.d("Multipart [$method] $url with ${files.length} file(s)");
+      _logger.d("Fields: ${fields ?? {}}");
 
       final requestTimeout = timeout ?? defaultTimeout;
       final streamedResponse = await request.send().timeout(requestTimeout);
