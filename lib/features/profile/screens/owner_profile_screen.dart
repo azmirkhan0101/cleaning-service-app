@@ -2,12 +2,14 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
-import 'package:cleaning_service_app/features/owner/profile/controllers/profile_controller.dart';
+import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class OwnerProfileScreen extends StatelessWidget {
@@ -36,7 +38,7 @@ class OwnerProfileScreen extends StatelessWidget {
                   // Profile Section
                   _buildProfileSection(profileController),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 50.h),
 
                   // General Section
                   const Text(
@@ -44,7 +46,7 @@ class OwnerProfileScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 8.h),
 
                   _buildSettingsList(context),
                 ],
@@ -104,6 +106,7 @@ class OwnerProfileScreen extends StatelessWidget {
   ///List of Settings
   Widget _buildSettingsList(BuildContext context) {
     return Column(
+      spacing: 16.h,
       children: [
         InkWell(
           child: _buildSettingsItem(
@@ -243,10 +246,31 @@ class OwnerProfileScreen extends StatelessWidget {
 
   // Settings Item with Icon, Text, and Arrow
   Widget _buildSettingsItem(String title, IconData icon) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue, size: 24),
-      title: Text(title, style: TextStyle(fontSize: 12)),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: const Color(0xFFE9EBF3)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.blue, size: 24),
+          SizedBox(width: 8.w),
+          CustomText(
+            text: title,
+            color: const Color(0xFF0F0B18),
+            fontSize: 14,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.w400,
+            height: 1.50,
+          ),
+          const Spacer(),
+          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
+        ],
+      ),
     );
   }
 }

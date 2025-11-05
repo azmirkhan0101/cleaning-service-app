@@ -16,6 +16,8 @@ class ApiUrl {
   static const String getAffiliationProgram =
       '$baseUrl/admin/content/affiliation-program';
   static const String profile = '$baseUrl/auth/me';
+  static const String updateOwnerProfile = '$baseUrl/profile/owner';
+  static const String changePassword = '$baseUrl/auth/change-password';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';
@@ -40,4 +42,7 @@ class ApiUrl {
       '$baseUrl/service/ratings-reviews/$serviceId';
   static String serviceProviderSchedule(String serviceId) =>
       '$baseUrl/service/provider/schedule/$serviceId';
+
+  /// =--> Booking Endpoints <--=
+  static const String myBookings = '$baseUrl/booking/my-bookings';
 }

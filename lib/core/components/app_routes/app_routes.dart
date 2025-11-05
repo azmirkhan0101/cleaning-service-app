@@ -14,8 +14,8 @@ import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart'
 import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
-import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_booking.dart';
@@ -23,16 +23,17 @@ import 'package:cleaning_service_app/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/features/policy/about_us_screen.dart';
 import 'package:cleaning_service_app/features/policy/privacy_policy_screen.dart';
 import 'package:cleaning_service_app/features/policy/terms_condition_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/owner_edit_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
 import 'package:cleaning_service_app/features/provider/bookings/qr_scanner_screen.dart';
 import 'package:cleaning_service_app/features/provider/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/change_password.dart';
+import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/profile_edit_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
@@ -40,7 +41,6 @@ import 'package:cleaning_service_app/features/provider/service/review_screen.dar
 import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -154,13 +154,13 @@ class AppRoutes {
 
     GetPage(name: messageScreen, page: () => OwnerMessageScreen()),
 
-    GetPage(name: profileScreen, page: () => ProfileScreen()),
+    GetPage(name: profileScreen, page: () => ProviderProfileScreen()),
 
     GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
 
     GetPage(
       name: editPersonProfileScreen,
-      page: () => EditPersonProfileScreen(),
+      page: () => OwnerEditProfileScreen(),
     ),
 
     GetPage(name: myEarningScreen, page: () => MyEarningScreen()),

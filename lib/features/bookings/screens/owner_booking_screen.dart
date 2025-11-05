@@ -22,22 +22,56 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
         tabTitles: ownerBookingController.tabTitles,
         onTabSelected: ownerBookingController.filterServices,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GetBuilder<OwnerBookingController>(
-          builder: (controller) {
-            return ListView.separated(
+      body: Obx(() {
+        if (ownerBookingController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (ownerBookingController.filteredBookings.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.bookmark_border, size: 64, color: Colors.grey[400]),
+                const SizedBox(height: 16),
+                Text(
+                  'No bookings found',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  ownerBookingController.selectedTabIndex.value == 0
+                      ? 'You don\'t have any bookings yet'
+                      : 'No ${ownerBookingController.tabTitles[ownerBookingController.selectedTabIndex.value].toLowerCase()} bookings',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: ownerBookingController.refreshBookings,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.separated(
               itemBuilder: (context, index) {
-                return OwnerMyBookingCard(index: index, controller: controller);
+                return OwnerMyBookingCard(
+                  booking: ownerBookingController.filteredBookings[index],
+                );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 16);
               },
-              itemCount: controller.filteredServices.length,
-            );
-          },
-        ),
-      ),
+              itemCount: ownerBookingController.filteredBookings.length,
+            ),
+          ),
+        );
+      }),
     );
   }
 }

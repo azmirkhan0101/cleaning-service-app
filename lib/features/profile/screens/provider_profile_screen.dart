@@ -7,11 +7,12 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProviderProfileScreen extends StatelessWidget {
+  const ProviderProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
             children: [
               // Profile Section
               _buildProfileSection(),
-              const SizedBox(height: 16),
+              SizedBox(height: 50.h),
 
               // Boost Button
               ElevatedButton(
@@ -36,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
 
                   Get.toNamed(AppRoutes.boostPaymentScreen);
                 },
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.appColors,
                   shape: RoundedRectangleBorder(
@@ -55,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 500),
 
               // General Section
               const CustomText2(

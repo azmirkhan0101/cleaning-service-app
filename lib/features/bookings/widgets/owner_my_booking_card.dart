@@ -1,35 +1,26 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
+import 'package:cleaning_service_app/features/bookings/models/booking_model.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class OwnerMyBookingCard extends StatelessWidget {
-  const OwnerMyBookingCard({
-    super.key,
-    required this.index,
-    required this.controller,
-  });
-  final int index;
-  final OwnerBookingController controller;
+  const OwnerMyBookingCard({super.key, required this.booking});
+
+  final BookingModel booking;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Get.to(
-          // AppRoutes.ownerServiceDetailsScreen,
           OwnerServiceDetailsScreen(),
           arguments: [
-            {
-              "status": controller.filteredServices[index]["status"]
-                  .toLowerCase(),
-            },
+            {"status": booking.status.toLowerCase()},
           ],
         );
       },
@@ -48,9 +39,9 @@ class OwnerMyBookingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               spacing: 10.w,
               children: [
-                // image
+                // image - placeholder since API doesn't return image
                 CustomImage(
-                  imageSrc: controller.filteredServices[index]["imageUrl"],
+                  imageSrc: Assets.images.cleanImage.path,
                   width: 90.w,
                   height: 98.h,
                 ),
@@ -61,21 +52,20 @@ class OwnerMyBookingCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          /// category
-                          CustomText(
-                            text:
-                                controller.filteredServices[index]["category"],
-                            color: const Color(0xFF0F0B18),
-                            fontSize: 16,
-                            fontFamily: 'Lexend',
-                            fontWeight: FontWeight.w600,
-                            height: 1.50,
+                          /// Service name
+                          Expanded(
+                            child: CustomText(
+                              text: booking.serviceName,
+                              color: const Color(0xFF0F0B18),
+                              fontSize: 16,
+                              fontFamily: 'Lexend',
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
+                            ),
                           ),
 
                           /// status
-                          _buildBookingStatus(
-                            controller.filteredServices[index]["status"],
-                          ),
+                          _buildBookingStatus(booking.status),
                         ],
                       ),
 
@@ -92,14 +82,15 @@ class OwnerMyBookingCard extends StatelessWidget {
                               BlendMode.srcIn,
                             ),
                           ),
-                          CustomText(
-                            text:
-                                controller.filteredServices[index]["location"],
-                            color: const Color(0xFF4F4F59),
-                            fontSize: 10.sp,
-                            fontFamily: 'Lexend',
-                            fontWeight: FontWeight.w400,
-                            height: 1.50,
+                          Expanded(
+                            child: CustomText(
+                              text: booking.ownerAddress.city,
+                              color: const Color(0xFF4F4F59),
+                              fontSize: 10.sp,
+                              fontFamily: 'Lexend',
+                              fontWeight: FontWeight.w400,
+                              height: 1.50,
+                            ),
                           ),
                         ],
                       ),
@@ -111,7 +102,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                         children: [
                           Assets.icons.phone.svg(width: 16, height: 16),
                           CustomText(
-                            text: controller.filteredServices[index]["phone"],
+                            text: booking.ownerPhoneNumber,
                             color: const Color(0xFF4F4F59),
                             fontSize: 10.sp,
                             fontFamily: 'Lexend',
@@ -123,8 +114,7 @@ class OwnerMyBookingCard extends StatelessWidget {
 
                       /// description
                       CustomText(
-                        text: controller
-                            .filteredServices[index]["serviceDetails"],
+                        text: booking.description,
                         color: const Color(0xFF4F4F59),
                         fontSize: 10,
                         fontFamily: 'Lexend',
@@ -150,20 +140,19 @@ class OwnerMyBookingCard extends StatelessWidget {
             /// Price
             _buildPriceDetailsRow(
               title: "Price",
-              value: "${controller.filteredServices[index]["price"]}hr",
+              value: "${booking.priceByHour}/hr",
             ),
 
             /// Duration
             _buildPriceDetailsRow(
               title: "Duration",
-              value: "${controller.filteredServices[index]["duration"]}hr",
+              value: "${booking.serviceDuration}hr",
             ),
 
             /// Total
             _buildPriceDetailsRow(
               title: "Total",
-              value:
-                  "${controller.filteredServices[index]["price"] * controller.filteredServices[index]["duration"]}",
+              value: booking.totalAmount.toStringAsFixed(2),
             ),
           ],
         ),
@@ -227,13 +216,28 @@ class OwnerMyBookingCard extends StatelessWidget {
   }
 
   Widget _buildBookingStatus(String status) {
-    Color color = status == "Pending"
-        ? const Color(0xFFDE5640)
-        : status == "Ongoing"
-        ? const Color(0xFF4899D1)
-        : status == "Completed"
-        ? const Color(0xFF1B2D51)
-        : const Color(0xFFECCACA);
+    final String displayStatus = status.toUpperCase();
+    Color color;
+    Color textColor = Colors.white;
+
+    switch (displayStatus) {
+      case 'PENDING':
+        color = const Color(0xFFDE5640);
+        break;
+      case 'ONGOING':
+        color = const Color(0xFF4899D1);
+        break;
+      case 'COMPLETED':
+        color = const Color(0xFF1B2D51);
+        break;
+      case 'CANCELLED':
+        color = const Color(0xFFECCACA);
+        textColor = const Color(0xFFDE5640);
+        break;
+      default:
+        color = Colors.grey;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
       decoration: ShapeDecoration(
@@ -241,8 +245,8 @@ class OwnerMyBookingCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       ),
       child: CustomText(
-        text: status,
-        color: status == "Cancelled" ? Color(0xFFDE5640) : Colors.white,
+        text: displayStatus[0] + displayStatus.substring(1).toLowerCase(),
+        color: textColor,
         fontSize: 14,
         fontFamily: 'Lexend',
         fontWeight: FontWeight.w600,
