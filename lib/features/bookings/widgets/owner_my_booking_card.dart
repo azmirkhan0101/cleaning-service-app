@@ -4,7 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
-import 'package:cleaning_service_app/features/services/screens/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

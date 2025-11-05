@@ -16,11 +16,11 @@ class _ReferScreenState extends State<ReferScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(
-        titleName:
+      appBar: CustomAppBar(
+        title:
             ''
             'Refer Your \n Friends and Earn',
-        leftIcon: true,
+        backButton: true,
       ),
 
       body: SingleChildScrollView(

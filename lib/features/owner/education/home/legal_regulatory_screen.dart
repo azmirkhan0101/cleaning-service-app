@@ -10,9 +10,9 @@ class LegalRegulatoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(
-        leftIcon: true,
-        titleName: "Legal & Regulatory Updates",
+      appBar: CustomAppBar(
+        backButton: true,
+        title: "Legal & Regulatory Updates",
         fontSize: 16,
       ),
       body: Padding(

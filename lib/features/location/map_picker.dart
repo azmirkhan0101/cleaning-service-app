@@ -1,12 +1,14 @@
 import 'dart:async';
+
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
-import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 
 class PickerMapScreen extends StatefulWidget {
   const PickerMapScreen({super.key});
@@ -21,13 +23,15 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
 
   // Google Map controller
   late GoogleMapController mapController;
-  LatLng _selectedLocation = LatLng(
+  LatLng _selectedLocation = const LatLng(
     37.7749,
     -122.4194,
   ); // Default San Francisco
   String _selectedAddress = "";
 
-  final LatLng _defaultLocation = LatLng(37.7749, -122.4194); // San Francisco
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  final LocationController _locationController = Get.find<LocationController>();
 
   @override
   void initState() {
@@ -37,6 +41,8 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
 
   @override
   void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -77,8 +83,7 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
 
         setState(() {
           _selectedAddress = address;
-          locationController.selectedAddress.text =
-              address; // Update controller
+          // Don't update the search controller to avoid interfering with user input
         });
       }
     } catch (e) {
@@ -87,30 +92,20 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   }
 
   void _onCameraMove(CameraPosition position) {
-    _selectedLocation = position.target;
+    setState(() {
+      _selectedLocation = position.target;
+    });
   }
 
   void _onCameraIdle() {
     // Get address when user stops moving the map
     _getAddressFromLatLng(_selectedLocation);
+
+    // Update the map controller's position to ensure smooth movement
+    mapController.animateCamera(CameraUpdate.newLatLng(_selectedLocation));
   }
 
-  void _onSearchResultSelected() {
-    // When user selects a search result, move map to that location
-    if (locationController.selectedLatitude.value != 0.0) {
-      LatLng location = LatLng(
-        locationController.selectedLatitude.value,
-        locationController.selectedLongitude.value,
-      );
-
-      setState(() {
-        _selectedLocation = location;
-        _selectedAddress = locationController.selectedAddress.text;
-      });
-
-      mapController.animateCamera(CameraUpdate.newLatLngZoom(location, 16));
-    }
-  }
+  // This method is no longer needed as we handle the search result directly in the onResultSelected callback
 
   void _confirmLocation() {
     // Print the selected location details
@@ -119,6 +114,13 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
     debugPrint("Longitude: ${_selectedLocation.longitude}");
     debugPrint("Address: $_selectedAddress");
     debugPrint("============================");
+    // Prepare the result to send back
+    final result = {
+      'latitude': _selectedLocation.latitude,
+      'longitude': _selectedLocation.longitude,
+      'address': _selectedAddress,
+    };
+
     // Update the location controller with the selected location
     locationController.updateLocation(
       _selectedAddress,
@@ -126,7 +128,8 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
       _selectedLocation.longitude,
     );
 
-    Get.back();
+    // Pop and return the result to the previous screen
+    Get.back(result: result);
 
     // You can also return the data or navigate back with the result
     // Navigator.pop(context, {
@@ -139,38 +142,189 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Select Location", leftIcon: true),
+      appBar: CustomAppBar(title: "Select Location", backButton: true),
       body: Stack(
         children: [
           // Google Map
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: _defaultLocation,
-              zoom: 10,
+              target: _selectedLocation,
+              zoom: 14.0,
             ),
             myLocationEnabled: true, // Show user location
-            myLocationButtonEnabled: false, // Disable default button
+            myLocationButtonEnabled: false, // Disable default location button
             zoomControlsEnabled: false, // Hide zoom in/out buttons
+            mapType: MapType.normal,
             onMapCreated: (GoogleMapController controller) {
               mapController = controller;
+              // Ensure the map is properly positioned after creation
+              mapController.animateCamera(
+                CameraUpdate.newLatLngZoom(_selectedLocation, 14.0),
+              );
             },
             onCameraMove: _onCameraMove,
             onCameraIdle: _onCameraIdle,
+            // Enable all map gestures
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
+            tiltGesturesEnabled: true,
+            rotateGesturesEnabled: true,
+            // Set zoom range
+            minMaxZoomPreference: const MinMaxZoomPreference(0, 20),
+            // Ensure the map is interactive
+            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            }.toSet(),
+            // Ensure the map is properly positioned
+            cameraTargetBounds: CameraTargetBounds.unbounded,
           ),
 
           // Center Marker (Pin Icon)
-          Center(child: Icon(Icons.location_pin, size: 50, color: Colors.red)),
+          IgnorePointer(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.location_pin, size: 50, color: Colors.red),
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      _selectedAddress.split(',').take(2).join(','),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black87,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
 
           // Search Widget
           Positioned(
             top: 16,
             left: 16,
             right: 16,
-            child: LocationSearchWidget(
-              controller: locationController,
-              hintText: "Search for a location...",
-              onResultSelected: _onSearchResultSelected,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                decoration: InputDecoration(
+                  hintText: 'Search for a location...',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(Icons.clear, color: Colors.grey),
+                          onPressed: () {
+                            _searchController.clear();
+                            _locationController.clearSearchResults();
+                          },
+                        )
+                      : null,
+                ),
+                onChanged: (value) {
+                  _locationController.searchLocations(value);
+                },
+              ),
             ),
+          ),
+
+          // Search results
+          Obx(
+            () =>
+                _locationController.showSearchResults.value &&
+                    _locationController.searchResults.isNotEmpty
+                ? Positioned(
+                    top: 80,
+                    left: 16,
+                    right: 16,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      constraints: BoxConstraints(maxHeight: 200),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _locationController.searchResults.length,
+                        itemBuilder: (context, index) {
+                          final result =
+                              _locationController.searchResults[index];
+                          return ListTile(
+                            leading: Icon(
+                              Icons.location_on,
+                              color: Colors.blue,
+                            ),
+                            title: Text(
+                              result['main_text'] ?? 'Unknown location',
+                            ),
+                            subtitle: Text(result['secondary_text'] ?? ''),
+                            onTap: () {
+                              final location = LatLng(
+                                result['latitude'],
+                                result['longitude'],
+                              );
+                              setState(() {
+                                _selectedLocation = location;
+                                _selectedAddress = result['address'];
+                                _searchController.text = result['address'];
+                              });
+                              mapController.animateCamera(
+                                CameraUpdate.newLatLngZoom(location, 16),
+                              );
+                              _locationController.clearSearchResults();
+                              _searchFocusNode.unfocus();
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
           ),
 
           // OK Button and Current Location Button Row

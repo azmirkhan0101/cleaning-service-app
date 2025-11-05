@@ -56,7 +56,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
     ];
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Service"),
+      appBar: CustomAppBar(title: "Service"),
       body: GridView.builder(
         //padding: EdgeInsets.all(8),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

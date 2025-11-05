@@ -1,40 +1,13 @@
-import 'package:cleaning_service_app/features/splash/get_started_screen.dart';
-import 'package:cleaning_service_app/features/splash/onboarding_controller.dart';
-import 'package:cleaning_service_app/core/helper/shared_prefe/shared_prefe.dart';
-import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
+import 'package:cleaning_service_app/features/splash/controllers/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatelessWidget {
+  SplashScreen({super.key});
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
+  final onboardingController = Get.put(SplashController());
 
-class _SplashScreenState extends State<SplashScreen> {
-  final onboardingController = Get.put(OnboardingController());
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 3), () async {
-        onboardingController.checkAndRequestPermissions();
-
-        var token = await SharePrefsHelper.getString(AppConstants.bearerToken);
-
-        if (token.isNotEmpty) {
-          ///Get.offAllNamed(AppRoutes.homeScreen);
-        } else {
-          // Get.offAllNamed(AppRoutes.onboardingScreen);
-          Get.offAll(() => GetStartedScreen());
-        }
-      });
-    });
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);

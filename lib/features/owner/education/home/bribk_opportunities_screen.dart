@@ -10,7 +10,7 @@ class BribkOpportunitiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(leftIcon: true, titleName: "Brink Opportunities"),
+      appBar: CustomAppBar(backButton: true, title: "Brink Opportunities"),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Container(

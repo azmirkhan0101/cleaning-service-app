@@ -1,59 +1,71 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+import 'package:cleaning_service_app/features/owner/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class OwnerProfileScreen extends StatelessWidget {
   const OwnerProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final storage = GetStorage();
+    final profileController = Get.put(ProfileController());
 
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Profile"),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Profile Section
-              _buildProfileSection(),
+      appBar: CustomAppBar(title: "Profile"),
+      body: Obx(() {
+        if (profileController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-              const SizedBox(height: 16),
+        return RefreshIndicator(
+          onRefresh: profileController.refreshProfile,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Profile Section
+                  _buildProfileSection(profileController),
 
-              // General Section
-              const Text(
-                'General',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 16),
+
+                  // General Section
+                  const Text(
+                    'General',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  _buildSettingsList(context),
+                ],
               ),
-
-              const SizedBox(height: 16),
-
-              _buildSettingsList(context),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
       // bottomNavigationBar: OwnerNavBar(currentIndex: 4),
     );
   }
 
   // Profile Section with image, name, email, and sign out
-  Widget _buildProfileSection() {
+  Widget _buildProfileSection(ProfileController profileController) {
+    final profile = profileController.profile.value;
+
     return Row(
       children: [
         ///Profile Image
         CustomNetworkImage(
-          imageUrl: AppConstants.profileImage,
+          imageUrl: profile?.profilePicture ?? AppConstants.profileImage,
           height: 50,
           width: 50,
           boxShape: BoxShape.circle,
@@ -62,14 +74,14 @@ class OwnerProfileScreen extends StatelessWidget {
         const SizedBox(width: 16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             CustomText2(
-              text: 'Mehedi Hasan ',
+              text: profile?.userName ?? 'Loading...',
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
             CustomText2(
-              text: 'jorgebong@gmail.com',
+              text: profile?.email ?? 'Loading...',
               fontSize: 14,
               color: Colors.grey,
             ),

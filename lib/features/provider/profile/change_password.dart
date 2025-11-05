@@ -15,11 +15,11 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(
-        titleName:
+      appBar: CustomAppBar(
+        title:
             ''
             'ChangePassword',
-        leftIcon: true,
+        backButton: true,
       ),
 
       body: Padding(

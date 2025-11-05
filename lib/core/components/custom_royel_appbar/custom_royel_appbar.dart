@@ -1,26 +1,21 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_text/custom_text_2.dart';
 
-class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
-  final String? titleName;
-  final String? rightIcon;
-  final void Function()? leftOnTap;
-  final void Function()? rightOnTap;
-  final bool? leftIcon;
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String? title;
+  final bool? backButton;
   final double fontSize;
+  final List<Widget>? actions;
 
-  const CustomAppbar({
+  const CustomAppBar({
     super.key,
-    this.titleName,
-    this.leftOnTap,
-    this.rightIcon,
-    this.rightOnTap,
-    this.leftIcon = false,
+    this.title,
+    this.backButton = false,
     this.fontSize = 22,
+    this.actions,
   });
 
   @override
@@ -31,20 +26,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       foregroundColor: Colors.transparent,
       centerTitle: true,
       scrolledUnderElevation: 0,
-      actions: [
-        IconButton(
-          onPressed: () {
-            rightOnTap!();
-          },
-          icon: rightIcon == null
-              ? SizedBox()
-              : CustomImage(imageSrc: rightIcon!, height: 26, width: 26),
-        ),
-      ],
+      actions: actions,
       backgroundColor: Colors.transparent,
-      leading: leftIcon == true ? BackButton(color: AppColors.black) : null,
+      leading: backButton == true ? BackButton(color: AppColors.black) : null,
       title: CustomText2(
-        text: titleName ?? "",
+        text: title ?? "",
         fontSize: fontSize,
         fontWeight: FontWeight.w700,
         color: AppColors.black,

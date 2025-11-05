@@ -5,100 +5,115 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/reset_password_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
+
+  final String email;
+  final String otp;
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final passwordTEController = TextEditingController();
-  final confirmPasswordTEController = TextEditingController();
+  // final passwordTEController = TextEditingController();
+  // final confirmPasswordTEController = TextEditingController();
 
-  String? email;
+  // String? email;
 
-  final authController = Get.put(AuthController());
+  // final authController = Get.put(AuthController());
+  final ResetPasswordController resetPasswordController = Get.put(
+    ResetPasswordController(),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(leftIcon: true),
+      appBar: CustomAppBar(backButton: true),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.1,
-            child: Obx(() {
-              authController.newTextEditingController.value;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomText2(
-                    text: 'Reset Password !',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CustomText2(
+                  text: 'Reset Password !',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
 
-                  SizedBox(height: 8),
+                SizedBox(height: 8),
 
-                  CustomText2(
-                    text: 'Welcome back',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
+                CustomText2(
+                  text: 'Welcome back',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      140.h.heightBox,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    140.h.heightBox,
 
-                      /// password Field
-                      CustomFormCard(
-                        titleColor: Colors.black,
-                        title: AppStrings.password,
-                        hintText: AppStrings.enterYourPassword,
-                        isPassword: true,
-                        controller: passwordTEController,
-                      ),
+                    /// password Field
+                    CustomFormCard(
+                      titleColor: Colors.black,
+                      title: AppStrings.password,
+                      hintText: AppStrings.enterYourPassword,
+                      isPassword: true,
+                      controller: resetPasswordController.passwordController,
+                    ),
 
-                      24.h.heightBox,
+                    24.h.heightBox,
 
-                      /// password Field
-                      CustomFormCard(
-                        titleColor: Colors.black,
-                        title: "Confirm Password",
-                        hintText: AppStrings.enterYourPassword,
-                        isPassword: true,
-                        controller: confirmPasswordTEController,
-                      ),
-                    ],
-                  ),
+                    /// password Field
+                    CustomFormCard(
+                      titleColor: Colors.black,
+                      title: "Confirm Password",
+                      hintText: AppStrings.enterYourPassword,
+                      isPassword: true,
+                      controller:
+                          resetPasswordController.confirmPasswordController,
+                    ),
+                  ],
+                ),
 
-                  SizedBox(height: 16.h),
+                SizedBox(height: 16.h),
 
-                  ///============ verificationEmail Button ============
-                  CustomButton(
-                    onTap: () {
-                      Get.to(() => LoginScreen());
-                    },
-                    title: "Update Password",
-                    height: 50.h,
-                    fontSize: 14.sp,
-                    fillColor: AppColors.appColors,
-                    borderRadius: 24,
-                  ),
-                ],
-              );
-            }),
+                ///============ verificationEmail Button ============
+                CustomButton(
+                  onTap: () async {
+                    final isSuccess = await resetPasswordController
+                        .submitResetPassword(
+                          email: widget.email,
+                          otp: widget.otp,
+                        );
+                    if (isSuccess) {
+                      Get.offAll(() => LoginScreen());
+                    }
+                  },
+                  title: "Update Password",
+                  height: 50.h,
+                  fontSize: 14.sp,
+                  fillColor: AppColors.appColors,
+                  borderRadius: 24,
+                ),
+              ],
+            ),
           ),
         ),
       ),

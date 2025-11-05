@@ -1,6 +1,5 @@
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
-import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
@@ -16,7 +15,6 @@ import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dar
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/profile/profile_screen.dart';
-import 'package:cleaning_service_app/features/services/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
@@ -42,9 +40,8 @@ import 'package:cleaning_service_app/features/provider/service/review_screen.dar
 import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
-import 'package:cleaning_service_app/features/splash/onboarding++.dart';
-import 'package:cleaning_service_app/features/splash/onboarding_second_screen.dart';
-import 'package:cleaning_service_app/features/splash/splash_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
 ///=========================App Routes=========================
@@ -54,7 +51,7 @@ class AppRoutes {
   static const String onboardingSecondScreen = "/OnboardingSecondScreen";
   static const String loginScreen = "/LoginScreen";
   static const String signupScreen = "/SignupScreen";
-  static const String singupOtpScreen = "/SingupOtpScreen";
+  static const String singUpOtpScreen = "/SingupOtpScreen";
   static const String selectionScreen = "/SelectionScreen";
   static const String paymentScreen = "/PaymentScreen";
   static const String providerHome = "/ProviderHome";
@@ -122,17 +119,14 @@ class AppRoutes {
     ///===========================Authentication==========================
     GetPage(name: splashScreen, page: () => SplashScreen()),
 
-    GetPage(name: onboardingScreen, page: () => Onboarding2Screen()),
+    // GetPage(name: onboardingScreen, page: () => Onboarding2Screen()),
 
-    GetPage(name: onboardingSecondScreen, page: () => OnboardingSecondScreen()),
-
+    // GetPage(name: onboardingSecondScreen, page: () => OnboardingSecondScreen()),
     GetPage(name: loginScreen, page: () => LoginScreen()),
 
     GetPage(name: signupScreen, page: () => SignupScreen()),
 
-    GetPage(name: singupOtpScreen, page: () => OtpVerifyScreen()),
-
-    GetPage(name: selectionScreen, page: () => SelectionScreen()),
+    GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
 
     GetPage(name: paymentScreen, page: () => PaymentScreen()),
 

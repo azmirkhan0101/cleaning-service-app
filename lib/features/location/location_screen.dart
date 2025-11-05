@@ -22,7 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "", leftIcon: true),
+      appBar: CustomAppBar(title: "", backButton: true),
 
       body: SingleChildScrollView(
         child: Padding(
@@ -53,7 +53,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
               /// Searchable Address Field
               LocationSearchWidget(
-                controller: locationController,
+                // controller: locationController,
                 hintText: "Search for your address...",
                 showLabel: true,
                 labelText: "Enter your address",

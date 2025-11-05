@@ -1,4 +1,6 @@
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/features/auth/controllers/auth_controller.dart';
+import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
@@ -15,6 +17,12 @@ class DependencyInjection extends Bindings {
   void dependencies() {
     /// ========================== Core Services ==========================
     Get.put(NetworkHelper(), permanent: true);
+
+    /// ========================== Auth Controller ==========================
+    Get.put(AuthController(), permanent: true);
+    Get.put(ProfileSetupController(), permanent: true);
+    // OtpVerifyController is created per-screen to ensure fresh state
+    // LoginController and SignupController are created per-screen with tags
 
     ///==========================Default Custom Controller ==================
     Get.lazyPut(() => SelectionController(), fenix: true);

@@ -27,7 +27,7 @@ class _BoostPaymentScreenState extends State<BoostPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: "Payment", leftIcon: true),
+      appBar: CustomAppBar(title: "Payment", backButton: true),
 
       body: Padding(
         padding: EdgeInsets.all(12.0),

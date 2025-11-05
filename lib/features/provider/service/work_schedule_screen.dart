@@ -65,7 +65,7 @@ class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(titleName: 'Work schedule', leftIcon: true),
+      appBar: CustomAppBar(title: 'Work schedule', backButton: true),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),

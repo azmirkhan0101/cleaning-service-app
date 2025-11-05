@@ -10,7 +10,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(leftIcon: true, titleName: "Privacy Policy"),
+      appBar: CustomAppBar(backButton: true, title: "Privacy Policy"),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Container(

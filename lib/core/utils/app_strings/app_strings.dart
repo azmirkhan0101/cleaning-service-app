@@ -1,29 +1,28 @@
-class   AppStrings {
-
+class AppStrings {
   static const String fieldCantBeEmpty = "Field can't be empty";
   static const String emailFieldCantBeEmpty = "Please enter your email";
   static const String passwordFieldCantBeEmpty = "Please enter your password";
-  static const String checknetworkconnection = "Check network connection";
+  static const String checkNetworkConnection = "Check network connection";
   static const String enterThe8Character = "Please Enter The 8 character";
   static const String passwordNotMatch = "Passwords do not match";
 
- ///======= splash screen =====================
+  ///======= splash screen =====================
   static const String subtitle1 = "Keep track by taking daily notes.";
-  static const String subtitle2 = "Daily reminder to do at least one form of exercise.";
+  static const String subtitle2 =
+      "Daily reminder to do at least one form of exercise.";
   static const String subtitle3 = "Helps you track daily goals";
-
 
   ///================== singUP ===================
 
-  static const String continuetext = "Continue";
+  static const String continueText = "Continue";
   static const String skip = "Skip";
   static const String yourName = "Your Name";
-
 
   ///============================ Common Auth =========================
 
   static const String welcomeBack = "Welcome Back !";
-  static const String pleaseEnterYourPersonalData = "Please Enter Your Personal Data";
+  static const String pleaseEnterYourPersonalData =
+      "Please Enter Your Personal Data";
 
   static const String enterYourName = "Enter name";
   static const String enterYourLocation = "Enter Your Location";
@@ -53,7 +52,8 @@ class   AppStrings {
   static const String dontHaveAccount = "Don’t have account ? ";
   static const String signUp = "Sign Up";
   static const String hi = "HI !";
-  static const String pleaseSelectHowYou = "Pleas select how you want to use this app";
+  static const String pleaseSelectHowYou =
+      "Pleas select how you want to use this app";
   static const String professional = "Professional";
   static const String user = "User";
   static const String fullName = "Full name";
@@ -77,14 +77,16 @@ class   AppStrings {
   static const String yesDelete = "YES,DELETE";
   static const String updatePasswordText = "Confirm";
   static const String scan = "Order History";
-  static const String enterCode = "Enter 4 Digits Code";
-  static const String enterTheCodeTitle = "Enter the 4 digits code that you received on your email";
+  static const String enterCode = "Enter 6 Digits Code";
+  static const String enterTheCodeTitle =
+      "Enter the 6 digits code that you received on your email";
   static const String ididntFind = "I didn't find confirmation code,";
-  static const String sendAgain = "Send Again";
+  static const String sendAgain = "Send Again.";
   static const String sendCode = "Send Code";
   static const String yourAccountIsReady = "Your account is ready";
   static const String emailConfirmation = "Forgot password?";
-  static const String enterYourEmailForVerification = "Enter Your email for verification.";
+  static const String enterYourEmailForVerification =
+      "Enter Your email for verification.";
   static const String sendVerificationCode = "Send Verification Code";
   static const String verifyCode = "Verify Code";
   static const String resendConfirmationCode = "Resend Confirmation Code";
@@ -103,25 +105,28 @@ class   AppStrings {
   static const String register = "register";
 
   ///============================ owner / provider  =========================
-   static const String uploadPhoto = "Upload Your Photo";
+  static const String uploadPhoto = "Upload Your Photo";
 
-   static const String profileTitle = "Add a clear photo to complete your profile. This helps providers recognize you easily and makes your bookings more secure and trustworthy.";
-   static const String setLocation = "Set Your Location";
-   static const String locationTitle = "Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.";
+  static const String profileTitle =
+      "Add a clear photo to complete your profile. This helps providers recognize you easily and makes your bookings more secure and trustworthy.";
+  static const String setLocation = "Set Your Location & Experience";
+  static const String locationTitle =
+      "Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.";
 
   static const String VerifyProfile = "Verify Your Profile";
 
-  static const String VerifyProfileTitle= "Upload documentation to confirm your identity and experience.";
+  static const String VerifyProfileTitle =
+      "Upload documentation to confirm your identity and experience.";
 
   static const String chooseYourPlan = "Choose Your Plan";
 
-  static const String chooseYourPlanTitle = "Pick the plan that suits your service and start growing your cleaning business today.";
+  static const String chooseYourPlanTitle =
+      "Pick the plan that suits your service and start growing your cleaning business today.";
 
   static const String location = "Location";
   static const String email = "Email";
 
-
-///========================== Nav Bar =====================//
+  ///========================== Nav Bar =====================//
 
   static const String home = "Home";
 
@@ -132,6 +137,4 @@ class   AppStrings {
   static const String inbox = "Inbox";
 
   static const String profile = "Profile";
-
-
 }
