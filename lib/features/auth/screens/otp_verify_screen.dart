@@ -35,7 +35,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(leftIcon: true),
+      appBar: CustomAppBar(backButton: true),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: SingleChildScrollView(

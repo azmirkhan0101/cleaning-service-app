@@ -10,7 +10,7 @@ class TermsConditionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(leftIcon: true, titleName: "Terms Condition"),
+      appBar: CustomAppBar(backButton: true, title: "Terms Condition"),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Container(

@@ -26,7 +26,7 @@ class _ProPlanSubscriptionScreenState extends State<ProPlanSubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Choose Your Plan"),
+      appBar: CustomAppBar(title: "Choose Your Plan"),
 
       body: SingleChildScrollView(
         child: Padding(

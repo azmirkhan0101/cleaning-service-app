@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
@@ -11,6 +11,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_search_screen.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
@@ -30,6 +31,8 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   final ownerController = Get.find<OwnerController>();
 
   final paymentController = Get.find<PaymentController>();
+
+  final notificationController = Get.put(NotificationController());
 
   int? _selectedExperience;
   bool? _instantBooking;
@@ -441,35 +444,41 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
           ),
         ),
         IconWhiteCircleBackground(
-          icon: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Assets.icons.notificationBell.svg(width: 24, height: 24),
-              ),
-              Positioned(
-                right: 0,
-                child: Container(
-                  width: 14,
-                  height: 14,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF00B046) /* green */,
-                    shape: OvalBorder(),
+          icon: Obx(() {
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Assets.icons.notificationBell.svg(
+                    width: 24,
+                    height: 24,
                   ),
-                  child: Center(
-                    child: Text(
-                      '1',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
+                ),
+                if (notificationController.unreadCount.value > 0)
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFF00B046) /* green */,
+                        shape: OvalBorder(),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${notificationController.unreadCount.value}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
           onTap: () {
             // showCustomDialog(context);
             Get.toNamed(AppRoutes.notificationScreen);

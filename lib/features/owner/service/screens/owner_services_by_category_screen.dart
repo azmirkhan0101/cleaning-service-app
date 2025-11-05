@@ -1,12 +1,12 @@
-import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/service_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,71 +20,76 @@ class OwnerServicesByCategoryScreen extends StatefulWidget {
 
 class _OwnerServicesByCategoryScreenState
     extends State<OwnerServicesByCategoryScreen> {
+  final serviceController = Get.put(OwnerServiceListController());
+
+  @override
+  void initState() {
+    super.initState();
+    final args = Get.arguments as Map<String, dynamic>?;
+    if (args != null && args['categoryId'] != null) {
+      serviceController.setCategoryId(args['categoryId']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> services = [
-      {
-        'title': 'Cleaning Service',
-        'price': '€25/hr',
-        'rating': '4.8',
-        'date': '12/07/2025',
-        'bookings': '05',
-        'image':
-            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
-        'new': true,
-      },
-      {
-        'title': 'Laundry Service',
-        'price': '€30/hr',
-        'rating': '4.8',
-        'date': '12/08/2025',
-        'bookings': '03',
-        'image':
-            "https://busybeecleaningcompany.com/wp-content/uploads/2023/01/shutterstock_1934018414-1-1-800x534-1.jpeg",
-        'new': false,
-      },
-      {
-        'title': 'CleanWave',
-        'price': '€25/hr',
-        'rating': '4.8',
-        'date': '12/07/2025',
-        'bookings': '05',
-        'image': "https://greenhorizon.ae/assets/general-cleaning.jpg",
-        'new': false,
-      },
-      {
-        'title': 'BrightNest',
-        'price': '€30/hr',
-        'rating': '4.8',
-        'date': '12/08/2025',
-        'bookings': '03',
-        'image':
-            "https://www.helpling.com.sg/wp-content/uploads/2023/06/general-cleaning-vs-specialised-cleaning-cover-image.jpg",
-        'new': true,
-      },
-    ];
+    final args = Get.arguments as Map<String, dynamic>?;
+    final categoryName = args?['categoryName'] ?? 'Service';
 
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Service", leftIcon: true),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Always 2 columns for phones
-            crossAxisSpacing: 8.0, // Space between columns
-            mainAxisSpacing: 8.0, // Space between rows
-            childAspectRatio: 0.70, // Aspect ratio for grid items
-          ),
-          itemCount: services.length,
-          itemBuilder: (context, index) {
-            final service = services[index];
-            return InkWell(
-              onTap: () {
-                Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
-              },
-              child: ListView(
-                children: [
-                  Card(
+      appBar: CustomAppBar(title: categoryName, backButton: true),
+      body: Obx(() {
+        if (serviceController.isLoading.value &&
+            serviceController.services.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (serviceController.services.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.cleaning_services_outlined,
+                  size: 64,
+                  color: Colors.grey[400],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No services available',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: serviceController.refreshServices,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.80,
+              ),
+              itemCount: serviceController.services.length,
+              itemBuilder: (context, index) {
+                final service = serviceController.services[index];
+                return InkWell(
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.ownerServiceDetailsScreen,
+                      arguments: {'serviceId': service.id},
+                    );
+                  },
+                  child: Card(
                     elevation: 0.2,
                     color: AppColors.white,
                     shape: RoundedRectangleBorder(
@@ -97,10 +102,20 @@ class _OwnerServicesByCategoryScreenState
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            service['image']!,
+                            service.serviceImage,
                             height: 120,
                             width: double.infinity,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                height: 120,
+                                color: Colors.grey[300],
+                                child: Icon(
+                                  Icons.image_not_supported,
+                                  size: 50,
+                                ),
+                              );
+                            },
                           ),
                         ),
                         Padding(
@@ -113,13 +128,15 @@ class _OwnerServicesByCategoryScreenState
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText2(
-                                    text: service['title']!,
-                                    fontSize:
-                                        14, // Adjusted font size for smaller screens
-                                    fontWeight: FontWeight.w600,
+                                  Expanded(
+                                    child: CustomText2(
+                                      text: service.serviceName,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      maxLines: 1,
+                                    ),
                                   ),
-                                  SizedBox(height: 4),
+                                  SizedBox(width: 4),
                                   // Rating
                                   Row(
                                     children: [
@@ -128,9 +145,10 @@ class _OwnerServicesByCategoryScreenState
                                         color: Colors.orange,
                                         size: 14,
                                       ),
-                                      SizedBox(width: 4),
+                                      SizedBox(width: 2),
                                       CustomText2(
-                                        text: service['rating']!,
+                                        text: service.averageRatings
+                                            .toStringAsFixed(1),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -139,39 +157,32 @@ class _OwnerServicesByCategoryScreenState
                                 ],
                               ),
                               SizedBox(height: 8),
-                              // Additional Info
-                              // CustomText2(
-                              //   text: 'Current booking: ${service['bookings']}',
-                              //   fontSize: 12,
-                              //   color: Colors.grey,
-                              //   fontWeight: FontWeight.w400,
-                              // ),
-                              // SizedBox(height: 4),
                               // Service provider info
                               Row(
                                 children: [
                                   CustomNetworkImage(
-                                    imageUrl: AppConstants.profileImage,
+                                    imageUrl: service.providerProfilePicture,
                                     height: 24,
                                     width: 24,
                                     boxShape: BoxShape.circle,
                                   ),
                                   SizedBox(width: 4),
-                                  CustomText2(
-                                    text: 'Jorge Bond',
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
+                                  Expanded(
+                                    child: CustomText(
+                                      text: service.providerName,
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                      maxLines: 1,
+                                    ),
                                   ),
-                                  SizedBox(width: 4),
-                                  service['new']
-                                      ? Assets.icons.newBase.svg()
-                                      : const SizedBox.shrink(),
                                 ],
                               ),
                               SizedBox(height: 8),
                               CustomText2(
-                                text: 'Start from- Instant Booking',
+                                text: service.isApprovalRequired
+                                    ? 'Approval Required'
+                                    : 'Instant Booking',
                                 fontSize: 10,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
@@ -183,7 +194,7 @@ class _OwnerServicesByCategoryScreenState
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText2(
-                                    text: service['price']!,
+                                    text: '€${service.price}/hr',
                                     fontSize: 12,
                                     color: AppColors.lightBlue,
                                     fontWeight: FontWeight.w600,
@@ -197,12 +208,12 @@ class _OwnerServicesByCategoryScreenState
                       ],
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                );
+              },
+            ),
+          ),
+        );
+      }),
     );
   }
 }

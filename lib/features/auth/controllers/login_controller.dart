@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/auth/models/login_response_model.dart';
+import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ class LoginController extends GetxController {
   final loginFormKey = GlobalKey<FormState>();
 
   final TextEditingController loginEmailController = TextEditingController(
-    text: kDebugMode ? "provider1@example.com" : null,
+    text: kDebugMode ? "owner1@example.com" : null,
   );
 
   final TextEditingController loginPasswordController = TextEditingController(
@@ -45,7 +46,8 @@ class LoginController extends GetxController {
       "password": loginPasswordController.text.trim(),
     };
 
-    final response = await Get.find<NetworkHelper>().post(
+    final response = await Get.find<NetworkHelper>().request(
+      HttpMethod.post.method,
       ApiUrl.login,
       body: loginData,
       withAuth: false,

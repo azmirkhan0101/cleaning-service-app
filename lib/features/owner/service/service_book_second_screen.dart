@@ -28,7 +28,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Book Details", leftIcon: true),
+      appBar: CustomAppBar(title: "Book Details", backButton: true),
 
       body: Padding(
         padding: const EdgeInsets.all(12.0),

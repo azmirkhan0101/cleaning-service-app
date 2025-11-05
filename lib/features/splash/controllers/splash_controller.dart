@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:cleaning_service_app/features/splash/screens/get_started_screen.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class SplashController extends GetxController {
 
         final String role = data['data']['decoded']['role'];
         debugPrint('Token is valid. User role: $role');
-        Get.offAll(() => MainLayout(isOwner: role == 'owner'));
+        Get.offAll(() => MainLayout(isOwner: role == Role.owner.value));
       } else {
         debugPrint(
           'Token validation failed with status: ${response.statusCode}',

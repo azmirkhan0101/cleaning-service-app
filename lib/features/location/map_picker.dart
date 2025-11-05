@@ -142,7 +142,7 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Select Location", leftIcon: true),
+      appBar: CustomAppBar(title: "Select Location", backButton: true),
       body: Stack(
         children: [
           // Google Map

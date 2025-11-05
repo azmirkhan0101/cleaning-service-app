@@ -35,7 +35,7 @@ class NetworkHelper extends GetxService {
 
       final finalHeaders = {
         "Content-Type": "application/json",
-        if (withAuth && token != null) "Authorization": "Bearer $token",
+        if (withAuth && token != null) "Cookie": "token=$token",
         ...?headers,
       };
 
@@ -301,7 +301,7 @@ class NetworkHelper extends GetxService {
       if (fields != null) request.fields.addAll(fields);
 
       if (withAuth && token != null) {
-        request.headers["Authorization"] = "Bearer $token";
+        request.headers["Cookie"] = "token=$token";
       }
 
       for (var file in files) {

@@ -1,7 +1,7 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
@@ -72,7 +72,7 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Search", leftIcon: true),
+      appBar: CustomAppBar(title: "Search", backButton: true),
       body: ListView(
         children: [
           Padding(

@@ -11,8 +11,8 @@ class LegalRegulatoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        leftIcon: true,
-        titleName: "Legal & Regulatory Updates",
+        backButton: true,
+        title: "Legal & Regulatory Updates",
         fontSize: 16,
       ),
       body: Padding(

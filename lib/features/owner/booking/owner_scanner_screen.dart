@@ -21,7 +21,7 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleName: "QR Code Scanner", leftIcon: true),
+      appBar: CustomAppBar(title: "QR Code Scanner", backButton: true),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

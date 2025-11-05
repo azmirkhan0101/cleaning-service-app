@@ -10,7 +10,7 @@ class IndustryTrendsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(leftIcon: true, titleName: "Industry Trends"),
+      appBar: CustomAppBar(backButton: true, title: "Industry Trends"),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Container(

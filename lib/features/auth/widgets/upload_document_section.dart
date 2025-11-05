@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/features/auth/controllers/affiliation_controller.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
@@ -23,6 +24,9 @@ class UploadDocumentSection extends StatelessWidget {
   UploadDocumentSection({super.key});
 
   final selectionController = Get.find<ProfileSetupController>();
+  final affiliationController = Get.put<AffiliationController>(
+    AffiliationController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +139,8 @@ class UploadDocumentSection extends StatelessWidget {
                   return;
                 }
               }
+              // fetch affiliation condition text
+              await affiliationController.fetchAffiliationProgram();
               // Show affiliation condition dialog for Provider
               _showAffiliationConditionDialog(context);
               debugPrint(
@@ -310,17 +316,23 @@ class UploadDocumentSection extends StatelessWidget {
           SizedBox(height: 24),
 
           // Content
-          Text(
-            "By using the app, you agree to create an account and keep your login information secure. Users can book appointments, and service providers manage availability and appointments. Payments are handled between users and providers. Follow the provider's cancellation and refund policy. You must use the app responsibly, and we are not liable for any issues. The terms may change, and by continuing to use the app, you agree to any updates. For questions, contact us at [Contact Email]",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF0F0B18),
-              fontSize: 14,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w400,
-              height: 1.5,
-            ),
-          ),
+          Obx(() {
+            if (affiliationController.isLoading.value) {
+              return CircularProgressIndicator();
+            }
+            return Text(
+              // "By using the app, you agree to create an account and keep your login information secure. Users can book appointments, and service providers manage availability and appointments. Payments are handled between users and providers. Follow the provider's cancellation and refund policy. You must use the app responsibly, and we are not liable for any issues. The terms may change, and by continuing to use the app, you agree to any updates. For questions, contact us at [Contact Email]",
+              affiliationController.affiliationContent.value,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: const Color(0xFF0F0B18),
+                fontSize: 14,
+                fontFamily: 'Lexend',
+                fontWeight: FontWeight.w400,
+                height: 1.5,
+              ),
+            );
+          }),
 
           SizedBox(height: 32),
 

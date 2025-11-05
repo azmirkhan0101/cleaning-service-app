@@ -1,6 +1,6 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
-import 'package:cleaning_service_app/core/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
     final storage = GetStorage();
 
     return Scaffold(
-      appBar: CustomAppBar(titleName: "Profile"),
+      appBar: CustomAppBar(title: "Profile"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
