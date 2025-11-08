@@ -3,10 +3,10 @@ import 'package:cleaning_service_app/features/bookings/screens/owner_booking_scr
 import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
 import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
-import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/provider_home.dart';
 import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
@@ -76,7 +76,7 @@ class MainLayoutController extends GetxController {
       selectedIconPath: Assets.icons.bookingsFilled.path,
       unselectedIconPath: Assets.icons.bookingsOutline.path,
       ownerScreen: const OwnerBookingScreen(),
-      providerScreen: BookingsScreen(),
+      providerScreen: ProviderBookingsScreen(),
     ),
     BottomNavModel(
       label: 'Services',

@@ -2,20 +2,21 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_tab_selected/custom_tab_single_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/provider/bookings/booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BookingsScreen extends StatefulWidget {
-  const BookingsScreen({super.key});
+class ProviderBookingsScreen extends StatefulWidget {
+  const ProviderBookingsScreen({super.key});
 
   @override
-  State<BookingsScreen> createState() => _BookingsScreenState();
+  State<ProviderBookingsScreen> createState() => _ProviderBookingsScreenState();
 }
 
-class _BookingsScreenState extends State<BookingsScreen> {
+class _ProviderBookingsScreenState extends State<ProviderBookingsScreen> {
   final bookingController = Get.find<BookingController>();
 
   String status = "";
@@ -53,6 +54,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("User role in booking screen: ${AppStorageService.getUserRole()}");
     // Create a List of Strings
     List<String> statusList = [
       'Pending',

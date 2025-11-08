@@ -23,16 +23,16 @@ import 'package:cleaning_service_app/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/features/policy/about_us_screen.dart';
 import 'package:cleaning_service_app/features/policy/privacy_policy_screen.dart';
 import 'package:cleaning_service_app/features/policy/terms_condition_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/owner_edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
-import 'package:cleaning_service_app/features/provider/bookings/bookings_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/provider/bookings/qr_scanner_screen.dart';
 import 'package:cleaning_service_app/features/provider/bookings/service_details_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/provider_home.dart';
@@ -134,7 +134,7 @@ class AppRoutes {
 
     GetPage(name: serviceDetailsScreen, page: () => ServiceDetailsScreen()),
 
-    GetPage(name: bookingsScreen, page: () => BookingsScreen()),
+    GetPage(name: bookingsScreen, page: () => ProviderBookingsScreen()),
 
     GetPage(name: qrScannerScreen, page: () => QrScannerScreen()),
 
