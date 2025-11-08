@@ -44,7 +44,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+              padding: const EdgeInsets.all(16.0),
               child: Card(
                 elevation: 0.5,
 
@@ -149,7 +149,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -328,7 +328,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50), // pill shape
                           side: const BorderSide(
-                            color: Colors.black,
+                            color: Color(0xFF4899D1),
                             width: 1,
                           ), // border
                         ),
@@ -345,7 +345,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       ),
                       child: CustomText2(
                         text: 'Reject',
-                        color: Colors.black,
+                        color: Color(0xFF4899D1),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -377,7 +377,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 ),
               ),
 
-            SizedBox(height: 8),
+            SizedBox(height: 32),
           ],
         ),
       ),

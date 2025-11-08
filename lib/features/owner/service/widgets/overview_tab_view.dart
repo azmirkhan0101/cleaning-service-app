@@ -49,7 +49,7 @@ class OverviewTabView extends StatelessWidget {
         children: [
           Center(
             child: CachedNetworkImage(
-              imageUrl: serviceDetails.coverImage,
+              imageUrl: serviceDetails.oneImage,
               height: 140,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -84,7 +84,7 @@ class OverviewTabView extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '€${serviceDetails.price}/hr',
+                          '€${serviceDetails.rateByHour}/hr',
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.green,
@@ -153,9 +153,9 @@ class OverviewTabView extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               CustomText2(
-                text: serviceDetails.isApprovalRequired
-                    ? 'Approval Required'
-                    : 'Instant Booking',
+                text: serviceDetails.instantBooking
+                    ? 'Instant Booking'
+                    : 'Approval Required',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

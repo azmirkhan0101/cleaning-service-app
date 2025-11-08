@@ -18,6 +18,52 @@ class ProfileResponseModel {
   }
 }
 
+class UpdateProfileResponseModel {
+  final bool success;
+  final String message;
+  final UpdatedProfileData data;
+
+  UpdateProfileResponseModel({
+    required this.success,
+    required this.message,
+    required this.data,
+  });
+
+  factory UpdateProfileResponseModel.fromJson(Map<String, dynamic> json) {
+    return UpdateProfileResponseModel(
+      success: json['success'] ?? false,
+      message: json['message'] ?? '',
+      data: UpdatedProfileData.fromJson(json['data'] ?? {}),
+    );
+  }
+}
+
+class UpdatedProfileData {
+  final String id;
+  final String profilePicture;
+  final String userName;
+  final String phoneNumber;
+  final String address;
+
+  UpdatedProfileData({
+    required this.id,
+    required this.profilePicture,
+    required this.userName,
+    required this.phoneNumber,
+    required this.address,
+  });
+
+  factory UpdatedProfileData.fromJson(Map<String, dynamic> json) {
+    return UpdatedProfileData(
+      id: json['_id'] ?? '',
+      profilePicture: json['profilePicture'] ?? '',
+      userName: json['userName'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+    );
+  }
+}
+
 class ProfileModel {
   final String id;
   final String userName;

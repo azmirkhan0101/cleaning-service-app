@@ -74,6 +74,7 @@ class LoginController extends GetxController {
           await AppStorageService.saveAuthToken(data.token);
         }
         await AppStorageService.saveUserId(data.userData.id);
+        await AppStorageService.saveUserRole(data.userData.role);
         await AppStorageService.saveUserName(data.userData.userName);
         await AppStorageService.saveUserEmail(data.userData.email);
         Toast.successToast('Login successful! Welcome back.');

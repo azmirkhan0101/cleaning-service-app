@@ -37,16 +37,30 @@ class _AppBarTabBarState extends State<AppBarTabBar> {
       centerTitle: true,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(40),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              widget.tabTitles.length,
-              (index) =>
-                  _buildTab(index: index, title: widget.tabTitles[index]),
-            ),
-          ),
-        ),
+        child: widget.tabTitles.length > 4
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    widget.tabTitles.length,
+                    (index) =>
+                        _buildTab(index: index, title: widget.tabTitles[index]),
+                  ),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                  widget.tabTitles.length,
+                  (index) => Expanded(
+                    child: _buildTab(
+                      index: index,
+                      title: widget.tabTitles[index],
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }

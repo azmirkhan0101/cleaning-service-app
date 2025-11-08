@@ -16,6 +16,8 @@ class ApiUrl {
   static const String getAffiliationProgram =
       '$baseUrl/admin/content/affiliation-program';
   static const String profile = '$baseUrl/auth/me';
+  static const String updateOwnerProfile = '$baseUrl/profile/owner';
+  static const String changePassword = '$baseUrl/auth/change-password';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';
@@ -40,4 +42,31 @@ class ApiUrl {
       '$baseUrl/service/ratings-reviews/$serviceId';
   static String serviceProviderSchedule(String serviceId) =>
       '$baseUrl/service/provider/schedule/$serviceId';
+
+  /// =--> Booking Endpoints <--=
+  // Owner bookings
+  static const String ownerMyBookings = '$baseUrl/booking/my-bookings';
+  static const String ownerPendingBookings =
+      '$baseUrl/booking/owner/pending-bookings';
+  static const String ownerOngoingBookings =
+      '$baseUrl/booking/owner/ongoing-bookings';
+  static const String ownerCompletedBookings =
+      '$baseUrl/booking/owner/completed-bookings';
+  static const String ownerCancelledBookings =
+      '$baseUrl/booking/owner/cancelled-bookings';
+
+  // Provider bookings
+  static const String providerMyBookings = '$baseUrl/booking/provider-bookings';
+  static const String providerPendingBookings =
+      '$baseUrl/booking/provider/pending-bookings';
+  static const String providerOngoingBookings =
+      '$baseUrl/booking/provider/ongoing-bookings';
+  static const String providerCompletedBookings =
+      '$baseUrl/booking/provider/completed-bookings';
+  static const String providerCancelledBookings =
+      '$baseUrl/booking/provider/cancelled-bookings';
+
+  // Booking details
+  static String bookingOwnerDetails(String bookingId) =>
+      '$baseUrl/booking/owner/$bookingId';
 }

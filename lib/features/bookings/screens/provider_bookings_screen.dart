@@ -4,14 +4,14 @@ import 'package:cleaning_service_app/features/common/widgets/app_bar_tab_bar.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OwnerBookingScreen extends StatefulWidget {
-  const OwnerBookingScreen({super.key});
+class ProviderBookingsScreen extends StatefulWidget {
+  const ProviderBookingsScreen({super.key});
 
   @override
-  State<OwnerBookingScreen> createState() => _OwnerBookingScreenState();
+  State<ProviderBookingsScreen> createState() => _ProviderBookingsScreenState();
 }
 
-class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
+class _ProviderBookingsScreenState extends State<ProviderBookingsScreen> {
   final ownerBookingController = Get.find<OwnerBookingController>();
 
   @override
@@ -22,7 +22,6 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
         tabTitles: ownerBookingController.tabTitles,
         onTabSelected: ownerBookingController.filterServices,
       ),
-
       body: Obx(() {
         if (ownerBookingController.isCurrentlyLoading) {
           return const Center(child: CircularProgressIndicator());

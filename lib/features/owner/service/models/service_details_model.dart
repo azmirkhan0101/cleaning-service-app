@@ -1,169 +1,93 @@
 // Service Details Model
+double _asDouble(dynamic v) {
+  if (v is num) return v.toDouble();
+  if (v is String) return double.tryParse(v) ?? 0.0;
+  return 0.0;
+}
+
+int _asInt(dynamic v) {
+  if (v is int) return v;
+  if (v is num) return v.toInt();
+  if (v is String) return int.tryParse(v) ?? 0;
+  return 0;
+}
+
 class ServiceDetailsModel {
   final String id;
-  final String serviceName;
-  final String coverImage;
-  final String price;
+  final String name; // renamed from serviceName (API now returns `name`)
+  final String oneImage; // renamed from coverImage (API now returns `oneImage`)
+  final String rateByHour; // renamed from price (API now returns `rateByHour`)
   final double latitude;
   final double longitude;
   final double averageRatings;
   final int totalOrders;
-  final bool isApprovalRequired;
+  final bool
+  instantBooking; // renamed from isApprovalRequired (API now returns `instantBooking` boolean)
   final String description;
   final List<String> photos;
 
   ServiceDetailsModel({
     required this.id,
-    required this.serviceName,
-    required this.coverImage,
-    required this.price,
+    required this.name,
+    required this.oneImage,
+    required this.rateByHour,
     required this.latitude,
     required this.longitude,
     required this.averageRatings,
     required this.totalOrders,
-    required this.isApprovalRequired,
+    required this.instantBooking,
     required this.description,
     required this.photos,
   });
 
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> rawPhotos = (json['photos'] as List<dynamic>?) ?? [];
+    final dynamic approval = json['isApprovalRequired'];
+    final bool instant =
+        json['instantBooking'] ?? (approval is bool ? !approval : false);
     return ServiceDetailsModel(
       id: json['_id'] ?? '',
-      serviceName: json['serviceName'] ?? '',
-      coverImage: json['coverImage'] ?? '',
-      price: json['price'] ?? '0',
-      latitude: (json['lattitude'] ?? 0).toDouble(),
-      longitude: (json['longitude'] ?? 0).toDouble(),
-      averageRatings: (json['averageRatings'] ?? 0).toDouble(),
-      totalOrders: json['totalOrders'] ?? 0,
-      isApprovalRequired: json['isApprovalRequired'] ?? false,
+      name: json['name'] ?? json['serviceName'] ?? '',
+      oneImage: json['oneImage'] ?? json['coverImage'] ?? '',
+      rateByHour: (json['rateByHour'] ?? json['price'] ?? '0').toString(),
+      latitude: _asDouble(json['lattitude'] ?? json['latitude'] ?? 0),
+      longitude: _asDouble(json['longitude'] ?? 0),
+      averageRatings: _asDouble(
+        json['averageRatings'] ?? json['ratingsAverage'] ?? 0,
+      ),
+      totalOrders: _asInt(json['totalOrders'] ?? 0),
+      instantBooking: instant,
       description: json['description'] ?? '',
-      photos:
-          (json['photos'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          [],
-    );
-  }
-}
-
-// Service Provider Details Model
-class ServiceProviderDetailsModel {
-  final String id;
-  final String profilePicture;
-  final String userName;
-  final String address;
-  final String experience;
-  final String aboutMe;
-
-  ServiceProviderDetailsModel({
-    required this.id,
-    required this.profilePicture,
-    required this.userName,
-    required this.address,
-    required this.experience,
-    required this.aboutMe,
-  });
-
-  factory ServiceProviderDetailsModel.fromJson(Map<String, dynamic> json) {
-    return ServiceProviderDetailsModel(
-      id: json['_id'] ?? '',
-      profilePicture: json['profilePicture'] ?? '',
-      userName: json['userName'] ?? '',
-      address: json['address'] ?? '',
-      experience: json['experience'] ?? '',
-      aboutMe: json['aboutMe'] ?? '',
-    );
-  }
-}
-
-// Review Model
-class ReviewModel {
-  final String ownerName;
-  final String ownerProfilePicture;
-  final int rating;
-  final String review;
-
-  ReviewModel({
-    required this.ownerName,
-    required this.ownerProfilePicture,
-    required this.rating,
-    required this.review,
-  });
-
-  factory ReviewModel.fromJson(Map<String, dynamic> json) {
-    return ReviewModel(
-      ownerName: json['ownerName'] ?? '',
-      ownerProfilePicture: json['ownerProfilePicture'] ?? '',
-      rating: json['rating'] ?? 0,
-      review: json['review'] ?? '',
-    );
-  }
-}
-
-// Schedule Day Model
-class ScheduleDayModel {
-  final String day;
-  final bool isAvailable;
-  final String startTime;
-  final String endTime;
-
-  ScheduleDayModel({
-    required this.day,
-    required this.isAvailable,
-    required this.startTime,
-    required this.endTime,
-  });
-
-  factory ScheduleDayModel.fromJson(Map<String, dynamic> json) {
-    return ScheduleDayModel(
-      day: json['day'] ?? '',
-      isAvailable: json['isAvailable'] ?? false,
-      startTime: json['startTime'] ?? '',
-      endTime: json['endTime'] ?? '',
-    );
-  }
-}
-
-// Schedule Model
-class ScheduleModel {
-  final ScheduleDayModel monday;
-  final ScheduleDayModel tuesday;
-  final ScheduleDayModel wednesday;
-  final ScheduleDayModel thursday;
-  final ScheduleDayModel friday;
-  final ScheduleDayModel saturday;
-  final ScheduleDayModel sunday;
-
-  ScheduleModel({
-    required this.monday,
-    required this.tuesday,
-    required this.wednesday,
-    required this.thursday,
-    required this.friday,
-    required this.saturday,
-    required this.sunday,
-  });
-
-  factory ScheduleModel.fromJson(Map<String, dynamic> json) {
-    return ScheduleModel(
-      monday: ScheduleDayModel.fromJson(json['monday'] ?? {}),
-      tuesday: ScheduleDayModel.fromJson(json['tuesday'] ?? {}),
-      wednesday: ScheduleDayModel.fromJson(json['wednesday'] ?? {}),
-      thursday: ScheduleDayModel.fromJson(json['thursday'] ?? {}),
-      friday: ScheduleDayModel.fromJson(json['friday'] ?? {}),
-      saturday: ScheduleDayModel.fromJson(json['saturday'] ?? {}),
-      sunday: ScheduleDayModel.fromJson(json['sunday'] ?? {}),
+      photos: rawPhotos.map((e) => e.toString()).toList(),
     );
   }
 
-  List<ScheduleDayModel> get allDays => [
-    monday,
-    tuesday,
-    wednesday,
-    thursday,
-    friday,
-    saturday,
-    sunday,
-  ];
+  // Backward-compatible getters for older UI references
+  String get serviceName => name;
+  String get coverImage => oneImage;
+  String get price => rateByHour;
+  bool get isApprovalRequired => !instantBooking;
+
+  /// Factory mapping for Booking Details API `data.service`
+  factory ServiceDetailsModel.fromBookingJson(Map<String, dynamic> json) {
+    final List<dynamic> rawPhotos =
+        (json['photos'] as List<dynamic>?) ??
+        (json['allImages'] as List<dynamic>?) ??
+        [];
+    return ServiceDetailsModel(
+      id: json['_id'] ?? json['id'] ?? '',
+      name: json['name'] ?? '',
+      oneImage: json['oneImage'] ?? '',
+      rateByHour: (json['rateByHour'] ?? '0').toString(),
+      latitude: _asDouble(json['lattitude'] ?? json['latitude'] ?? 0),
+      longitude: _asDouble(json['longitude'] ?? 0),
+      averageRatings: _asDouble(
+        json['averageRatings'] ?? json['ratingsAverage'] ?? 0,
+      ),
+      totalOrders: _asInt(json['totalOrders'] ?? 0),
+      instantBooking: json['instantBooking'] ?? false,
+      description: json['description'] ?? '',
+      photos: rawPhotos.map((e) => e.toString()).toList(),
+    );
+  }
 }

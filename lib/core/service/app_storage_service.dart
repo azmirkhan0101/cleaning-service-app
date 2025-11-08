@@ -15,11 +15,8 @@ class AppStorageService {
   // Storage keys
   static const String _authTokenKey = 'auth_token';
   static const String _refreshTokenKey = 'refresh_token';
-  static const String _rememberMe = 'remember_me';
   static const String _userIdKey = 'user_id';
-
   static const String _userRoleKey = 'user_role';
-
   static const String _userNameKey = 'user_name';
   static const String _userEmailKey = 'user_email';
   static const String _lastLoginKey = 'last_login_time';
@@ -74,17 +71,17 @@ class AppStorageService {
     return await _secureStorage.read(key: _refreshTokenKey);
   }
 
-  // /// Save "Remember Me" preference
-  // static Future<void> saveRememberMe(bool remember) async {
-  //   _checkInitialization();
-  //   await _preferences.setBool(_rememberMe, remember);
-  // }
+  /// Save user role preference
+  static Future<void> saveUserRole(String role) async {
+    _checkInitialization();
+    await _preferences.setString(_userRoleKey, role);
+  }
 
-  // /// Get "Remember Me" preference
-  // static bool getRememberMe() {
-  //   _checkInitialization();
-  //   return _preferences.getBool(_rememberMe) ?? false;
-  // }
+  /// Get user role preference
+  static String? getUserRole() {
+    _checkInitialization();
+    return _preferences.getString(_userRoleKey);
+  }
 
   // ==================== USER DATA ====================
 

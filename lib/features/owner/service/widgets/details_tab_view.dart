@@ -81,7 +81,7 @@ class DetailsTabView extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          _buildInfoSection("Name", providerDetails.userName),
+          _buildInfoSection("Name", providerDetails.name),
           const SizedBox(height: 16),
           _buildInfoSection("Address", providerDetails.address),
           const SizedBox(height: 16),

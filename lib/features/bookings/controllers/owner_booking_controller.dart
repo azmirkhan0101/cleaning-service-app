@@ -1,145 +1,235 @@
-import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
+import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/cancelled_bookings_controller.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/completed_bookings_controller.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/ongoing_bookings_controller.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/pending_bookings_controller.dart';
+import 'package:cleaning_service_app/features/bookings/models/booking_model.dart';
+import 'package:cleaning_service_app/features/common/types/http_method.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OwnerBookingController extends GetxController {
   RxInt selectedTabIndex = 0.obs;
-  List<Map<String, dynamic>> filteredServices = [];
+  RxBool isLoading = false.obs;
+  RxBool isLoadingMore = false.obs;
+  RxList<BookingModel> allBookings = <BookingModel>[].obs;
+  Rx<PaginationModel?> pagination = Rx<PaginationModel?>(null);
+
+  // Pagination state for "All" tab only
+  RxInt currentPage = 1.obs;
+  RxBool hasMore = true.obs;
+
+  final ScrollController scrollController = ScrollController();
+
+  // Separate controllers for each status
+  late PendingBookingsController pendingController;
+  late OngoingBookingsController ongoingController;
+  late CompletedBookingsController completedController;
+  late CancelledBookingsController cancelledController;
+
   final List<String> tabTitles = [
     "All",
-    "Pending",
-    "Ongoing",
-    "Completed",
-    "Cancelled",
+    "PENDING",
+    "ONGOING",
+    "COMPLETED",
+    "CANCELLED",
   ];
 
-  void filterServices(int index) {
-    selectedTabIndex.value = index;
-
-    if (selectedTabIndex.value == 0) {
-      filteredServices = services;
-    } else {
-      filteredServices = services
-          .where(
-            (service) => service["status"] == tabTitles[selectedTabIndex.value],
-          )
-          .toList();
-    }
-    update();
-    // refresh();
-  }
-
-  final List<Map<String, dynamic>> services = [
-    {
-      "id": 1,
-      "category": "Cleaning Service",
-      "serviceDetails":
-          "Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Dhaka, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Pending",
-      "price": 25.00,
-      "duration": 2,
-    },
-    {
-      "id": 2,
-      "category": "Cleaning Service",
-      "serviceDetails":
-          "Kitchen and living room deep clean required. Please focus on floor and window cleaning.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Chittagong, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Completed",
-      "price": 30.00,
-      "duration": 3,
-    },
-    {
-      "id": 3,
-      "category": "Laundry Service",
-      "serviceDetails":
-          "Wash and iron 10 shirts and 5 pairs of trousers. Need delivery within 24 hours.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Sylhet, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Ongoing",
-      "price": 15.00,
-      "duration": 1,
-    },
-    {
-      "id": 4,
-      "category": "Laundry Service",
-      "serviceDetails":
-          "Need dry cleaning for 3 suits and 2 sarees. Handle with care.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Rajshahi, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Pending",
-      "price": 20.00,
-      "duration": 2,
-    },
-    {
-      "id": 5,
-      "category": "Handyman Service",
-      "serviceDetails":
-          "Need help fixing a broken door handle and assembling a new chair.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Dhaka, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Pending",
-      "price": 18.00,
-      "duration": 1.5,
-    },
-    {
-      "id": 6,
-      "category": "Handyman Service",
-      "serviceDetails":
-          "Install new curtain rods in living room and bedroom. Bring tools.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Khulna, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Cancelled",
-      "price": 22.00,
-      "duration": 2,
-    },
-    {
-      "id": 7,
-      "category": "Electrical Service",
-      "serviceDetails":
-          "Fix faulty ceiling fan and replace one broken light switch.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Dhaka, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Ongoing",
-      "price": 35.00,
-      "duration": 2,
-    },
-    {
-      "id": 8,
-      "category": "Electrical Service",
-      "serviceDetails":
-          "Install 3 LED lights and check wiring in the living room.",
-      "imageUrl": Assets.images.cleanImage.path,
-      "location": "Barisal, Bangladesh",
-      "phone": "+8801909037016",
-      "status": "Pending",
-      "price": 28.00,
-      "duration": 1.5,
-    },
-  ];
+  // Get user role
+  String get userRole => AppStorageService.getUserRole() ?? 'OWNER';
+  bool get isProvider => userRole.toUpperCase() == 'PROVIDER';
 
   @override
   void onInit() {
     super.onInit();
-    filterServices(0);
+    // Initialize separate controllers
+    pendingController = Get.put(PendingBookingsController());
+    ongoingController = Get.put(OngoingBookingsController());
+    completedController = Get.put(CompletedBookingsController());
+    cancelledController = Get.put(CancelledBookingsController());
+
+    fetchAllBookings();
+    scrollController.addListener(_scrollListener);
   }
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
+  @override
+  void onClose() {
+    scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    super.onClose();
+  }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  void _scrollListener() {
+    // Only enable pagination for "All" tab
+    if (selectedTabIndex.value != 0) return;
+
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200 &&
+        !isLoadingMore.value &&
+        hasMore.value) {
+      loadMoreBookings();
+    }
+  }
+
+  /// Get the appropriate "All bookings" endpoint based on role
+  String get _allBookingsEndpoint {
+    return isProvider ? ApiUrl.providerMyBookings : ApiUrl.ownerMyBookings;
+  }
+
+  /// Fetch all bookings with pagination (for "All" tab)
+  Future<void> fetchAllBookings({bool isRefresh = false}) async {
+    try {
+      if (isRefresh) {
+        currentPage.value = 1;
+        hasMore.value = true;
+      }
+
+      isLoading.value = true;
+
+      final response = await Get.find<NetworkHelper>()
+          .request<BookingsResponseModel>(
+            HttpMethod.get.method,
+            '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
+            withAuth: true,
+            parser: (data) => BookingsResponseModel.fromJson(data),
+          );
+
+      isLoading.value = false;
+
+      response.fold(
+        (error) {
+          Toast.errorToast(error.message ?? 'Failed to fetch bookings');
+        },
+        (data) {
+          if (isRefresh || currentPage.value == 1) {
+            allBookings.value = data.data.bookings;
+          } else {
+            allBookings.addAll(data.data.bookings);
+          }
+
+          pagination.value = data.data.pagination;
+          hasMore.value =
+              currentPage.value < (pagination.value?.totalPages ?? 0);
+        },
+      );
+    } catch (e) {
+      isLoading.value = false;
+      Toast.errorToast('Failed to fetch bookings');
+      print('Exception fetching bookings: $e');
+    }
+  }
+
+  /// Load more bookings (pagination for "All" tab only)
+  Future<void> loadMoreBookings() async {
+    if (selectedTabIndex.value != 0 || !hasMore.value || isLoadingMore.value) {
+      return;
+    }
+
+    try {
+      isLoadingMore.value = true;
+      currentPage.value++;
+
+      final response = await Get.find<NetworkHelper>()
+          .request<BookingsResponseModel>(
+            HttpMethod.get.method,
+            '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
+            withAuth: true,
+            parser: (data) => BookingsResponseModel.fromJson(data),
+          );
+
+      isLoadingMore.value = false;
+
+      response.fold(
+        (error) {
+          currentPage.value--; // Revert page increment on error
+          Toast.errorToast(error.message ?? 'Failed to load more bookings');
+        },
+        (data) {
+          allBookings.addAll(data.data.bookings);
+          pagination.value = data.data.pagination;
+          hasMore.value =
+              currentPage.value < (pagination.value?.totalPages ?? 0);
+        },
+      );
+    } catch (e) {
+      isLoadingMore.value = false;
+      currentPage.value--; // Revert page increment on error
+      Toast.errorToast('Failed to load more bookings');
+      print('Exception loading more bookings: $e');
+    }
+  }
+
+  /// Get current bookings based on selected tab
+  RxList<BookingModel> get currentBookings {
+    switch (selectedTabIndex.value) {
+      case 0:
+        return allBookings;
+      case 1:
+        return pendingController.bookings;
+      case 2:
+        return ongoingController.bookings;
+      case 3:
+        return completedController.bookings;
+      case 4:
+        return cancelledController.bookings;
+      default:
+        return allBookings;
+    }
+  }
+
+  /// Get current loading state based on selected tab
+  bool get isCurrentlyLoading {
+    switch (selectedTabIndex.value) {
+      case 0:
+        return isLoading.value;
+      case 1:
+        return pendingController.isLoading.value;
+      case 2:
+        return ongoingController.isLoading.value;
+      case 3:
+        return completedController.isLoading.value;
+      case 4:
+        return cancelledController.isLoading.value;
+      default:
+        return isLoading.value;
+    }
+  }
+
+  /// Refresh bookings based on selected tab
+  Future<void> refreshBookings() async {
+    switch (selectedTabIndex.value) {
+      case 0:
+        await fetchAllBookings(isRefresh: true);
+        break;
+      case 1:
+        await pendingController.refreshBookings();
+        break;
+      case 2:
+        await ongoingController.refreshBookings();
+        break;
+      case 3:
+        await completedController.refreshBookings();
+        break;
+      case 4:
+        await cancelledController.refreshBookings();
+        break;
+    }
+  }
+
+  /// Switch tabs
+  void filterServices(int index) {
+    selectedTabIndex.value = index;
+
+    // Reset pagination state when switching to "All" tab
+    if (index == 0) {
+      currentPage.value = 1;
+      hasMore.value = true;
+      if (allBookings.isEmpty) {
+        fetchAllBookings();
+      }
+    }
+  }
 }
