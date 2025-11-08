@@ -22,10 +22,16 @@ class ServiceDetailsController extends GetxController {
       Rx<ServiceProviderDetailsModel?>(null);
   RxList<ReviewModel> reviews = <ReviewModel>[].obs;
   Rx<ScheduleModel?> schedule = Rx<ScheduleModel?>(null);
+  RxString bookingId = ''.obs;
 
   void setServiceId(String id) {
     serviceId.value = id;
     fetchServiceDetails();
+  }
+
+  void setBookingId(String id) {
+    bookingId.value = id;
+    fetchBookingDetails();
   }
 
   Future<void> fetchServiceDetails() async {
@@ -79,6 +85,54 @@ class ServiceDetailsController extends GetxController {
       },
       (data) {
         providerDetails.value = data;
+      },
+    );
+  }
+
+  Future<void> fetchBookingDetails() async {
+    if (bookingId.value.isEmpty) {
+      Toast.errorToast('Booking ID is required');
+      return;
+    }
+
+    isLoading.value = true;
+    errorMessage.value = '';
+
+    final response = await Get.find<NetworkHelper>()
+        .request<Map<String, dynamic>>(
+          HttpMethod.get.method,
+          ApiUrl.bookingOwnerDetails(bookingId.value),
+          withAuth: true,
+          parser: (data) => data['data'] ?? {},
+        );
+
+    isLoading.value = false;
+
+    response.fold(
+      (error) {
+        errorMessage.value = error.message ?? 'Failed to fetch booking details';
+        Toast.errorToast(errorMessage.value);
+      },
+      (data) {
+        try {
+          final serviceJson = data['service'] ?? {};
+          final providerJson = data['provider'] ?? {};
+
+          serviceDetails.value = ServiceDetailsModel.fromBookingJson(
+            serviceJson,
+          );
+          providerDetails.value = ServiceProviderDetailsModel.fromBookingJson(
+            providerJson,
+          );
+
+          // Try to derive serviceId for reviews fetching
+          final derivedServiceId = serviceJson['_id'] ?? serviceJson['id'];
+          if (derivedServiceId is String && derivedServiceId.isNotEmpty) {
+            serviceId.value = derivedServiceId;
+          }
+        } catch (e) {
+          Toast.errorToast('Invalid booking details format');
+        }
       },
     );
   }

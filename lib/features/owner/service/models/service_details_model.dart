@@ -1,4 +1,17 @@
 // Service Details Model
+double _asDouble(dynamic v) {
+  if (v is num) return v.toDouble();
+  if (v is String) return double.tryParse(v) ?? 0.0;
+  return 0.0;
+}
+
+int _asInt(dynamic v) {
+  if (v is int) return v;
+  if (v is num) return v.toInt();
+  if (v is String) return int.tryParse(v) ?? 0;
+  return 0;
+}
+
 class ServiceDetailsModel {
   final String id;
   final String name; // renamed from serviceName (API now returns `name`)
@@ -28,23 +41,24 @@ class ServiceDetailsModel {
   });
 
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> rawPhotos = (json['photos'] as List<dynamic>?) ?? [];
+    final dynamic approval = json['isApprovalRequired'];
+    final bool instant =
+        json['instantBooking'] ?? (approval is bool ? !approval : false);
     return ServiceDetailsModel(
       id: json['_id'] ?? '',
-      name: json['name'] ?? '',
-      oneImage: json['oneImage'] ?? '',
-      rateByHour: (json['rateByHour'] ?? '0').toString(),
-      latitude: (json['lattitude'] ?? 0)
-          .toDouble(), // backend still sends `lattitude`
-      longitude: (json['longitude'] ?? 0).toDouble(),
-      averageRatings: (json['averageRatings'] ?? 0).toDouble(),
-      totalOrders: json['totalOrders'] ?? 0,
-      instantBooking: json['instantBooking'] ?? false,
+      name: json['name'] ?? json['serviceName'] ?? '',
+      oneImage: json['oneImage'] ?? json['coverImage'] ?? '',
+      rateByHour: (json['rateByHour'] ?? json['price'] ?? '0').toString(),
+      latitude: _asDouble(json['lattitude'] ?? json['latitude'] ?? 0),
+      longitude: _asDouble(json['longitude'] ?? 0),
+      averageRatings: _asDouble(
+        json['averageRatings'] ?? json['ratingsAverage'] ?? 0,
+      ),
+      totalOrders: _asInt(json['totalOrders'] ?? 0),
+      instantBooking: instant,
       description: json['description'] ?? '',
-      photos:
-          (json['photos'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          [],
+      photos: rawPhotos.map((e) => e.toString()).toList(),
     );
   }
 
@@ -53,4 +67,27 @@ class ServiceDetailsModel {
   String get coverImage => oneImage;
   String get price => rateByHour;
   bool get isApprovalRequired => !instantBooking;
+
+  /// Factory mapping for Booking Details API `data.service`
+  factory ServiceDetailsModel.fromBookingJson(Map<String, dynamic> json) {
+    final List<dynamic> rawPhotos =
+        (json['photos'] as List<dynamic>?) ??
+        (json['allImages'] as List<dynamic>?) ??
+        [];
+    return ServiceDetailsModel(
+      id: json['_id'] ?? json['id'] ?? '',
+      name: json['name'] ?? '',
+      oneImage: json['oneImage'] ?? '',
+      rateByHour: (json['rateByHour'] ?? '0').toString(),
+      latitude: _asDouble(json['lattitude'] ?? json['latitude'] ?? 0),
+      longitude: _asDouble(json['longitude'] ?? 0),
+      averageRatings: _asDouble(
+        json['averageRatings'] ?? json['ratingsAverage'] ?? 0,
+      ),
+      totalOrders: _asInt(json['totalOrders'] ?? 0),
+      instantBooking: json['instantBooking'] ?? false,
+      description: json['description'] ?? '',
+      photos: rawPhotos.map((e) => e.toString()).toList(),
+    );
+  }
 }

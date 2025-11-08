@@ -45,4 +45,14 @@ class ApiUrl {
 
   /// =--> Booking Endpoints <--=
   static const String myBookings = '$baseUrl/booking/my-bookings';
+  static String bookingOwnerDetails(String bookingId) =>
+      '$baseUrl/booking/owner/$bookingId';
+  static const String pendingBookings =
+      '$baseUrl/booking/owner/pending-bookings';
+  static const String ongoingBookings =
+      '$baseUrl/booking/owner/ongoing-bookings';
+  static const String completedBookings =
+      '$baseUrl/booking/owner/completed-bookings';
+  static const String cancelledBookings =
+      '$baseUrl/booking/owner/cancelled-bookings';
 }

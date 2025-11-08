@@ -16,6 +16,27 @@ class BookingsResponseModel {
       data: BookingsData.fromJson(json['data'] ?? {}),
     );
   }
+
+  /// Factory for endpoints that return array directly (pending/ongoing/completed/cancelled)
+  factory BookingsResponseModel.fromArrayJson(Map<String, dynamic> json) {
+    return BookingsResponseModel(
+      success: json['success'] ?? false,
+      message: json['message'] ?? '',
+      data: BookingsData(
+        bookings:
+            (json['data'] as List<dynamic>?)
+                ?.map((booking) => BookingModel.fromJson(booking))
+                .toList() ??
+            [],
+        pagination: PaginationModel(
+          page: 1,
+          limit: 100,
+          total: (json['data'] as List<dynamic>?)?.length ?? 0,
+          totalPages: 1,
+        ),
+      ),
+    );
+  }
 }
 
 class BookingsData {

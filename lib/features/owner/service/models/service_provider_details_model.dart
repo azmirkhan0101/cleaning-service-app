@@ -29,4 +29,18 @@ class ServiceProviderDetailsModel {
 
   // Backward-compatible getter for older UI references
   String get userName => name;
+
+  /// Factory mapping for Booking Details API `data.provider`
+  factory ServiceProviderDetailsModel.fromBookingJson(
+    Map<String, dynamic> json,
+  ) {
+    return ServiceProviderDetailsModel(
+      id: json['_id'] ?? json['id'] ?? '',
+      profilePicture: json['profilePicture'] ?? '',
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
+      experience: json['experience']?.toString() ?? '',
+      aboutMe: json['aboutMe'] ?? '',
+    );
+  }
 }

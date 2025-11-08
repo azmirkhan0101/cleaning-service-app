@@ -24,11 +24,13 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
       ),
 
       body: Obx(() {
-        if (ownerBookingController.isLoading.value) {
+        if (ownerBookingController.isCurrentlyLoading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (ownerBookingController.filteredBookings.isEmpty) {
+        final currentBookings = ownerBookingController.currentBookings;
+
+        if (currentBookings.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -60,15 +62,32 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView.separated(
+              controller: ownerBookingController.scrollController,
               itemBuilder: (context, index) {
-                return OwnerMyBookingCard(
-                  booking: ownerBookingController.filteredBookings[index],
-                );
+                // Show loading indicator at bottom for "All" tab pagination
+                if (index == currentBookings.length) {
+                  return Obx(() {
+                    if (ownerBookingController.isLoadingMore.value) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  });
+                }
+
+                return OwnerMyBookingCard(booking: currentBookings[index]);
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 16);
               },
-              itemCount: ownerBookingController.filteredBookings.length,
+              itemCount:
+                  currentBookings.length +
+                  (ownerBookingController.selectedTabIndex.value == 0 &&
+                          ownerBookingController.hasMore.value
+                      ? 1
+                      : 0),
             ),
           ),
         );

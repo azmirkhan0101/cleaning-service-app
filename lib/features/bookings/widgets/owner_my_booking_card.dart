@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/bookings/models/booking_model.dart';
-import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/owner_booking_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,10 +19,11 @@ class OwnerMyBookingCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.to(
-          OwnerServiceDetailsScreen(),
-          arguments: [
-            {"status": booking.status.toLowerCase()},
-          ],
+          () => const OwnerBookingDetailsScreen(),
+          arguments: {
+            'bookingId': booking.id,
+            'status': booking.status.toLowerCase(),
+          },
         );
       },
       child: Container(
