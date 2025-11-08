@@ -2,7 +2,10 @@ import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
+import 'package:cleaning_service_app/features/owner/service/models/review_model.dart';
+import 'package:cleaning_service_app/features/owner/service/models/schedule_model.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_details_model.dart';
+import 'package:cleaning_service_app/features/owner/service/models/service_provider_details_model.dart';
 import 'package:get/get.dart';
 
 class ServiceDetailsController extends GetxController {
