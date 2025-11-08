@@ -1,9 +1,11 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/bookings/models/booking_model.dart';
 import 'package:cleaning_service_app/features/bookings/screens/owner_booking_details_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_booking_service_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,15 +18,28 @@ class OwnerMyBookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Booking ID: ${booking.id}");
+    final isProvider = AppStorageService.getUserRole() == "PROVIDER";
+
     return InkWell(
       onTap: () {
-        Get.to(
-          () => const OwnerBookingDetailsScreen(),
-          arguments: {
-            'bookingId': booking.id,
-            'status': booking.status.toLowerCase(),
-          },
-        );
+        if (isProvider) {
+          // Navigate to provider booking details screen
+          Get.to(
+            () => const ServiceDetailsScreen(),
+            arguments: [
+              {'bookingId': booking.id, 'status': booking.status.toLowerCase()},
+            ],
+          );
+        } else {
+          // Navigate to owner booking details screen
+          Get.to(
+            () => const OwnerBookingDetailsScreen(),
+            arguments: {
+              'bookingId': booking.id,
+              'status': booking.status.toLowerCase(),
+            },
+          );
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(12.0),

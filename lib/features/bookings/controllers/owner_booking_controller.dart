@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/cancelled_bookings_controller.dart';
@@ -37,6 +38,10 @@ class OwnerBookingController extends GetxController {
     "CANCELLED",
   ];
 
+  // Get user role
+  String get userRole => AppStorageService.getUserRole() ?? 'OWNER';
+  bool get isProvider => userRole.toUpperCase() == 'PROVIDER';
+
   @override
   void onInit() {
     super.onInit();
@@ -69,6 +74,11 @@ class OwnerBookingController extends GetxController {
     }
   }
 
+  /// Get the appropriate "All bookings" endpoint based on role
+  String get _allBookingsEndpoint {
+    return isProvider ? ApiUrl.providerMyBookings : ApiUrl.ownerMyBookings;
+  }
+
   /// Fetch all bookings with pagination (for "All" tab)
   Future<void> fetchAllBookings({bool isRefresh = false}) async {
     try {
@@ -82,7 +92,7 @@ class OwnerBookingController extends GetxController {
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
             HttpMethod.get.method,
-            '${ApiUrl.myBookings}?page=${currentPage.value}&limit=10',
+            '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),
           );
@@ -125,7 +135,7 @@ class OwnerBookingController extends GetxController {
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
             HttpMethod.get.method,
-            '${ApiUrl.myBookings}?page=${currentPage.value}&limit=10',
+            '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),
           );

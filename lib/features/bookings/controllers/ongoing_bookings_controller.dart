@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/bookings/models/booking_model.dart';
@@ -8,6 +9,16 @@ import 'package:get/get.dart';
 class OngoingBookingsController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<BookingModel> bookings = <BookingModel>[].obs;
+
+  // Get user role
+  String get userRole => AppStorageService.getUserRole() ?? 'OWNER';
+  bool get isProvider => userRole.toUpperCase() == 'PROVIDER';
+
+  String get _endpoint {
+    return isProvider
+        ? ApiUrl.providerOngoingBookings
+        : ApiUrl.ownerOngoingBookings;
+  }
 
   @override
   void onInit() {
@@ -23,7 +34,7 @@ class OngoingBookingsController extends GetxController {
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
             HttpMethod.get.method,
-            ApiUrl.ongoingBookings,
+            _endpoint,
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromArrayJson(data),
           );
