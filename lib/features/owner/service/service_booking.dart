@@ -34,11 +34,16 @@ class _ServiceBookingState extends State<ServiceBooking> {
 
   @override
   Widget build(BuildContext context) {
+    // Read args: serviceId
+    final args = Get.arguments;
+    if (args is Map && args['serviceId'] != null) {
+      serviceBookingController.setServiceId(args['serviceId'].toString());
+    }
     return Scaffold(
       appBar: CustomAppBar(title: "Book Details", backButton: true),
 
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -50,21 +55,26 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 spacing: 16.w,
                 children: [
                   _buildCircularStep(label: "Step 1", isCompleted: true),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 4.w,
-                    children: List.generate(
-                      12,
-                      (index) => Container(
-                        width: 8,
-                        height: 2,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF4899D1),
-                          borderRadius: BorderRadius.circular(8),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 4.w,
+                        children: List.generate(
+                          12,
+                          (index) => Container(
+                            width: 8,
+                            height: 2,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4899D1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Text(" "),
+                    ],
                   ),
 
                   _buildCircularStep(label: "Step 2", isCompleted: false),
@@ -97,6 +107,16 @@ class _ServiceBookingState extends State<ServiceBooking> {
 
               SizedBox(height: 12),
 
+              /// Service Duration Field (hours)
+              CustomFormCard(
+                title: "Service Duration (hours)",
+                hintText: "e.g. 2",
+                hasBackgroundColor: true,
+                prefixIcon: Icon(Icons.timer_outlined),
+                controller: serviceBookingController.durationController,
+                keyboardType: TextInputType.number,
+              ),
+
               /// Phone Number Field
               CustomFormCard(
                 title: "Phone Number",
@@ -115,6 +135,21 @@ class _ServiceBookingState extends State<ServiceBooking> {
                 prefixIcon: Icon(Icons.location_pin),
                 hasBackgroundColor: true,
                 controller: serviceBookingController.addressController,
+                readOnly: true,
+                onTap: () async {
+                  final result = await Get.toNamed(AppRoutes.pickerMapScreen);
+                  if (result is Map) {
+                    final address = result['address']?.toString() ?? '';
+                    final lat = (result['latitude'] as num?)?.toDouble() ?? 0.0;
+                    final lng =
+                        (result['longitude'] as num?)?.toDouble() ?? 0.0;
+                    serviceBookingController.setSelectedAddress(
+                      address: address,
+                      latitude: lat,
+                      longitude: lng,
+                    );
+                  }
+                },
               ),
 
               SizedBox(height: 12),

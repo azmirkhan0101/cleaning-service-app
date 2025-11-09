@@ -79,4 +79,10 @@ class ApiUrl {
       '$baseUrl/booking/reject/$bookingId';
   static String generateBookingQr(String bookingId) =>
       '$baseUrl/booking/generate-qr/$bookingId';
+  static String cancelBooking(String bookingId) =>
+      '$baseUrl/booking/cancel/$bookingId';
+  static String completeBookingByQr(String bookingId) =>
+      '$baseUrl/booking/complete-by-qr/$bookingId';
+  static String bookingRatingReview(String bookingId) =>
+      '$baseUrl/booking/rating-review/$bookingId';
 }

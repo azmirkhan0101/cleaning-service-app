@@ -6,6 +6,12 @@ class ServiceBookingController extends GetxController {
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
   final descriptionController = TextEditingController();
+  final durationController = TextEditingController();
+
+  // IDs and coordinates
+  final serviceId = ''.obs;
+  final selectedLatitude = 0.0.obs;
+  final selectedLongitude = 0.0.obs;
 
   var selectedDate = DateTime.now().obs;
   var selectedTime = TimeOfDay.now().obs;
@@ -48,5 +54,19 @@ class ServiceBookingController extends GetxController {
     String formattedDate =
         '${selectedDate.value.year}-${selectedDate.value.month.toString().padLeft(2, '0')}-${selectedDate.value.day.toString().padLeft(2, '0')} ${selectedTime.value.hour}:${(selectedTime.value.minute).toString().padLeft(2, '0')}';
     dateTimeController.text = formattedDate;
+  }
+
+  void setServiceId(String id) {
+    serviceId.value = id;
+  }
+
+  void setSelectedAddress({
+    required String address,
+    required double latitude,
+    required double longitude,
+  }) {
+    addressController.text = address;
+    selectedLatitude.value = latitude;
+    selectedLongitude.value = longitude;
   }
 }
