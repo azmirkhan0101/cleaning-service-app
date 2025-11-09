@@ -1,6 +1,9 @@
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_booking_service_details_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/qr_code_display_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
@@ -27,9 +30,6 @@ import 'package:cleaning_service_app/features/profile/screens/change_password_sc
 import 'package:cleaning_service_app/features/profile/screens/owner_edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
-import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
-import 'package:cleaning_service_app/features/bookings/screens/qr_scanner_screen.dart';
-import 'package:cleaning_service_app/features/bookings/screens/provider_booking_service_details_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
@@ -136,7 +136,7 @@ class AppRoutes {
 
     GetPage(name: bookingsScreen, page: () => ProviderBookingsScreen()),
 
-    GetPage(name: qrScannerScreen, page: () => QrScannerScreen()),
+    GetPage(name: qrScannerScreen, page: () => QrCodeDisplayScreen()),
 
     GetPage(name: locationScreen, page: () => LocationScreen()),
 

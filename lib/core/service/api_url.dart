@@ -69,4 +69,14 @@ class ApiUrl {
   // Booking details
   static String bookingOwnerDetails(String bookingId) =>
       '$baseUrl/booking/owner/$bookingId';
+  static String bookingProviderDetails(String bookingId) =>
+      '$baseUrl/booking/provider/$bookingId';
+
+  // Booking actions (provider)
+  static String acceptBooking(String bookingId) =>
+      '$baseUrl/booking/accept/$bookingId';
+  static String rejectBooking(String bookingId) =>
+      '$baseUrl/booking/reject/$bookingId';
+  static String generateBookingQr(String bookingId) =>
+      '$baseUrl/booking/generate-qr/$bookingId';
 }
