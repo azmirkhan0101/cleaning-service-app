@@ -8,8 +8,8 @@ import 'package:cleaning_service_app/features/profile/screens/owner_profile_scre
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/features/provider/provider_home.dart';
-import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
+import 'package:cleaning_service_app/features/home/screens/provider_home_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

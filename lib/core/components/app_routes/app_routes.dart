@@ -20,8 +20,8 @@ import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.d
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/service_booking.dart';
+import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/features/policy/about_us_screen.dart';
 import 'package:cleaning_service_app/features/policy/privacy_policy_screen.dart';
@@ -35,10 +35,10 @@ import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
-import 'package:cleaning_service_app/features/provider/provider_home.dart';
+import 'package:cleaning_service_app/features/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
-import 'package:cleaning_service_app/features/provider/service/service_add_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
 import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
@@ -196,7 +196,7 @@ class AppRoutes {
       page: () => OwnerServiceDetailsScreen(),
     ),
 
-    GetPage(name: serviceBooking, page: () => ServiceBooking()),
+    GetPage(name: serviceBooking, page: () => ServiceBookingScreen()),
 
     GetPage(
       name: serviceBookSecondScreen,

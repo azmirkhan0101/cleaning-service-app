@@ -42,6 +42,12 @@ class ApiUrl {
       '$baseUrl/service/ratings-reviews/$serviceId';
   static String serviceProviderSchedule(String serviceId) =>
       '$baseUrl/service/provider/schedule/$serviceId';
+  static const String providerHomepageData =
+      '$baseUrl/service/provider/homepage-data';
+
+  /// =--> Provider Service Endpoints <--=
+  static String myServices({int page = 1, int limit = 20}) =>
+      '$baseUrl/service/my/services?page=$page&limit=$limit';
 
   /// =--> Booking Endpoints <--=
   // Owner bookings

@@ -1,0 +1,626 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
+import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
+import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
+import 'package:cleaning_service_app/features/home/controllers/provider_home_controller.dart';
+import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class ProviderHome extends StatefulWidget {
+  const ProviderHome({super.key});
+
+  @override
+  State<ProviderHome> createState() => _ProviderHomeState();
+}
+
+class _ProviderHomeState extends State<ProviderHome> {
+  final notificationController = Get.put(NotificationController());
+  final homeController = Get.put(ProviderHomeController());
+  @override
+  Widget build(BuildContext context) {
+    // Legacy static appointments removed; now using API-driven reactive list.
+
+    return Scaffold(
+      backgroundColor: Color(0xFFF0EEFF),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(24), // Custom height
+      //   child: AppBar(scrolledUnderElevation: 0),
+      // ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+
+                SizedBox(height: 16),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.bookingsScreen,
+                            arguments: [
+                              {"status": "accept"},
+                            ],
+                          );
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          elevation: 0.5,
+                          color: AppColors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText2(
+                                      text: 'Pending Bookings',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+
+                                    CustomImage(
+                                      imageSrc: AppIcons.current_icon,
+                                    ),
+                                  ],
+                                ),
+
+                                SizedBox(height: 8.0),
+
+                                Obx(() {
+                                  final count = homeController
+                                      .homepageData
+                                      .value
+                                      ?.pendingBookings;
+                                  return CustomText2(
+                                    text: count?.toString() ?? '--',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  );
+                                }),
+
+                                SizedBox(height: 8.0),
+
+                                CustomText2(
+                                  text: 'Current Bookings',
+                                  fontSize: 8.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.neutral03,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Expanded(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        elevation: 0.5,
+                        color: AppColors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 18,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText2(
+                                    text: 'Earnings',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+
+                                  CustomImage(imageSrc: AppIcons.earning_icon),
+                                ],
+                              ),
+
+                              SizedBox(height: 8.0),
+
+                              CustomText2(
+                                text: '€2,450',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+
+                              SizedBox(height: 8.0),
+
+                              CustomText2(
+                                text: 'This Month',
+                                fontSize: 8.0,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.neutral03,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.providerInboxScreen);
+                        },
+                        child: Card(
+                          elevation: 0.5,
+                          color: AppColors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText2(
+                                      text: 'New Message',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+
+                                    CustomImage(imageSrc: AppIcons.message),
+                                  ],
+                                ),
+
+                                SizedBox(height: 8.0),
+
+                                Obx(() {
+                                  final unread = homeController
+                                      .homepageData
+                                      .value
+                                      ?.unreadMessages;
+                                  return CustomText2(
+                                    text: unread?.toString() ?? '--',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  );
+                                }),
+
+                                SizedBox(height: 8.0),
+
+                                CustomText2(
+                                  text: 'Unread',
+                                  fontSize: 8.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.neutral03,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.proPlanSubscriptionScreen);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          elevation: 0.5,
+                          color: AppColors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText2(
+                                      text: 'Current Plan',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+
+                                    CustomImage(
+                                      imageSrc: AppIcons.current_plan,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.0),
+
+                                Obx(() {
+                                  final plan = homeController
+                                      .homepageData
+                                      .value
+                                      ?.currentPlan;
+                                  return CustomText2(
+                                    text: plan?.isNotEmpty == true
+                                        ? plan!
+                                        : '—',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  );
+                                }),
+
+                                SizedBox(height: 8.0),
+
+                                Row(
+                                  children: [
+                                    CustomText2(
+                                      text: 'Expired date:',
+                                      fontSize: 8.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.neutral03,
+                                    ),
+
+                                    CustomText2(
+                                      text: '10 October 2025',
+                                      fontSize: 8.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.lightBlue,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const CustomText2(
+                      text: 'Pending Bookings',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.black,
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.bookingsScreen,
+                          arguments: [
+                            {"status": "Pending"},
+                          ],
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: CustomText2(
+                          text: 'See all',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.lightBlue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 12),
+
+                Obx(() {
+                  if (homeController.isLoadingPending.value) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(24.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  final items = homeController.pendingBookings;
+                  if (items.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Center(
+                        child: CustomText2(
+                          text: 'No pending bookings',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.neutral03,
+                        ),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final b = items[index];
+                      return AppointmentCard(
+                        name: b.ownerName,
+                        time: b.timeAgo,
+                        appointment: _formatAppointment(
+                          b.bookingDateTime,
+                          b.ownerName,
+                        ),
+                        avatarUrl: b.ownerProfilePicture,
+                      );
+                    },
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
+      ),
+      // bottomNavigationBar: NavBar(currentIndex: 0),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // location section
+        Row(
+          children: [
+            IconWhiteCircleBackground(icon: Assets.icons.locationMarker.svg()),
+
+            SizedBox(width: 8),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CustomText2(
+                      text: 'My Location',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.black,
+                    ),
+
+                    SizedBox(width: 6),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.locationScreen);
+                      },
+                      child: Icon(Icons.edit, size: 14, color: AppColors.blue),
+                    ),
+                  ],
+                ),
+
+                CustomText2(
+                  text: 'Dhaka',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.black,
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          spacing: 4,
+          children: [
+            IconWhiteCircleBackground(
+              icon: Assets.icons.badge.svg(
+                colorFilter: const ColorFilter.mode(
+                  Colors.blue,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+
+            CustomText2(
+              text: 'Pro Badge',
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.black,
+            ),
+
+            SizedBox(width: 4),
+            IconWhiteCircleBackground(
+              icon: Obx(() {
+                return Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Assets.icons.notificationBell.svg(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    if (notificationController.unreadCount.value > 0)
+                      Positioned(
+                        right: 0,
+                        child: Container(
+                          width: 14,
+                          height: 14,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF00B046) /* green */,
+                            shape: OvalBorder(),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${notificationController.unreadCount.value}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }),
+              onTap: () {
+                // showCustomDialog(context);
+                Get.toNamed(AppRoutes.notificationScreen);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+String _formatAppointment(DateTime dateTime, String ownerName) {
+  // Example: Nov 04, 2025 - 05:30 PM with {ownerName} (Cleaning)
+  final months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  final m = months[dateTime.month - 1];
+  final d = dateTime.day.toString().padLeft(2, '0');
+  final y = dateTime.year;
+  final hour12 = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+  final min = dateTime.minute.toString().padLeft(2, '0');
+  final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+  return '$m $d, $y - ${hour12.toString().padLeft(2, '0')}:$min $ampm with $ownerName (Cleaning)';
+}
+
+class AppointmentCard extends StatelessWidget {
+  final String name;
+  final String time;
+  final String appointment;
+  final String avatarUrl;
+
+  const AppointmentCard({
+    required this.name,
+    required this.time,
+    required this.appointment,
+    required this.avatarUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Get.toNamed(
+          AppRoutes.bookingsScreen,
+          arguments: [
+            {"status": "Pending"},
+          ],
+        );
+      },
+      child: Card(
+        elevation: 0.5,
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 30.0,
+                backgroundImage: NetworkImage(avatarUrl),
+              ),
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText2(
+                          text: name,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+
+                        CustomText2(
+                          text: time,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.neutral03,
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 12.0),
+
+                    CustomText2(
+                      text: appointment,
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.neutral03,
+                      maxLines: 2,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

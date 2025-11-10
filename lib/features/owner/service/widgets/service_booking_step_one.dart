@@ -2,230 +2,98 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
-import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
-import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ServiceBooking extends StatefulWidget {
-  const ServiceBooking({super.key});
+class ServiceBookingStepOne extends StatelessWidget {
+  const ServiceBookingStepOne({
+    super.key,
+    required this.serviceBookingController,
+  });
 
-  @override
-  State<ServiceBooking> createState() => _ServiceBookingState();
-}
-
-class _ServiceBookingState extends State<ServiceBooking> {
-  final ownerController = Get.find<OwnerServiceController>();
-  final serviceBookingController = Get.find<ServiceBookingController>();
-
-  DateTime? selected;
-
-  int? selectedHour;
-  int? selectedMinute;
-
-  final List<int> hours = List.generate(24, (i) => i); // 0–23
-  final List<int> minutes = List.generate(12, (i) => i * 5); // 0, 5, 10…55
+  final ServiceBookingController serviceBookingController;
 
   @override
   Widget build(BuildContext context) {
-    // Read args: serviceId
-    final args = Get.arguments;
-    if (args is Map && args['serviceId'] != null) {
-      serviceBookingController.setServiceId(args['serviceId'].toString());
-    }
-    return Scaffold(
-      appBar: CustomAppBar(title: "Book Details", backButton: true),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 16.w,
-                children: [
-                  _buildCircularStep(label: "Step 1", isCompleted: true),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 4.w,
-                        children: List.generate(
-                          12,
-                          (index) => Container(
-                            width: 8,
-                            height: 2,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF4899D1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(" "),
-                    ],
-                  ),
-
-                  _buildCircularStep(label: "Step 2", isCompleted: false),
-                ],
-              ),
-
-              SizedBox(height: 16),
-
-              CustomText2(
-                text: "Enter Your Information",
-                color: AppColors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-
-              SizedBox(height: 24),
-
-              /// Date And TimeField
-              CustomFormCard(
-                title: "Date And Time",
-                hintText: "Enter date and time",
-                hasBackgroundColor: true,
-                prefixIcon: Icon(Icons.calendar_month),
-                controller: serviceBookingController.dateTimeController,
-                readOnly: true,
-                onTap: () async {
-                  _openBottomSheet(context);
-                },
-              ),
-
-              SizedBox(height: 12),
-
-              /// Service Duration Field (hours)
-              CustomFormCard(
-                title: "Service Duration (hours)",
-                hintText: "e.g. 2",
-                hasBackgroundColor: true,
-                prefixIcon: Icon(Icons.timer_outlined),
-                controller: serviceBookingController.durationController,
-                keyboardType: TextInputType.number,
-              ),
-
-              /// Phone Number Field
-              CustomFormCard(
-                title: "Phone Number",
-                hintText: "Enter phone number",
-                hasBackgroundColor: true,
-                prefixIcon: Icon(Icons.phone),
-                controller: serviceBookingController.phoneNumberController,
-              ),
-
-              SizedBox(height: 12),
-
-              /// Service name Field
-              CustomFormCard(
-                title: "Enter Address",
-                hintText: "Enter address",
-                prefixIcon: Icon(Icons.location_pin),
-                hasBackgroundColor: true,
-                controller: serviceBookingController.addressController,
-                readOnly: true,
-                onTap: () async {
-                  final result = await Get.toNamed(AppRoutes.pickerMapScreen);
-                  if (result is Map) {
-                    final address = result['address']?.toString() ?? '';
-                    final lat = (result['latitude'] as num?)?.toDouble() ?? 0.0;
-                    final lng =
-                        (result['longitude'] as num?)?.toDouble() ?? 0.0;
-                    serviceBookingController.setSelectedAddress(
-                      address: address,
-                      latitude: lat,
-                      longitude: lng,
-                    );
-                  }
-                },
-              ),
-
-              SizedBox(height: 12),
-
-              /// Service name Field
-              CustomFormCard(
-                title: "Description",
-                hintText: "Enter description",
-                hasBackgroundColor: true,
-
-                maxLine: 2,
-                controller: serviceBookingController.descriptionController,
-              ),
-
-              SizedBox(height: 12),
-
-              SizedBox(height: 16),
-
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.serviceBookSecondScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.appColors,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width * 0.9,
-                    50,
-                  ), // 90% of screen width
-                ),
-                child: CustomText2(
-                  text: 'Confirm',
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCircularStep({
-    required String label,
-    required bool isCompleted,
-  }) {
     return Column(
       children: [
-        Container(
-          width: 50,
-          height: 50,
-          padding: const EdgeInsets.all(11),
-          decoration: ShapeDecoration(
-            color: isCompleted ? const Color(0xFF4899D1) : Color(0xFFDDE1ED),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-          ),
-          child: isCompleted
-              ? Assets.icons.checkCircle.svg()
-              : Assets.icons.circle.svg(),
+        CustomFormCard(
+          title: "Date And Time",
+          hintText: "Enter date and time",
+          hasBackgroundColor: true,
+          prefixIcon: Icon(Icons.calendar_month),
+          controller: serviceBookingController.dateTimeController,
+          readOnly: true,
+          onTap: () async {
+            _openBottomSheet(context);
+          },
         ),
-        // StepCircle(isActive: true, isCompleted: true),
-        CustomText(
-          text: label,
-          textAlign: TextAlign.center,
-          fontWeight: FontWeight.w400,
-          fontSize: 12,
-          fontFamily: FontFamily.lexend,
-          color: isCompleted ? AppColors.black : const Color(0xFFB9C2DB),
+
+        SizedBox(height: 12),
+
+        /// Service Duration Field (hours)
+        CustomFormCard(
+          title: "Service Duration (hours)",
+          hintText: "e.g. 2",
+          hasBackgroundColor: true,
+          prefixIcon: Icon(Icons.timer_outlined),
+          controller: serviceBookingController.durationController,
+          keyboardType: TextInputType.number,
         ),
+
+        /// Phone Number Field
+        CustomFormCard(
+          title: "Phone Number",
+          hintText: "Enter phone number",
+          hasBackgroundColor: true,
+          prefixIcon: Icon(Icons.phone),
+          controller: serviceBookingController.phoneNumberController,
+        ),
+
+        SizedBox(height: 12),
+
+        /// Service name Field
+        CustomFormCard(
+          title: "Enter Address",
+          hintText: "Enter address",
+          prefixIcon: Icon(Icons.location_pin),
+          hasBackgroundColor: true,
+          controller: serviceBookingController.addressController,
+          readOnly: true,
+          onTap: () async {
+            final result = await Get.toNamed(AppRoutes.pickerMapScreen);
+            if (result is Map) {
+              final address = result['address']?.toString() ?? '';
+              final lat = (result['latitude'] as num?)?.toDouble() ?? 0.0;
+              final lng = (result['longitude'] as num?)?.toDouble() ?? 0.0;
+              serviceBookingController.setSelectedAddress(
+                address: address,
+                latitude: lat,
+                longitude: lng,
+              );
+            }
+          },
+        ),
+
+        SizedBox(height: 12),
+
+        /// Service name Field
+        CustomFormCard(
+          title: "Description",
+          hintText: "Enter description",
+          hasBackgroundColor: true,
+
+          maxLine: 2,
+          controller: serviceBookingController.descriptionController,
+        ),
+
+        SizedBox(height: 12),
+
+        SizedBox(height: 16),
       ],
     );
   }

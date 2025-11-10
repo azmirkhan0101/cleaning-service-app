@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
-import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
