@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/custom_drop_down_button.dart';
+import 'package:cleaning_service_app/features/provider/service/controllers/service_create_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ServiceAddScreen extends StatefulWidget {
   const ServiceAddScreen({super.key});
@@ -18,6 +22,20 @@ class ServiceAddScreen extends StatefulWidget {
 
 class _ServiceAddScreenState extends State<ServiceAddScreen> {
   final serviceController = Get.find<ServiceController>();
+  final createController = Get.put(ServiceCreateController());
+
+  // Text controllers
+  final serviceNameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final rateByHourController = TextEditingController();
+
+  @override
+  void dispose() {
+    serviceNameController.dispose();
+    descriptionController.dispose();
+    rateByHourController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,37 +148,29 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                 title: "Service Name",
                 hintText: "Enter name",
                 hasBackgroundColor: true,
-                controller: TextEditingController(),
+                controller: serviceNameController,
               ),
 
               SizedBox(height: 12),
 
-              /// Service name Field
+              /// Description Field
               CustomFormCard(
                 title: "Description",
                 hintText: "Enter description",
                 hasBackgroundColor: true,
-                controller: TextEditingController(),
+                controller: descriptionController,
+                maxLine: 2,
               ),
 
               SizedBox(height: 12),
 
-              /// Service name Field
+              /// Rate by hr Field
               CustomFormCard(
                 title: "Rate by hr",
                 hintText: "Enter €rate",
                 hasBackgroundColor: true,
-                controller: TextEditingController(),
-              ),
-
-              SizedBox(height: 12),
-
-              /// Service name Field
-              CustomFormCard(
-                title: "Rate by hr",
-                hintText: "Enter €rate",
-                hasBackgroundColor: true,
-                controller: TextEditingController(),
+                controller: rateByHourController,
+                keyboardType: TextInputType.number,
               ),
 
               SizedBox(height: 12),
@@ -182,18 +192,22 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                         (states) => AppColors.black_04,
                       ),
                       groupValue: serviceController.typeModeStatues.value,
-
                       onChanged: (bool? value) {
                         serviceController.typeModeStatues.value = value!;
                       },
                     ),
-
-                    const CustomText2(
-                      text: "NO",
-                      fontSize: 14,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w600,
+                    GestureDetector(
+                      onTap: () {
+                        serviceController.typeModeStatues.value = false;
+                      },
+                      child: const CustomText2(
+                        text: "NO",
+                        fontSize: 14,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
+                    SizedBox(width: 8),
                     Radio<bool>(
                       value: true, // Value for "Yes"
                       fillColor: WidgetStateColor.resolveWith(
@@ -204,12 +218,16 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                         serviceController.typeModeStatues.value = value!;
                       },
                     ),
-
-                    const CustomText2(
-                      text: "Yes",
-                      fontSize: 14,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w600,
+                    GestureDetector(
+                      onTap: () {
+                        serviceController.typeModeStatues.value = true;
+                      },
+                      child: const CustomText2(
+                        text: "Yes",
+                        fontSize: 14,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -229,26 +247,29 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Radio<bool>(
-                      value: false, // Value for "No"
+                      value: false, // Value for "Male"
                       fillColor: WidgetStateColor.resolveWith(
                         (states) => AppColors.black_04,
                       ),
                       groupValue: serviceController.genderType.value,
-
                       onChanged: (bool? value) {
                         serviceController.genderType.value = value!;
                       },
                     ),
-
-                    const CustomText2(
-                      text: "NO",
-                      fontSize: 14,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w600,
+                    GestureDetector(
+                      onTap: () {
+                        serviceController.genderType.value = false;
+                      },
+                      child: const CustomText2(
+                        text: "Male",
+                        fontSize: 14,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-
+                    SizedBox(width: 8),
                     Radio<bool>(
-                      value: true, // Value for "Yes"
+                      value: true, // Value for "Female"
                       fillColor: WidgetStateColor.resolveWith(
                         (states) => AppColors.black_04,
                       ),
@@ -257,12 +278,16 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                         serviceController.genderType.value = value!;
                       },
                     ),
-
-                    const CustomText2(
-                      text: "Yes",
-                      fontSize: 14,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w600,
+                    GestureDetector(
+                      onTap: () {
+                        serviceController.genderType.value = true;
+                      },
+                      child: const CustomText2(
+                        text: "Female",
+                        fontSize: 14,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -429,15 +454,67 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
               SizedBox(height: 12),
 
-              CustomFormCard(
-                title: "Image (Cover)",
-                hintText: "browse image",
-                hasBackgroundColor: true,
-                prefixIcon: Icon(Icons.image_search),
-                controller: TextEditingController(),
+              const CustomText2(
+                text: "Cover Images",
+                fontSize: 18,
+                color: AppColors.black,
+                fontWeight: FontWeight.w600,
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 8),
+
+              // Display selected images
+              Obx(() {
+                if (createController.coverImages.isEmpty) {
+                  return SizedBox.shrink();
+                }
+                return Container(
+                  margin: EdgeInsets.only(bottom: 12),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: createController.coverImages.map((file) {
+                      return Stack(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: FileImage(file),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: -8,
+                            right: -8,
+                            child: IconButton(
+                              icon: Container(
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                createController.coverImages.remove(file);
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                );
+              }),
+
               Container(
                 width: double.infinity,
                 height: 120,
@@ -447,11 +524,15 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () {
-                    // Handle file selection logic here
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Select file tapped")),
-                    );
+                  onTap: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final List<XFile> images = await picker.pickMultiImage();
+
+                    if (images.isNotEmpty) {
+                      for (var image in images) {
+                        createController.coverImages.add(File(image.path));
+                      }
+                    }
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -463,7 +544,7 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Select file",
+                        "Select Images",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black.withOpacity(0.7),
@@ -478,6 +559,22 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
               ElevatedButton(
                 onPressed: () {
+                  // Collect all form data
+                  createController.selectedCategoryId.value =
+                      serviceController.selectedCategoryId.value;
+                  createController.serviceName.value =
+                      serviceNameController.text;
+                  createController.description.value =
+                      descriptionController.text;
+                  createController.rateByHour.value = rateByHourController.text;
+                  createController.needApproval.value =
+                      serviceController.typeModeStatues.value;
+                  createController.isFemaleOnly.value =
+                      serviceController.genderType.value;
+                  createController.selectedLanguages.value =
+                      serviceController.selectedLanguages;
+
+                  // Navigate to work schedule screen
                   Get.toNamed(AppRoutes.workScheduleScreen);
                 },
                 style: ElevatedButton.styleFrom(
@@ -492,7 +589,7 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
                   ), // 90% of screen width
                 ),
                 child: CustomText2(
-                  text: 'Confirm',
+                  text: 'Continue',
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

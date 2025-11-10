@@ -48,6 +48,7 @@ class ApiUrl {
   /// =--> Provider Service Endpoints <--=
   static String myServices({int page = 1, int limit = 20}) =>
       '$baseUrl/service/my/services?page=$page&limit=$limit';
+  static const String createService = '$baseUrl/service/create';
 
   /// =--> Booking Endpoints <--=
   // Owner bookings

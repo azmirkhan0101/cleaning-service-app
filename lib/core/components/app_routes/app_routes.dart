@@ -40,7 +40,7 @@ import 'package:cleaning_service_app/features/provider/service/edit_service_scre
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/service_add_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/service_details.dart';
-import 'package:cleaning_service_app/features/provider/service/work_schedule_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/work_schedule_screen.dart';
 import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
 import 'package:get/get.dart';
 

@@ -98,6 +98,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
                 return InkWell(
                   onTap: () {
+                    Get.toNamed(AppRoutes.serviceDetails);
                     // Get.toNamed(
                     //   AppRoutes.providerServiceDetailsScreen,
                     //   arguments: {'serviceId': service.id},
