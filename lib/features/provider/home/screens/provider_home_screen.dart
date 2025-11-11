@@ -5,7 +5,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
-import 'package:cleaning_service_app/features/home/controllers/provider_home_controller.dart';
+import 'package:cleaning_service_app/features/provider/home/controllers/provider_home_controller.dart';
 import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -72,7 +72,7 @@ class _OwnerServicesByCategoryScreenState
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
-                childAspectRatio: 0.80,
+                childAspectRatio: 0.72,
               ),
               itemCount: serviceController.services.length,
               itemBuilder: (context, index) {

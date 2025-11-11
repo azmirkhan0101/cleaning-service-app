@@ -232,7 +232,7 @@ class _ServiceBookSecondScreenState extends State<ServiceBookSecondScreen> {
               SizedBox(height: 12),
 
               /// service name
-              ServiceCard(
+              BookingStepServiceCard(
                 status: '',
                 title: 'Cleaning Service',
                 imageUrl: AppImages.clean_image,
@@ -589,7 +589,7 @@ class _StepCircle extends StatelessWidget {
   }
 }
 
-class ServiceCard extends StatelessWidget {
+class BookingStepServiceCard extends StatelessWidget {
   final String status;
   final String title;
   final String imageUrl;
@@ -599,7 +599,7 @@ class ServiceCard extends StatelessWidget {
   final double price;
   final int duration;
 
-  const ServiceCard({
+  const BookingStepServiceCard({
     super.key,
     required this.status,
     required this.title,

@@ -4,20 +4,26 @@ import 'package:cleaning_service_app/core/components/custom_network_image/custom
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
+import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class OwnerProfileScreen extends StatelessWidget {
-  const OwnerProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final profileController = Get.put(ProfileController());
+    final String? role = AppStorageService.getUserRole();
 
     return Scaffold(
       appBar: CustomAppBar(title: "Profile"),
@@ -38,8 +44,33 @@ class OwnerProfileScreen extends StatelessWidget {
                   // Profile Section
                   _buildProfileSection(profileController),
 
-                  SizedBox(height: 50.h),
+                  // Show Boost Button if provider
+                  SizedBox(height: 24.h),
+                  if (role != Role.owner.value)
+                    FilledButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.boostPaymentScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF7A51D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        minimumSize: Size(
+                          MediaQuery.of(context).size.width * 0.2,
+                          40,
+                        ), // 90% of screen width
+                      ),
+                      child: CustomText(
+                        text: "Boost",
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
 
+                  8.heightBox,
                   // General Section
                   const Text(
                     'General',
@@ -48,7 +79,7 @@ class OwnerProfileScreen extends StatelessWidget {
 
                   SizedBox(height: 8.h),
 
-                  _buildSettingsList(context),
+                  _buildSettingsList(context, role),
                 ],
               ),
             ),
@@ -104,10 +135,11 @@ class OwnerProfileScreen extends StatelessWidget {
   }
 
   ///List of Settings
-  Widget _buildSettingsList(BuildContext context) {
+  Widget _buildSettingsList(BuildContext context, String? role) {
     return Column(
       spacing: 16.h,
       children: [
+        // Profile Information
         InkWell(
           child: _buildSettingsItem(
             'Profile Information',
@@ -118,6 +150,19 @@ class OwnerProfileScreen extends StatelessWidget {
           },
         ),
 
+        // My Balance (Only for provider)
+        if (role == Role.provider.value)
+          InkWell(
+            child: _buildSettingsItem(
+              'My Balance',
+              Icons.account_balance_wallet_outlined,
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.myEarningScreen);
+            },
+          ),
+
+        // Password Management
         InkWell(
           child: _buildSettingsItem('Password Management', Icons.lock_outline),
           onTap: () {
@@ -125,39 +170,61 @@ class OwnerProfileScreen extends StatelessWidget {
           },
         ),
 
-        InkWell(
-          child: _buildSettingsItem('Knowledge Hub', Icons.menu_book_sharp),
-          onTap: () {
-            Get.toNamed(AppRoutes.educationHomeScreen);
-          },
-        ),
+        // Knowledge Hub (Only for Owner)
+        if (role == Role.owner.value)
+          InkWell(
+            child: _buildSettingsItem('Knowledge Hub', Icons.menu_book_sharp),
+            onTap: () {
+              // Get.toNamed(AppRoutes.educationHomeScreen);
+              Get.to(KnowledgeHubScreen());
+            },
+          ),
 
+        // About Us
         InkWell(
           child: _buildSettingsItem('About Us', Icons.info_outline),
           onTap: () {
-            Get.toNamed(AppRoutes.aboutUsScreen);
+            // Get.toNamed(AppRoutes.aboutUsScreen);
+            Get.to(PolicyConditionScreen(title: "About Us"));
           },
         ),
 
+        // Privacy Policy
         InkWell(
           child: _buildSettingsItem(
             'Privacy Policy',
             Icons.privacy_tip_outlined,
           ),
           onTap: () {
-            Get.toNamed(AppRoutes.privacyPolicyScreen);
+            // Get.toNamed(AppRoutes.privacyPolicyScreen);
+            Get.to(PolicyConditionScreen(title: "Privacy Policy"));
           },
         ),
 
+        // Terms & Conditions
         InkWell(
           child: _buildSettingsItem(
             'Terms & Conditions',
             Icons.description_outlined,
           ),
           onTap: () {
-            Get.toNamed(AppRoutes.termsConditionScreen);
+            // Get.toNamed(AppRoutes.termsConditionScreen);
+            Get.to(PolicyConditionScreen(title: "Terms & Conditions"));
           },
         ),
+
+        // Affiliation condition (Only for Provider
+        if (role == Role.provider.value)
+          InkWell(
+            child: _buildSettingsItem(
+              'Affiliation Condition',
+              Icons.handshake_outlined,
+            ),
+            onTap: () {
+              // Get.toNamed(AppRoutes.affiliationConditionScreen);
+              Get.to(PolicyConditionScreen(title: "Affiliation Condition"));
+            },
+          ),
 
         InkWell(
           child: _buildSettingsItem('Invite Friend', Icons.people_outline),

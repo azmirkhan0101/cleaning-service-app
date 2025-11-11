@@ -317,7 +317,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
               ),
 
               // Service Card
-              ServiceCard(
+              ProviderServiceCard(
                 status: booking.status,
                 imageUrl: booking.oneImage,
                 serviceName: booking.name,
@@ -562,7 +562,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   }
 }
 
-class ServiceCard extends StatelessWidget {
+class ProviderServiceCard extends StatelessWidget {
   final String status;
   final String imageUrl;
   final String serviceName;
@@ -572,8 +572,8 @@ class ServiceCard extends StatelessWidget {
   final int duration;
   final double totalAmount;
 
-  const ServiceCard({
-    Key? key,
+  const ProviderServiceCard({
+    super.key,
     required this.status,
     required this.imageUrl,
     required this.serviceName,
@@ -582,7 +582,7 @@ class ServiceCard extends StatelessWidget {
     required this.price,
     required this.duration,
     required this.totalAmount,
-  }) : super(key: key);
+  });
 
   Color _getStatusColor(String status) {
     switch (status.toUpperCase()) {

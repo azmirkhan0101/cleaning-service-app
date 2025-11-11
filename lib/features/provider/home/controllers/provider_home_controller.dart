@@ -1,8 +1,8 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/common/models/error_response_model.dart';
-import 'package:cleaning_service_app/features/home/models/provider_homepage_data.dart';
-import 'package:cleaning_service_app/features/home/models/provider_pending_home_booking.dart';
+import 'package:cleaning_service_app/features/provider/home/models/provider_homepage_data.dart';
+import 'package:cleaning_service_app/features/provider/home/models/provider_pending_home_booking.dart';
 import 'package:get/get.dart';
 
 class ProviderHomeController extends GetxController {

@@ -181,7 +181,6 @@ class OwnerMyBookingCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 242,
       children: [
         CustomText(
           text: title,

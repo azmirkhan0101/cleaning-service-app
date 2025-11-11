@@ -8,39 +8,32 @@ import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
-import 'package:cleaning_service_app/features/owner/education/home/bribk_opportunities_screen.dart';
-import 'package:cleaning_service_app/features/owner/education/home/education_home_screen.dart';
-import 'package:cleaning_service_app/features/owner/education/home/education_training_screen.dart';
-import 'package:cleaning_service_app/features/owner/education/home/industry_trends_screen.dart';
-import 'package:cleaning_service_app/features/owner/education/home/legal_regulatory_screen.dart';
-import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
-import 'package:cleaning_service_app/features/owner/home/owner_search_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/screens/owner_search_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
-import 'package:cleaning_service_app/features/policy/about_us_screen.dart';
-import 'package:cleaning_service_app/features/policy/privacy_policy_screen.dart';
-import 'package:cleaning_service_app/features/policy/terms_condition_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/owner_edit_profile_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
+import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
-import 'package:cleaning_service_app/features/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/service_add_screen.dart';
-import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/work_schedule_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -169,12 +162,7 @@ class AppRoutes {
 
     GetPage(name: referScreen, page: () => ReferScreen()),
 
-    GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
-
-    GetPage(name: privacyPolicyScreen, page: () => PrivacyPolicyScreen()),
-
-    GetPage(name: termsConditionScreen, page: () => TermsConditionScreen()),
-
+    // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
     GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
 
     GetPage(
@@ -211,23 +199,9 @@ class AppRoutes {
 
     GetPage(name: ownerMessageScreen, page: () => OwnerMessageScreen()),
 
-    GetPage(name: ownerProfileScreen, page: () => OwnerProfileScreen()),
+    GetPage(name: ownerProfileScreen, page: () => ProfileScreen()),
 
-    GetPage(name: educationHomeScreen, page: () => EducationHomeScreen()),
-
-    GetPage(name: legalRegulatoryScreen, page: () => LegalRegulatoryScreen()),
-
-    GetPage(name: industryTrendsScreen, page: () => IndustryTrendsScreen()),
-
-    GetPage(
-      name: bribkOpportunitiesScreen,
-      page: () => BribkOpportunitiesScreen(),
-    ),
-
-    GetPage(
-      name: educationTrainingScreen,
-      page: () => EducationTrainingScreen(),
-    ),
+    GetPage(name: educationHomeScreen, page: () => KnowledgeHubScreen()),
 
     GetPage(name: ownerSearchScreen, page: () => OwnerSearchScreen()),
   ];

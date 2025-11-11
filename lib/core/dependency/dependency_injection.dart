@@ -4,7 +4,7 @@ import 'package:cleaning_service_app/features/auth/controllers/profile_setup_con
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
-import 'package:cleaning_service_app/features/owner/home/owner_controller.dart';
+import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';

@@ -1,14 +1,14 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
+import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
-import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
-import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
+import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/features/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -96,7 +96,7 @@ class MainLayoutController extends GetxController {
       label: 'Profile',
       selectedIconPath: Assets.icons.profileFilled.path,
       unselectedIconPath: Assets.icons.profileOutliine.path,
-      ownerScreen: const OwnerProfileScreen(),
+      ownerScreen: const ProfileScreen(),
       providerScreen: ProviderProfileScreen(),
     ),
   ];

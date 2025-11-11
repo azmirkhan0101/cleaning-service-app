@@ -13,8 +13,20 @@ class ApiUrl {
   static const String verifyForgotPasswordOtp =
       '$baseUrl/auth/verify-forgot-password-otp';
   static const String resetPassword = '$baseUrl/auth/reset-password';
+
+  /// =--> Content Endpoints <--=
+  static const String getAboutUs = '$baseUrl/admin/content/about-us';
+  static const String getPrivacyPolicy =
+      '$baseUrl/admin/content/privacy-policy';
+  static const String getTermsAndConditions =
+      '$baseUrl/admin/content/terms-and-conditions';
   static const String getAffiliationProgram =
       '$baseUrl/admin/content/affiliation-program';
+  static const String getKnowledgeHub = '$baseUrl/admin/knowledge-hub';
+  static String getKnowledgeHubDetail(String id) =>
+      '$baseUrl/admin/knowledge-hub/$id';
+
+  /// =--> Profile Endpoints <--=
   static const String profile = '$baseUrl/auth/me';
   static const String updateOwnerProfile = '$baseUrl/profile/owner';
   static const String changePassword = '$baseUrl/auth/change-password';
@@ -49,6 +61,10 @@ class ApiUrl {
   static String myServices({int page = 1, int limit = 20}) =>
       '$baseUrl/service/my/services?page=$page&limit=$limit';
   static const String createService = '$baseUrl/service/create';
+
+  /// =--> Discovery / Distance Endpoints <--=
+  static String nearbyServices({int radiusKm = 200, int limit = 50}) =>
+      '$baseUrl/distance/nearby?radiusKm=$radiusKm&limit=$limit';
 
   /// =--> Booking Endpoints <--=
   // Owner bookings
