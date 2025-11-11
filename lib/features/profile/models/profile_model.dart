@@ -44,6 +44,8 @@ class UpdatedProfileData {
   final String userName;
   final String phoneNumber;
   final String address;
+  final String? aboutMe;
+  final String? experience;
 
   UpdatedProfileData({
     required this.id,
@@ -51,6 +53,8 @@ class UpdatedProfileData {
     required this.userName,
     required this.phoneNumber,
     required this.address,
+    this.aboutMe,
+    this.experience,
   });
 
   factory UpdatedProfileData.fromJson(Map<String, dynamic> json) {
@@ -60,6 +64,8 @@ class UpdatedProfileData {
       userName: json['userName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       address: json['address'] ?? '',
+      aboutMe: json['aboutMe'],
+      experience: json['experience'],
     );
   }
 }

@@ -20,15 +20,15 @@ import 'package:cleaning_service_app/features/owner/service/widgets/service_book
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/owner_edit_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/service_add_screen.dart';
@@ -151,10 +151,7 @@ class AppRoutes {
 
     GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
 
-    GetPage(
-      name: editPersonProfileScreen,
-      page: () => OwnerEditProfileScreen(),
-    ),
+    GetPage(name: editPersonProfileScreen, page: () => EditProfileScreen()),
 
     GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
 

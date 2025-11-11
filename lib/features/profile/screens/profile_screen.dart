@@ -12,7 +12,9 @@ import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -146,7 +148,8 @@ class ProfileScreen extends StatelessWidget {
             Icons.person_outline,
           ),
           onTap: () {
-            Get.toNamed(AppRoutes.editPersonProfileScreen);
+            // Get.toNamed(AppRoutes.editPersonProfileScreen);
+            Get.to(EditProfileScreen());
           },
         ),
 
@@ -226,13 +229,17 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
 
+        // Invite Friend
         InkWell(
           child: _buildSettingsItem('Invite Friend', Icons.people_outline),
           onTap: () {
             //ReferScreen
-            Get.toNamed(AppRoutes.referScreen);
+            // Get.toNamed(AppRoutes.referScreen);
+            Get.to(ReferScreen());
           },
         ),
+
+        // Delete Account
         InkWell(
           child: _buildSettingsItem('Delete Account', Icons.delete_outline),
           onTap: () {

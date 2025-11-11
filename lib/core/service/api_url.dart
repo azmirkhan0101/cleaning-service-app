@@ -29,7 +29,9 @@ class ApiUrl {
   /// =--> Profile Endpoints <--=
   static const String profile = '$baseUrl/auth/me';
   static const String updateOwnerProfile = '$baseUrl/profile/owner';
+  static const String updateProviderProfile = '$baseUrl/profile/provider';
   static const String changePassword = '$baseUrl/auth/change-password';
+  static const String getReferralInfo = '$baseUrl/referral/my-info';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';

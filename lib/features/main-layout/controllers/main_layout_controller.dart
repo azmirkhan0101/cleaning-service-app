@@ -6,7 +6,6 @@ import 'package:cleaning_service_app/features/owner/home/screens/owner_home_scre
 import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
@@ -97,7 +96,7 @@ class MainLayoutController extends GetxController {
       selectedIconPath: Assets.icons.profileFilled.path,
       unselectedIconPath: Assets.icons.profileOutliine.path,
       ownerScreen: const ProfileScreen(),
-      providerScreen: ProviderProfileScreen(),
+      providerScreen: const ProfileScreen(),
     ),
   ];
 }
