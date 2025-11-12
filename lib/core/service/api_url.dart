@@ -46,6 +46,7 @@ class ApiUrl {
   static const String serviceCategories = '$baseUrl/service/categories';
   static String servicesByCategory(String categoryId) =>
       '$baseUrl/service/category/services/$categoryId';
+  static const String searchFilter = '$baseUrl/service/search-filter';
 
   /// =--> Service Details Endpoints <--=
   static String serviceDetails(String serviceId) =>

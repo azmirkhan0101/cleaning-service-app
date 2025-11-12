@@ -9,7 +9,11 @@ import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
+import 'package:cleaning_service_app/features/owner/home/controllers/search_controller.dart'
+    as search;
+import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/search_results_screen.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -27,24 +31,13 @@ class OwnerHomeSearchScreen extends StatefulWidget {
 class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
   final locationController = Get.find<LocationController>();
   final ownerController = Get.find<OwnerController>();
-
   final paymentController = Get.find<PaymentController>();
   final ownerServiceController = Get.find<OwnerServiceController>();
-
-  int? _selectedExperience;
-  bool? _instantBooking;
-  String? _selectedGender;
-  String? _selectedService;
-  DateTime _selectedDate = DateTime.now();
-  double _pricePerHour = 20.0;
-  final TextEditingController _searchController = TextEditingController();
-  bool _showSuggestions = false;
-  List<Map<String, dynamic>> _filteredServices = [];
-  String _selectedLanguage = 'English';
+  final categoryController = Get.find<CategoryController>();
+  final searchController = Get.put(search.SearchController());
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
   }
 
@@ -68,7 +61,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                   children: [
                     _buildAppBar(),
                     SizedBox(height: 16.h),
-                    _buildSearchTextField(),
+                    _buildCategorySearchTextField(),
                     SizedBox(height: 16),
                     _buildTitleSection("Date & Time"),
                     _buildDataTimeSection(),
@@ -131,53 +124,56 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF0F0B18),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF4899D1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '\$${_pricePerHour.toInt()}h',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: 'Lexend',
-                              fontWeight: FontWeight.w500,
+                        Obx(
+                          () => Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4899D1),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '\$${searchController.pricePerHour.value.toInt()}h',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontFamily: 'Lexend',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
 
-                    SliderTheme(
-                      data: SliderThemeData(
-                        activeTrackColor: Color(0xFF4899D1),
-                        inactiveTrackColor: Color(0xFFE0E0E0),
-                        thumbColor: Colors.white,
-                        overlayColor: Color(0xFF4899D1).withValues(alpha: 0.2),
-                        thumbShape: RoundSliderThumbShape(
-                          enabledThumbRadius: 10,
-                          elevation: 2,
+                    Obx(
+                      () => SliderTheme(
+                        data: SliderThemeData(
+                          activeTrackColor: Color(0xFF4899D1),
+                          inactiveTrackColor: Color(0xFFE0E0E0),
+                          thumbColor: Colors.white,
+                          overlayColor: Color(
+                            0xFF4899D1,
+                          ).withValues(alpha: 0.2),
+                          thumbShape: RoundSliderThumbShape(
+                            enabledThumbRadius: 10,
+                            elevation: 2,
+                          ),
+                          overlayShape: RoundSliderOverlayShape(
+                            overlayRadius: 20,
+                          ),
+                          trackHeight: 4,
                         ),
-                        overlayShape: RoundSliderOverlayShape(
-                          overlayRadius: 20,
+                        child: Slider(
+                          value: searchController.pricePerHour.value,
+                          min: 5.0,
+                          max: 100.0,
+                          divisions: 95,
+                          onChanged: (double value) =>
+                              searchController.setPricePerHour(value),
                         ),
-                        trackHeight: 4,
-                      ),
-                      child: Slider(
-                        value: _pricePerHour,
-                        min: 5.0,
-                        max: 100.0,
-                        divisions: 95,
-                        onChanged: (double value) {
-                          setState(() {
-                            _pricePerHour = value;
-                          });
-                        },
                       ),
                     ),
 
@@ -234,16 +230,42 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     _buildSectionHeader("Spoken Language"),
 
                     // SizedBox(height: 12),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton2<String>(
-                        value: _selectedLanguage,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedLanguage = newValue!;
-                          });
-                        },
-                        items:
-                            <String>[
+                    Obx(
+                      () => DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          value: searchController.selectedLanguage.value,
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              searchController.setLanguage(newValue);
+                            }
+                          },
+                          items:
+                              <String>[
+                                'English',
+                                'Spanish',
+                                'French',
+                                'German',
+                                'Chinese',
+                                'Arabic',
+                                'Hindi',
+                                'Portuguese',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      color: const Color(0xFF0F0B18),
+                                      fontSize: 16,
+                                      fontFamily: 'Lexend',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.50,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                          selectedItemBuilder: (BuildContext context) {
+                            return <String>[
                               'English',
                               'Spanish',
                               'French',
@@ -252,71 +274,47 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                               'Arabic',
                               'Hindi',
                               'Portuguese',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                    color: const Color(0xFF0F0B18),
-                                    fontSize: 16,
-                                    fontFamily: 'Lexend',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.50,
+                            ].map<Widget>((String value) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Assets.icons.arrowDown.svg(),
+                                  SizedBox(width: 12),
+                                  Text(
+                                    value,
+                                    style: TextStyle(
+                                      color: const Color(0xFF0F0B18),
+                                      fontSize: 16,
+                                      fontFamily: 'Lexend',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.50,
+                                    ),
                                   ),
-                                ),
+                                ],
                               );
-                            }).toList(),
-                        selectedItemBuilder: (BuildContext context) {
-                          return <String>[
-                            'English',
-                            'Spanish',
-                            'French',
-                            'German',
-                            'Chinese',
-                            'Arabic',
-                            'Hindi',
-                            'Portuguese',
-                          ].map<Widget>((String value) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Assets.icons.arrowDown.svg(),
-                                SizedBox(width: 12),
-                                Text(
-                                  value,
-                                  style: TextStyle(
-                                    color: const Color(0xFF0F0B18),
-                                    fontSize: 16,
-                                    fontFamily: 'Lexend',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.50,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }).toList();
-                        },
-                        buttonStyleData: ButtonStyleData(
-                          height: 40,
-                          padding: EdgeInsets.zero,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
+                            }).toList();
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 40,
+                            padding: EdgeInsets.zero,
                           ),
-                          elevation: 4,
-                          offset: Offset(0, 0),
-                        ),
-                        menuItemStyleData: MenuItemStyleData(
-                          height: 40,
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                        iconStyleData: IconStyleData(
-                          icon: SizedBox.shrink(),
-                          iconSize: 0,
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 300,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            elevation: 4,
+                            offset: Offset(0, 0),
+                          ),
+                          menuItemStyleData: MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          iconStyleData: IconStyleData(
+                            icon: SizedBox.shrink(),
+                            iconSize: 0,
+                          ),
                         ),
                       ),
                     ),
@@ -335,99 +333,81 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     //   fillColor: AppColors.appColors,
                     //   borderRadius: 24,
                     // ),
-                    Container(
-                      width: double.infinity,
-                      height: 46,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 5,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFE9EBF3),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 10,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            spacing: 176,
-                            children: [
-                              Text(
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              final searchController =
+                                  Get.find<search.SearchController>();
+                              searchController.clearAllFilters();
+                            },
+                            child: Container(
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE9EBF3),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              alignment: Alignment.centerLeft,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: const Text(
                                 'Clear all',
                                 style: TextStyle(
-                                  color: const Color(0xFF0F0B18),
-                                  fontSize: 14,
-                                  fontFamily: 'Lexend',
+                                  color: Color(0xFF0F0B18),
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  height: 1.50,
+                                  fontFamily: 'Lexend',
                                 ),
                               ),
-                              Container(
-                                width: 90,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFF7A51D),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  shadows: [
-                                    BoxShadow(
-                                      color: Color(0x6B4C4E64),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: -4,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 22,
-                                        vertical: 7,
-                                      ),
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        spacing: 8,
-                                        children: [
-                                          Text(
-                                            'Show',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontFamily: 'Lexend',
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.50,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 12),
+                        SizedBox(
+                          height: 44,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final searchController =
+                                  Get.find<search.SearchController>();
+                              await searchController.searchServices();
+                              if (searchController.searchResults.isNotEmpty) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => SearchResultsScreen(
+                                      services: searchController.searchResults,
+                                      totalResults:
+                                          searchController.totalResults.value,
+                                      appliedFilters:
+                                          searchController.appliedFilters.value,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFF7A51D),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 32,
+                              ),
+                            ),
+                            child: const Text(
+                              'Show',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Lexend',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -439,7 +419,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  GestureDetector _buildDataTimeSection() {
+  Widget _buildDataTimeSection() {
     return GestureDetector(
       onTap: () => _openBottomSheet(context),
       child: Row(
@@ -459,10 +439,14 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
               final period = time.period == DayPeriod.am ? 'AM' : 'PM';
               timeStr = '$hour:$minute $period';
             } else {
-              timeStr = DateFormat('hh:mm a').format(_selectedDate);
+              timeStr = DateFormat(
+                'hh:mm a',
+              ).format(searchController.selectedDate.value);
             }
 
-            final dateStr = DateFormat('EEE, dd MMM').format(_selectedDate);
+            final dateStr = DateFormat(
+              'EEE, dd MMM',
+            ).format(searchController.selectedDate.value);
 
             return _buildTitleSection('$timeStr, $dateStr');
           }),
@@ -524,142 +508,139 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  Widget _buildSearchTextField() {
-    final List<Map<String, dynamic>> serviceOptions = [
-      {'icon': AppIcons.service_all, 'label': 'All Service', 'isSvg': true},
-      {'icon': AppIcons.cleaning, 'label': 'Cleaning', 'isSvg': true},
-      {'icon': AppIcons.laundry, 'label': 'Laundry', 'isSvg': true},
-      {'icon': AppIcons.working, 'label': 'Handyman', 'isSvg': true},
-      {'icon': AppIcons.industry, 'label': 'Electrical', 'isSvg': true},
-    ];
-
-    return Column(
-      children: [
-        TextField(
-          controller: _searchController,
-          onTap: () {
-            setState(() {
-              _showSuggestions = true;
-              _filteredServices = serviceOptions;
-            });
-          },
-          onChanged: (value) {
-            setState(() {
-              if (value.isEmpty) {
-                _showSuggestions = true;
-                _filteredServices = serviceOptions;
-              } else {
-                _showSuggestions = true;
-                _filteredServices = serviceOptions
-                    .where(
-                      (service) => service['label']
-                          .toString()
-                          .toLowerCase()
-                          .contains(value.toLowerCase()),
-                    )
-                    .toList();
-              }
-            });
-          },
-          decoration: InputDecoration(
-            hintText: 'Search',
-            hintStyle: TextStyle(
-              color: Color(0xFF4F4F59),
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
+  Widget _buildCategorySearchTextField() {
+    return Obx(() {
+      return Column(
+        children: [
+          TextField(
+            controller: searchController.searchTextController,
+            onTap: () => searchController.openSuggestions(),
+            onChanged: (value) =>
+                searchController.onSearchCategoryChanged(value),
+            decoration: InputDecoration(
+              hintText: 'Search Category',
+              hintStyle: TextStyle(
+                color: Color(0xFF4F4F59),
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Icon(Icons.search, color: Color(0xFF0F0B18)),
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Assets.icons.arrowDown.svg(width: 12, height: 12),
+              ),
+              filled: true,
+              fillColor: Color(0xFFE9EBF3),
+              border: _buildOutlineInputBorder(),
+              focusedBorder: _buildOutlineInputBorder(),
+              enabledBorder: _buildOutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
             ),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Icon(Icons.search, color: Color(0xFF0F0B18)),
-            ),
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Assets.icons.arrowDown.svg(width: 12, height: 12),
-            ),
-            filled: true,
-            fillColor: Color(0xFFE9EBF3),
-            border: _buildOutlineInputBorder(),
-            focusedBorder: _buildOutlineInputBorder(),
-            enabledBorder: _buildOutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
           ),
-        ),
-        if (_showSuggestions && _filteredServices.isNotEmpty)
-          Container(
-            margin: EdgeInsets.only(top: 4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Color(0xFF4F4F59), width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.all(8),
-              itemCount: _filteredServices.length,
-              itemBuilder: (context, index) {
-                final service = _filteredServices[index];
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      _searchController.text = service['label'];
-                      _selectedService = service['label'];
-                      _showSuggestions = false;
-                      _filteredServices = [];
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      bottom: index == _filteredServices.length - 1 ? 0 : 8,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: _selectedService == service['label']
-                          ? Color(0xFF4899D1)
-                          : Colors.white,
-                      border: Border.all(color: Color(0xFF4F4F59), width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        CustomImage(
-                          imageSrc: service['icon'] as String,
-                          imageType: ImageType.svg,
-                          height: 20,
-                          width: 20,
-                          imageColor: _selectedService == service['label']
-                              ? Colors.white
-                              : null,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          service['label'] as String,
-                          style: TextStyle(
-                            color: _selectedService == service['label']
-                                ? Colors.white
-                                : Color(0xFF0F0B18),
-                            fontSize: 14,
-                            fontWeight: _selectedService == service['label']
-                                ? FontWeight.w500
-                                : FontWeight.w400,
-                            fontFamily: 'Lexend',
-                          ),
-                        ),
-                      ],
-                    ),
+          if (searchController.showSuggestions.value &&
+              searchController.filteredServices.isNotEmpty)
+            Container(
+              margin: EdgeInsets.only(top: 4),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Color(0xFF4F4F59), width: 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
                   ),
-                );
-              },
+                ],
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(8),
+                itemCount: searchController.filteredServices.length,
+                itemBuilder: (context, index) {
+                  final service = searchController.filteredServices[index];
+                  final isSelected =
+                      searchController.selectedService.value ==
+                      service['label'];
+
+                  return InkWell(
+                    onTap: () => searchController.selectService(service),
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        bottom:
+                            index ==
+                                searchController.filteredServices.length - 1
+                            ? 0
+                            : 8,
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected ? Color(0xFF4899D1) : Colors.white,
+                        border: Border.all(color: Color(0xFF4F4F59), width: 1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          // Display image based on type (SVG or Network)
+                          if (service['isSvg'] == true)
+                            CustomImage(
+                              imageSrc: service['icon'] as String,
+                              imageType: ImageType.svg,
+                              height: 20,
+                              width: 20,
+                              imageColor: isSelected ? Colors.white : null,
+                            )
+                          else
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: Image.network(
+                                service['icon'] as String,
+                                height: 20,
+                                width: 20,
+                                fit: BoxFit.cover,
+                                color: isSelected ? Colors.white : null,
+                                colorBlendMode: isSelected
+                                    ? BlendMode.srcIn
+                                    : null,
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Fallback to a default icon on error
+                                  return Icon(
+                                    Icons.category,
+                                    size: 20,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Color(0xFF0F0B18),
+                                  );
+                                },
+                              ),
+                            ),
+                          SizedBox(width: 8),
+                          Text(
+                            service['label'] as String,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? Colors.white
+                                  : Color(0xFF0F0B18),
+                              fontSize: 14,
+                              fontWeight: isSelected
+                                  ? FontWeight.w500
+                                  : FontWeight.w400,
+                              fontFamily: 'Lexend',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   OutlineInputBorder _buildOutlineInputBorder() {
@@ -714,164 +695,152 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
       "5+ years of experience",
     ];
 
-    return Column(
-      children: List.generate(options.length, (index) {
-        return Row(
-          children: [
-            Checkbox(
-              value: _selectedExperience == index,
-              onChanged: (bool? value) {
-                setState(() {
-                  _selectedExperience = value == true ? index : null;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+    return Obx(
+      () => Column(
+        children: List.generate(options.length, (index) {
+          return Row(
+            children: [
+              Checkbox(
+                value: searchController.selectedExperience.value == index,
+                onChanged: (bool? value) => searchController.setExperience(
+                  value == true ? index : null,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
-            ),
-
-            // const SizedBox(width: 8),
-            CustomText2(
-              text: options[index],
-              fontSize: 16,
-              color: Colors.black87,
-              fontWeight: FontWeight.w400,
-            ),
-          ],
-        );
-      }),
+              CustomText2(
+                text: options[index],
+                fontSize: 16,
+                color: Colors.black87,
+                fontWeight: FontWeight.w400,
+              ),
+            ],
+          );
+        }),
+      ),
     );
   }
 
   Widget _buildInstantBookingOptions() {
-    return Row(
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: _instantBooking == true,
-              onChanged: (bool? value) {
-                setState(() {
-                  _instantBooking = value == true ? true : null;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+    return Obx(
+      () => Row(
+        children: [
+          Row(
+            children: [
+              Checkbox(
+                value: searchController.instantBooking.value == true,
+                onChanged: (bool? value) => searchController.setInstantBooking(
+                  value == true ? true : null,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              "Yes",
-              style: TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ],
-        ),
-
-        const SizedBox(width: 16),
-        Row(
-          children: [
-            Checkbox(
-              value: _instantBooking == false,
-              onChanged: (bool? value) {
-                setState(() {
-                  _instantBooking = value == true ? false : null;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+              const SizedBox(width: 8),
+              const Text(
+                "Yes",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
-            ),
-
-            const SizedBox(width: 8),
-            const Text(
-              "No",
-              style: TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(width: 16),
+          Row(
+            children: [
+              Checkbox(
+                value: searchController.instantBooking.value == false,
+                onChanged: (bool? value) => searchController.setInstantBooking(
+                  value == true ? false : null,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                "No",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildGenderOptions() {
-    return Row(
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: _selectedGender == "Male",
-              onChanged: (bool? value) {
-                setState(() {
-                  _selectedGender = value == true ? "Male" : null;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+    return Obx(
+      () => Row(
+        children: [
+          Row(
+            children: [
+              Checkbox(
+                value: searchController.selectedGender.value == "Male",
+                onChanged: (bool? value) =>
+                    searchController.setGender(value == true ? "Male" : null),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              "Male",
-              style: TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ],
-        ),
-        const SizedBox(width: 32),
-        Row(
-          children: [
-            Checkbox(
-              value: _selectedGender == "Female",
-              onChanged: (bool? value) {
-                setState(() {
-                  _selectedGender = value == true ? "Female" : null;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+              const SizedBox(width: 8),
+              const Text(
+                "Male",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              "Female",
-              style: TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Future<void> _showCalendarPicker() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF4899D1), // Header background color
-              onPrimary: Colors.white, // Header text color
-              onSurface: Color(0xFF0D0D0D), // Body text color
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Color(0xFF4899D1), // Button text color
-              ),
-            ),
+            ],
           ),
-          child: child!,
-        );
-      },
+          const SizedBox(width: 32),
+          Row(
+            children: [
+              Checkbox(
+                value: searchController.selectedGender.value == "Female",
+                onChanged: (bool? value) =>
+                    searchController.setGender(value == true ? "Female" : null),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                "Female",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
-
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
   }
+
+  // Future<void> _showCalendarPicker() async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: searchController.selectedDate.value,
+  //     firstDate: DateTime(2020),
+  //     lastDate: DateTime(2030),
+  //     builder: (context, child) {
+  //       return Theme(
+  //         data: Theme.of(context).copyWith(
+  //           colorScheme: ColorScheme.light(
+  //             primary: Color(0xFF4899D1), // Header background color
+  //             onPrimary: Colors.white, // Header text color
+  //             onSurface: Color(0xFF0D0D0D), // Body text color
+  //           ),
+  //           textButtonTheme: TextButtonThemeData(
+  //             style: TextButton.styleFrom(
+  //               foregroundColor: Color(0xFF4899D1), // Button text color
+  //             ),
+  //           ),
+  //         ),
+  //         child: child!,
+  //       );
+  //     },
+  //   );
+
+  //   if (picked != null && picked != searchController.selectedDate.value) {
+  //     searchController.setDate(picked);
+  //   }
+  // }
 
   void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -971,12 +940,18 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                   padding: const EdgeInsets.all(12),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Update local _selectedDate when user confirms
+                      // Update searchController date when user confirms
                       if (ownerServiceController.selectedDate.value != null) {
-                        setState(() {
-                          _selectedDate =
-                              ownerServiceController.selectedDate.value!;
-                        });
+                        searchController.setDate(
+                          ownerServiceController.selectedDate.value!,
+                        );
+                      }
+
+                      // Update searchController time when user confirms
+                      if (ownerServiceController.selectedTime.value != null) {
+                        searchController.setTime(
+                          ownerServiceController.selectedTime.value!,
+                        );
                       }
 
                       Navigator.pop(context);
