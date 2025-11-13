@@ -70,6 +70,11 @@ class ApiUrl {
       '$baseUrl/distance/nearby?radiusKm=$radiusKm&limit=$limit';
 
   /// =--> Booking Endpoints <--=
+  static const String bookNow = '$baseUrl/booking/book-now';
+
+  /// =--> Payment Endpoints <--=
+  static const String createPayment = '$baseUrl/payment/booking/create';
+
   // Owner bookings
   static const String ownerMyBookings = '$baseUrl/booking/my-bookings';
   static const String ownerPendingBookings =

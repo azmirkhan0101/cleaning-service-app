@@ -9,6 +9,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart'
     show AppColors;
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/common/widgets/bulleted_list.dart';
+import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:cleaning_service_app/features/payment/payment_controller.dart';
@@ -293,28 +294,133 @@ class ServiceBookingStepTwo extends StatelessWidget {
 
         SizedBox(height: 24),
 
-        ElevatedButton(
-          onPressed: () {
-            ///Get.toNamed(AppRoutes.serviceBookSecondScreen);
+        Obx(
+          () => ElevatedButton(
+            onPressed: bookingController.isBooking.value ||
+                    bookingController.isCreatingPayment.value
+                ? null
+                : () async {
+                    // Step 1: Create booking
+                    final bookingResponse =
+                        await bookingController.bookService();
 
-            // showCustomDialog(context);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.appColors,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+                    if (bookingResponse != null &&
+                        bookingResponse['success'] == true) {
+                      // Extract booking ID
+                      final bookingId = bookingResponse['data']?['_id'];
+
+                      if (bookingId == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Booking created but ID not found'),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
+                        return;
+                      }
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Service booked successfully!'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+
+                      // Step 2: Create payment session
+                      final paymentResponse = await bookingController
+                          .createPaymentSession(bookingId);
+
+                      if (paymentResponse != null &&
+                          paymentResponse['success'] == true) {
+                        final paymentUrl =
+                            paymentResponse['data']?['paymentUrl'];
+
+                        if (paymentUrl != null && paymentUrl.isNotEmpty) {
+                          // Navigate to payment WebView
+                          Get.toNamed(
+                            AppRoutes.paymentWebViewScreen,
+                            arguments: {
+                              'paymentUrl': paymentUrl,
+                              'bookingId': bookingId,
+                            },
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Payment URL not found'),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Failed to create payment session. Please try again.',
+                            ),
+                            backgroundColor: Colors.redAccent,
+                          ),
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Failed to book service. Please try again.',
+                          ),
+                          backgroundColor: Colors.redAccent,
+                        ),
+                      );
+                    }
+                  },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.appColors,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              minimumSize: Size(
+                MediaQuery.of(context).size.width * 0.9,
+                50,
+              ), // 90% of screen width
             ),
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            minimumSize: Size(
-              MediaQuery.of(context).size.width * 0.9,
-              50,
-            ), // 90% of screen width
-          ),
-          child: CustomText2(
-            text: 'Continue',
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            child: bookingController.isBooking.value
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : bookingController.isCreatingPayment.value
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          CustomText2(
+                            text: 'Creating Payment...',
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      )
+                    : CustomText2(
+                        text: 'Continue to Payment',
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
           ),
         ),
         SizedBox(height: 40),
@@ -372,7 +478,7 @@ void showCustomDialog(BuildContext context) {
                 ),
                 const SizedBox(height: 16),
                 CustomButton(
-                  onTap: () => Get.offNamed(AppRoutes.ownerHomeScreen),
+                  onTap: () => Get.to(MainLayout(isOwner: true)),
                   title: "Back to Home",
                   fontSize: 16,
                   width: double.infinity,

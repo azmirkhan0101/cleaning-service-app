@@ -1,7 +1,16 @@
+import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ServiceBookingController extends GetxController {
+  final _networkHelper = Get.find<NetworkHelper>();
+
+  final isBooking = false.obs;
+  final isCreatingPayment = false.obs;
+  final selectedPaymentMethod = 'STRIPE'.obs;
+  final bookingId = ''.obs;
+  final paymentUrl = ''.obs;
   final dateTimeController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
@@ -89,5 +98,117 @@ class ServiceBookingController extends GetxController {
     addressController.clear();
     descriptionController.clear();
     durationController.clear();
+  }
+
+  void setPaymentMethod(String method) {
+    selectedPaymentMethod.value = method;
+  }
+
+  /// Book service API call
+  Future<Map<String, dynamic>?> bookService() async {
+    if (isBooking.value) return null;
+
+    try {
+      isBooking.value = true;
+
+      // Parse scheduledAt from dateTimeController
+      // Format: "2025-11-12 16:30"
+      final dateTimeParts = dateTimeController.text.split(' ');
+      if (dateTimeParts.length != 2) {
+        Get.snackbar('Error', 'Invalid date time format');
+        return null;
+      }
+
+      final dateParts = dateTimeParts[0].split('-');
+      final timeParts = dateTimeParts[1].split(':');
+
+      final scheduledDateTime = DateTime(
+        int.parse(dateParts[0]),
+        int.parse(dateParts[1]),
+        int.parse(dateParts[2]),
+        int.parse(timeParts[0]),
+        int.parse(timeParts[1]),
+      );
+
+      final body = {
+        'serviceId': serviceId.value,
+        'scheduledAt': scheduledDateTime.toUtc().toIso8601String(),
+        'phoneNumber': phoneNumberController.text,
+        'address': {
+          'city': addressController.text,
+          'latitude': selectedLatitude.value,
+          'longitude': selectedLongitude.value,
+        },
+        'description': descriptionController.text,
+        'serviceDuration': int.tryParse(durationController.text) ?? 2,
+        'paymentMethod': selectedPaymentMethod.value,
+      };
+
+      final result = await _networkHelper.request<Map<String, dynamic>>(
+        'POST',
+        ApiUrl.bookNow,
+        body: body,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+
+      return result.fold(
+        (error) {
+          debugPrint('Booking error: ${error.message}');
+          return null;
+        },
+        (response) {
+          debugPrint('Booking successful: $response');
+          // Extract booking ID from response
+          if (response['data'] != null && response['data']['_id'] != null) {
+            bookingId.value = response['data']['_id'];
+          }
+          return response;
+        },
+      );
+    } catch (e) {
+      debugPrint('Error booking service: $e');
+      return null;
+    } finally {
+      isBooking.value = false;
+    }
+  }
+
+  /// Create payment session for booking
+  Future<Map<String, dynamic>?> createPaymentSession(String bookingId) async {
+    if (isCreatingPayment.value) return null;
+
+    try {
+      isCreatingPayment.value = true;
+
+      final body = {'bookingId': bookingId};
+
+      final result = await _networkHelper.request<Map<String, dynamic>>(
+        'POST',
+        ApiUrl.createPayment,
+        body: body,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+
+      return result.fold(
+        (error) {
+          debugPrint('Payment creation error: ${error.message}');
+          return null;
+        },
+        (response) {
+          debugPrint('Payment session created: $response');
+          // Extract payment URL from response
+          if (response['data'] != null &&
+              response['data']['paymentUrl'] != null) {
+            paymentUrl.value = response['data']['paymentUrl'];
+          }
+          return response;
+        },
+      );
+    } catch (e) {
+      debugPrint('Error creating payment session: $e');
+      return null;
+    } finally {
+      isCreatingPayment.value = false;
+    }
   }
 }

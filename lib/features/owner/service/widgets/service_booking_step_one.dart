@@ -108,6 +108,42 @@ class ServiceBookingStepOne extends StatelessWidget {
 
         ElevatedButton(
           onPressed: () {
+            if (serviceBookingController.dateTimeController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please select date and time'),
+                  backgroundColor: Colors.redAccent,
+                ),
+              );
+              return;
+            }
+            if (serviceBookingController.durationController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please enter service duration'),
+                  backgroundColor: Colors.redAccent,
+                ),
+              );
+              return;
+            }
+            if (serviceBookingController.phoneNumberController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please enter phone number'),
+                  backgroundColor: Colors.redAccent,
+                ),
+              );
+              return;
+            }
+            if (serviceBookingController.addressController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please enter address'),
+                  backgroundColor: Colors.redAccent,
+                ),
+              );
+              return;
+            }
             // Get.toNamed(AppRoutes.serviceBookSecondScreen);
             serviceBookingController.currentStep.value += 1;
             serviceBookingController.printStepOneInfo();
@@ -387,7 +423,7 @@ class ServiceBookingStepOne extends StatelessWidget {
                                     width: double.infinity,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        Get.back();
+                                        Navigator.of(context).pop();
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(
@@ -423,7 +459,7 @@ class ServiceBookingStepOne extends StatelessWidget {
                         );
                       } else {
                         serviceBookingController.setDateTimeController();
-                        Get.back();
+                        Navigator.of(context).pop();
                       }
                     },
                     style: FilledButton.styleFrom(

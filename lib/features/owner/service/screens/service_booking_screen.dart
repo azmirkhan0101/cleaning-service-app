@@ -34,7 +34,17 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
       serviceBookingController.setServiceId(args['serviceId'].toString());
     }
     return Scaffold(
-      appBar: CustomAppBar(title: "Book Details", backButton: true),
+      appBar: CustomAppBar(
+        title: "Book Details",
+        backButton: true,
+        onPressed: () {
+          if (serviceBookingController.currentStep.value > 1) {
+            serviceBookingController.currentStep.value -= 1;
+            return;
+          }
+          Get.back();
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -54,32 +64,6 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                         serviceBookingController: serviceBookingController,
                       )
                     : ServiceBookingStepTwo(),
-
-                /// Date And TimeField
-                // _buildServiceBookingStepOne(context),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     // Get.toNamed(AppRoutes.serviceBookSecondScreen);
-                //     serviceBookingController.currentStep.value += 1;
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: AppColors.appColors,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(24),
-                //     ),
-                //     padding: const EdgeInsets.symmetric(vertical: 14),
-                //     minimumSize: Size(
-                //       MediaQuery.of(context).size.width * 0.9,
-                //       50,
-                //     ), // 90% of screen width
-                //   ),
-                //   child: CustomText2(
-                //     text: 'Confirm',
-                //     color: Colors.white,
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
               ],
             );
           }),

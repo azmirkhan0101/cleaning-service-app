@@ -18,6 +18,7 @@ import 'package:cleaning_service_app/features/owner/service/screens/owner_servic
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
+import 'package:cleaning_service_app/features/payment/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
@@ -47,6 +48,7 @@ class AppRoutes {
   static const String singUpOtpScreen = "/SingupOtpScreen";
   static const String selectionScreen = "/SelectionScreen";
   static const String paymentScreen = "/PaymentScreen";
+  static const String paymentWebViewScreen = "/PaymentWebViewScreen";
   static const String providerHome = "/ProviderHome";
   static const String serviceDetailsScreen = "/ServiceDetailsScreen";
   static const String bookingsScreen = "/BookingsScreen";
@@ -122,6 +124,14 @@ class AppRoutes {
     GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
 
     GetPage(name: paymentScreen, page: () => PaymentScreen()),
+
+    GetPage(
+      name: paymentWebViewScreen,
+      page: () => PaymentWebViewScreen(
+        paymentUrl: Get.arguments['paymentUrl'] ?? '',
+        bookingId: Get.arguments['bookingId'] ?? '',
+      ),
+    ),
 
     GetPage(name: providerHome, page: () => ProviderHome()),
 
