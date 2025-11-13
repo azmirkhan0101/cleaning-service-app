@@ -2,6 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
@@ -21,6 +22,18 @@ class ServiceBookingStepOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: CustomText(
+            text: "Enter Your Information",
+            color: AppColors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.left,
+          ),
+        ),
+
+        SizedBox(height: 24),
         CustomFormCard(
           title: "Date And Time",
           hintText: "Enter date and time",
@@ -91,7 +104,32 @@ class ServiceBookingStepOne extends StatelessWidget {
           controller: serviceBookingController.descriptionController,
         ),
 
-        SizedBox(height: 12),
+        SizedBox(height: 24),
+
+        ElevatedButton(
+          onPressed: () {
+            // Get.toNamed(AppRoutes.serviceBookSecondScreen);
+            serviceBookingController.currentStep.value += 1;
+            serviceBookingController.printStepOneInfo();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.appColors,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            minimumSize: Size(
+              MediaQuery.of(context).size.width * 0.9,
+              50,
+            ), // 90% of screen width
+          ),
+          child: CustomText(
+            text: 'Next',
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
 
         SizedBox(height: 16),
       ],

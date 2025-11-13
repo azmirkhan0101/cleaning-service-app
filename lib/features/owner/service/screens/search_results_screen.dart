@@ -1,7 +1,10 @@
+import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SearchResultsScreen extends StatelessWidget {
   final List<FilteredService> services;
@@ -9,26 +12,17 @@ class SearchResultsScreen extends StatelessWidget {
   final AppliedFilters? appliedFilters;
 
   const SearchResultsScreen({
-    Key? key,
+    super.key,
     required this.services,
     required this.totalResults,
     this.appliedFilters,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(),
-        title: const Text(
-          'Search Result',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
+      appBar: CustomAppBar(title: 'Search Result', backButton: true),
+
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -99,7 +93,13 @@ class SearchResultsScreen extends StatelessWidget {
                               false, // Not available in FilteredService
                           price: s.rateByHour,
                         );
-                        return ServiceCard(service: serviceModel);
+                        return GestureDetector(
+                          onTap: () => Get.to(
+                            () => OwnerServiceDetailsScreen(),
+                            arguments: {'serviceId': serviceModel.id},
+                          ),
+                          child: ServiceCard(service: serviceModel),
+                        );
                       },
                     ),
             ),

@@ -19,8 +19,8 @@ import 'package:cleaning_service_app/features/owner/service/screens/service_book
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
 import 'package:cleaning_service_app/features/payment/payment_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
@@ -183,10 +183,7 @@ class AppRoutes {
 
     GetPage(name: serviceBooking, page: () => ServiceBookingScreen()),
 
-    GetPage(
-      name: serviceBookSecondScreen,
-      page: () => ServiceBookSecondScreen(),
-    ),
+    GetPage(name: serviceBookSecondScreen, page: () => ServiceBookingStepTwo()),
 
     GetPage(name: ownerCategoryScreen, page: () => OwnerCategoryScreen()),
 

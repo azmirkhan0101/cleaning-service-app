@@ -8,6 +8,8 @@ class ServiceBookingController extends GetxController {
   final descriptionController = TextEditingController();
   final durationController = TextEditingController();
 
+  RxInt currentStep = 1.obs;
+
   // IDs and coordinates
   final serviceId = ''.obs;
   final selectedLatitude = 0.0.obs;
@@ -68,5 +70,24 @@ class ServiceBookingController extends GetxController {
     addressController.text = address;
     selectedLatitude.value = latitude;
     selectedLongitude.value = longitude;
+  }
+
+  // print first step info
+  void printStepOneInfo() {
+    debugPrint('=== DateTime: ${dateTimeController.text} ===');
+    debugPrint('=== Phone: ${phoneNumberController.text} ===');
+    debugPrint('=== Address: ${addressController.text} ===');
+    debugPrint('=== Description: ${descriptionController.text} ===');
+    debugPrint('=== Duration: ${durationController.text} ===');
+    debugPrint('=== Latitude: ${selectedLatitude.value} ===');
+    debugPrint('=== Longitude: ${selectedLongitude.value} ===');
+  }
+
+  void clearControllers() {
+    dateTimeController.clear();
+    phoneNumberController.clear();
+    addressController.clear();
+    descriptionController.clear();
+    durationController.clear();
   }
 }

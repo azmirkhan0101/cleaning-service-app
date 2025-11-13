@@ -24,19 +24,27 @@ class ServiceCard extends StatelessWidget {
           // Service Image
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              service.serviceImage,
-              height: 100,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: 100,
-                  color: Colors.grey[300],
-                  child: Icon(Icons.image_not_supported, size: 40),
-                );
-              },
-            ),
+            child:
+                (service.serviceImage.isEmpty ||
+                    !service.serviceImage.startsWith('http'))
+                ? Container(
+                    height: 100,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.image_not_supported, size: 40),
+                  )
+                : Image.network(
+                    service.serviceImage,
+                    height: 100,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 100,
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.image_not_supported, size: 40),
+                      );
+                    },
+                  ),
           ),
           const SizedBox(height: 4),
           Flexible(
