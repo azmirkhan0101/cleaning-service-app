@@ -1,3 +1,4 @@
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
@@ -199,25 +200,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(height: 12.h),
 
                   ///============ address ============
+                  /// Service name Field
                   CustomFormCard(
-                    title: "Enter your address",
-                    hintText: "Enter address",
+                    title: "Enter your Address",
+                    hintText: "Enter your Address",
+                    prefixIcon: Icon(Icons.location_pin),
                     hasBackgroundColor: true,
-                    fontSize: isTablet ? 16 : 16,
                     controller: editProfileController.addressController,
+                    readOnly: true,
+                    onTap: () async {
+                      final result = await Get.toNamed(
+                        AppRoutes.pickerMapScreen,
+                      );
+                      if (result is Map) {
+                        final address = result['address']?.toString() ?? '';
+                        final lat =
+                            (result['latitude'] as num?)?.toDouble() ?? 0.0;
+                        final lng =
+                            (result['longitude'] as num?)?.toDouble() ?? 0.0;
+                        editProfileController.setSelectedAddress(
+                          address: address,
+                          latitude: lat,
+                          longitude: lng,
+                        );
+                      }
+                    },
                   ),
+
+                  // CustomFormCard(
+                  //   title: "Enter your address",
+                  //   hintText: "Enter address",
+                  //   hasBackgroundColor: true,
+                  //   fontSize: isTablet ? 16 : 16,
+                  //   controller: editProfileController.addressController,
+                  // ),
                   SizedBox(height: 12.h),
 
                   ///============ About me (Only for Provider)============
-                  if (role == Role.provider.value)
-                    CustomFormCard(
-                      title: "About me",
-                      hintText: "About me",
-                      hasBackgroundColor: true,
-                      fontSize: isTablet ? 16 : 16,
-                      maxLine: 3,
-                      controller: editProfileController.aboutMeController,
-                    ),
+                  // if (role == Role.provider.value)
+                  CustomFormCard(
+                    title: "About me",
+                    hintText: "About me",
+                    hasBackgroundColor: true,
+                    fontSize: isTablet ? 16 : 16,
+                    maxLine: 3,
+                    controller: editProfileController.aboutMeController,
+                  ),
                   SizedBox(height: 12.h),
 
                   // Select Experience (Only for Provider)

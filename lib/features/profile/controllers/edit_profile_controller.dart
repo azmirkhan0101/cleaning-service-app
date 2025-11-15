@@ -19,6 +19,9 @@ class EditProfileController extends GetxController {
   TextEditingController addressController = TextEditingController();
   TextEditingController aboutMeController = TextEditingController();
 
+  double? selectedLatitude;
+  double? selectedLongitude;
+
   List<String> experienceLevels = ['0-1', '1-5', '+5'];
   RxString selectedExperience = ''.obs;
 
@@ -30,6 +33,16 @@ class EditProfileController extends GetxController {
   // Image picker
   final ImagePicker _picker = ImagePicker();
   Rx<File?> profileImage = Rx<File?>(null);
+
+  void setSelectedAddress({
+    required String address,
+    required double latitude,
+    required double longitude,
+  }) {
+    addressController.text = address;
+    selectedLatitude = latitude;
+    selectedLongitude = longitude;
+  }
 
   void selectExperience(String experience) {
     selectedExperience.value = experience;
@@ -101,24 +114,33 @@ class EditProfileController extends GetxController {
   }
 
   /// Update owner profile
-  Future<bool> updateOwnerProfile({
-    required String phoneNumber,
-    required String address,
-    File? profilePicture,
-  }) async {
+  Future<bool> updateOwnerProfile(
+    //   {
+    //   required String phoneNumber,
+    //   required String address,
+    //   File? profilePicture,
+    // }
+  ) async {
     try {
       isUpdating.value = true;
 
       // Prepare form data
       final Map<String, String> fields = {
-        'phoneNumber': phoneNumber,
-        'address': address,
+        'userName': nameController.text.trim(),
+        'phoneNumber': phoneController.text.trim(),
+        'address': addressController.text.trim(),
+        'lattitude': selectedLatitude?.toString() ?? '',
+        'longitude': selectedLongitude?.toString() ?? '',
+        'aboutMe': aboutMeController.text.trim(),
+        // 'experience': selectedExperience.value,
       };
 
       // Prepare files list
       final List<MultipartBody> files = [];
-      if (profilePicture != null) {
-        files.add(MultipartBody(key: 'profilePicture', file: profilePicture));
+      if (profileImage.value != null) {
+        files.add(
+          MultipartBody(key: 'profilePicture', file: profileImage.value!),
+        );
       }
 
       final response = await Get.find<NetworkHelper>().multipart(
@@ -155,30 +177,27 @@ class EditProfileController extends GetxController {
   }
 
   /// Update provider profile
-  Future<bool> updateProviderProfile({
-    required String userName,
-    required String phoneNumber,
-    required String address,
-    required String aboutMe,
-    required String experience,
-    File? profilePicture,
-  }) async {
+  Future<bool> updateProviderProfile() async {
     try {
       isUpdating.value = true;
 
       // Prepare form data
       final Map<String, String> fields = {
-        'userName': userName,
-        'phoneNumber': phoneNumber,
-        'address': address,
-        'aboutMe': aboutMe,
-        'experience': experience,
+        'userName': nameController.text.trim(),
+        'phoneNumber': phoneController.text.trim(),
+        'address': addressController.text.trim(),
+        'lattitude': selectedLatitude?.toString() ?? '',
+        'longitude': selectedLongitude?.toString() ?? '',
+        'aboutMe': aboutMeController.text.trim(),
+        'experience': selectedExperience.value,
       };
 
       // Prepare files list
       final List<MultipartBody> files = [];
-      if (profilePicture != null) {
-        files.add(MultipartBody(key: 'profilePicture', file: profilePicture));
+      if (profileImage.value != null) {
+        files.add(
+          MultipartBody(key: 'profilePicture', file: profileImage.value!),
+        );
       }
 
       final response = await Get.find<NetworkHelper>().multipart(
@@ -248,21 +267,10 @@ class EditProfileController extends GetxController {
         return false;
       }
 
-      return await updateProviderProfile(
-        userName: nameController.text.trim(),
-        phoneNumber: phoneController.text.trim(),
-        address: addressController.text.trim(),
-        aboutMe: aboutMeController.text.trim(),
-        experience: selectedExperience.value,
-        profilePicture: profileImage.value,
-      );
+      return await updateProviderProfile();
     } else {
       // Owner profile update
-      return await updateOwnerProfile(
-        phoneNumber: phoneController.text.trim(),
-        address: addressController.text.trim(),
-        profilePicture: profileImage.value,
-      );
+      return await updateOwnerProfile();
     }
   }
 
