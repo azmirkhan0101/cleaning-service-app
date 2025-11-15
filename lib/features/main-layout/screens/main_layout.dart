@@ -17,9 +17,10 @@ class MainLayout extends StatelessWidget {
     );
 
     return Scaffold(
-      body: GetBuilder<MainLayoutController>(
-        builder: (ctrl) => ctrl.selectedScreen,
-      ),
+      body: Obx(() => controller.selectedScreen.value),
+      // body: GetBuilder<MainLayoutController>(
+      //   builder: (ctrl) => ctrl.selectedScreen,
+      // ),
       bottomNavigationBar: SafeArea(
         child: Container(
           decoration: BoxDecoration(color: Color(0xFFF5F4FF)),

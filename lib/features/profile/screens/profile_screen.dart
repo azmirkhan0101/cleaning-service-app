@@ -11,8 +11,8 @@ import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
-import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +128,8 @@ class ProfileScreen extends StatelessWidget {
         // Sign Out Button
         TextButton(
           onPressed: () {
-            Get.offNamed(AppRoutes.loginScreen);
+            profileController.signOut();
+            Get.offAll(LoginScreen());
           },
           child: const Text('Sign out', style: TextStyle(color: Colors.red)),
         ),

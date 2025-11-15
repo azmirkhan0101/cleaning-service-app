@@ -2,6 +2,7 @@ import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/auth/models/profile_setup_response_model.dart';
+import 'package:cleaning_service_app/features/auth/models/subscription_plan_model.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,60 @@ class ProfileSetupController extends SelectionController {
       Rx<ProfileSetupResponseModel?>(null);
 
   RxBool isUploading = false.obs;
+  RxBool isLoadingPlans = false.obs;
+  RxList<SubscriptionPlanModel> subscriptionPlans =
+      <SubscriptionPlanModel>[].obs;
+
+  RxBool isYearlyPlan = false.obs;
+  void togglePlanType() {
+    isYearlyPlan.value = !isYearlyPlan.value;
+  }
+
+  /// Calculate yearly price with 20% discount
+  /// Returns the discounted yearly price (monthly price * 12 * 0.8)
+  double calculateYearlyPrice(int monthlyPrice) {
+    if (monthlyPrice == 0) return 0;
+    return (monthlyPrice * 12 * 0.8);
+  }
+
+  /// Format price display based on billing period
+  String formatPrice(int monthlyPrice, bool isYearly) {
+    if (monthlyPrice == 0) return 'Free';
+    if (isYearly) {
+      final yearlyPrice = calculateYearlyPrice(monthlyPrice);
+      return '€${yearlyPrice.toStringAsFixed(0)} / year';
+    }
+    return '€$monthlyPrice / month';
+  }
+
+  /// Fetch subscription plans from API
+  Future<void> fetchSubscriptionPlans() async {
+    try {
+      isLoadingPlans.value = true;
+      errorMessage.value = '';
+
+      final response = await Get.find<NetworkHelper>()
+          .get<SubscriptionPlansResponse>(
+            ApiUrl.subscriptionPlans,
+            parser: (data) => SubscriptionPlansResponse.fromJson(data),
+          );
+
+      response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to load plans';
+          print('Error fetching plans: ${error.message}');
+        },
+        (data) {
+          subscriptionPlans.value = data.data;
+        },
+      );
+    } catch (e) {
+      errorMessage.value = 'Failed to load subscription plans';
+      print('Exception fetching plans: $e');
+    } finally {
+      isLoadingPlans.value = false;
+    }
+  }
 
   Future<bool> completeRegistrationSetup() async {
     isUploading.value = true;

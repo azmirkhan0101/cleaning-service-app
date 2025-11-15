@@ -23,6 +23,11 @@ class ChoosePlanSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch plans when widget builds
+    if (selectionController.subscriptionPlans.isEmpty) {
+      selectionController.fetchSubscriptionPlans();
+    }
+
     return Obx(
       () => Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -47,65 +52,85 @@ class ChoosePlanSection extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
 
-          const SizedBox(height: 24),
-
-          // Free Plan
-          _buildPlanCard(
-            value: 0,
-            price: '€0 / month',
-            commission: 'Commission: 15%',
-            badge: 'Free Plan',
-            features: ['Standard visibility', 'Standard support'],
-          ),
-
           const SizedBox(height: 16),
 
-          // Silver Plan
-          _buildPlanCard(
-            value: 1,
-            price: '€27 / month',
-            commission: null,
-            badge: 'Silver',
-            features: [
-              'Standard visibility',
-              'Badge None',
-              'Up to 10 job inquiries per month',
-              '1 service category only',
-              'Eligible for affiliate program',
-            ],
-          ),
+          // Loading indicator
+          if (selectionController.isLoadingPlans.value)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: CircularProgressIndicator(),
+              ),
+            )
+          else if (selectionController.subscriptionPlans.isEmpty)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Text('No subscription plans available'),
+              ),
+            )
+          else ...[
+            // Monthly Plans or Annual Toggle
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 8.w,
+              children: [
+                CustomText(
+                  text: 'Billed Monthly',
+                  textAlign: TextAlign.right,
+                  color: const Color(0xFF4F4F59),
+                  fontSize: 12,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.w400,
+                  height: 1.20,
+                ),
+                Switch(
+                  value: selectionController.isYearlyPlan.value,
+                  onChanged: (isYearly) {
+                    selectionController.isYearlyPlan.value = isYearly;
+                  },
+                ),
+                CustomText(
+                  text: 'Billed Yearly (save 20%)',
+                  color: const Color(0xFF1B2D51),
+                  fontSize: 12,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.w600,
+                  height: 1.50,
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
 
-          const SizedBox(height: 16),
-
-          // Gold Plan
-          _buildPlanCard(
-            value: 2,
-            price: '€57 / month',
-            commission: null,
-            badge: 'Gold',
-            features: [
-              'Higher visibility',
-              '"Gold Verified" badge',
-              'Unlimited job inquiries',
-              '1 service category only',
-              '10% discount on Brikk promotions & campaigns\nHigher trust ranking',
-            ],
-          ),
-
-          const SizedBox(height: 16),
-
-          // Platinum Plan
-          _buildPlanCard(
-            value: 3,
-            price: '€97 / month',
-            commission: null,
-            badge: 'Platinum',
-            features: [
-              'Top-tier visibility (always appears at the top of search results)',
-              '"Platinum Partner" featured badge',
-              'Unlimited',
-            ],
-          ),
+            // Dynamic plan cards from API
+            ...selectionController.subscriptionPlans.asMap().entries.map((
+              entry,
+            ) {
+              final index = entry.key;
+              final plan = entry.value;
+              final isYearly = selectionController.isYearlyPlan.value;
+              final monthlyPrice = plan.price; // integer monthly price
+              final originalYearly = monthlyPrice * 12;
+              final discountedYearly = (monthlyPrice * 12 * 0.8).round();
+              return Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: _buildPlanCard(
+                  value: index,
+                  price: selectionController.formatPrice(
+                    monthlyPrice,
+                    isYearly,
+                  ),
+                  originalYearlyPrice: '€$originalYearly',
+                  discountedYearlyPrice: '€$discountedYearly / year',
+                  isYearly: isYearly,
+                  monthlyPrice: monthlyPrice,
+                  badge: plan.limits.badge ?? plan.plan,
+                  features: plan.features,
+                ),
+              );
+            }),
+          ],
 
           SizedBox(height: 20.h),
 
@@ -147,7 +172,11 @@ class ChoosePlanSection extends StatelessWidget {
 
   Widget _buildPlanCard({
     required int value,
-    required String price,
+    required String price, // Used when monthly billing
+    required String originalYearlyPrice, // e.g. €324 / year
+    required String discountedYearlyPrice, // e.g. €259 / year
+    required bool isYearly,
+    required int monthlyPrice,
     String? commission,
     required String badge,
     required List<String> features,
@@ -203,17 +232,44 @@ class ChoosePlanSection extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText2(
-                              text: price,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: isSelected
-                                  ? Colors.white
-                                  : const Color(0xFF0F0B18),
-                            ),
+                            // Pricing display
+                            if (isYearly && monthlyPrice > 0) ...[
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  CustomText(
+                                    text: originalYearlyPrice,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: isSelected
+                                        ? Colors.white70
+                                        : const Color(0xFF4F4F59),
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  CustomText(
+                                    text: discountedYearlyPrice,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : const Color(0xFF0F0B18),
+                                  ),
+                                ],
+                              ),
+                            ] else ...[
+                              CustomText(
+                                text: price,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF0F0B18),
+                              ),
+                            ],
                             if (commission != null) ...[
                               const SizedBox(height: 4),
-                              CustomText2(
+                              CustomText(
                                 text: commission,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w400,

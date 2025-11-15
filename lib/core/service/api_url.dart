@@ -4,6 +4,7 @@ class ApiUrl {
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
   static const String login = '$baseUrl/auth/login';
+  static const String logout = '$baseUrl/auth/logout';
   static const String validateToken = '$baseUrl/auth/check-token-validity';
   static const String verifyOtp = '$baseUrl/auth/verify-otp';
   static const String resendOtp = '$baseUrl/auth/resend-otp';
@@ -32,6 +33,9 @@ class ApiUrl {
   static const String updateProviderProfile = '$baseUrl/profile/provider';
   static const String changePassword = '$baseUrl/auth/change-password';
   static const String getReferralInfo = '$baseUrl/referral/my-info';
+
+  /// =--> Subscription Endpoints <--=
+  static const String subscriptionPlans = '$baseUrl/subscription/plans';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';
