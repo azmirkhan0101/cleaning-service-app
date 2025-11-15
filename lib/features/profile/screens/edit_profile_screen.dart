@@ -35,57 +35,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     // Initialize common fields
     editProfileController.nameController.text = profile?.userName ?? '';
     editProfileController.phoneController.text = profile?.phoneNumber ?? '';
-
-    // Initialize provider-specific fields if user is a provider
-    if (role == Role.provider.value) {
-      // These fields might be in the profile model if available
-      // editProfileController.addressController.text = profile?.address ?? '';
-      // editProfileController.aboutMeController.text = profile?.aboutMe ?? '';
-      // editProfileController.selectedExperience.value = profile?.experience ?? '';
-    }
+    editProfileController.addressController.text = profile?.address ?? '';
+    editProfileController.aboutMeController.text = profile?.aboutMe ?? '';
+    editProfileController.selectedExperience.value = profile?.experience ?? '';
   }
-
-  // Future<void> _handleUpdate() async {
-  //   // Validate inputs
-  //   if (nameController.text.trim().isEmpty) {
-  //     Get.snackbar(
-  //       'Validation Error',
-  //       'Please enter your name',
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //     return;
-  //   }
-
-  //   if (phoneController.text.trim().isEmpty) {
-  //     Get.snackbar(
-  //       'Validation Error',
-  //       'Please enter your phone number',
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //     return;
-  //   }
-
-  //   if (addressController.text.trim().isEmpty) {
-  //     Get.snackbar(
-  //       'Validation Error',
-  //       'Please enter your address',
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //     return;
-  //   }
-
-  //   // Call update profile
-  //   final success = await profileController.updateProfile(
-  //     userName: nameController.text.trim(),
-  //     phoneNumber: phoneController.text.trim(),
-  //     address: addressController.text.trim(),
-  //     profilePicture: profileController.profileImage.value,
-  //   );
-
-  //   if (success) {
-  //     Get.back();
-  //   }
-  // }
 
   void _showImageSourceSelection() {
     Get.bottomSheet(
@@ -279,7 +232,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
 
                   ...List.generate(
-                    editProfileController.experienceLevels.length,
+                    role != Role.provider.value
+                        ? 0
+                        : editProfileController.experienceLevels.length,
                     (index) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: GestureDetector(

@@ -79,6 +79,9 @@ class ProfileModel {
   final double latitude;
   final double longitude;
   final String profilePicture;
+  final String address;
+  final String aboutMe;
+  final String experience;
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -92,6 +95,9 @@ class ProfileModel {
     required this.latitude,
     required this.longitude,
     required this.profilePicture,
+    required this.address,
+    required this.aboutMe,
+    required this.experience,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -107,6 +113,9 @@ class ProfileModel {
       latitude: (json['lattitude'] ?? 0.0).toDouble(),
       longitude: (json['longitude'] ?? 0.0).toDouble(),
       profilePicture: json['profilePicture'] ?? '',
+      address: json['address'] ?? '',
+      aboutMe: json['aboutMe'] ?? '',
+      experience: json['experience'] ?? '',
       status: json['status'] ?? '',
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
@@ -117,19 +126,19 @@ class ProfileModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'userName': userName,
-      'phoneNumber': phoneNumber,
-      'email': email,
-      'role': role,
-      'lattitude': latitude,
-      'longitude': longitude,
-      'profilePicture': profilePicture,
-      'status': status,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     '_id': id,
+  //     'userName': userName,
+  //     'phoneNumber': phoneNumber,
+  //     'email': email,
+  //     'role': role,
+  //     'lattitude': latitude,
+  //     'longitude': longitude,
+  //     'profilePicture': profilePicture,
+  //     'status': status,
+  //     'createdAt': createdAt.toIso8601String(),
+  //     'updatedAt': updatedAt.toIso8601String(),
+  //   };
+  // }
 }

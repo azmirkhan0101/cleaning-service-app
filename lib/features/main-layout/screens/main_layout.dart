@@ -91,7 +91,7 @@ class MainLayout extends StatelessWidget {
                         ),
                       ),
                     ),
-                  if (index == 3)
+                  if (index == 3 && controller.unreadMessagesCount.value > 0)
                     Positioned(
                       right: 0,
                       child: Container(

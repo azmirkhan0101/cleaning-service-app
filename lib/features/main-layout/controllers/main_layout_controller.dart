@@ -3,13 +3,12 @@ import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
-import 'package:cleaning_service_app/features/inbox/screens/inbox_users_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/inbox_screen.dart';
 import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
-import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,7 +98,8 @@ class MainLayoutController extends GetxController {
       selectedIconPath: Assets.icons.inboxFilled.path,
       unselectedIconPath: Assets.icons.inboxOutline.path,
       ownerScreen: const InboxUsersScreen(),
-      providerScreen: const ProviderInboxScreen(),
+      providerScreen: const InboxUsersScreen(),
+      // providerScreen: const ProviderInboxScreen(),
     ),
     BottomNavModel(
       label: 'Profile',

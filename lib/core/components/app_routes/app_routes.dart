@@ -5,7 +5,7 @@ import 'package:cleaning_service_app/features/bookings/screens/provider_booking_
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/qr_code_display_screen.dart';
 import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
-import 'package:cleaning_service_app/features/inbox/screens/inbox_users_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/inbox_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
@@ -26,7 +26,6 @@ import 'package:cleaning_service_app/features/profile/screens/profile_screen.dar
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
-import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
@@ -170,8 +169,7 @@ class AppRoutes {
     GetPage(name: referScreen, page: () => ReferScreen()),
 
     // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
-    GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
-
+    // GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
     GetPage(
       name: proPlanSubscriptionScreen,
       page: () => ProPlanSubscriptionScreen(),
