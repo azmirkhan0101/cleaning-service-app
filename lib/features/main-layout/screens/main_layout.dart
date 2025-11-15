@@ -11,7 +11,10 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('isOwner:---> $isOwner');
-    final controller = Get.put(MainLayoutController(isOwner: isOwner));
+    final controller = Get.put(
+      MainLayoutController(isOwner: isOwner),
+      permanent: true,
+    );
 
     return Scaffold(
       body: GetBuilder<MainLayoutController>(

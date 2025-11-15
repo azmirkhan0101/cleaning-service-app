@@ -81,6 +81,7 @@ class ApiUrl {
   static String messagesByUser(String userId) => '$baseUrl/messages/$userId';
   static String markMessagesAsRead(String userId) =>
       '$baseUrl/messages/mark-read/$userId';
+  static String sendMessage(String userId) => '$baseUrl/messages/$userId';
 
   // Owner bookings
   static const String ownerMyBookings = '$baseUrl/booking/my-bookings';

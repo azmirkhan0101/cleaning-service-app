@@ -83,6 +83,8 @@ class _InboxUsersScreenState extends State<InboxUsersScreen> {
                 final user = users[index];
                 return ListTile(
                   onTap: () {
+                    // Optimistically clear unread badge locally
+                    controller.markUserAsRead(user.id);
                     Get.toNamed(
                       AppRoutes.ownerMessageScreen,
                       arguments: {

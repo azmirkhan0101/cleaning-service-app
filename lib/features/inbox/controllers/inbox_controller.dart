@@ -41,4 +41,23 @@ class OwnerInboxController extends GetxController {
 
     isLoading.value = false;
   }
+
+  /// Optimistically clear unread badge for a specific user locally
+  void markUserAsRead(String userId) {
+    final idx = users.indexWhere((u) => u.id == userId);
+    if (idx != -1) {
+      final u = users[idx];
+      if (u.unreadCount > 0) {
+        users[idx] = ChatUser(
+          id: u.id,
+          userName: u.userName,
+          email: u.email,
+          role: u.role,
+          profilePicture: u.profilePicture,
+          unreadCount: 0,
+        );
+        users.refresh();
+      }
+    }
+  }
 }

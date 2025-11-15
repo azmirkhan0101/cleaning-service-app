@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/inbox/controllers/socket_controller.dart';
 import 'package:cleaning_service_app/features/inbox/models/message_model.dart';
+import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// Controller that manages a single chat conversation (history + live updates)
 class ChatConversationController extends GetxController {
@@ -27,6 +30,7 @@ class ChatConversationController extends GetxController {
   final isSending = false.obs;
   final errorMessage = ''.obs;
   final messages = <MessageModel>[].obs;
+  final selectedImages = <File>[].obs;
 
   final TextEditingController inputController = TextEditingController();
   StreamSubscription? _socketMessageSub;
@@ -106,26 +110,64 @@ class ChatConversationController extends GetxController {
     });
   }
 
+  Future<void> pickImages() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final List<XFile> images = await picker.pickMultiImage(imageQuality: 80);
+      if (images.isNotEmpty) {
+        selectedImages.addAll(images.map((xFile) => File(xFile.path)));
+      }
+    } catch (e) {
+      debugPrint('Error picking images: $e');
+      errorMessage.value = 'Failed to pick images';
+    }
+  }
+
+  void removeImage(int index) {
+    if (index < selectedImages.length) {
+      selectedImages.removeAt(index);
+    }
+  }
+
   Future<void> sendMessage() async {
     final text = inputController.text.trim();
-    if (text.isEmpty || isSending.value) return;
+    if ((text.isEmpty && selectedImages.isEmpty) || isSending.value) return;
     isSending.value = true;
+    errorMessage.value = '';
 
-    final success = await _socketController.sendMessage(
-      receiverId: userId,
-      text: text,
-    );
+    try {
+      final files = selectedImages
+          .map((file) => MultipartBody(key: 'images', file: file))
+          .toList();
 
-    if (!success) {
-      errorMessage.value = _socketController.lastError ?? 'Failed to send';
-    } else {
-      inputController.clear();
-      // Optimistic message already added to global list; reflect in local view
-      final last = _socketController.messages.last;
-      if (last.receiverId == userId || last.senderId == userId) {
-        messages.add(last);
-        messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-      }
+      final result = await _network.multipart<Map<String, dynamic>>(
+        url: ApiUrl.sendMessage(userId),
+        method: 'POST',
+        fields: text.isNotEmpty ? {'text': text} : null,
+        files: files,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+
+      result.match(
+        (err) {
+          errorMessage.value = err.message ?? 'Failed to send message';
+        },
+        (res) {
+          // Parse the sent message from response
+          final sentMsg = MessageModel.fromJson(
+            res['data'] as Map<String, dynamic>,
+          );
+          messages.add(sentMsg);
+          messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+
+          // Clear inputs
+          inputController.clear();
+          selectedImages.clear();
+        },
+      );
+    } catch (e) {
+      debugPrint('Error sending message: $e');
+      errorMessage.value = 'Failed to send message';
     }
 
     isSending.value = false;
@@ -156,12 +198,9 @@ class ChatConversationController extends GetxController {
 
   void _refreshUnreadCount() {
     try {
-      // Find main layout controller if it exists and refresh unread count
-      if (Get.isRegistered<dynamic>(tag: 'MainLayoutController')) {
-        final mainController = Get.find(tag: 'MainLayoutController');
-        if (mainController.toString().contains('MainLayoutController')) {
-          (mainController as dynamic).fetchUnreadMessagesCount();
-        }
+      if (Get.isRegistered<MainLayoutController>()) {
+        final mainController = Get.find<MainLayoutController>();
+        mainController.fetchUnreadMessagesCount();
       }
     } catch (e) {
       debugPrint('Could not refresh unread count: $e');
@@ -170,6 +209,8 @@ class ChatConversationController extends GetxController {
 
   @override
   void onClose() {
+    // Ensure unread badge is up to date when leaving the conversation
+    _refreshUnreadCount();
     _socketMessageSub?.cancel();
     inputController.dispose();
     super.onClose();
