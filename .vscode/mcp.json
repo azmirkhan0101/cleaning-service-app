@@ -1,0 +1,10 @@
+{
+	"inputs": [
+		{
+			"id": "postman-api-key",
+			"type": "promptString",
+			"description": "Enter your Postman API key"
+		}
+	],
+	"servers": {}
+}

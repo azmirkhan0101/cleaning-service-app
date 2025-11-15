@@ -1,5 +1,5 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
+import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
@@ -57,10 +57,15 @@ class OwnerMyBookingCard extends StatelessWidget {
               spacing: 10.w,
               children: [
                 // image - placeholder since API doesn't return image
-                CustomImage(
-                  imageSrc: Assets.images.cleanImage.path,
-                  width: 90.w,
+                // CustomImage(
+                //   imageSrc: Assets.images.cleanImage.path,
+                //   width: 90.w,
+                //   height: 98.h,
+                // ),
+                CustomNetworkImage(
+                  imageUrl: booking.oneImage,
                   height: 98.h,
+                  width: 90.w,
                 ),
 
                 Expanded(
@@ -133,7 +138,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                       CustomText(
                         text: booking.description,
                         color: const Color(0xFF4F4F59),
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         fontFamily: 'Lexend',
                         fontWeight: FontWeight.w400,
                         height: 1.50,

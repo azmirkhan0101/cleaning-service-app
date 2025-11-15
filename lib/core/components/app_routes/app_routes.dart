@@ -10,8 +10,8 @@ import 'package:cleaning_service_app/features/notification/notification_screen.d
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_search_screen.dart';
-import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/features/owner/inbox/owner_message_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
