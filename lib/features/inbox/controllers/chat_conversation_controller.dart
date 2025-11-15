@@ -82,6 +82,8 @@ class ChatConversationController extends GetxController {
         final list = (res['data'] as List<dynamic>? ?? [])
             .map((e) => MessageModel.fromJson(e as Map<String, dynamic>))
             .toList();
+        // Ensure chronological order (oldest first, newest last)
+        list.sort((a, b) => a.timestamp.compareTo(b.timestamp));
         messages.assignAll(list);
         // Merge into global socket controller list for consistency
         _socketController.addHistoryMessages(list);

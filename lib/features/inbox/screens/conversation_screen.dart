@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class OwnerMessageScreen extends StatelessWidget {
-  OwnerMessageScreen({super.key});
+class ConversationScreen extends StatelessWidget {
+  ConversationScreen({super.key});
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
 
   ChatConversationController _initController() {
     final args = Get.arguments as Map<String, dynamic>? ?? {};
@@ -134,7 +135,19 @@ class OwnerMessageScreen extends StatelessWidget {
               if (msgs.isEmpty) {
                 return const Center(child: Text('No messages yet'));
               }
+              // Auto-scroll to bottom (latest message) after frame builds
+              if (msgs.isNotEmpty) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (_scrollController.hasClients) {
+                    _scrollController.jumpTo(
+                      _scrollController.position.maxScrollExtent,
+                    );
+                  }
+                });
+              }
+
               return ListView.builder(
+                controller: _scrollController,
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.w),
                 itemCount: msgs.length,
                 itemBuilder: (context, index) {
@@ -232,7 +245,22 @@ class OwnerMessageScreen extends StatelessWidget {
                   () => GestureDetector(
                     onTap: controller.isSending.value
                         ? null
-                        : controller.sendMessage,
+                        : () async {
+                            await controller.sendMessage();
+                            // Scroll to bottom after sending
+                            Future.delayed(
+                              const Duration(milliseconds: 80),
+                              () {
+                                if (_scrollController.hasClients) {
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.easeOut,
+                                  );
+                                }
+                              },
+                            );
+                          },
                     child: Container(
                       height: 45,
                       width: 45,

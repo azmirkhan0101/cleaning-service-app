@@ -3,7 +3,7 @@ import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
-import 'package:cleaning_service_app/features/inbox/screens/owner_inbox_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/inbox_users_screen.dart';
 import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
@@ -98,7 +98,7 @@ class MainLayoutController extends GetxController {
       label: 'Inbox',
       selectedIconPath: Assets.icons.inboxFilled.path,
       unselectedIconPath: Assets.icons.inboxOutline.path,
-      ownerScreen: const OwnerInboxScreen(),
+      ownerScreen: const InboxUsersScreen(),
       providerScreen: const ProviderInboxScreen(),
     ),
     BottomNavModel(
@@ -116,16 +116,13 @@ class MainLayoutController extends GetxController {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.match(
-      (err) {},
-      (res) {
-        final count = res['data']?['unreadCount'];
-        if (count is int) {
-          unreadMessagesCount.value = count;
-        } else {
-          unreadMessagesCount.value = int.tryParse(count?.toString() ?? '0') ?? 0;
-        }
-      },
-    );
+    result.match((err) {}, (res) {
+      final count = res['data']?['unreadCount'];
+      if (count is int) {
+        unreadMessagesCount.value = count;
+      } else {
+        unreadMessagesCount.value = int.tryParse(count?.toString() ?? '0') ?? 0;
+      }
+    });
   }
 }

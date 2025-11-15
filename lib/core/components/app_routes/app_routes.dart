@@ -4,14 +4,14 @@ import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_booking_service_details_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/qr_code_display_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/inbox_users_screen.dart';
 import 'package:cleaning_service_app/features/location/location_screen.dart';
 import 'package:cleaning_service_app/features/location/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_search_screen.dart';
-import 'package:cleaning_service_app/features/inbox/screens/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/features/inbox/screens/owner_message_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
@@ -155,7 +155,7 @@ class AppRoutes {
 
     GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
 
-    GetPage(name: messageScreen, page: () => OwnerMessageScreen()),
+    GetPage(name: messageScreen, page: () => ConversationScreen()),
 
     GetPage(name: profileScreen, page: () => ProviderProfileScreen()),
 
@@ -199,9 +199,9 @@ class AppRoutes {
 
     GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
 
-    GetPage(name: ownerInboxScreen, page: () => OwnerInboxScreen()),
+    GetPage(name: ownerInboxScreen, page: () => InboxUsersScreen()),
 
-    GetPage(name: ownerMessageScreen, page: () => OwnerMessageScreen()),
+    GetPage(name: ownerMessageScreen, page: () => ConversationScreen()),
 
     GetPage(name: ownerProfileScreen, page: () => ProfileScreen()),
 
