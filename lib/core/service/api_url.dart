@@ -13,11 +13,25 @@ class ApiUrl {
   static const String verifyForgotPasswordOtp =
       '$baseUrl/auth/verify-forgot-password-otp';
   static const String resetPassword = '$baseUrl/auth/reset-password';
+
+  /// =--> Content Endpoints <--=
+  static const String getAboutUs = '$baseUrl/admin/content/about-us';
+  static const String getPrivacyPolicy =
+      '$baseUrl/admin/content/privacy-policy';
+  static const String getTermsAndConditions =
+      '$baseUrl/admin/content/terms-and-conditions';
   static const String getAffiliationProgram =
       '$baseUrl/admin/content/affiliation-program';
+  static const String getKnowledgeHub = '$baseUrl/admin/knowledge-hub';
+  static String getKnowledgeHubDetail(String id) =>
+      '$baseUrl/admin/knowledge-hub/$id';
+
+  /// =--> Profile Endpoints <--=
   static const String profile = '$baseUrl/auth/me';
   static const String updateOwnerProfile = '$baseUrl/profile/owner';
+  static const String updateProviderProfile = '$baseUrl/profile/provider';
   static const String changePassword = '$baseUrl/auth/change-password';
+  static const String getReferralInfo = '$baseUrl/referral/my-info';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';
@@ -32,6 +46,7 @@ class ApiUrl {
   static const String serviceCategories = '$baseUrl/service/categories';
   static String servicesByCategory(String categoryId) =>
       '$baseUrl/service/category/services/$categoryId';
+  static const String searchFilter = '$baseUrl/service/search-filter';
 
   /// =--> Service Details Endpoints <--=
   static String serviceDetails(String serviceId) =>
@@ -42,8 +57,32 @@ class ApiUrl {
       '$baseUrl/service/ratings-reviews/$serviceId';
   static String serviceProviderSchedule(String serviceId) =>
       '$baseUrl/service/provider/schedule/$serviceId';
+  static const String providerHomepageData =
+      '$baseUrl/service/provider/homepage-data';
+
+  /// =--> Provider Service Endpoints <--=
+  static String myServices({int page = 1, int limit = 20}) =>
+      '$baseUrl/service/my/services?page=$page&limit=$limit';
+  static const String createService = '$baseUrl/service/create';
+
+  /// =--> Discovery / Distance Endpoints <--=
+  static String nearbyServices({int radiusKm = 200, int limit = 50}) =>
+      '$baseUrl/distance/nearby?radiusKm=$radiusKm&limit=$limit';
 
   /// =--> Booking Endpoints <--=
+  static const String bookNow = '$baseUrl/booking/book-now';
+
+  /// =--> Payment Endpoints <--=
+  static const String createPayment = '$baseUrl/payment/booking/create';
+
+  /// =--> Messages Endpoints <--=
+  static const String messagesUsers = '$baseUrl/messages/users';
+  static const String messagesUnreadCount = '$baseUrl/messages/unread-count';
+  static String messagesByUser(String userId) => '$baseUrl/messages/$userId';
+  static String markMessagesAsRead(String userId) =>
+      '$baseUrl/messages/mark-read/$userId';
+  static String sendMessage(String userId) => '$baseUrl/messages/$userId';
+
   // Owner bookings
   static const String ownerMyBookings = '$baseUrl/booking/my-bookings';
   static const String ownerPendingBookings =
@@ -69,4 +108,20 @@ class ApiUrl {
   // Booking details
   static String bookingOwnerDetails(String bookingId) =>
       '$baseUrl/booking/owner/$bookingId';
+  static String bookingProviderDetails(String bookingId) =>
+      '$baseUrl/booking/provider/$bookingId';
+
+  // Booking actions (provider)
+  static String acceptBooking(String bookingId) =>
+      '$baseUrl/booking/accept/$bookingId';
+  static String rejectBooking(String bookingId) =>
+      '$baseUrl/booking/reject/$bookingId';
+  static String generateBookingQr(String bookingId) =>
+      '$baseUrl/booking/generate-qr/$bookingId';
+  static String cancelBooking(String bookingId) =>
+      '$baseUrl/booking/cancel/$bookingId';
+  static String completeBookingByQr(String bookingId) =>
+      '$baseUrl/booking/complete-by-qr/$bookingId';
+  static String bookingRatingReview(String bookingId) =>
+      '$baseUrl/booking/rating-review/$bookingId';
 }

@@ -1,11 +1,14 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/provider_booking_details_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({super.key});
@@ -15,13 +18,12 @@ class ServiceDetailsScreen extends StatefulWidget {
 }
 
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
+  final controller = Get.put(ProviderBookingDetailsController());
   String status = "";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     _initializeData();
   }
 
@@ -29,386 +31,583 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     final arguments = Get.arguments;
 
     if (arguments != null && arguments.isNotEmpty) {
-      if (arguments[0]["status"] != null) {
-        status = Get.arguments[0]["status"];
+      final firstArg = arguments[0] as Map<String, dynamic>;
+
+      if (firstArg["status"] != null) {
+        status = firstArg["status"];
       }
+
+      if (firstArg["bookingId"] != null) {
+        controller.setBookingId(firstArg["bookingId"]);
+      }
+    }
+  }
+
+  String _formatTime(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'N/A';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('hh:mm a').format(date);
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
+  String _getDayOfWeek(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'N/A';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('EEEE').format(date);
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
+  int _getDay(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 0;
+    try {
+      final date = DateTime.parse(dateStr);
+      return date.day;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  String _getMonth(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'N/A';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('MMM').format(date).toUpperCase();
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
+  Future<void> _handleAcceptBooking() async {
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Accept Booking'),
+        content: const Text('Are you sure you want to accept this booking?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.appColors,
+            ),
+            child: const Text('Accept'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    final success = await controller.acceptBooking();
+
+    if (success) {
+      Fluttertoast.showToast(
+        msg: "Booking accepted successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+
+      // Get the booking controller and refresh all bookings
+      if (Get.isRegistered<OwnerBookingController>()) {
+        final bookingController = Get.find<OwnerBookingController>();
+        // Refresh all booking tabs to get updated data
+        await bookingController.refreshAllBookings();
+        // Navigate back and set tab to Ongoing (index 2)
+        bookingController.selectedTabIndex.value = 2;
+      }
+
+      // Navigate back to bookings screen
+      Get.back();
+    } else {
+      Fluttertoast.showToast(
+        msg: controller.errorMessage.value.isNotEmpty
+            ? controller.errorMessage.value
+            : "Failed to accept booking",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+  }
+
+  Future<void> _handleRejectBooking() async {
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reject Booking'),
+        content: const Text('Are you sure you want to reject this booking?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Reject'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    final success = await controller.rejectBooking();
+
+    if (success) {
+      Fluttertoast.showToast(
+        msg: "Booking rejected successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+
+      // Get the booking controller and refresh all bookings
+      if (Get.isRegistered<OwnerBookingController>()) {
+        final bookingController = Get.find<OwnerBookingController>();
+        // Refresh all booking tabs to get updated data
+        await bookingController.refreshAllBookings();
+        // Navigate back and set tab to Cancelled (index 4)
+        bookingController.selectedTabIndex.value = 4;
+      }
+
+      // Navigate back to bookings screen
+      Get.back();
+    } else {
+      Fluttertoast.showToast(
+        msg: controller.errorMessage.value.isNotEmpty
+            ? controller.errorMessage.value
+            : "Failed to reject booking",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("------> ${controller.bookingDetails.value?.id}");
     return Scaffold(
-      appBar: CustomAppBar(title: "Cleaning Service", backButton: true),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 0.5,
+      appBar: CustomAppBar(title: "Booking Details", backButton: true),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-                color: AppColors.neutral02.withOpacity(0.8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
+        if (controller.errorMessage.value.isNotEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                const SizedBox(height: 16),
+                Text(
+                  controller.errorMessage.value,
+                  style: const TextStyle(fontSize: 16, color: Colors.red),
+                  textAlign: TextAlign.center,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Date and Day
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Column(
-                              children: [
-                                CustomText2(
-                                  text: "7",
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                                CustomText2(
-                                  text: "AUG",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 8),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: controller.refreshBookingDetails,
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText2(
-                                text: "Tuesday",
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
+        final bookingData = controller.bookingDetails.value;
+        if (bookingData == null) {
+          return const Center(child: Text('No booking data available'));
+        }
+
+        final booking = bookingData.booking;
+        final customer = bookingData.customer;
+
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Date and Time Card
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                child: Card(
+                  elevation: 0.5,
+                  color: AppColors.neutral02.withOpacity(0.8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 5,
                               ),
-
-                              SizedBox(height: 8),
-                              // Time and Buffer Time
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Column(
                                 children: [
                                   CustomText2(
-                                    text: "Time: 07:00 PM",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black87,
+                                    text: "${_getDay(booking.scheduledAt)}",
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                   CustomText2(
-                                    text: "Buffer Time: 30 minutes",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black87,
+                                    text: _getMonth(booking.scheduledAt),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText2(
+                                  text: _getDayOfWeek(booking.scheduledAt),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
+                                const SizedBox(height: 8),
+                                CustomText2(
+                                  text:
+                                      "Time: ${_formatTime(booking.scheduledAt)}",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Service Card
+              ProviderServiceCard(
+                status: booking.status,
+                imageUrl: booking.oneImage,
+                serviceName: booking.name,
+                location: booking.address.city,
+                serviceDetails: booking.description,
+                price: booking.rateByHour,
+                duration: booking.serviceDuration,
+                totalAmount: booking.totalAmount,
+              ),
+
+              const SizedBox(height: 8),
+
+              // Customer Details Card
+              Card(
+                elevation: 0.2,
+                color: AppColors.white,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText2(
+                        text: 'Customer Details',
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        fontSize: 18,
                       ),
+                      const SizedBox(height: 16),
+
+                      CustomText2(
+                        text: 'Name',
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 8),
+                      CustomText2(
+                        text: customer.name,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 12),
+
+                      CustomText2(
+                        text: 'Phone Number',
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 8),
+                      CustomText2(
+                        text: customer.phoneNumber,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 12),
+
+                      CustomText2(
+                        text: 'Email',
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 8),
+                      CustomText2(
+                        text: customer.email,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 12),
+
+                      CustomText2(
+                        text: 'Address',
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(height: 8),
+                      CustomText2(
+                        text: customer.address,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
+                        fontSize: 14,
+                      ),
+
+                      if (customer.description.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        CustomText2(
+                          text: 'Description',
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.black,
+                          fontSize: 14,
+                        ),
+                        const SizedBox(height: 8),
+                        CustomText2(
+                          text: customer.description,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 14,
+                          maxLines: 5,
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ),
-            ),
 
-            /// Pending list
-            ServiceCard(
-              status: 'Pending',
-              imageUrl: AppImages.clean_image, // Replace with actual image URL
-              serviceDetails:
-                  'Need deep cleaning for 2 bedrooms and 1 bathroom. Also, please bring cleaning supplies.',
-              price: 25.00,
-              duration: 2,
-            ),
-
-            SizedBox(height: 8),
-
-            Card(
-              elevation: 0.2,
-              color: AppColors.white,
-              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CustomImage(
-                          imageSrc: AppImages.user_image,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    CustomText2(
-                      text: 'Total',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 8),
-                    CustomText2(
-                      text: 'Daniel Brown',
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 12),
-                    CustomText2(
-                      text: 'Phone Number',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 8),
-                    CustomText2(
-                      text: '01840-560684',
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 12),
-                    CustomText2(
-                      text: 'Email',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 8),
-                    CustomText2(
-                      text: 'brown@gmail.com',
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 12),
-                    CustomText2(
-                      text: 'Address',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 8),
-                    CustomText2(
-                      text: 'Los Angeles, California',
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 12),
-                    CustomText2(
-                      text: 'Description',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      fontSize: 14,
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Flexible(
-                          // Changed to Flexible
-                          child: SingleChildScrollView(
-                            scrollDirection:
-                                Axis.horizontal, // Horizontal scrolling
-                            child: CustomText2(
-                              text:
-                                  'Hello! I’m a dedicated cleaning service provider with a passion for creating spotless, comfortable, and healthy spaces',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                              fontSize: 14,
-                              maxLines: 3,
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
+              // Action Buttons based on status
+              if (booking.status.toUpperCase() != "CANCELLED" &&
+                  booking.status.toUpperCase() != "COMPLETED")
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if (booking.status.toUpperCase() == "PENDING")
+                        ElevatedButton(
+                          onPressed: controller.isAccepting.value
+                              ? null
+                              : _handleAcceptBooking,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.appColors,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.4,
+                              50,
                             ),
                           ),
+                          child: controller.isAccepting.value
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : CustomText2(
+                                  text: 'Accept',
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
                         ),
-                        SizedBox(width: 6),
-                        CustomText2(
-                          text: 'Read More',
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.lightBlue,
-                          fontSize: 14,
-                        ),
-                      ],
-                    ),
 
-                    SizedBox(height: 8),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.providerInboxScreen);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: CustomImage(
-                            imageSrc: AppImages.chart,
-                            fit: BoxFit.cover,
+                      if (booking.status.toUpperCase() == "PENDING")
+                        ElevatedButton(
+                          onPressed: controller.isRejecting.value
+                              ? null
+                              : _handleRejectBooking,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.white_50,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: const BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 14,
+                            ),
+                            elevation: 0,
+                            minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.4,
+                              50,
+                            ),
                           ),
+                          child: controller.isRejecting.value
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : CustomText2(
+                                  text: 'Reject',
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            /// cancelled status active and reject
-            if (status != "cancelled")
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  if (status == "pending")
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.bookingsScreen,
-                          arguments: [
-                            {"status": "accept"},
-                          ],
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.appColors,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        minimumSize: Size(
-                          MediaQuery.of(context).size.width * 0.4,
-                          50,
-                        ), // 90% of screen width
-                      ),
-                      child: CustomText2(
-                        text: 'Accept',
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                  if (status == "pending")
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.bookingsScreen,
-                          arguments: [
-                            {"status": "reject"},
-                          ],
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.white_50,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50), // pill shape
-                          side: const BorderSide(
-                            color: Color(0xFF4899D1),
-                            width: 1,
-                          ), // border
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 14,
-                        ),
-                        elevation: 0, // flat style, remove shadow
-
-                        minimumSize: Size(
-                          MediaQuery.of(context).size.width * 0.4,
-                          50,
-                        ), // 90% of screen width
-                      ),
-                      child: CustomText2(
-                        text: 'Reject',
-                        color: Color(0xFF4899D1),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                ],
-              ),
-
-            if (status == "ongoing")
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.qrScannerScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.appColors,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    ],
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width * 0.9,
-                    50,
-                  ), // 90% of screen width
                 ),
-                child: CustomText2(
-                  text: 'QR Code',
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
 
-            SizedBox(height: 32),
-          ],
-        ),
-      ),
+              if (booking.status.toUpperCase() == "ONGOING")
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        AppRoutes.qrScannerScreen,
+                        arguments: [
+                          {"bookingId": controller.bookingId.value},
+                        ],
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.appColors,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      minimumSize: Size(
+                        MediaQuery.of(context).size.width * 0.9,
+                        50,
+                      ),
+                    ),
+                    child: CustomText2(
+                      text: 'QR Code',
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
 
-class ServiceCard extends StatelessWidget {
+class ProviderServiceCard extends StatelessWidget {
   final String status;
   final String imageUrl;
+  final String serviceName;
+  final String location;
   final String serviceDetails;
   final double price;
   final int duration;
+  final double totalAmount;
 
-  ServiceCard({
+  const ProviderServiceCard({
+    super.key,
     required this.status,
     required this.imageUrl,
+    required this.serviceName,
+    required this.location,
     required this.serviceDetails,
     required this.price,
     required this.duration,
+    required this.totalAmount,
   });
+
+  Color _getStatusColor(String status) {
+    switch (status.toUpperCase()) {
+      case 'PENDING':
+        return AppColors.danger;
+      case 'COMPLETED':
+        return AppColors.normal;
+      case 'ONGOING':
+        return AppColors.lightBlue;
+      case 'CANCELLED':
+        return AppColors.cancle;
+      default:
+        return AppColors.white_50;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0.2,
       color: AppColors.white,
-      margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -418,40 +617,97 @@ class ServiceCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: CustomImage(
-                    imageSrc: imageUrl,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child:
+                      imageUrl.isNotEmpty &&
+                          (imageUrl.startsWith('http://') ||
+                              imageUrl.startsWith('https://'))
+                      ? Image.network(
+                          imageUrl,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              AppImages.clean_image,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey[200],
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          AppImages.clean_image,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
                 ),
-                SizedBox(width: 12),
-
+                const SizedBox(width: 12),
                 Flexible(
-                  // Changed to Flexible instead of Expanded
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText2(
-                        text: 'Cleaning Service',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: CustomText2(
+                              text: serviceName,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _getStatusColor(status),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: CustomText2(
+                              text: status.toUpperCase(),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       CustomText2(
-                        text: 'Location: Mohakhali, Aqua Tower 10th Floor',
+                        text: 'Location: $location',
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
                         textAlign: TextAlign.start,
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       CustomText2(
                         text: serviceDetails,
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
                         fontSize: 10,
                         textAlign: TextAlign.start,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -459,7 +715,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CustomText2(
               text: 'Price Details',
               color: AppColors.black,
@@ -467,7 +723,7 @@ class ServiceCard extends StatelessWidget {
               fontSize: 16,
               textAlign: TextAlign.start,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -479,10 +735,10 @@ class ServiceCard extends StatelessWidget {
                   textAlign: TextAlign.start,
                   color: AppColors.black,
                 ),
-                CustomText2(text: '€${price.toStringAsFixed(2)}hr'),
+                CustomText2(text: '€${price.toStringAsFixed(2)}/hr'),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -490,8 +746,8 @@ class ServiceCard extends StatelessWidget {
                 CustomText2(text: '$duration hr'),
               ],
             ),
-            SizedBox(height: 8),
-            Divider(),
+            const SizedBox(height: 8),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -501,7 +757,7 @@ class ServiceCard extends StatelessWidget {
                   color: AppColors.lightBlue,
                 ),
                 CustomText2(
-                  text: '€${(price * duration).toStringAsFixed(2)}',
+                  text: '€${totalAmount.toStringAsFixed(2)}',
                   fontWeight: FontWeight.w600,
                   color: AppColors.lightBlue,
                 ),

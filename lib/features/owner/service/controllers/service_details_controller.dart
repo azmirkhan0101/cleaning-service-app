@@ -23,6 +23,7 @@ class ServiceDetailsController extends GetxController {
   RxList<ReviewModel> reviews = <ReviewModel>[].obs;
   Rx<ScheduleModel?> schedule = Rx<ScheduleModel?>(null);
   RxString bookingId = ''.obs;
+  RxBool isCancelling = false.obs;
 
   void setServiceId(String id) {
     serviceId.value = id;
@@ -194,5 +195,36 @@ class ServiceDetailsController extends GetxController {
       fetchReviews(),
       fetchSchedule(),
     ]);
+  }
+
+  /// Cancel booking (owner action)
+  Future<bool> cancelBooking() async {
+    if (bookingId.value.isEmpty) {
+      Toast.errorToast('Booking ID is required');
+      return false;
+    }
+
+    isCancelling.value = true;
+    errorMessage.value = '';
+
+    final response = await Get.find<NetworkHelper>()
+        .request<Map<String, dynamic>>(
+          HttpMethod.patch.method,
+          ApiUrl.cancelBooking(bookingId.value),
+          withAuth: true,
+          parser: (data) => data as Map<String, dynamic>,
+        );
+
+    isCancelling.value = false;
+
+    return response.fold(
+      (error) {
+        errorMessage.value = error.message ?? 'Failed to cancel booking';
+        return false;
+      },
+      (data) {
+        return true;
+      },
+    );
   }
 }

@@ -21,6 +21,7 @@ class ServiceModel {
   final String providerProfilePicture;
   final bool isApprovalRequired;
   final String price;
+  final double? distanceKm;
 
   ServiceModel({
     required this.id,
@@ -31,6 +32,7 @@ class ServiceModel {
     required this.providerProfilePicture,
     required this.isApprovalRequired,
     required this.price,
+    this.distanceKm,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,11 @@ class ServiceModel {
       providerProfilePicture: json['providerProfilePicture'] ?? '',
       isApprovalRequired: json['isApprovalRequired'] ?? false,
       price: json['price'] ?? '0',
+      distanceKm: json['distanceKm'] != null
+          ? (json['distanceKm'] is num
+                ? (json['distanceKm'] as num).toDouble()
+                : double.tryParse(json['distanceKm'].toString()) ?? 0)
+          : null,
     );
   }
 }

@@ -184,6 +184,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/start_icon.svg
   SvgGenImage get startIcon => const SvgGenImage('assets/icons/start_icon.svg');
 
+  /// File path: assets/icons/stripe.svg
+  SvgGenImage get stripe => const SvgGenImage('assets/icons/stripe.svg');
+
   /// File path: assets/icons/working.svg
   SvgGenImage get working => const SvgGenImage('assets/icons/working.svg');
 
@@ -237,6 +240,7 @@ class $AssetsIconsGen {
     serviceAll,
     servicesFilled,
     startIcon,
+    stripe,
     working,
   ];
 }

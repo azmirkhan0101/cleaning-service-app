@@ -219,6 +219,18 @@ class OwnerBookingController extends GetxController {
     }
   }
 
+  /// Refresh all booking tabs (used after accept/reject actions)
+  Future<void> refreshAllBookings() async {
+    // Refresh all tabs to ensure data is up to date
+    await Future.wait([
+      fetchAllBookings(isRefresh: true),
+      pendingController.refreshBookings(),
+      ongoingController.refreshBookings(),
+      completedController.refreshBookings(),
+      cancelledController.refreshBookings(),
+    ]);
+  }
+
   /// Switch tabs
   void filterServices(int index) {
     selectedTabIndex.value = index;

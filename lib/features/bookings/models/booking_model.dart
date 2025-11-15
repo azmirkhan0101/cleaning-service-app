@@ -59,6 +59,7 @@ class BookingsData {
 
 class BookingModel {
   final String id;
+  final String oneImage;
   final String serviceName;
   final OwnerAddress ownerAddress;
   final String ownerPhoneNumber;
@@ -70,6 +71,7 @@ class BookingModel {
 
   BookingModel({
     required this.id,
+    required this.oneImage,
     required this.serviceName,
     required this.ownerAddress,
     required this.ownerPhoneNumber,
@@ -83,6 +85,7 @@ class BookingModel {
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
       id: json['id'] ?? '',
+      oneImage: json['oneImage'] ?? '',
       serviceName: json['serviceName'] ?? '',
       ownerAddress: OwnerAddress.fromJson(json['ownerAddress'] ?? {}),
       ownerPhoneNumber: json['ownerPhoneNumber'] ?? '',

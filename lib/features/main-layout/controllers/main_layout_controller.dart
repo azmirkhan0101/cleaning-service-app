@@ -1,15 +1,15 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/bookings/screens/owner_booking_screen.dart';
-import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
-import 'package:cleaning_service_app/features/owner/home/owner_home_screen.dart';
-import 'package:cleaning_service_app/features/owner/inbox/owner_inbox_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/owner_profile_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
-import 'package:cleaning_service_app/features/provider/inbox/inbox_screen.dart';
-import 'package:cleaning_service_app/features/provider/provider_home.dart';
-import 'package:cleaning_service_app/features/provider/service/service_screen.dart';
+import 'package:cleaning_service_app/features/inbox/screens/inbox_screen.dart';
+import 'package:cleaning_service_app/features/main-layout/models/bottom_nav_model.dart';
+import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
+import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/provider_services_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,12 +20,16 @@ class MainLayoutController extends GetxController {
   // Observable for current selected index
   final RxInt selectedIndex = 0.obs;
   late Widget selectedScreen;
+  final unreadMessagesCount = 0.obs;
+  late final NetworkHelper _networkHelper;
 
   @override
   void onInit() {
     // initialize bottom nav items and the initial selected screen based on role
     organizeBottomNavItems(isOwner);
     selectedScreen = isOwner ? const OwnerHomeScreen() : ProviderHome();
+    _networkHelper = Get.find<NetworkHelper>();
+    fetchUnreadMessagesCount();
     super.onInit();
   }
 
@@ -35,6 +39,10 @@ class MainLayoutController extends GetxController {
     selectedScreen = isOwner
         ? bottomNavItems[index].ownerScreen!
         : bottomNavItems[index].providerScreen!;
+    // Refresh unread count when navigating to inbox (index 3 for both roles after filtering)
+    if (index == 3) {
+      fetchUnreadMessagesCount();
+    }
     update();
   }
 
@@ -89,15 +97,32 @@ class MainLayoutController extends GetxController {
       label: 'Inbox',
       selectedIconPath: Assets.icons.inboxFilled.path,
       unselectedIconPath: Assets.icons.inboxOutline.path,
-      ownerScreen: const OwnerInboxScreen(),
-      providerScreen: const ProviderInboxScreen(),
+      ownerScreen: const InboxUsersScreen(),
+      providerScreen: const InboxUsersScreen(),
+      // providerScreen: const ProviderInboxScreen(),
     ),
     BottomNavModel(
       label: 'Profile',
       selectedIconPath: Assets.icons.profileFilled.path,
       unselectedIconPath: Assets.icons.profileOutliine.path,
-      ownerScreen: const OwnerProfileScreen(),
-      providerScreen: ProviderProfileScreen(),
+      ownerScreen: const ProfileScreen(),
+      providerScreen: const ProfileScreen(),
     ),
   ];
+
+  Future<void> fetchUnreadMessagesCount() async {
+    final result = await _networkHelper.get<Map<String, dynamic>>(
+      ApiUrl.messagesUnreadCount,
+      parser: (data) => data as Map<String, dynamic>,
+    );
+
+    result.match((err) {}, (res) {
+      final count = res['data']?['unreadCount'];
+      if (count is int) {
+        unreadMessagesCount.value = count;
+      } else {
+        unreadMessagesCount.value = int.tryParse(count?.toString() ?? '0') ?? 0;
+      }
+    });
+  }
 }

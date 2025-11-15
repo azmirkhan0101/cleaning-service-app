@@ -5,10 +5,12 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
+import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
-import 'package:cleaning_service_app/features/owner/service/service_book_second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class OverviewTabView extends StatelessWidget {
@@ -17,6 +19,72 @@ class OverviewTabView extends StatelessWidget {
 
   static const double _tileAspect = 140 / 90;
   static const _radius = 10.0;
+
+  Future<void> _handleCancelBooking(BuildContext context) async {
+    final serviceDetailsController = Get.find<ServiceDetailsController>();
+
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cancel Booking'),
+          content: const Text(
+            'Are you sure you want to cancel this booking? This action cannot be undone.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text('Yes, Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true) return;
+
+    final success = await serviceDetailsController.cancelBooking();
+
+    if (success) {
+      Fluttertoast.showToast(
+        msg: "Booking cancelled successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+
+      // Get the booking controller and refresh all bookings
+      if (Get.isRegistered<OwnerBookingController>()) {
+        final bookingController = Get.find<OwnerBookingController>();
+        // Refresh all booking tabs to get updated data
+        await bookingController.refreshAllBookings();
+        // Navigate back first
+        Get.back();
+        // Then switch tab to Cancelled (index 4)
+        bookingController.filterServices(4);
+      } else {
+        // If controller not registered, just go back
+        Get.back();
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: serviceDetailsController.errorMessage.value.isNotEmpty
+            ? serviceDetailsController.errorMessage.value
+            : "Failed to cancel booking",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,33 +291,45 @@ class OverviewTabView extends StatelessWidget {
           const SizedBox(height: 16),
 
           if (status == "pending")
-            ElevatedButton(
-              onPressed: () {
-                showCustomDialog(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.appColors,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+            Obx(
+              () => ElevatedButton(
+                onPressed: serviceDetailsController.isCancelling.value
+                    ? null
+                    : () => _handleCancelBooking(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.appColors,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  minimumSize: Size(
+                    MediaQuery.of(context).size.width * 0.9,
+                    50,
+                  ),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                minimumSize: Size(
-                  MediaQuery.of(context).size.width * 0.9,
-                  50,
-                ), // 90% of screen width
-              ),
-              child: CustomText2(
-                text: 'Cancel',
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+                child: serviceDetailsController.isCancelling.value
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : CustomText2(
+                        text: 'Cancel',
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
               ),
             ),
 
           if (status == "ongoing") //
             ElevatedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.ownerScannerScreen);
+                // Get.toNamed(AppRoutes.ownerScannerScreen);
+                Get.to(OwnerScannerScreen());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.appColors,
@@ -278,7 +358,13 @@ class OverviewTabView extends StatelessWidget {
               status != "cancelled")
             ElevatedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.serviceBooking); //ServiceBooking
+                // Pass serviceId to booking screen
+                Get.toNamed(
+                  AppRoutes.serviceBooking,
+                  arguments: {
+                    'serviceId': serviceDetailsController.serviceId.value,
+                  },
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.appColors,

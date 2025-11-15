@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? backButton;
   final double fontSize;
   final List<Widget>? actions;
+  final Function()? onPressed;
 
   const CustomAppBar({
     super.key,
@@ -16,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backButton = false,
     this.fontSize = 22,
     this.actions,
+    this.onPressed,
   });
 
   @override
@@ -28,7 +30,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       actions: actions,
       backgroundColor: Colors.transparent,
-      leading: backButton == true ? BackButton(color: AppColors.black) : null,
+      leading: backButton == true
+          ? BackButton(color: AppColors.black, onPressed: onPressed)
+          : null,
       title: CustomText2(
         text: title ?? "",
         fontSize: fontSize,

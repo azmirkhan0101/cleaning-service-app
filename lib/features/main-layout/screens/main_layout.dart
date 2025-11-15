@@ -11,7 +11,10 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('isOwner:---> $isOwner');
-    final controller = Get.put(MainLayoutController(isOwner: isOwner));
+    final controller = Get.put(
+      MainLayoutController(isOwner: isOwner),
+      permanent: true,
+    );
 
     return Scaffold(
       body: GetBuilder<MainLayoutController>(
@@ -91,22 +94,30 @@ class MainLayout extends StatelessWidget {
                         ),
                       ),
                     ),
-                  if (index == 3)
+                  if (index == 3 && controller.unreadMessagesCount.value > 0)
                     Positioned(
                       right: 0,
                       child: Container(
-                        width: 14,
-                        height: 14,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFDE5640),
+                        width: controller.unreadMessagesCount.value > 99
+                            ? 22
+                            : 16,
+                        height: 16,
+                        decoration: const ShapeDecoration(
+                          color: Color(0xFFDE5640),
                           shape: OvalBorder(),
                         ),
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
                         child: Center(
                           child: Text(
-                            '3',
-                            style: TextStyle(
+                            controller.unreadMessagesCount.value > 0
+                                ? (controller.unreadMessagesCount.value > 99
+                                      ? '99+'
+                                      : controller.unreadMessagesCount.value
+                                            .toString())
+                                : '',
+                            style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 9,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
