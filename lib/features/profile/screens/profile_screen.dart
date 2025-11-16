@@ -15,6 +15,7 @@ import 'package:cleaning_service_app/features/profile/screens/edit_profile_scree
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
+import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                   if (role != Role.owner.value)
                     FilledButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.boostPaymentScreen);
+                        Get.to(const SubscriptionScreen());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF7A51D),

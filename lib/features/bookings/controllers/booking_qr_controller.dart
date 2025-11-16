@@ -32,7 +32,7 @@ class BookingQrController extends GetxController {
 
       final result = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpMethod.post.method,
+            HttpRequestType.post.method,
             ApiUrl.generateBookingQr(bookingId.value),
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,

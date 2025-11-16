@@ -1,6 +1,6 @@
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
-import 'package:cleaning_service_app/features/auth/widgets/choose_plan_section.dart';
+import 'package:cleaning_service_app/features/provider/subscription/widgets/choose_plan_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_role_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/upload_document_section.dart';

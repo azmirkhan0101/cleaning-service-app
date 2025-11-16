@@ -29,7 +29,7 @@ class ProfileController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<ProfileResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             ApiUrl.profile,
             withAuth: true,
             parser: (data) => ProfileResponseModel.fromJson(data),
@@ -75,7 +75,7 @@ class ProfileController extends GetxController {
       // Call logout API
       final response = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpMethod.post.method,
+            HttpRequestType.post.method,
             ApiUrl.logout,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,

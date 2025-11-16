@@ -248,7 +248,7 @@ class SearchController extends GetxController {
       debugPrint('Search URL: $url');
 
       final response = await Get.find<NetworkHelper>().request(
-        HttpMethod.get.method,
+        HttpRequestType.get.method,
         url,
         withAuth: true,
         parser: (data) => SearchFilterResponseModel.fromJson(data),

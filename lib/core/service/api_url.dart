@@ -36,6 +36,7 @@ class ApiUrl {
 
   /// =--> Subscription Endpoints <--=
   static const String subscriptionPlans = '$baseUrl/subscription/plans';
+  static const String subscriptionCheckout = '$baseUrl/subscription/checkout';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';

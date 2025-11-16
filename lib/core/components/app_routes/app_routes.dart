@@ -27,7 +27,6 @@ import 'package:cleaning_service_app/features/profile/screens/provider_profile_s
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
@@ -158,8 +157,7 @@ class AppRoutes {
 
     GetPage(name: profileScreen, page: () => ProviderProfileScreen()),
 
-    GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
-
+    // GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
     GetPage(name: editPersonProfileScreen, page: () => EditProfileScreen()),
 
     GetPage(name: myEarningScreen, page: () => MyEarningScreen()),

@@ -39,7 +39,7 @@ class OwnerQrScannerController extends GetxController {
     errorMessage.value = '';
 
     final res = await Get.find<NetworkHelper>().request<Map<String, dynamic>>(
-      HttpMethod.patch.method,
+      HttpRequestType.patch.method,
       ApiUrl.completeBookingByQr(bookingId.value),
       withAuth: true,
       body: {'completionCode': scannedCompletionCode.value},
@@ -67,7 +67,7 @@ class OwnerQrScannerController extends GetxController {
     }
     isSubmittingReview.value = true;
     final res = await Get.find<NetworkHelper>().request<Map<String, dynamic>>(
-      HttpMethod.post.method,
+      HttpRequestType.post.method,
       ApiUrl.bookingRatingReview(bookingId.value),
       withAuth: true,
       body: {'rating': rating, 'review': review},

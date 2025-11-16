@@ -46,7 +46,7 @@ class ServiceDetailsController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<ServiceDetailsModel>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.serviceDetails(serviceId.value),
           withAuth: true,
           parser: (data) => ServiceDetailsModel.fromJson(data['data']),
@@ -72,7 +72,7 @@ class ServiceDetailsController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<ServiceProviderDetailsModel>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.serviceProviderDetails(serviceId.value),
           withAuth: true,
           parser: (data) => ServiceProviderDetailsModel.fromJson(data['data']),
@@ -101,7 +101,7 @@ class ServiceDetailsController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<Map<String, dynamic>>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.bookingOwnerDetails(bookingId.value),
           withAuth: true,
           parser: (data) => data['data'] ?? {},
@@ -144,7 +144,7 @@ class ServiceDetailsController extends GetxController {
     isReviewsLoading.value = true;
 
     final response = await Get.find<NetworkHelper>().request<List<ReviewModel>>(
-      HttpMethod.get.method,
+      HttpRequestType.get.method,
       ApiUrl.serviceRatingsReviews(serviceId.value),
       withAuth: true,
       parser: (data) => (data['data'] as List)
@@ -170,7 +170,7 @@ class ServiceDetailsController extends GetxController {
     isScheduleLoading.value = true;
 
     final response = await Get.find<NetworkHelper>().request<ScheduleModel>(
-      HttpMethod.get.method,
+      HttpRequestType.get.method,
       ApiUrl.serviceProviderSchedule(serviceId.value),
       withAuth: true,
       parser: (data) => ScheduleModel.fromJson(data['data']),
@@ -209,7 +209,7 @@ class ServiceDetailsController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<Map<String, dynamic>>(
-          HttpMethod.patch.method,
+          HttpRequestType.patch.method,
           ApiUrl.cancelBooking(bookingId.value),
           withAuth: true,
           parser: (data) => data as Map<String, dynamic>,

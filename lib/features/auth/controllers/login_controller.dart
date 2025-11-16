@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     };
 
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.post.method,
+      HttpRequestType.post.method,
       ApiUrl.login,
       body: loginData,
       withAuth: false,

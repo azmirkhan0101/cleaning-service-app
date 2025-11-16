@@ -91,7 +91,7 @@ class OwnerBookingController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),
@@ -134,7 +134,7 @@ class OwnerBookingController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),

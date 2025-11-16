@@ -145,7 +145,7 @@ class EditProfileController extends GetxController {
 
       final response = await Get.find<NetworkHelper>().multipart(
         url: ApiUrl.updateOwnerProfile,
-        method: HttpMethod.put.method,
+        method: HttpRequestType.put.method,
         fields: fields,
         files: files,
         withAuth: true,
@@ -202,7 +202,7 @@ class EditProfileController extends GetxController {
 
       final response = await Get.find<NetworkHelper>().multipart(
         url: ApiUrl.updateProviderProfile,
-        method: HttpMethod.put.method,
+        method: HttpRequestType.put.method,
         fields: fields,
         files: files,
         withAuth: true,

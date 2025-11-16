@@ -27,7 +27,7 @@ class OwnerServiceListController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<ServiceResponseModel>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.servicesByCategory(categoryId.value),
           withAuth: true,
           parser: (data) => ServiceResponseModel.fromJson(data),

@@ -37,7 +37,7 @@ class ChangePasswordController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<ChangePasswordResponseModel>(
-            HttpMethod.put.method,
+            HttpRequestType.put.method,
             ApiUrl.changePassword,
             body: body,
             withAuth: true,
