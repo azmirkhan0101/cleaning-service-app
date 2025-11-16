@@ -71,30 +71,31 @@ class MainLayout extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  if ((isOwner && index == 2) || (!isOwner && index == 1))
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        width: 14,
-                        height: 14,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFDE5640),
-                          shape: OvalBorder(),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '2',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w500,
-                              height: 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+
+                  // if ((isOwner && index == 2) || (!isOwner && index == 1))
+                  //   Positioned(
+                  //     right: 0,
+                  //     child: Container(
+                  //       width: 14,
+                  //       height: 14,
+                  //       decoration: ShapeDecoration(
+                  //         color: const Color(0xFFDE5640),
+                  //         shape: OvalBorder(),
+                  //       ),
+                  //       child: Center(
+                  //         child: Text(
+                  //           '2',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: 10,
+                  //             fontFamily: 'Roboto',
+                  //             fontWeight: FontWeight.w500,
+                  //             height: 1,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
                   if (index == 3 && controller.unreadMessagesCount.value > 0)
                     Positioned(
                       right: 0,
