@@ -34,12 +34,14 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
+            print("On page started =====>: $url");
             setState(() {
               _isLoading = true;
             });
             debugPrint('Payment page started loading: $url');
           },
           onPageFinished: (String url) {
+            print("On page finished =====>: $url");
             setState(() {
               _isLoading = false;
             });
@@ -57,7 +59,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             );
           },
           onNavigationRequest: (NavigationRequest request) {
-            debugPrint('Navigation request: ${request.url}');
+            debugPrint('Navigation request ====>: ${request.url}');
 
             // Check for payment success/failure URLs
             if (request.url.contains('success') ||
@@ -93,13 +95,18 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   }
 
   void _handlePaymentCancel() {
-    Get.back(); // Close WebView
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Payment cancelled'),
         backgroundColor: Colors.orange,
       ),
     );
+    Future.microtask(() {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
@@ -123,8 +130,12 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context); // Close dialog
-                    Get.back(); // Close WebView
+                    // Close dialog first
+                    Navigator.pop(context);
+                    // Then close the WebView screen without touching GetX snackbar
+                    if (mounted) {
+                      Navigator.of(this.context).pop();
+                    }
                   },
                   child: const Text('Yes, Cancel'),
                 ),

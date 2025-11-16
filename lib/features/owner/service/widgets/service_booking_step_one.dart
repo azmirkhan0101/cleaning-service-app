@@ -9,14 +9,76 @@ import 'package:cleaning_service_app/features/owner/service/controllers/service_
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/countries.dart' as phone_countries;
+import 'package:intl_phone_field/intl_phone_field.dart';
 
-class ServiceBookingStepOne extends StatelessWidget {
+class ServiceBookingStepOne extends StatefulWidget {
   const ServiceBookingStepOne({
     super.key,
     required this.serviceBookingController,
   });
 
   final ServiceBookingController serviceBookingController;
+
+  @override
+  State<ServiceBookingStepOne> createState() => _ServiceBookingStepOneState();
+}
+
+class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
+  late final TextEditingController _localPhoneController;
+  late String _isoCode;
+  bool _adjusting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _localPhoneController = TextEditingController();
+    _isoCode = Get.deviceLocale?.countryCode ?? 'US';
+    _localPhoneController.addListener(_onLocalNumberChanged);
+  }
+
+  @override
+  void dispose() {
+    _localPhoneController.removeListener(_onLocalNumberChanged);
+    _localPhoneController.dispose();
+    super.dispose();
+  }
+
+  void _onLocalNumberChanged() {
+    if (_adjusting) return;
+    final text = _localPhoneController.text;
+    if (text.startsWith('+')) {
+      final match = RegExp(r'^\+(\d{1,4})').firstMatch(text);
+      if (match != null) {
+        final digits = match.group(1)!;
+        final dialWithPlus = '+$digits';
+        final matches = phone_countries.countries.where((c) {
+          final cd = c.dialCode;
+          return cd == digits || cd == dialWithPlus;
+        }).toList();
+        if (matches.isNotEmpty) {
+          final country = matches.first;
+          final iso = country.code;
+          if (iso != _isoCode && iso.isNotEmpty) {
+            setState(() {
+              _isoCode = iso;
+            });
+          }
+          final withoutDial = text.substring(match.group(0)!.length);
+          _adjusting = true;
+          _localPhoneController.text = withoutDial;
+          _localPhoneController.selection = TextSelection.collapsed(
+            offset: _localPhoneController.text.length,
+          );
+          _adjusting = false;
+          // Update E.164 in controller using new iso/dial code
+          final e164 =
+              '${country.dialCode.startsWith('+') ? country.dialCode : '+${country.dialCode}'}$withoutDial';
+          widget.serviceBookingController.phoneNumberController.text = e164;
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +101,7 @@ class ServiceBookingStepOne extends StatelessWidget {
           hintText: "Enter date and time",
           hasBackgroundColor: true,
           prefixIcon: Icon(Icons.calendar_month),
-          controller: serviceBookingController.dateTimeController,
+          controller: widget.serviceBookingController.dateTimeController,
           readOnly: true,
           onTap: () async {
             _openBottomSheet(context);
@@ -54,17 +116,67 @@ class ServiceBookingStepOne extends StatelessWidget {
           hintText: "e.g. 2",
           hasBackgroundColor: true,
           prefixIcon: Icon(Icons.timer_outlined),
-          controller: serviceBookingController.durationController,
+          controller: widget.serviceBookingController.durationController,
           keyboardType: TextInputType.number,
         ),
 
-        /// Phone Number Field
-        CustomFormCard(
-          title: "Phone Number",
-          hintText: "Enter phone number",
-          hasBackgroundColor: true,
-          prefixIcon: Icon(Icons.phone),
-          controller: serviceBookingController.phoneNumberController,
+        /// Phone Number Field with country picker & validation
+        Align(
+          alignment: Alignment.centerLeft,
+          child: CustomText(
+            text: "Phone Number",
+            color: const Color(0xFF0F0B18),
+            fontSize: 16,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.w600,
+            height: 1.50,
+          ),
+        ),
+        const SizedBox(height: 4),
+        IntlPhoneField(
+          key: ValueKey(_isoCode),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          invalidNumberMessage: 'Invalid phone number',
+          initialCountryCode: _isoCode,
+          decoration: InputDecoration(
+            hintText: 'e.g. 1XXXXXXXXX',
+            prefixIcon: const Icon(Icons.phone),
+            filled: true,
+            fillColor: const Color(0xFFE9EBF3),
+            isDense: true,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+              gapPadding: 0,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+              gapPadding: 0,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+              gapPadding: 0,
+            ),
+          ),
+          controller: _localPhoneController,
+          onChanged: (phone) {
+            // Persist E.164 complete number in controller
+            widget.serviceBookingController.phoneNumberController.text =
+                phone.completeNumber;
+          },
+          onCountryChanged: (country) {
+            if (country.code != _isoCode) {
+              setState(() {
+                _isoCode = country.code;
+              });
+            }
+          },
         ),
 
         SizedBox(height: 12),
@@ -75,7 +187,7 @@ class ServiceBookingStepOne extends StatelessWidget {
           hintText: "Enter address",
           prefixIcon: Icon(Icons.location_pin),
           hasBackgroundColor: true,
-          controller: serviceBookingController.addressController,
+          controller: widget.serviceBookingController.addressController,
           readOnly: true,
           onTap: () async {
             final result = await Get.toNamed(AppRoutes.pickerMapScreen);
@@ -83,7 +195,7 @@ class ServiceBookingStepOne extends StatelessWidget {
               final address = result['address']?.toString() ?? '';
               final lat = (result['latitude'] as num?)?.toDouble() ?? 0.0;
               final lng = (result['longitude'] as num?)?.toDouble() ?? 0.0;
-              serviceBookingController.setSelectedAddress(
+              widget.serviceBookingController.setSelectedAddress(
                 address: address,
                 latitude: lat,
                 longitude: lng,
@@ -101,53 +213,13 @@ class ServiceBookingStepOne extends StatelessWidget {
           hasBackgroundColor: true,
 
           maxLine: 2,
-          controller: serviceBookingController.descriptionController,
+          controller: widget.serviceBookingController.descriptionController,
         ),
 
         SizedBox(height: 24),
 
         ElevatedButton(
-          onPressed: () {
-            if (serviceBookingController.dateTimeController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Please select date and time'),
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
-              return;
-            }
-            if (serviceBookingController.durationController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Please enter service duration'),
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
-              return;
-            }
-            if (serviceBookingController.phoneNumberController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Please enter phone number'),
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
-              return;
-            }
-            if (serviceBookingController.addressController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Please enter address'),
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
-              return;
-            }
-            // Get.toNamed(AppRoutes.serviceBookSecondScreen);
-            serviceBookingController.currentStep.value += 1;
-            serviceBookingController.printStepOneInfo();
-          },
+          onPressed: () => _onPressNext(context),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.appColors,
             shape: RoundedRectangleBorder(
@@ -250,9 +322,11 @@ class ServiceBookingStepOne extends StatelessWidget {
                             currentDate: DateTime.now(),
                             selectedDayHighlightColor: Colors.blue,
                           ),
-                          value: [serviceBookingController.selectedDate.value],
+                          value: [
+                            widget.serviceBookingController.selectedDate.value,
+                          ],
                           onValueChanged: (value) {
-                            serviceBookingController.setSelectedDate(
+                            widget.serviceBookingController.setSelectedDate(
                               value.first,
                             );
                           },
@@ -262,8 +336,10 @@ class ServiceBookingStepOne extends StatelessWidget {
                       /// ---------- Time Picker ----------
                       TimePickerWidget(
                         onTimeSelected: (time) {
-                          serviceBookingController.setSelectedTime(time);
-                          print(serviceBookingController.selectedTime.value);
+                          widget.serviceBookingController.setSelectedTime(time);
+                          print(
+                            widget.serviceBookingController.selectedTime.value,
+                          );
                         },
                       ),
                     ],
@@ -275,9 +351,10 @@ class ServiceBookingStepOne extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: FilledButton(
                     onPressed: () {
-                      if (serviceBookingController.unAvailableSlots.contains(
-                        serviceBookingController.selectedTime.value,
-                      )) {
+                      if (widget.serviceBookingController.unAvailableSlots
+                          .contains(
+                            widget.serviceBookingController.selectedTime.value,
+                          )) {
                         Get.dialog(
                           Dialog(
                             shape: RoundedRectangleBorder(
@@ -378,7 +455,8 @@ class ServiceBookingStepOne extends StatelessWidget {
                                         ),
                                         TextSpan(
                                           text: _formatTime(
-                                            serviceBookingController
+                                            widget
+                                                .serviceBookingController
                                                 .selectedTime
                                                 .value,
                                           ),
@@ -458,7 +536,7 @@ class ServiceBookingStepOne extends StatelessWidget {
                           ),
                         );
                       } else {
-                        serviceBookingController.setDateTimeController();
+                        widget.serviceBookingController.setDateTimeController();
                         Navigator.of(context).pop();
                       }
                     },
@@ -486,5 +564,63 @@ class ServiceBookingStepOne extends StatelessWidget {
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.period == DayPeriod.am ? 'AM' : 'PM';
     return '$hour:$minute $period';
+  }
+
+  void _onPressNext(BuildContext context) {
+    if (widget.serviceBookingController.dateTimeController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please select date and time'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    if (widget.serviceBookingController.durationController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter service duration'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    final rawPhone = widget.serviceBookingController.phoneNumberController.text;
+    if (rawPhone.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter phone number'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    final normalized = widget.serviceBookingController
+        .validateAndNormalizePhone(rawPhone);
+    if (normalized == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please enter a valid phone number with country code (e.g., +8801XXXXXXXXX)',
+          ),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    // Update the controller with normalized value so subsequent steps use it
+    widget.serviceBookingController.phoneNumberController.text = normalized;
+    if (widget.serviceBookingController.addressController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter address'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+    // Get.toNamed(AppRoutes.serviceBookSecondScreen);
+    widget.serviceBookingController.currentStep.value += 1;
+    widget.serviceBookingController.printStepOneInfo();
   }
 }

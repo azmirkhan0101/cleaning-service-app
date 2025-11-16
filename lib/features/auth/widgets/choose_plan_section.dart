@@ -1,11 +1,12 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+import 'package:cleaning_service_app/features/payment/screens/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -134,34 +135,38 @@ class ChoosePlanSection extends StatelessWidget {
 
           SizedBox(height: 20.h),
 
-          Obx(
-            () => CustomButton(
-              onTap: selectionController.isUploading.value
-                  ? () {} // Disabled state - do nothing
-                  : () async {
-                      // Call API for Provider after selecting plan
-                      final success = await selectionController
-                          .completeRegistrationSetup();
-                      if (success) {
-                        if (selectionController.typPaymentStatues.value == 0) {
-                          // Free plan selected
-                          Get.offNamed(AppRoutes.loginScreen);
-                          return;
-                        }
-                        Get.offNamed(AppRoutes.paymentScreen);
-                      }
-                    },
-              title: selectionController.isUploading.value
-                  ? 'Processing...'
-                  : AppStrings.continueText,
-              fontSize: 16,
-              width: double.infinity,
-              height: 50,
-              fillColor: selectionController.isUploading.value
-                  ? AppColors.grey_1
-                  : AppColors.appColors,
-              borderRadius: 24,
-            ),
+          CustomButton(
+            onTap: () {
+              Get.to(
+                () => PaymentScreen(),
+              ); // TEMPORARY BYPASS FOR TESTING PAYMENT SCREEN
+              return; // TEMPORARY BYPASS FOR TESTING PAYMENT SCREEN
+              if (selectionController.isUploading.value) {
+                return; // Disabled state - do nothing
+              }
+              // Call API for Provider after selecting plan
+              selectionController.completeRegistrationSetup().then((success) {
+                if (success) {
+                  if (selectionController.typPaymentStatues.value == 0) {
+                    // Free plan selected
+                    Get.offAll(() => LoginScreen());
+                    return;
+                  }
+                  Get.to(() => PaymentScreen());
+                }
+              });
+            },
+
+            title: selectionController.isUploading.value
+                ? 'Processing...'
+                : AppStrings.continueText,
+            fontSize: 16,
+            width: double.infinity,
+            height: 50,
+            fillColor: selectionController.isUploading.value
+                ? AppColors.grey_1
+                : AppColors.appColors,
+            borderRadius: 24,
           ),
 
           SizedBox(height: 20.h),

@@ -100,6 +100,28 @@ class ServiceBookingController extends GetxController {
     durationController.clear();
   }
 
+  /// Validate and normalize a phone number to an E.164-like format.
+  /// Returns normalized value (e.g., +880123456789) or null if invalid.
+  String? validateAndNormalizePhone(String input) {
+    String s = input.trim();
+    // Remove common separators/spaces/parentheses
+    s = s.replaceAll(RegExp(r"[\s\-\(\)]"), '');
+    // Convert 00 prefix to +
+    if (s.startsWith('00')) {
+      s = '+${s.substring(2)}';
+    }
+    // Require leading +
+    if (!s.startsWith('+')) {
+      return null;
+    }
+    // E.164: + followed by 8-15 digits total, first digit 1-9
+    final e164 = RegExp(r'^\+[1-9]\d{7,14}$');
+    if (!e164.hasMatch(s)) {
+      return null;
+    }
+    return s;
+  }
+
   void setPaymentMethod(String method) {
     selectedPaymentMethod.value = method;
   }
@@ -130,10 +152,15 @@ class ServiceBookingController extends GetxController {
         int.parse(timeParts[1]),
       );
 
+      // Ensure phone number is normalized; fallback to raw if already validated earlier
+      final normalizedPhone =
+          validateAndNormalizePhone(phoneNumberController.text) ??
+          phoneNumberController.text.trim();
+
       final body = {
         'serviceId': serviceId.value,
         'scheduledAt': scheduledDateTime.toUtc().toIso8601String(),
-        'phoneNumber': phoneNumberController.text,
+        'phoneNumber': normalizedPhone,
         'address': {
           'city': addressController.text,
           'latitude': selectedLatitude.value,

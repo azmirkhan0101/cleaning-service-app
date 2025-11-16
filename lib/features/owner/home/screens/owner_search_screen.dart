@@ -9,7 +9,7 @@ import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
-import 'package:cleaning_service_app/features/payment/payment_controller.dart';
+import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -12,7 +12,7 @@ import 'package:cleaning_service_app/features/common/widgets/bulleted_list.dart'
 import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
-import 'package:cleaning_service_app/features/payment/payment_controller.dart';
+import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

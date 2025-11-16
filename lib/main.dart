@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
               elevation: 0,
               centerTitle: true,
               backgroundColor: AppColors.white,
-              iconTheme: IconThemeData(color: AppColors.white),
+              // iconTheme: IconThemeData(color: AppColors.white),
             ),
             inputDecorationTheme: _buildInputDecorationTheme(),
           ),

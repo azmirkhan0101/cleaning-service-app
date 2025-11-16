@@ -1,8 +1,8 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+import 'package:cleaning_service_app/features/demo/demo_drawer.dart';
 import 'package:cleaning_service_app/features/splash/controllers/onboarding_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class GetStartedScreen extends StatefulWidget {
@@ -19,6 +19,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
+      // TODO: Remove drawer in production
+      drawer: const DemoDrawer(),
       body: Container(
         width: size.width,
         height: size.height,
@@ -34,6 +36,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              AppBar(), // TODO: Remove AppBar in production
               SizedBox(height: size.height * 0.05),
               Image.asset(
                 "assets/images/app-logo.png",
@@ -101,7 +104,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: FilledButton(
-          onPressed: _onclickGetStarted,
+          onPressed: _onClickGetStarted,
           style: FilledButton.styleFrom(
             backgroundColor: Colors.white,
             fixedSize: Size(double.maxFinite, 48),
@@ -142,99 +145,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     );
   }
 
-  Widget _buildBottomSheet() {
-    return Container(
-      width: double.infinity,
-      height: 247,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 34),
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: const Color(0xFF4899D1)),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28),
-          ),
-        ),
-      ),
-
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Title text
-          Text(
-            'Solutions to make your life easy!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF0F0B18),
-              fontSize: 24,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w600,
-              height: 1.40,
-              letterSpacing: -0.50,
-            ),
-          ),
-          SizedBox(height: 10),
-
-          // Description text
-          Text(
-            'Find the perfect Service for your home, fast and worry-free',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF4F4F59),
-              fontSize: 16,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w400,
-              height: 1.50,
-            ),
-          ),
-          SizedBox(height: 24),
-
-          // Get Started button
-          FilledButton(
-            onPressed: _onclickGetStarted,
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFF7A51D),
-              fixedSize: Size(double.maxFinite, 48),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 10,
-              children: [
-                Text(
-                  'Get Started',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.w600,
-                    height: 1.50,
-                  ),
-                ),
-                SvgPicture.asset(
-                  'assets/icons/arrow-narrow-right.svg',
-                  width: 24,
-                  height: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Onclick function for Get Started button
-  void _onclickGetStarted() {
+  // OnClick function for Get Started button
+  void _onClickGetStarted() {
     Get.to(() => LoginScreen());
   }
 }

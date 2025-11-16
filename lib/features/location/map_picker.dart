@@ -128,8 +128,10 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
       _selectedLocation.longitude,
     );
 
-    // Pop and return the result to the previous screen
-    Get.back(result: result);
+    // Pop and return the result to the previous screen without triggering GetX snackbar closing
+    if (mounted) {
+      Navigator.of(context).pop(result);
+    }
 
     // You can also return the data or navigate back with the result
     // Navigator.pop(context, {
