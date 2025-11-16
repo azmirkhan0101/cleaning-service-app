@@ -1,17 +1,19 @@
+import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
   final String paymentUrl;
   final String bookingId;
+  final bool isUpdatingSubscription;
 
   const PaymentWebViewScreen({
     super.key,
     required this.paymentUrl,
     required this.bookingId,
+    required this.isUpdatingSubscription,
   });
 
   @override
@@ -60,9 +62,11 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           },
           onNavigationRequest: (NavigationRequest request) {
             debugPrint('Navigation request ====>: ${request.url}');
-
-            // Check for payment success/failure URLs
-            if (request.url.contains('success') ||
+            // Detect Stripe/checkout success URLs
+            if (request.url.contains('activate-from-checkout')) {
+              _handlePaymentSuccess();
+              return NavigationDecision.prevent;
+            } else if (request.url.contains('success') ||
                 request.url.contains('payment-success')) {
               _handlePaymentSuccess();
               return NavigationDecision.prevent;
@@ -71,7 +75,6 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               _handlePaymentCancel();
               return NavigationDecision.prevent;
             }
-
             return NavigationDecision.navigate;
           },
         ),
@@ -79,34 +82,105 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ..loadRequest(Uri.parse(widget.paymentUrl));
   }
 
-  void _handlePaymentSuccess() {
-    Get.offAll(MainLayout(isOwner: true));
-    // Get.back(); // Close WebView
-    // Get.back(); // Close booking screen
-    Get.snackbar(
-      'Success',
-      'Payment completed successfully!',
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.TOP,
+  void _handlePaymentSuccess() async {
+    if (!mounted) return;
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      // builder: (context) => AlertDialog(
+      //   title: const Text('Payment Successful'),
+      //   content: const Text('Your payment was completed successfully!'),
+      //   actions: [
+      //     TextButton(
+      //       onPressed: () => Navigator.of(context).pop(),
+      //       child: const Text('OK'),
+      //     ),
+      //   ],
+      // ),
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              color: Colors.white,
+              border: Border.all(color: Colors.orange, width: 2),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Assets.icons.checkCircle.svg(
+                  width: 60,
+                  height: 60,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.orange,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                const Text(
+                  'Payment Successful',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12.0),
+                const Text(
+                  'Your payment was completed successfully!',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24.0),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 12.0,
+                    ),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
-    // Navigate to booking details or home
-    // Get.offAllNamed('/MainLayout');
+    if (mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => MainLayout(isOwner: true)),
+        (route) => false,
+      );
+    }
   }
 
-  void _handlePaymentCancel() {
+  void _handlePaymentCancel() async {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Payment cancelled'),
-        backgroundColor: Colors.orange,
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('Payment Failed'),
+        content: const Text('Payment was cancelled or failed.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
-    Future.microtask(() {
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    });
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override

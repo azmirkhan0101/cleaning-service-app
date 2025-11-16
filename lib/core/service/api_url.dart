@@ -79,6 +79,10 @@ class ApiUrl {
 
   /// =--> Payment Endpoints <--=
   static const String createPayment = '$baseUrl/payment/booking/create';
+  static const String stripeConnectDashboard =
+      '$baseUrl/stripe-connect/dashboard';
+  static const String stripeConnectOnboarding =
+      '$baseUrl/stripe-connect/onboarding';
 
   /// =--> Messages Endpoints <--=
   static const String messagesUsers = '$baseUrl/messages/users';

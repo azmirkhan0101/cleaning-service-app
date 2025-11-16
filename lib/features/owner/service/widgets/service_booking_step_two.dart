@@ -296,73 +296,56 @@ class ServiceBookingStepTwo extends StatelessWidget {
 
         Obx(
           () => ElevatedButton(
-            onPressed: bookingController.isBooking.value ||
-                    bookingController.isCreatingPayment.value
+            onPressed:
+                bookingController.isBooking.value ||
+                    bookingController.isBooking.value
                 ? null
                 : () async {
                     // Step 1: Create booking
-                    final bookingResponse =
-                        await bookingController.bookService();
+                    final bookingResponse = await bookingController
+                        .bookService();
 
                     if (bookingResponse != null &&
                         bookingResponse['success'] == true) {
-                      // Extract booking ID
-                      final bookingId = bookingResponse['data']?['_id'];
+                      final data = bookingResponse['data'];
+                      final bookingId = data?['bookingId'] ?? data?['_id'];
+                      final paymentUrl = data?['paymentUrl'];
+                      final message =
+                          data?['message'] ?? 'Service booked successfully!';
 
-                      if (bookingId == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(message),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      if (bookingId == null || bookingId.toString().isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Booking created but ID not found'),
+                            content: Text('Booking ID missing in response'),
                             backgroundColor: Colors.orange,
                           ),
                         );
                         return;
                       }
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Service booked successfully!'),
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-
-                      // Step 2: Create payment session
-                      final paymentResponse = await bookingController
-                          .createPaymentSession(bookingId);
-
-                      if (paymentResponse != null &&
-                          paymentResponse['success'] == true) {
-                        final paymentUrl =
-                            paymentResponse['data']?['paymentUrl'];
-
-                        if (paymentUrl != null && paymentUrl.isNotEmpty) {
-                          // Navigate to payment WebView
-                          Get.toNamed(
-                            AppRoutes.paymentWebViewScreen,
-                            arguments: {
-                              'paymentUrl': paymentUrl,
-                              'bookingId': bookingId,
-                            },
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Payment URL not found'),
-                              backgroundColor: Colors.redAccent,
-                            ),
-                          );
-                        }
-                      } else {
+                      if (paymentUrl == null || paymentUrl.toString().isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
-                              'Failed to create payment session. Please try again.',
-                            ),
+                            content: Text('Payment URL missing in response'),
                             backgroundColor: Colors.redAccent,
                           ),
                         );
+                        return;
                       }
+                      // Navigate directly to payment WebView (no extra API call needed)
+                      Get.toNamed(
+                        AppRoutes.paymentWebViewScreen,
+                        arguments: {
+                          'paymentUrl': paymentUrl,
+                          'bookingId': bookingId,
+                        },
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -394,33 +377,12 @@ class ServiceBookingStepTwo extends StatelessWidget {
                       strokeWidth: 2,
                     ),
                   )
-                : bookingController.isCreatingPayment.value
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          CustomText2(
-                            text: 'Creating Payment...',
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
-                      )
-                    : CustomText2(
-                        text: 'Continue to Payment',
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                : CustomText2(
+                    text: 'Continue to Payment',
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
           ),
         ),
         SizedBox(height: 40),

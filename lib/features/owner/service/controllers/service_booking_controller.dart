@@ -11,6 +11,7 @@ class ServiceBookingController extends GetxController {
   final selectedPaymentMethod = 'STRIPE'.obs;
   final bookingId = ''.obs;
   final paymentUrl = ''.obs;
+  final sessionId = ''.obs;
   final dateTimeController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
@@ -185,9 +186,13 @@ class ServiceBookingController extends GetxController {
         },
         (response) {
           debugPrint('Booking successful: $response');
-          // Extract booking ID from response
-          if (response['data'] != null && response['data']['_id'] != null) {
-            bookingId.value = response['data']['_id'];
+          // New response shape includes bookingId, sessionId, paymentUrl
+          final data = response['data'];
+          if (data is Map<String, dynamic>) {
+            bookingId.value = (data['bookingId'] ?? data['_id'] ?? '')
+                .toString();
+            sessionId.value = (data['sessionId'] ?? '').toString();
+            paymentUrl.value = (data['paymentUrl'] ?? '').toString();
           }
           return response;
         },

@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SubscriptionPaymentScreen extends StatefulWidget {
-  const SubscriptionPaymentScreen({super.key});
+  const SubscriptionPaymentScreen({
+    super.key,
+    this.isUpdatingSubscription = false,
+  });
+
+  final bool isUpdatingSubscription;
 
   @override
   State<SubscriptionPaymentScreen> createState() =>
@@ -93,39 +98,40 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
               const SizedBox(height: 16),
 
               // Credits input
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _creditsController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Invitation credits to use',
-                        hintText: '0',
-                        filled: true,
-                        fillColor: Color(0xFFE9EBF3),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+              if (widget.isUpdatingSubscription)
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _creditsController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Invitation credits to use',
+                          hintText: '0',
+                          filled: true,
+                          fillColor: Color(0xFFE9EBF3),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
                         ),
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
+                        onSubmitted: (_) => _createOrRefreshCheckout(),
                       ),
-                      onSubmitted: (_) => _createOrRefreshCheckout(),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  FilledButton(
-                    onPressed: controller.isCreatingCheckout.value
-                        ? null
-                        : _createOrRefreshCheckout,
-                    child: const Text('Apply'),
-                  ),
-                ],
-              ),
+                    const SizedBox(width: 12),
+                    FilledButton(
+                      onPressed: controller.isCreatingCheckout.value
+                          ? null
+                          : _createOrRefreshCheckout,
+                      child: const Text('Apply'),
+                    ),
+                  ],
+                ),
 
               const SizedBox(height: 16),
 
@@ -150,12 +156,19 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
               onPressed: (data == null)
                   ? null
                   : () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => PaymentWebViewScreen(
-                            paymentUrl: data.url,
-                            bookingId: data.sessionId,
-                          ),
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (_) => PaymentWebViewScreen(
+                      //       paymentUrl: data.url,
+                      //       bookingId: data.sessionId,
+                      //     ),
+                      //   ),
+                      // );
+                      Get.to(
+                        () => PaymentWebViewScreen(
+                          paymentUrl: data.url,
+                          bookingId: data.sessionId,
+                          isUpdatingSubscription: widget.isUpdatingSubscription,
                         ),
                       );
                     },

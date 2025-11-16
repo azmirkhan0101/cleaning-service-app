@@ -1,8 +1,8 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
-import 'package:cleaning_service_app/features/auth/models/subscription_plan_model.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:cleaning_service_app/features/provider/subscription/models/subscription_checkout_response.dart';
+import 'package:cleaning_service_app/features/provider/subscription/models/subscription_plan_model.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 

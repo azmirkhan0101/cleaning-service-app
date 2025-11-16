@@ -5,7 +5,6 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
-import 'package:cleaning_service_app/features/payment/screens/payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/controller/subscription_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/widgets/subscription_plan_card.dart';
@@ -19,7 +18,7 @@ const Color cardBorderBlue = Color(0xFF1E88E5);
 const Color unselectedTextColor = Color(0xFF6A6A6A);
 
 class ChoosePlanSection extends StatelessWidget {
-  ChoosePlanSection({super.key, this.isProfileSetupSelectionScreen = false});
+  ChoosePlanSection({super.key, this.isProfileSetupSelectionScreen = true});
   final bool isProfileSetupSelectionScreen;
 
   final ProfileSetupController selectionController =
@@ -30,8 +29,8 @@ class ChoosePlanSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Fetch plans when widget builds
-    if (selectionController.subscriptionPlans.isEmpty) {
-      selectionController.fetchSubscriptionPlans();
+    if (subscriptionController.subscriptionPlans.isEmpty) {
+      subscriptionController.fetchSubscriptionPlans();
     }
 
     return Obx(
@@ -61,14 +60,14 @@ class ChoosePlanSection extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Loading indicator
-          if (selectionController.isLoadingPlans.value)
+          if (subscriptionController.isLoadingPlans.value)
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: CircularProgressIndicator(),
               ),
             )
-          else if (selectionController.subscriptionPlans.isEmpty)
+          else if (subscriptionController.subscriptionPlans.isEmpty)
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -93,7 +92,6 @@ class ChoosePlanSection extends StatelessWidget {
                 Switch(
                   value: subscriptionController.isYearlyPlan.value,
                   onChanged: (isYearly) {
-                    // selectionController.isYearlyPlan.value = isYearly;
                     subscriptionController.isYearlyPlan.value = isYearly;
                   },
                 ),
@@ -142,16 +140,44 @@ class ChoosePlanSection extends StatelessWidget {
                 return; // Disabled state - do nothing
               }
               // Call API for Provider after selecting plan
-              selectionController.completeRegistrationSetup().then((success) {
-                if (success) {
-                  if (selectionController.typPaymentStatues.value == 0) {
-                    // Free plan selected
-                    Get.offAll(() => LoginScreen());
-                    return;
-                  }
-                  Get.to(() => PaymentScreen());
-                }
-              });
+              selectionController
+                  .completeRegistrationSetup(
+                    plan: subscriptionController.selectedPlan.value?.plan,
+                  )
+                  .then((success) {
+                    if (success) {
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Profile setup completed successfully'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      // if plan is free, navigate to login screen
+                      if (subscriptionController.selectedPlan.value?.price ==
+                          0) {
+                        // Free plan selected
+                        Get.offAll(() => LoginScreen());
+                        return;
+                      }
+                      Get.to(
+                        () => SubscriptionPaymentScreen(
+                          isUpdatingSubscription: false,
+                        ),
+                      );
+                    } else {
+                      // Show error message
+                      final errorMsg = selectionController.errorMessage.value;
+                      if (errorMsg.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(errorMsg),
+                            backgroundColor: Colors.redAccent,
+                          ),
+                        );
+                      }
+                    }
+                  });
             },
 
             title: selectionController.isUploading.value

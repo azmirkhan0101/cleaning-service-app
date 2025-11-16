@@ -9,6 +9,8 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+// import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
+import 'package:cleaning_service_app/features/common/screens/generic_webview_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
@@ -150,20 +152,52 @@ class ProfileScreen extends StatelessWidget {
             Icons.person_outline,
           ),
           onTap: () {
-            // Get.toNamed(AppRoutes.editPersonProfileScreen);
             Get.to(EditProfileScreen());
           },
         ),
 
-        // My Balance (Only for provider)
+        // My Balance (only for Provider)
         if (role == Role.provider.value)
           InkWell(
             child: _buildSettingsItem(
               'My Balance',
               Icons.account_balance_wallet_outlined,
             ),
-            onTap: () {
-              Get.toNamed(AppRoutes.myEarningScreen);
+            onTap: () async {
+              final profileCtrl = Get.find<ProfileController>();
+              String? url = await profileCtrl.fetchStripeDashboardUrl();
+              if (url == null || url.isEmpty) {
+                url = await profileCtrl.createStripeOnboardingLink();
+                if (url == null || url.isEmpty) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Unable to open Stripe link'),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                  }
+                  return;
+                }
+                if (context.mounted) {
+                  Get.to(
+                    () => GenericWebViewScreen(
+                      title: 'Stripe Onboarding',
+                      url: url!,
+                    ),
+                  );
+                }
+                return;
+              }
+              if (context.mounted) {
+                Get.to(
+                  () => GenericWebViewScreen(
+                    title: 'Stripe Dashboard',
+                    url: url!,
+                    isDashboard: true,
+                  ),
+                );
+              }
             },
           ),
 
@@ -321,7 +355,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Settings Item with Icon, Text, and Arrow
-  Widget _buildSettingsItem(String title, IconData icon) {
+  Widget _buildSettingsItem(String title, IconData icon, {Widget? iconWidget}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: ShapeDecoration(
@@ -333,7 +367,10 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.blue, size: 24),
+          if (iconWidget != null)
+            iconWidget
+          else
+            Icon(icon, color: Colors.blue, size: 24),
           SizedBox(width: 8.w),
           CustomText(
             text: title,
@@ -344,6 +381,7 @@ class ProfileScreen extends StatelessWidget {
             height: 1.50,
           ),
           const Spacer(),
+
           const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
         ],
       ),

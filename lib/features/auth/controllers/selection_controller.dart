@@ -7,6 +7,18 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectionController extends GetxController {
+  /// owner or provider type option
+  // RxBool typeModeStatues = false.obs;
+
+  RxInt currentIndex = 0.obs;
+
+  /// location text field
+  Rx<TextEditingController> locationController = TextEditingController().obs;
+
+  Rx<TextEditingController> loginEmailController = TextEditingController(
+    text: kDebugMode ? "" : "",
+  ).obs;
+
   Rx<Role> selectedRole = Role.owner.obs;
   RxString address = ''.obs;
   RxString latitude = ''.obs;
@@ -197,18 +209,6 @@ class SelectionController extends GetxController {
     );
   }
 
-  /// owner or provider type option
-  // RxBool typeModeStatues = false.obs;
-
-  RxInt currentIndex = 0.obs;
-
-  /// location text field
-  Rx<TextEditingController> locationController = TextEditingController().obs;
-
-  Rx<TextEditingController> loginEmailController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  ).obs;
-
   /// plan selection (0: Free, 1: Silver, 2: Gold, 3: Platinum)
-  RxInt typPaymentStatues = 1000.obs;
+  // RxInt typPaymentStatues = 1000.obs;
 }

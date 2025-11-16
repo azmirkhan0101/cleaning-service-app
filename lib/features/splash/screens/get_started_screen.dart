@@ -1,6 +1,5 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
-import 'package:cleaning_service_app/features/demo/demo_drawer.dart';
 import 'package:cleaning_service_app/features/splash/controllers/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,8 +18,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      // TODO: Remove drawer in production
-      drawer: const DemoDrawer(),
       body: Container(
         width: size.width,
         height: size.height,
@@ -36,7 +33,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AppBar(), // TODO: Remove AppBar in production
               SizedBox(height: size.height * 0.05),
               Image.asset(
                 "assets/images/app-logo.png",

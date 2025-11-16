@@ -17,7 +17,6 @@ import 'package:cleaning_service_app/features/owner/service/screens/owner_servic
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
-import 'package:cleaning_service_app/features/payment/screens/payment_screen.dart';
 import 'package:cleaning_service_app/features/payment/screens/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
@@ -26,7 +25,6 @@ import 'package:cleaning_service_app/features/profile/screens/profile_screen.dar
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
-import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
@@ -121,15 +119,14 @@ class AppRoutes {
 
     GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
 
-    GetPage(name: paymentScreen, page: () => PaymentScreen()),
-
-    GetPage(
-      name: paymentWebViewScreen,
-      page: () => PaymentWebViewScreen(
-        paymentUrl: Get.arguments['paymentUrl'] ?? '',
-        bookingId: Get.arguments['bookingId'] ?? '',
-      ),
-    ),
+    // // GetPage(name: paymentScreen, page: () => PaymentScreen()),
+    // GetPage(
+    //   name: paymentWebViewScreen,
+    //   page: () => PaymentWebViewScreen(
+    //     paymentUrl: Get.arguments['paymentUrl'] ?? '',
+    //     bookingId: Get.arguments['bookingId'] ?? '',
+    //   ),
+    // ),
 
     GetPage(name: providerHome, page: () => ProviderHome()),
 
@@ -168,11 +165,10 @@ class AppRoutes {
 
     // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
     // GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
-    GetPage(
-      name: proPlanSubscriptionScreen,
-      page: () => ProPlanSubscriptionScreen(),
-    ),
-
+    // GetPage(
+    //   name: proPlanSubscriptionScreen,
+    //   page: () => ProPlanSubscriptionScreen(),
+    // ),
     GetPage(name: reviewScreen, page: () => ReviewScreen()),
 
     GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),

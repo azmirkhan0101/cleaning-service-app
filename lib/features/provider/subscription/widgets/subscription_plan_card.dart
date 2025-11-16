@@ -1,8 +1,8 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
-import 'package:cleaning_service_app/features/auth/models/subscription_plan_model.dart';
 import 'package:cleaning_service_app/features/provider/subscription/controller/subscription_controller.dart';
+import 'package:cleaning_service_app/features/provider/subscription/models/subscription_plan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

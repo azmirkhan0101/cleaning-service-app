@@ -14,6 +14,8 @@ class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;
   final RxString errorMessage = ''.obs;
+  final RxBool isLoadingStripeDashboard = false.obs;
+  final RxBool isCreatingStripeOnboarding = false.obs;
 
   @override
   void onInit() {
@@ -103,6 +105,74 @@ class ProfileController extends GetxController {
 
       // Navigate to login screen and clear navigation stack
       Get.offAllNamed(AppRoutes.loginScreen);
+    }
+  }
+
+  /// Fetch Stripe Connect dashboard link
+  Future<String?> fetchStripeDashboardUrl() async {
+    try {
+      isLoadingStripeDashboard.value = true;
+      errorMessage.value = '';
+
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.get.method,
+            ApiUrl.stripeConnectDashboard,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      return response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to load dashboard link';
+          debugPrint('Stripe dashboard error: ${error.message}');
+          return null;
+        },
+        (data) {
+          final url = (data['data']?['url'] ?? '').toString();
+          return url.isEmpty ? null : url;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception fetching stripe dashboard link: $e');
+      errorMessage.value = 'Failed to load dashboard link';
+      return null;
+    } finally {
+      isLoadingStripeDashboard.value = false;
+    }
+  }
+
+  /// Create or fetch Stripe Connect onboarding link (POST)
+  Future<String?> createStripeOnboardingLink() async {
+    try {
+      isCreatingStripeOnboarding.value = true;
+      errorMessage.value = '';
+
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.post.method,
+            ApiUrl.stripeConnectOnboarding,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      return response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to start onboarding';
+          debugPrint('Stripe onboarding error: ${error.message}');
+          return null;
+        },
+        (data) {
+          final url = (data['data']?['url'] ?? '').toString();
+          return url.isEmpty ? null : url;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception creating stripe onboarding link: $e');
+      errorMessage.value = 'Failed to start onboarding';
+      return null;
+    } finally {
+      isCreatingStripeOnboarding.value = false;
     }
   }
 }
