@@ -1,8 +1,10 @@
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/features/common/widgets/bulleted_list.dart';
 import 'package:cleaning_service_app/features/profile/controllers/referral_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -86,88 +88,106 @@ class _ReferScreenState extends State<ReferScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText2(
-                        text: 'Important Note',
+                      CustomText(
+                        text: 'Discount Criteria',
+                        color: const Color(0xFF0F0B18),
                         fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      SizedBox(height: 8),
-                      CustomText2(
-                        text:
-                            '• Invite a verified & active provider and get -3% commission discount for 1 month.',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      SizedBox(height: 8),
-                      CustomText2(
-                        text: 'Multiple referrals can extend the discount:',
-                        fontSize: 12,
+                        fontFamily: 'Lexend',
                         fontWeight: FontWeight.w700,
+                        height: 1.50,
                       ),
                       SizedBox(height: 8),
-                      Text('• 3 providers invited → 3 months discount'),
-                      Text(
-                        '• 5 providers invited → permanent -3% and "Scout Provider" badge',
+
+                      BulletedList(
+                        text:
+                            'Inviter (existing user) receives €10 credit when the invited user makes their first booking or service.',
+                      ),
+                      SizedBox(height: 6),
+
+                      BulletedList(
+                        text:
+                            'Bonus tier: if the invited user completed 3 booking or service, inviter gets additional €5 credit.',
+                      ),
+                      SizedBox(height: 6),
+
+                      BulletedList(
+                        text:
+                            'Can use your earned credits as a discount when purchasing a subscription plan.',
+                      ),
+                      SizedBox(height: 6),
+
+                      BulletedList(
+                        text:
+                            'Every referral done by you and earn 10 credits that respectively are 2€.',
                       ),
                       SizedBox(height: 32),
-                      InkWell(
-                        onTap: () => controller.copyReferralCode(),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 15,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 4),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Your Referral Code',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+
+                      /// Referral Code Card
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.lightBlue,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 4),
+                              blurRadius: 6,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            /// Referral Code
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Your Referral Code',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    referralInfo.myReferralCode,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  referralInfo.myReferralCode,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () => controller.copyReferralCode(),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.copy,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 4),
+                                  CustomText(
+                                    text: "Copy Code",
+                                    color: AppColors.white_50,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
                                   ),
                                 ],
                               ),
-                              Spacer(),
-                              Icon(Icons.copy, color: Colors.white, size: 20),
-                              SizedBox(width: 4),
-                              CustomText2(
-                                text: "Copy Code",
-                                color: AppColors.white_50,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 16),
-                      // Display credits if needed
+
+                      /// Display credits if needed
                       if (referralInfo.myCredits > 0)
                         Container(
                           padding: EdgeInsets.all(12),

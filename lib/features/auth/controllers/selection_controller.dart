@@ -36,7 +36,16 @@ class SelectionController extends GetxController {
   Rx<File?> selfieWithIdImage = Rx<File?>(null);
 
   void changeType(Role type) {
+    experience.value = '';
     selectedRole.value = type;
+  }
+
+  void setupExperience(String exp) {
+    if (experience.value == exp) {
+      experience.value = '';
+    } else {
+      experience.value = exp;
+    }
   }
 
   // Pick image from gallery
@@ -101,7 +110,7 @@ class SelectionController extends GetxController {
               ),
               title: const Text('Choose from Gallery'),
               onTap: () {
-                Get.back();
+                Navigator.of(context).pop();
                 pickImageFromGallery();
               },
             ),
@@ -113,7 +122,7 @@ class SelectionController extends GetxController {
               leading: const Icon(Icons.camera_alt, color: Color(0xFF1B2D51)),
               title: const Text('Take a Photo'),
               onTap: () {
-                Get.back();
+                Navigator.of(context).pop();
                 pickImageFromCamera();
               },
             ),
@@ -185,7 +194,7 @@ class SelectionController extends GetxController {
               ),
               title: const Text('Choose from Gallery'),
               onTap: () {
-                Get.back();
+                Navigator.of(context).pop();
                 pickDocumentImage(ImageSource.gallery, onImagePicked);
               },
             ),
@@ -197,7 +206,7 @@ class SelectionController extends GetxController {
               leading: const Icon(Icons.camera_alt, color: Color(0xFF1B2D51)),
               title: const Text('Take a Photo'),
               onTap: () {
-                Get.back();
+                Navigator.of(context).pop();
                 pickDocumentImage(ImageSource.camera, onImagePicked);
               },
             ),

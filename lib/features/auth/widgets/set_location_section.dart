@@ -252,9 +252,11 @@ class _SetLocationSectionState extends State<SetLocationSection> {
       children: List.generate(options.length, (index) {
         return Obx(() {
           return GestureDetector(
-            onTap: () {
-              selectionController.experience.value = options[index];
-            },
+            onTap: () => selectionController.setupExperience(options[index]),
+            // onTap: () {
+              
+            //   selectionController.experience.value = options[index];
+            // },
             child: Row(
               children: [
                 Container(

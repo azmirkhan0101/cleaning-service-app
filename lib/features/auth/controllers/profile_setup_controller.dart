@@ -82,22 +82,6 @@ class ProfileSetupController extends SelectionController {
     }
   }
 
-  // /// Convert plan index to plan string
-  // String _getPlanString() {
-  //   switch (typPaymentStatues.value) {
-  //     case 0:
-  //       return 'FREE';
-  //     case 1:
-  //       return 'SILVER';
-  //     case 2:
-  //       return 'GOLD';
-  //     case 3:
-  //       return 'PLATINUM';
-  //     default:
-  //       return 'FREE';
-  //   }
-  // }
-
   /// Reset controller state
   void resetState() {
     errorMessage.value = '';

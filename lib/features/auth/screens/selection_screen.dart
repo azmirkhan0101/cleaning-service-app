@@ -40,7 +40,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildLineIndicator(
-                  selectionController.selectedRole.value == Role.owner ? 4 : 5,
+                  // only 4 steps for both roles, remove condition
+                  // selectionController.selectedRole.value == Role.owner ? 4 : 5,
+                  4,
                 ),
 
                 SizedBox(height: 22),

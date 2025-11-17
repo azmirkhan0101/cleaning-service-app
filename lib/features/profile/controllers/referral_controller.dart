@@ -63,11 +63,12 @@ class ReferralController extends GetxController {
 
   /// Share referral message using native share dialog
   Future<void> shareReferralCode() async {
-    if (referralInfo.value?.shareMessage != null) {
+    if (referralInfo.value?.myReferralCode != null) {
       try {
-        final result = await Share.share(
-          referralInfo.value!.shareMessage,
-          subject: 'Join Cleaning Service',
+        final result = await SharePlus.instance.share(
+          ShareParams(text: referralInfo.value!.myReferralCode),
+          // referralInfo.value!.shareMessage,
+          // subject: 'Join Cleaning Service',
         );
 
         // Optional: Handle share result

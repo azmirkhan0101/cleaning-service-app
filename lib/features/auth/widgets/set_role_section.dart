@@ -86,13 +86,9 @@ class SetRoleSection extends StatelessWidget {
     required bool isSelected,
   }) {
     return GestureDetector(
-      onTap: () {
-        if (title == "Owner") {
-          selectionController.changeType(Role.owner);
-        } else {
-          selectionController.changeType(Role.provider);
-        }
-      },
+      onTap: () => selectionController.changeType(
+        title == "Owner" ? Role.owner : Role.provider,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

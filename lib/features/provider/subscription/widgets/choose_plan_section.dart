@@ -3,8 +3,6 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
-import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/controller/subscription_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/widgets/subscription_plan_card.dart';
@@ -18,11 +16,14 @@ const Color cardBorderBlue = Color(0xFF1E88E5);
 const Color unselectedTextColor = Color(0xFF6A6A6A);
 
 class ChoosePlanSection extends StatelessWidget {
-  ChoosePlanSection({super.key, this.isProfileSetupSelectionScreen = true});
-  final bool isProfileSetupSelectionScreen;
+  ChoosePlanSection({
+    super.key,
+    // this.isProfileSetupSelectionScreen = true
+  });
+  // final bool isProfileSetupSelectionScreen;
 
-  final ProfileSetupController selectionController =
-      Get.find<ProfileSetupController>();
+  // final ProfileSetupController selectionController =
+  //     Get.find<ProfileSetupController>();
 
   final subscriptionController = Get.put(SubscriptionController());
 
@@ -125,70 +126,67 @@ class ChoosePlanSection extends StatelessWidget {
 
           SizedBox(height: 20.h),
 
+          // Continue Button
           CustomButton(
             onTap: () {
-              if (!isProfileSetupSelectionScreen) {
-                if (subscriptionController.selectedPlan.value?.price == 0) {
-                  // Please select a paid plan to continue
-                  Toast.errorToast('Please select a paid plan to continue');
-                  return;
-                }
-                Get.to(() => SubscriptionPaymentScreen());
+              // if (!isProfileSetupSelectionScreen) {
+              if (subscriptionController.selectedPlan.value?.price == 0) {
+                // Please select a paid plan to continue
+                Toast.errorToast('Please select a paid plan to continue');
                 return;
               }
-              if (selectionController.isUploading.value) {
-                return; // Disabled state - do nothing
-              }
+              Get.to(() => SubscriptionPaymentScreen());
+              return;
+              // }
+              // if (selectionController.isUploading.value) {
+              //   return; // Disabled state - do nothing
+              // }
               // Call API for Provider after selecting plan
-              selectionController
-                  .completeRegistrationSetup(
-                    plan: subscriptionController.selectedPlan.value?.plan,
-                  )
-                  .then((success) {
-                    if (success) {
-                      // Show success message
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Profile setup completed successfully'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                      // if plan is free, navigate to login screen
-                      if (subscriptionController.selectedPlan.value?.price ==
-                          0) {
-                        // Free plan selected
-                        Get.offAll(() => LoginScreen());
-                        return;
-                      }
-                      Get.to(
-                        () => SubscriptionPaymentScreen(
-                          isUpdatingSubscription: false,
-                        ),
-                      );
-                    } else {
-                      // Show error message
-                      final errorMsg = selectionController.errorMessage.value;
-                      if (errorMsg.isNotEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(errorMsg),
-                            backgroundColor: Colors.redAccent,
-                          ),
-                        );
-                      }
-                    }
-                  });
+              // selectionController
+              //     .completeRegistrationSetup(
+              //       plan: subscriptionController.selectedPlan.value?.plan,
+              //     )
+              //     .then((success) {
+              //       if (success) {
+              //         // Show success message
+              //         ScaffoldMessenger.of(context).showSnackBar(
+              //           const SnackBar(
+              //             content: Text('Profile setup completed successfully'),
+              //             backgroundColor: Colors.green,
+              //           ),
+              //         );
+              //         // if plan is free, navigate to login screen
+              //         if (subscriptionController.selectedPlan.value?.price ==
+              //             0) {
+              //           // Free plan selected
+              //           Get.offAll(() => LoginScreen());
+              //           return;
+              //         }
+              //         Get.to(
+              //           () => SubscriptionPaymentScreen(
+              //             isUpdatingSubscription: false,
+              //           ),
+              //         );
+              //       } else {
+              //         // Show error message
+              //         final errorMsg = selectionController.errorMessage.value;
+              //         if (errorMsg.isNotEmpty) {
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //             SnackBar(
+              //               content: Text(errorMsg),
+              //               backgroundColor: Colors.redAccent,
+              //             ),
+              //           );
+              //         }
+              //       }
+              //     });
             },
 
-            title: selectionController.isUploading.value
-                ? 'Processing...'
-                : AppStrings.continueText,
+            title: AppStrings.continueText,
             fontSize: 16,
             width: double.infinity,
             height: 50,
-            fillColor: selectionController.isUploading.value
-                ? AppColors.grey_1
-                : AppColors.appColors,
+            fillColor: AppColors.appColors,
             borderRadius: 24,
           ),
 

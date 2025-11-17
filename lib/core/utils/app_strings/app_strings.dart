@@ -113,9 +113,9 @@ class AppStrings {
   static const String locationTitle =
       "Our app makes everyday tasks easier and faster, giving you the tools you need right at your fingertips.";
 
-  static const String VerifyProfile = "Verify Your Profile";
+  static const String verifyProfileText = "Verify Your Profile";
 
-  static const String VerifyProfileTitle =
+  static const String uploadDocumentText =
       "Upload documentation to confirm your identity and experience.";
 
   static const String chooseYourPlan = "Choose Your Plan";

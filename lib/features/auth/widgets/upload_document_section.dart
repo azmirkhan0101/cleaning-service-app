@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
@@ -30,34 +29,35 @@ class UploadDocumentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Main Heading and Subheading
-        const CustomText2(
-          text: AppStrings.VerifyProfile,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,
-        ),
+    return Obx(() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Verify Your Profile [title]
+          const CustomText(
+            text: AppStrings.verifyProfileText,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
 
-        const SizedBox(height: 12),
+          const SizedBox(height: 12),
 
-        const CustomText2(
-          text: AppStrings.VerifyProfileTitle,
-          fontSize: 12,
-          color: unselectedTextColor,
-          fontWeight: FontWeight.w400,
-          maxLines: 3,
-          textAlign: TextAlign.start,
-        ),
+          /// Upload documentation ..... [description]
+          const CustomText(
+            text: AppStrings.uploadDocumentText,
+            fontSize: 12,
+            color: unselectedTextColor,
+            fontWeight: FontWeight.w400,
+            maxLines: 3,
+            textAlign: TextAlign.start,
+          ),
 
-        const SizedBox(height: 24),
+          const SizedBox(height: 24),
 
-        // Upload Front Side of ID
-        Obx(
-          () => _buildUploadDocument(
+          /// Upload Front Side of ID
+          _buildUploadDocument(
             title: "Upload the Front Side of Your ID",
             description:
                 "Take a clear photo or upload the front side of your identity card. Make sure all details are visible.",
@@ -71,13 +71,11 @@ class UploadDocumentSection extends StatelessWidget {
             uploadedImage: selectionController.frontIdImage.value,
             buttonLabel: 'Upload Front Side',
           ),
-        ),
 
-        SizedBox(height: 20.w),
+          SizedBox(height: 20.w),
 
-        // Upload Back Side of ID
-        Obx(
-          () => _buildUploadDocument(
+          /// Upload Back Side of ID
+          _buildUploadDocument(
             title: "Upload the Back Side of Your ID",
             description:
                 "Now, upload a clear photo of the back side of your identity card.",
@@ -91,14 +89,12 @@ class UploadDocumentSection extends StatelessWidget {
             uploadedImage: selectionController.backIdImage.value,
             buttonLabel: 'Upload Back Side',
           ),
-        ),
 
-        SizedBox(height: 20.w),
+          SizedBox(height: 20.w),
 
-        // Upload Selfie with ID
-        if (selectionController.selectedRole.value == Role.provider)
-          Obx(
-            () => _buildUploadDocument(
+          /// Upload Selfie with ID
+          if (selectionController.selectedRole.value == Role.provider)
+            _buildUploadDocument(
               title: "Upload a Selfie with Your ID",
               description:
                   "Take a selfie while holding your identity card next to your face. Ensure everything clearly visible.",
@@ -112,12 +108,11 @@ class UploadDocumentSection extends StatelessWidget {
               uploadedImage: selectionController.selfieWithIdImage.value,
               buttonLabel: 'Upload Selfie',
             ),
-          ),
 
-        SizedBox(height: 56.w),
+          SizedBox(height: 56.w),
 
-        Obx(
-          () => CustomButton(
+          /// Confirm Button
+          CustomButton(
             onTap: () async {
               if (selectionController.isUploading.value) {
                 return; // Disabled state - do nothing
@@ -152,16 +147,6 @@ class UploadDocumentSection extends StatelessWidget {
               debugPrint(
                 'Selfie with ID uploaded: ${selectionController.selfieWithIdImage.value}',
               );
-              // // Upload all documents for Owner
-              // final result = await selectionController
-              //     .completeRegistrationSetup();
-              // if (result) {
-              //   Get.offAll(() => LoginScreen());
-              //   Get.snackbar(
-              //     "Registration complete successfully",
-              //     "Owner documents uploaded successfully. Please login to continue.",
-              //   );
-              // }
             },
             title: selectionController.isUploading.value
                 ? 'Processing...'
@@ -174,11 +159,11 @@ class UploadDocumentSection extends StatelessWidget {
                 : AppColors.appColors,
             borderRadius: 24,
           ),
-        ),
 
-        SizedBox(height: 20),
-      ],
-    );
+          SizedBox(height: 20),
+        ],
+      );
+    });
   }
 
   void _showAffiliationConditionDialog(BuildContext context) {
@@ -321,7 +306,6 @@ class UploadDocumentSection extends StatelessWidget {
               return CircularProgressIndicator();
             }
             return Text(
-              // "By using the app, you agree to create an account and keep your login information secure. Users can book appointments, and service providers manage availability and appointments. Payments are handled between users and providers. Follow the provider's cancellation and refund policy. You must use the app responsibly, and we are not liable for any issues. The terms may change, and by continuing to use the app, you agree to any updates. For questions, contact us at [Contact Email]",
               affiliationController.affiliationContent.value,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -341,26 +325,27 @@ class UploadDocumentSection extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 // If role is Provider, go to next step
-                if (selectionController.selectedRole.value != Role.owner) {
-                  Navigator.pop(context);
-                  selectionController.currentIndex.value++;
+                // if (selectionController.selectedRole.value != Role.owner) {
+                //   Navigator.pop(context);
+                //   selectionController.currentIndex.value++;
+                // } else {
+                // else complete registration
+                // Upload all documents for Owner
+                final result = await selectionController
+                    .completeRegistrationSetup();
+                if (result) {
+                  // Close the dialog first
+                  Navigator.of(context).pop();
+                  // Then navigate to login (this removes all previous routes)
+                  Get.offAll(() => LoginScreen());
+                  Toast.successToast(
+                    "Registration complete successfully. Owner documents uploaded successfully. Please login to continue.",
+                  );
                 } else {
-                  // else complete registration
-                  // Upload all documents for Owner
-                  final result = await selectionController
-                      .completeRegistrationSetup();
-                  if (result) {
-                    // Close the dialog first
-                    Navigator.pop(context);
-                    // Then navigate to login (this removes all previous routes)
-                    Get.offAll(() => LoginScreen());
-                    Get.snackbar(
-                      "Registration Complete",
-                      "Owner documents uploaded successfully. Please login to continue.",
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  }
+                  // Show error toast
+                  Toast.errorToast(selectionController.errorMessage.value);
                 }
+                // }
               },
               child: Container(
                 width: double.infinity,

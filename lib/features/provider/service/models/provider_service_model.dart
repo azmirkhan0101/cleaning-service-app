@@ -139,15 +139,17 @@ class WorkSchedule {
 
 class DaySchedule {
   final String day;
-  final bool isAvailable;
-  final String startTime;
-  final String endTime;
+  bool isAvailable;
+  String startTime;
+  String endTime;
+  int bufferTime; // Buffer time in minutes (break/rest time between services)
 
   DaySchedule({
     required this.day,
     required this.isAvailable,
     required this.startTime,
     required this.endTime,
+    this.bufferTime = 15, // Default 15 minutes buffer time
   });
 
   factory DaySchedule.fromJson(Map<String, dynamic> json) {
@@ -156,7 +158,18 @@ class DaySchedule {
       isAvailable: json['isAvailable'] ?? false,
       startTime: json['startTime'] ?? '',
       endTime: json['endTime'] ?? '',
+      bufferTime: json['bufferTime'] ?? 15,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'day': day,
+      'isAvailable': isAvailable,
+      'startTime': startTime,
+      'endTime': endTime,
+      'bufferTime': bufferTime,
+    };
   }
 }
 

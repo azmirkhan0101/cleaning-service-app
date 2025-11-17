@@ -21,7 +21,8 @@ class ServiceCreateController extends GetxController {
   RxList<File> coverImages = <File>[].obs;
 
   // Work schedule from work_schedule_screen
-  Map<String, dynamic> workSchedule = {};
+  RxMap<String, Map<String, dynamic>> workSchedule =
+      <String, Map<String, dynamic>>{}.obs;
 
   Future<bool> createService() async {
     // Validation
@@ -242,6 +243,6 @@ class ServiceCreateController extends GetxController {
     isFemaleOnly.value = false;
     selectedLanguages.clear();
     coverImages.clear();
-    workSchedule = {};
+    workSchedule.value = {};
   }
 }
