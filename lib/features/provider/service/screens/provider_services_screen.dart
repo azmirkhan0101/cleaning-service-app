@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_controller.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/provider_service_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -107,7 +108,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       final service = serviceController.services[index];
                       return InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.serviceDetails);
+                          Get.to(
+                            ProviderServiceDetailsScreen(),
+                            arguments: {'serviceId': service.id},
+                          );
                         },
                         child: Card(
                           elevation: 0.2,

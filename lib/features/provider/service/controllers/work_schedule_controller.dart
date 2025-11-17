@@ -113,4 +113,18 @@ class WorkScheduleController extends GetxController {
   Map<String, Map<String, dynamic>> getScheduleData() {
     return schedule.map((key, value) => MapEntry(key, value.toJson()));
   }
+
+  /// Load existing schedule data
+  void loadScheduleData(Map<String, Map<String, dynamic>> scheduleData) {
+    scheduleData.forEach((key, value) {
+      final daySchedule = schedule[key.toLowerCase()];
+      if (daySchedule != null) {
+        daySchedule.isAvailable = value['isAvailable'] ?? false;
+        daySchedule.startTime = value['startTime'] ?? '';
+        daySchedule.endTime = value['endTime'] ?? '';
+        daySchedule.bufferTime = value['bufferTime'] ?? 15;
+      }
+    });
+    schedule.refresh();
+  }
 }

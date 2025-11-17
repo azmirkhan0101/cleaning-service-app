@@ -3,12 +3,17 @@ import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ServiceCreateController extends GetxController {
   // Loading state
   RxBool isCreating = false.obs;
+
+  // Edit mode
+  RxBool isEditMode = false.obs;
+  RxString editServiceId = ''.obs;
 
   // Form fields from service_add_screen
   RxString selectedCategoryId = ''.obs;
@@ -19,6 +24,7 @@ class ServiceCreateController extends GetxController {
   RxBool isFemaleOnly = false.obs;
   RxList<String> selectedLanguages = <String>[].obs;
   RxList<File> coverImages = <File>[].obs;
+  RxList<String> existingImageUrls = <String>[].obs; // For edit mode
 
   // Work schedule from work_schedule_screen
   RxMap<String, Map<String, dynamic>> workSchedule =
@@ -235,6 +241,8 @@ class ServiceCreateController extends GetxController {
 
   /// Reset controller state
   void resetState() {
+    isEditMode.value = false;
+    editServiceId.value = '';
     selectedCategoryId.value = '';
     serviceName.value = '';
     description.value = '';
@@ -243,6 +251,230 @@ class ServiceCreateController extends GetxController {
     isFemaleOnly.value = false;
     selectedLanguages.clear();
     coverImages.clear();
+    existingImageUrls.clear();
     workSchedule.value = {};
+  }
+
+  /// Load service data for editing
+  void loadServiceForEdit(ProviderServiceModel service) {
+    isEditMode.value = true;
+    editServiceId.value = service.id;
+    selectedCategoryId.value = service.categoryId.id;
+    serviceName.value = service.name;
+    description.value = service.description;
+    rateByHour.value = service.rateByHour;
+    needApproval.value = service.needApproval;
+    isFemaleOnly.value = service.gender == 'Female';
+    selectedLanguages.value = service.languages;
+    existingImageUrls.value = service.coverImages;
+
+    // Convert WorkSchedule model to Map format for the controller
+    workSchedule.value = {
+      'Monday': {
+        'isAvailable': service.workSchedule.monday.isAvailable,
+        'startTime': service.workSchedule.monday.startTime,
+        'endTime': service.workSchedule.monday.endTime,
+        'bufferTime': service.workSchedule.monday.bufferTime,
+      },
+      'Tuesday': {
+        'isAvailable': service.workSchedule.tuesday.isAvailable,
+        'startTime': service.workSchedule.tuesday.startTime,
+        'endTime': service.workSchedule.tuesday.endTime,
+        'bufferTime': service.workSchedule.tuesday.bufferTime,
+      },
+      'Wednesday': {
+        'isAvailable': service.workSchedule.wednesday.isAvailable,
+        'startTime': service.workSchedule.wednesday.startTime,
+        'endTime': service.workSchedule.wednesday.endTime,
+        'bufferTime': service.workSchedule.wednesday.bufferTime,
+      },
+      'Thursday': {
+        'isAvailable': service.workSchedule.thursday.isAvailable,
+        'startTime': service.workSchedule.thursday.startTime,
+        'endTime': service.workSchedule.thursday.endTime,
+        'bufferTime': service.workSchedule.thursday.bufferTime,
+      },
+      'Friday': {
+        'isAvailable': service.workSchedule.friday.isAvailable,
+        'startTime': service.workSchedule.friday.startTime,
+        'endTime': service.workSchedule.friday.endTime,
+        'bufferTime': service.workSchedule.friday.bufferTime,
+      },
+      'Saturday': {
+        'isAvailable': service.workSchedule.saturday.isAvailable,
+        'startTime': service.workSchedule.saturday.startTime,
+        'endTime': service.workSchedule.saturday.endTime,
+        'bufferTime': service.workSchedule.saturday.bufferTime,
+      },
+      'Sunday': {
+        'isAvailable': service.workSchedule.sunday.isAvailable,
+        'startTime': service.workSchedule.sunday.startTime,
+        'endTime': service.workSchedule.sunday.endTime,
+        'bufferTime': service.workSchedule.sunday.bufferTime,
+      },
+    };
+  }
+
+  /// Update existing service
+  Future<bool> updateService() async {
+    if (editServiceId.value.isEmpty) {
+      Get.snackbar('Error', 'Service ID is required');
+      return false;
+    }
+
+    // Validation
+    if (selectedCategoryId.value.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please select a category',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (serviceName.value.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter service name',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (description.value.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter description',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (rateByHour.value.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter rate by hour',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (selectedLanguages.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please select at least one language',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (coverImages.isEmpty && existingImageUrls.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please add at least one image',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (workSchedule.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please set your work schedule',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    isCreating.value = true;
+
+    try {
+      final network = Get.find<NetworkHelper>();
+
+      // Create form data for multipart request
+      final fields = <String, String>{
+        'categoryId': selectedCategoryId.value,
+        'name': serviceName.value,
+        'description': description.value,
+        'rateByHour': rateByHour.value,
+        'needApproval': needApproval.value.toString(),
+        'gender': isFemaleOnly.value ? 'Female' : 'Male',
+        'languages': selectedLanguages.join(','),
+        'workSchedule': _convertWorkScheduleToJson(),
+      };
+
+      // Add existing image URLs
+      if (existingImageUrls.isNotEmpty) {
+        fields['existingImages'] = existingImageUrls.join(',');
+      }
+
+      final files = coverImages
+          .map((file) => MultipartBody(key: 'coverImages', file: file))
+          .toList();
+
+      final response = await network.multipart(
+        url: '${ApiUrl.baseUrl}/service/update/${editServiceId.value}',
+        method: 'PUT',
+        fields: fields,
+        files: files,
+        withAuth: true,
+        parser: (data) {
+          return data;
+        },
+      );
+
+      isCreating.value = false;
+
+      return response.fold(
+        (error) {
+          String errorMessage = error.message ?? 'Service update failed';
+
+          if (errorMessage.contains('Stripe')) {
+            errorMessage =
+                'Please connect your Stripe account in your profile settings.';
+          } else if (errorMessage.contains('permission')) {
+            errorMessage = 'You don\'t have permission to update this service.';
+          }
+
+          Get.snackbar(
+            'Update Failed',
+            errorMessage,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Get.theme.colorScheme.error,
+            colorText: Get.theme.colorScheme.onError,
+            duration: Duration(seconds: 5),
+          );
+          return false;
+        },
+        (data) {
+          Get.snackbar(
+            'Success',
+            'Service updated successfully',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Get.theme.primaryColor,
+            colorText: Get.theme.colorScheme.onPrimary,
+            duration: Duration(seconds: 3),
+          );
+
+          // Navigate back to services screen
+          Get.until((route) => route.isFirst);
+
+          // Reset state
+          resetState();
+
+          return true;
+        },
+      );
+    } catch (e) {
+      isCreating.value = false;
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Get.theme.colorScheme.error,
+        colorText: Get.theme.colorScheme.onError,
+      );
+      return false;
+    }
   }
 }

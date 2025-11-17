@@ -28,15 +28,15 @@ class ServiceController extends GetxController {
   // Available languages
   final List<String> availableLanguages = [
     'English',
-    'Spanish',
-    'French',
-    'German',
-    'Italian',
-    'Portuguese',
-    'Chinese',
-    'Japanese',
-    'Arabic',
-    'Hindi',
+    // 'Spanish',
+    // 'French',
+    // 'German',
+    // 'Italian',
+    // 'Portuguese',
+    // 'Chinese',
+    // 'Japanese',
+    // 'Arabic',
+    // 'Hindi',
   ];
 
   // Observable list of categories

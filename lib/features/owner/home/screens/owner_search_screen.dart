@@ -1,4 +1,3 @@
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
@@ -9,6 +8,7 @@ import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -258,7 +258,10 @@ class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
                     return InkWell(
                       onTap: () {
                         ///service Details screen owner
-                        Get.toNamed(AppRoutes.ownerServiceDetailsScreen);
+                        Get.to(
+                          OwnerServiceDetailsScreen(),
+                          arguments: {'serviceId': service['title']},
+                        );
                       },
                       child: Card(
                         elevation: 0.2,

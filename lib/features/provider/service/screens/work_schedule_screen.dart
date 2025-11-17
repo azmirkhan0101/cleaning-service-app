@@ -1,6 +1,7 @@
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/service_create_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/work_schedule_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
@@ -15,6 +16,12 @@ class WorkScheduleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheduleController = Get.put(WorkScheduleController());
     final createController = Get.find<ServiceCreateController>();
+
+    // Load existing schedule data if in edit mode
+    if (createController.isEditMode.value &&
+        createController.workSchedule.isNotEmpty) {
+      scheduleController.loadScheduleData(createController.workSchedule);
+    }
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Work schedule', backButton: true),
@@ -217,7 +224,7 @@ class WorkScheduleScreen extends StatelessWidget {
                       ),
                     ),
 
-                    CustomText(text: "Buffer"),
+                    CustomText(text: ""),
                   ],
                 ),
 
@@ -329,7 +336,7 @@ class WorkScheduleScreen extends StatelessWidget {
 
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
@@ -514,7 +521,7 @@ class WorkScheduleScreen extends StatelessWidget {
 
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
@@ -664,7 +671,20 @@ class WorkScheduleScreen extends StatelessWidget {
     // Save schedule data to create controller
     createController.workSchedule.value = scheduleData;
 
-    // Call the API
-    await createController.createService();
+    // Call the appropriate API based on edit mode
+    final success = createController.isEditMode.value
+        ? await createController.updateService()
+        : await createController.createService();
+
+    // If service created/updated successfully, refresh services list and navigate back
+    if (success) {
+      // Refresh the services list if controller exists
+      try {
+        final providerServiceController = Get.find<ProviderServiceController>();
+        await providerServiceController.refreshServices();
+      } catch (e) {
+        // Controller not found, skip refresh
+      }
+    }
   }
 }

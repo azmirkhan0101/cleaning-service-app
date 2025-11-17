@@ -3,24 +3,28 @@ import 'dart:io';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/custom_drop_down_button.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/service_create_controller.dart';
+import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ServiceAddScreen extends StatefulWidget {
-  const ServiceAddScreen({super.key});
+class ServiceCreateEditScreen extends StatefulWidget {
+  const ServiceCreateEditScreen({super.key, this.serviceModel});
+  final ProviderServiceModel? serviceModel;
 
   @override
-  State<ServiceAddScreen> createState() => _ServiceAddScreenState();
+  State<ServiceCreateEditScreen> createState() =>
+      _ServiceCreateEditScreenState();
 }
 
-class _ServiceAddScreenState extends State<ServiceAddScreen> {
+class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
   final serviceController = Get.find<ServiceController>();
   final createController = Get.put(ServiceCreateController());
 
@@ -28,6 +32,32 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
   final serviceNameController = TextEditingController();
   final descriptionController = TextEditingController();
   final rateByHourController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.serviceModel != null) {
+      // Load data into createController
+      createController.loadServiceForEdit(widget.serviceModel!);
+
+      // Populate text controllers
+      serviceNameController.text = widget.serviceModel!.name;
+      descriptionController.text = widget.serviceModel!.description;
+      rateByHourController.text = widget.serviceModel!.rateByHour.toString();
+
+      // Populate serviceController UI fields
+      serviceController.selectedCategoryId.value =
+          widget.serviceModel!.categoryId.id;
+      serviceController.selectedCategoryName.value =
+          widget.serviceModel!.categoryId.name;
+      serviceController.typeModeStatues.value =
+          widget.serviceModel!.needApproval;
+      serviceController.genderType.value =
+          widget.serviceModel!.gender == 'Female';
+      serviceController.selectedLanguages.value =
+          widget.serviceModel!.languages;
+    }
+  }
 
   @override
   void dispose() {
@@ -454,8 +484,8 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
               SizedBox(height: 12),
 
-              const CustomText2(
-                text: "Cover Images",
+              const CustomText(
+                text: "Images",
                 fontSize: 18,
                 color: AppColors.black,
                 fontWeight: FontWeight.w600,
@@ -465,52 +495,101 @@ class _ServiceAddScreenState extends State<ServiceAddScreen> {
 
               // Display selected images
               Obx(() {
-                if (createController.coverImages.isEmpty) {
+                final hasNewImages = createController.coverImages.isNotEmpty;
+                final hasExistingImages =
+                    createController.existingImageUrls.isNotEmpty;
+
+                if (!hasNewImages && !hasExistingImages) {
                   return SizedBox.shrink();
                 }
+
                 return Container(
                   margin: EdgeInsets.only(bottom: 12),
                   child: Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: createController.coverImages.map((file) {
-                      return Stack(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: FileImage(file),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: -8,
-                            right: -8,
-                            child: IconButton(
-                              icon: Container(
-                                padding: EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  size: 16,
-                                  color: Colors.white,
+                    children: [
+                      // Display existing images from URLs
+                      ...createController.existingImageUrls.map((url) {
+                        return Stack(
+                          children: [
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: NetworkImage(url),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              onPressed: () {
-                                createController.coverImages.remove(file);
-                              },
                             ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                            Positioned(
+                              top: -8,
+                              right: -8,
+                              child: IconButton(
+                                icon: Container(
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  createController.existingImageUrls.remove(
+                                    url,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                      // Display newly selected images from files
+                      ...createController.coverImages.map((file) {
+                        return Stack(
+                          children: [
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: FileImage(file),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: -8,
+                              right: -8,
+                              child: IconButton(
+                                icon: Container(
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  createController.coverImages.remove(file);
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
                   ),
                 );
               }),
