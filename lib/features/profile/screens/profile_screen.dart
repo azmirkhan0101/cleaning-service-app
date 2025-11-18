@@ -274,8 +274,8 @@ class ProfileScreen extends StatelessWidget {
 
                         SizedBox(height: 8),
 
-                        CustomText2(
-                          text: "Are you sure you want to delete ?",
+                        CustomText(
+                          text: "Are you sure you want to delete?",
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: AppColors.grey_2,
@@ -285,12 +285,14 @@ class ProfileScreen extends StatelessWidget {
 
                         CustomButton(
                           onTap: () {
-                            Get.offAll(LoginScreen());
+                            // Get.offAll(LoginScreen());
+                            Navigator.of(context).pop();
                           },
-                          title: "Yes",
+                          title: "Delete Account feature coming soon",
                           height: 45,
                           fontSize: 12,
-                          fillColor: AppColors.appColors,
+                          // fillColor: AppColors.appColors,
+                          fillColor: AppColors.grey_3,
                         ),
 
                         SizedBox(height: 12),
