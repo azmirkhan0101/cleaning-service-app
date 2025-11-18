@@ -23,7 +23,7 @@ class NotificationController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<NotificationResponseModel>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.notifications,
           withAuth: true,
           parser: (data) => NotificationResponseModel.fromJson(data['data']),
@@ -50,7 +50,7 @@ class NotificationController extends GetxController {
   /// Mark a single notification as read
   Future<bool> markAsRead(String notificationId) async {
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.patch.method,
+      HttpRequestType.patch.method,
       ApiUrl.markNotificationAsRead(notificationId),
       withAuth: true,
     );
@@ -80,7 +80,7 @@ class NotificationController extends GetxController {
   /// Mark all notifications as read
   Future<bool> markAllAsRead() async {
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.patch.method,
+      HttpRequestType.patch.method,
       ApiUrl.markAllNotificationsAsRead,
       withAuth: true,
     );
@@ -107,7 +107,7 @@ class NotificationController extends GetxController {
   /// Delete a notification
   Future<bool> deleteNotification(String notificationId) async {
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.delete.method,
+      HttpRequestType.delete.method,
       ApiUrl.deleteNotification(notificationId),
       withAuth: true,
     );

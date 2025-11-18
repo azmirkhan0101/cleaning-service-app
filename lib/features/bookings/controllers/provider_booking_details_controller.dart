@@ -35,7 +35,7 @@ class ProviderBookingDetailsController extends GetxController {
 
       final result = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             ApiUrl.bookingProviderDetails(bookingId.value),
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
@@ -85,7 +85,7 @@ class ProviderBookingDetailsController extends GetxController {
 
       final result = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpMethod.patch.method,
+            HttpRequestType.patch.method,
             ApiUrl.acceptBooking(bookingId.value),
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
@@ -133,7 +133,7 @@ class ProviderBookingDetailsController extends GetxController {
 
       final result = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpMethod.patch.method,
+            HttpRequestType.patch.method,
             ApiUrl.rejectBooking(bookingId.value),
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,

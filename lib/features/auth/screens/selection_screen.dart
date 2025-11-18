@@ -1,11 +1,11 @@
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
-import 'package:cleaning_service_app/features/auth/widgets/choose_plan_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_role_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/upload_document_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/upload_your_photo_section.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
+import 'package:cleaning_service_app/features/provider/subscription/widgets/choose_plan_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,7 +40,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildLineIndicator(
-                  selectionController.selectedRole.value == Role.owner ? 4 : 5,
+                  // only 4 steps for both roles, remove condition
+                  // selectionController.selectedRole.value == Role.owner ? 4 : 5,
+                  4,
                 ),
 
                 SizedBox(height: 22),

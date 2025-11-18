@@ -20,7 +20,7 @@ class LoginController extends GetxController {
     text: kDebugMode ? "12345678" : null,
   );
 
-  final isRememberMe = false.obs;
+  final isRememberMe = true.obs;
 
   final isLoggingIn = false.obs;
   final loginErrorMessage = ''.obs;
@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     };
 
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.post.method,
+      HttpRequestType.post.method,
       ApiUrl.login,
       body: loginData,
       withAuth: false,

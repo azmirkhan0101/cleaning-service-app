@@ -1,7 +1,11 @@
+import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
+import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:cleaning_service_app/features/profile/models/profile_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -10,6 +14,8 @@ class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;
   final RxString errorMessage = ''.obs;
+  final RxBool isLoadingStripeDashboard = false.obs;
+  final RxBool isCreatingStripeOnboarding = false.obs;
 
   @override
   void onInit() {
@@ -25,7 +31,7 @@ class ProfileController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<ProfileResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             ApiUrl.profile,
             withAuth: true,
             parser: (data) => ProfileResponseModel.fromJson(data),
@@ -37,7 +43,7 @@ class ProfileController extends GetxController {
         (error) {
           // Handle error
           errorMessage.value = error.message ?? 'Failed to load profile';
-          print('Error fetching profile: ${error.message}');
+          debugPrint('Error fetching profile: ${error.message}');
           Get.snackbar(
             'Error',
             error.message ?? 'Failed to load profile',
@@ -52,7 +58,7 @@ class ProfileController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = 'Failed to load profile';
-      print('Exception fetching profile: $e');
+      debugPrint('Exception fetching profile: $e');
       Get.snackbar(
         'Error',
         'Failed to load profile',
@@ -66,95 +72,107 @@ class ProfileController extends GetxController {
     await fetchProfile();
   }
 
-  // /// Pick image from gallery
-  // Future<void> pickImageFromGallery() async {
-  //   try {
-  //     final XFile? image = await _picker.pickImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 80,
-  //     );
-  //     if (image != null) {
-  //       profileImage.value = File(image.path);
-  //     }
-  //   } catch (e) {
-  //     Toast.errorToast('Failed to pick image from gallery');
-  //   }
-  // }
+  Future<void> signOut() async {
+    try {
+      // Call logout API
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.post.method,
+            ApiUrl.logout,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
 
-  // /// Pick image from camera
-  // Future<void> pickImageFromCamera() async {
-  //   try {
-  //     final XFile? image = await _picker.pickImage(
-  //       source: ImageSource.camera,
-  //       imageQuality: 80,
-  //     );
-  //     if (image != null) {
-  //       profileImage.value = File(image.path);
-  //     }
-  //   } catch (e) {
-  //     Toast.errorToast('Failed to take photo');
-  //   }
-  // }
+      response.fold(
+        (error) {
+          // Even if API fails, clear local data and logout
+          debugPrint('Logout API error: ${error.message}');
+        },
+        (data) {
+          debugPrint('Logout success: ${data['message']}');
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception during logout: $e');
+    } finally {
+      // Delete the permanent MainLayoutController to allow fresh creation on next login
+      if (Get.isRegistered<MainLayoutController>()) {
+        Get.delete<MainLayoutController>(force: true);
+      }
 
-  // /// Update owner profile
-  // Future<bool> updateProfile({
-  //   required String userName,
-  //   required String phoneNumber,
-  //   required String address,
-  //   File? profilePicture,
-  // }) async {
-  //   try {
-  //     isUpdating.value = true;
+      // Clear all stored data
+      await AppStorageService.clearAll();
 
-  //     // Prepare form data
-  //     final Map<String, String> fields = {
-  //       'userName': userName,
-  //       'phoneNumber': phoneNumber,
-  //       'address': address,
-  //     };
+      // Navigate to login screen and clear navigation stack
+      Get.offAllNamed(AppRoutes.loginScreen);
+    }
+  }
 
-  //     // Prepare files list
-  //     final List<MultipartBody> files = [];
-  //     if (profilePicture != null) {
-  //       files.add(MultipartBody(key: 'profilePicture', file: profilePicture));
-  //     }
+  /// Fetch Stripe Connect dashboard link
+  Future<String?> fetchStripeDashboardUrl() async {
+    try {
+      isLoadingStripeDashboard.value = true;
+      errorMessage.value = '';
 
-  //     final response = await Get.find<NetworkHelper>()
-  //         .multipart<UpdateProfileResponseModel>(
-  //           url: ApiUrl.updateOwnerProfile,
-  //           method: HttpMethod.put.method,
-  //           fields: fields,
-  //           files: files,
-  //           withAuth: true,
-  //           parser: (data) => UpdateProfileResponseModel.fromJson(data),
-  //         );
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.get.method,
+            ApiUrl.stripeConnectDashboard,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
 
-  //     isUpdating.value = false;
+      return response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to load dashboard link';
+          debugPrint('Stripe dashboard error: ${error.message}');
+          return null;
+        },
+        (data) {
+          final url = (data['data']?['url'] ?? '').toString();
+          return url.isEmpty ? null : url;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception fetching stripe dashboard link: $e');
+      errorMessage.value = 'Failed to load dashboard link';
+      return null;
+    } finally {
+      isLoadingStripeDashboard.value = false;
+    }
+  }
 
-  //     return response.fold(
-  //       (error) {
-  //         Toast.errorToast(error.message ?? 'Failed to update profile');
-  //         return false;
-  //       },
-  //       (data) {
-  //         Toast.successToast(data.message);
-  //         // Refresh profile data
-  //         fetchProfile();
-  //         // Clear selected image
-  //         profileImage.value = null;
-  //         return true;
-  //       },
-  //     );
-  //   } catch (e) {
-  //     isUpdating.value = false;
-  //     Toast.errorToast('Failed to update profile');
-  //     print('Exception updating profile: $e');
-  //     return false;
-  //   }
-  // }
+  /// Create or fetch Stripe Connect onboarding link (POST)
+  Future<String?> createStripeOnboardingLink() async {
+    try {
+      isCreatingStripeOnboarding.value = true;
+      errorMessage.value = '';
 
-  // /// Clear selected image
-  // void clearImage() {
-  //   profileImage.value = null;
-  // }
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.post.method,
+            ApiUrl.stripeConnectOnboarding,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      return response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to start onboarding';
+          debugPrint('Stripe onboarding error: ${error.message}');
+          return null;
+        },
+        (data) {
+          final url = (data['data']?['url'] ?? '').toString();
+          return url.isEmpty ? null : url;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception creating stripe onboarding link: $e');
+      errorMessage.value = 'Failed to start onboarding';
+      return null;
+    } finally {
+      isCreatingStripeOnboarding.value = false;
+    }
+  }
 }

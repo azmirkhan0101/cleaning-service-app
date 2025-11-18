@@ -22,7 +22,7 @@ class CategoryController extends GetxController {
 
     final response = await Get.find<NetworkHelper>()
         .request<CategoryResponseModel>(
-          HttpMethod.get.method,
+          HttpRequestType.get.method,
           ApiUrl.serviceCategories,
           withAuth: true,
           parser: (data) => CategoryResponseModel.fromJson(data),

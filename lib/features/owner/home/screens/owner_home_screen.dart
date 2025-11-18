@@ -15,7 +15,8 @@ import 'package:cleaning_service_app/features/owner/home/widgets/home_service_ca
 import 'package:cleaning_service_app/features/owner/home/widgets/nearby_service_card.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/models/category_model.dart';
-import 'package:cleaning_service_app/features/payment/payment_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
+import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -312,8 +313,8 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                           itemBuilder: (context, index) {
                             final service = items[index];
                             return InkWell(
-                              onTap: () => Get.toNamed(
-                                AppRoutes.ownerServiceDetailsScreen,
+                              onTap: () => Get.to(
+                                OwnerServiceDetailsScreen(),
                                 arguments: {'serviceId': service.id},
                               ),
                               // child: NearbyServiceCard(service: service),

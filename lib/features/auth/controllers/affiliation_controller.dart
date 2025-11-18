@@ -19,7 +19,7 @@ class AffiliationController extends GetxController {
     errorMessage.value = '';
 
     final response = await Get.find<NetworkHelper>().request(
-      HttpMethod.get.method,
+      HttpRequestType.get.method,
       ApiUrl.getAffiliationProgram,
       withAuth: false,
     );

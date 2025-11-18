@@ -9,12 +9,15 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
+// import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
+import 'package:cleaning_service_app/features/common/screens/generic_webview_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
-import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
+import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
                   if (role != Role.owner.value)
                     FilledButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.boostPaymentScreen);
+                        Get.to(const SubscriptionScreen());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF7A51D),
@@ -128,7 +131,8 @@ class ProfileScreen extends StatelessWidget {
         // Sign Out Button
         TextButton(
           onPressed: () {
-            Get.offNamed(AppRoutes.loginScreen);
+            profileController.signOut();
+            Get.offAll(LoginScreen());
           },
           child: const Text('Sign out', style: TextStyle(color: Colors.red)),
         ),
@@ -148,21 +152,18 @@ class ProfileScreen extends StatelessWidget {
             Icons.person_outline,
           ),
           onTap: () {
-            // Get.toNamed(AppRoutes.editPersonProfileScreen);
             Get.to(EditProfileScreen());
           },
         ),
 
-        // My Balance (Only for provider)
+        // My Balance (only for Provider)
         if (role == Role.provider.value)
           InkWell(
             child: _buildSettingsItem(
               'My Balance',
               Icons.account_balance_wallet_outlined,
             ),
-            onTap: () {
-              Get.toNamed(AppRoutes.myEarningScreen);
-            },
+            onTap: () => onTapMyBalance(context),
           ),
 
         // Password Management
@@ -273,8 +274,8 @@ class ProfileScreen extends StatelessWidget {
 
                         SizedBox(height: 8),
 
-                        CustomText2(
-                          text: "Are you sure you want to delete ?",
+                        CustomText(
+                          text: "Are you sure you want to delete?",
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: AppColors.grey_2,
@@ -284,12 +285,14 @@ class ProfileScreen extends StatelessWidget {
 
                         CustomButton(
                           onTap: () {
-                            Get.offAll(LoginScreen());
+                            // Get.offAll(LoginScreen());
+                            Navigator.of(context).pop();
                           },
-                          title: "Yes",
+                          title: "Delete Account feature coming soon",
                           height: 45,
                           fontSize: 12,
-                          fillColor: AppColors.appColors,
+                          // fillColor: AppColors.appColors,
+                          fillColor: AppColors.grey_3,
                         ),
 
                         SizedBox(height: 12),
@@ -319,7 +322,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Settings Item with Icon, Text, and Arrow
-  Widget _buildSettingsItem(String title, IconData icon) {
+  Widget _buildSettingsItem(String title, IconData icon, {Widget? iconWidget}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: ShapeDecoration(
@@ -331,7 +334,10 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.blue, size: 24),
+          if (iconWidget != null)
+            iconWidget
+          else
+            Icon(icon, color: Colors.blue, size: 24),
           SizedBox(width: 8.w),
           CustomText(
             text: title,
@@ -342,9 +348,44 @@ class ProfileScreen extends StatelessWidget {
             height: 1.50,
           ),
           const Spacer(),
+
           const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
         ],
       ),
     );
+  }
+
+  void onTapMyBalance(BuildContext context) async {
+    final profileCtrl = Get.find<ProfileController>();
+    String? url = await profileCtrl.fetchStripeDashboardUrl();
+    if (url == null || url.isEmpty) {
+      url = await profileCtrl.createStripeOnboardingLink();
+      if (url == null || url.isEmpty) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Unable to open Stripe link'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+        return;
+      }
+      if (context.mounted) {
+        Get.to(
+          () => GenericWebViewScreen(title: 'Stripe Onboarding', url: url!),
+        );
+      }
+      return;
+    }
+    if (context.mounted) {
+      Get.to(
+        () => GenericWebViewScreen(
+          title: 'Stripe Dashboard',
+          url: url!,
+          isDashboard: true,
+        ),
+      );
+    }
   }
 }

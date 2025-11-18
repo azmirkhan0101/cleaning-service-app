@@ -9,10 +9,13 @@ class BulletedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.circle, size: 6, color: Colors.black),
+        Padding(
+          padding: const EdgeInsets.only(top: 6.0),
+          child: Icon(Icons.circle, size: 4, color: Colors.black),
+        ),
         const SizedBox(width: 8),
         Expanded(
           child: CustomText(

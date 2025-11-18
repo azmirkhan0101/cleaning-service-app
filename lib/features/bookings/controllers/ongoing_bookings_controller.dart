@@ -33,7 +33,7 @@ class OngoingBookingsController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             _endpoint,
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromArrayJson(data),

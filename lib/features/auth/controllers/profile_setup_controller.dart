@@ -13,7 +13,7 @@ class ProfileSetupController extends SelectionController {
 
   RxBool isUploading = false.obs;
 
-  Future<bool> completeRegistrationSetup() async {
+  Future<bool> completeRegistrationSetup({String? plan}) async {
     isUploading.value = true;
 
     // Prepare fields as strings for multipart
@@ -32,9 +32,8 @@ class ProfileSetupController extends SelectionController {
     if (selectedRole.value == Role.owner) {
       fields['resultRange'] = resultRange.value.toString();
     }
-    if (typPaymentStatues.value < 10) {
-      fields['plan'] = _getPlanString();
-      // fields['plan'] = "BASIC";
+    if (plan != null && plan.isNotEmpty) {
+      fields['plan'] = plan;
     }
 
     final List<MultipartBody> files = [
@@ -64,46 +63,22 @@ class ProfileSetupController extends SelectionController {
 
       return response.fold(
         (error) {
-          // Log/show error and return false
-          Get.snackbar(
-            'Error',
-            error.message ?? 'Upload failed',
-            snackPosition: SnackPosition.BOTTOM,
-          );
+          // Log error and return false
+          errorMessage.value = error.message ?? 'Upload failed';
           return false;
         },
         (data) {
           // success
           profileSetupResponse.value = data;
-          Get.snackbar(
-            'Success',
-            'Profile setup completed successfully',
-            snackPosition: SnackPosition.BOTTOM,
-          );
+          errorMessage.value = '';
           resetState();
           return true;
         },
       );
     } catch (e) {
       isUploading.value = false;
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      errorMessage.value = e.toString();
       return false;
-    }
-  }
-
-  /// Convert plan index to plan string
-  String _getPlanString() {
-    switch (typPaymentStatues.value) {
-      case 0:
-        return 'FREE';
-      case 1:
-        return 'SILVER';
-      case 2:
-        return 'GOLD';
-      case 3:
-        return 'PLATINUM';
-      default:
-        return 'FREE';
     }
   }
 
@@ -119,7 +94,6 @@ class ProfileSetupController extends SelectionController {
     longitude.value = '';
     resultRange.value = 25.0;
     experience.value = '';
-    typPaymentStatues.value = 0;
     currentIndex.value = 0;
   }
 }

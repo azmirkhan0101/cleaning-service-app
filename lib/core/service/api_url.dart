@@ -4,6 +4,7 @@ class ApiUrl {
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
   static const String login = '$baseUrl/auth/login';
+  static const String logout = '$baseUrl/auth/logout';
   static const String validateToken = '$baseUrl/auth/check-token-validity';
   static const String verifyOtp = '$baseUrl/auth/verify-otp';
   static const String resendOtp = '$baseUrl/auth/resend-otp';
@@ -32,6 +33,10 @@ class ApiUrl {
   static const String updateProviderProfile = '$baseUrl/profile/provider';
   static const String changePassword = '$baseUrl/auth/change-password';
   static const String getReferralInfo = '$baseUrl/referral/my-info';
+
+  /// =--> Subscription Endpoints <--=
+  static const String subscriptionPlans = '$baseUrl/subscription/plans';
+  static const String subscriptionCheckout = '$baseUrl/subscription/checkout';
 
   /// =--> Notification Endpoints <--=
   static const String notifications = '$baseUrl/notifications';
@@ -74,6 +79,10 @@ class ApiUrl {
 
   /// =--> Payment Endpoints <--=
   static const String createPayment = '$baseUrl/payment/booking/create';
+  static const String stripeConnectDashboard =
+      '$baseUrl/stripe-connect/dashboard';
+  static const String stripeConnectOnboarding =
+      '$baseUrl/stripe-connect/onboarding';
 
   /// =--> Messages Endpoints <--=
   static const String messagesUsers = '$baseUrl/messages/users';
@@ -98,6 +107,9 @@ class ApiUrl {
   static const String providerMyBookings = '$baseUrl/booking/provider-bookings';
   static const String providerPendingBookings =
       '$baseUrl/booking/provider/pending-bookings';
+  // Homepage-specific compact pending bookings list
+  static const String providerPendingBookingsHomepage =
+      '$baseUrl/booking/provider/pending-bookings-homepage';
   static const String providerOngoingBookings =
       '$baseUrl/booking/provider/ongoing-bookings';
   static const String providerCompletedBookings =

@@ -1,7 +1,6 @@
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
 import 'package:cleaning_service_app/features/auth/screens/signup_screen.dart';
-import 'package:cleaning_service_app/features/bookings/screens/provider_booking_service_details_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/provider_bookings_screen.dart';
 import 'package:cleaning_service_app/features/bookings/screens/qr_code_display_screen.dart';
 import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
@@ -13,12 +12,9 @@ import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_search_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
-import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
-import 'package:cleaning_service_app/features/payment/payment_screen.dart';
-import 'package:cleaning_service_app/features/payment/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
@@ -26,14 +22,10 @@ import 'package:cleaning_service_app/features/profile/screens/profile_screen.dar
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
-import 'package:cleaning_service_app/features/provider/pro_plan_subscription/pro_plan_subscription_screen.dart';
-import 'package:cleaning_service_app/features/provider/profile/boost_payment_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
-import 'package:cleaning_service_app/features/provider/service/edit_service_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';
-import 'package:cleaning_service_app/features/provider/service/screens/service_add_screen.dart';
+import 'package:cleaning_service_app/features/provider/service/screens/service_create_edit_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/work_schedule_screen.dart';
-import 'package:cleaning_service_app/features/provider/service/service_details.dart';
 import 'package:cleaning_service_app/features/splash/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -49,13 +41,11 @@ class AppRoutes {
   static const String paymentScreen = "/PaymentScreen";
   static const String paymentWebViewScreen = "/PaymentWebViewScreen";
   static const String providerHome = "/ProviderHome";
-  static const String serviceDetailsScreen = "/ServiceDetailsScreen";
   static const String bookingsScreen = "/BookingsScreen";
   static const String qrScannerScreen = "/QrScannerScreen";
   static const String locationScreen = "/LocationScreen";
   static const String pickerMapScreen = "/PickerMapScreen";
   static const String notificationScreen = "/NotificationScreen";
-  static const String serviceDetails = "/ServiceDetails";
   static const String editServiceScreen = "/EditServiceScreen";
   static const String workScheduleScreen = "/WorkScheduleScreen";
   static const String serviceAddScreen = "/ServiceAddScreen";
@@ -80,8 +70,6 @@ class AppRoutes {
   static const String ownerHomeScreen = "/OwnerHomeScreen";
 
   static const String ownerCategoryByService = "/OwnerCategoryByService";
-
-  static const String ownerServiceDetailsScreen = "/OwnerServiceDetailsScreen";
 
   static const String serviceBooking = "/ServiceBooking";
 
@@ -122,19 +110,15 @@ class AppRoutes {
 
     GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
 
-    GetPage(name: paymentScreen, page: () => PaymentScreen()),
-
-    GetPage(
-      name: paymentWebViewScreen,
-      page: () => PaymentWebViewScreen(
-        paymentUrl: Get.arguments['paymentUrl'] ?? '',
-        bookingId: Get.arguments['bookingId'] ?? '',
-      ),
-    ),
-
+    // // GetPage(name: paymentScreen, page: () => PaymentScreen()),
+    // GetPage(
+    //   name: paymentWebViewScreen,
+    //   page: () => PaymentWebViewScreen(
+    //     paymentUrl: Get.arguments['paymentUrl'] ?? '',
+    //     bookingId: Get.arguments['bookingId'] ?? '',
+    //   ),
+    // ),
     GetPage(name: providerHome, page: () => ProviderHome()),
-
-    GetPage(name: serviceDetailsScreen, page: () => ServiceDetailsScreen()),
 
     GetPage(name: bookingsScreen, page: () => ProviderBookingsScreen()),
 
@@ -146,20 +130,16 @@ class AppRoutes {
 
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
 
-    GetPage(name: serviceDetails, page: () => ServiceDetails()),
-
-    GetPage(name: editServiceScreen, page: () => EditServiceScreen()),
-
+    // GetPage(name: editServiceScreen, page: () => EditServiceScreen()),
     GetPage(name: workScheduleScreen, page: () => WorkScheduleScreen()),
 
-    GetPage(name: serviceAddScreen, page: () => ServiceAddScreen()),
+    GetPage(name: serviceAddScreen, page: () => ServiceCreateEditScreen()),
 
     GetPage(name: messageScreen, page: () => ConversationScreen()),
 
     GetPage(name: profileScreen, page: () => ProviderProfileScreen()),
 
-    GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
-
+    // GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
     GetPage(name: editPersonProfileScreen, page: () => EditProfileScreen()),
 
     GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
@@ -170,11 +150,10 @@ class AppRoutes {
 
     // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
     // GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),
-    GetPage(
-      name: proPlanSubscriptionScreen,
-      page: () => ProPlanSubscriptionScreen(),
-    ),
-
+    // GetPage(
+    //   name: proPlanSubscriptionScreen,
+    //   page: () => ProPlanSubscriptionScreen(),
+    // ),
     GetPage(name: reviewScreen, page: () => ReviewScreen()),
 
     GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
@@ -182,11 +161,6 @@ class AppRoutes {
     GetPage(
       name: ownerCategoryByService,
       page: () => OwnerServicesByCategoryScreen(),
-    ),
-
-    GetPage(
-      name: ownerServiceDetailsScreen,
-      page: () => OwnerServiceDetailsScreen(),
     ),
 
     GetPage(name: serviceBooking, page: () => ServiceBookingScreen()),
@@ -197,7 +171,7 @@ class AppRoutes {
 
     GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
 
-    GetPage(name: ownerInboxScreen, page: () => InboxUsersScreen()),
+    GetPage(name: ownerInboxScreen, page: () => InboxScreen()),
 
     GetPage(name: ownerMessageScreen, page: () => ConversationScreen()),
 

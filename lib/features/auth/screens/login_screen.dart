@@ -368,7 +368,9 @@ class LoginScreen extends GetView<LoginController> {
     try {
       final success = await controller.login();
       if (success) {
-        print('user role: ${controller.loginResponse.value?.userData.role}');
+        debugPrint(
+          'user role: ${controller.loginResponse.value?.userData.role}',
+        );
         // Navigate based on user role
         Get.offAll(
           () => MainLayout(

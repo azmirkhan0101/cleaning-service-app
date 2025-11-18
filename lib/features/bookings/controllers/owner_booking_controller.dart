@@ -11,7 +11,7 @@ import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OwnerBookingController extends GetxController {
+class BookingController extends GetxController {
   RxInt selectedTabIndex = 0.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
@@ -91,7 +91,7 @@ class OwnerBookingController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),
@@ -134,7 +134,7 @@ class OwnerBookingController extends GetxController {
 
       final response = await Get.find<NetworkHelper>()
           .request<BookingsResponseModel>(
-            HttpMethod.get.method,
+            HttpRequestType.get.method,
             '$_allBookingsEndpoint?page=${currentPage.value}&limit=10',
             withAuth: true,
             parser: (data) => BookingsResponseModel.fromJson(data),

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/features/common/models/error_response_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -40,8 +41,11 @@ class NetworkHelper extends GetxService {
       };
 
       // Log request without sensitive data in production
-      _logger.d("[$method] $url");
-      _logger.d("Body: ${body != null ? jsonEncode(body) : 'null'}");
+      _logger.d(
+        "[$method] $url\nHeaders: $finalHeaders\n"
+        "Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}",
+      );
+      // _logger.d("Body: ${body != null ? jsonEncode(body) : 'null'}");
 
       late http.Response response;
       final requestTimeout = timeout ?? defaultTimeout;
@@ -88,9 +92,12 @@ class NetworkHelper extends GetxService {
           return Left(ErrorResponseModel(message: "Invalid HTTP method"));
       }
 
-      return _handleResponse<T>(response, parser);
+      return _handleResponse<T>(method, url, response, parser);
     } on TimeoutException catch (e, st) {
-      _logger.e("Request timeout: $e", stackTrace: st);
+      _logger.d(
+        "[$method] $url\n Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}\n Request timeout: $e, stackTrace: $st",
+      );
+      // _logger.e("Request timeout: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Timeout",
@@ -99,7 +106,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } on SocketException catch (e, st) {
-      _logger.e("Network error: $e", stackTrace: st);
+      _logger.e("[$method] $url\n Network error: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Network Error",
@@ -108,7 +115,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } on FormatException catch (e, st) {
-      _logger.e("Invalid URL format: $e", stackTrace: st);
+      _logger.e("[$method] $url\n Invalid URL format: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Invalid URL",
@@ -117,7 +124,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } catch (e, st) {
-      _logger.e("Request failed: $e", stackTrace: st);
+      _logger.e("[$method] $url\n Request failed: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Failed",
@@ -130,12 +137,14 @@ class NetworkHelper extends GetxService {
 
   /// Handle HTTP response and parse data
   Either<ErrorResponseModel, T> _handleResponse<T>(
+    String method,
+    String url,
     http.Response response,
     T Function(dynamic data)? parser,
   ) {
     _logger.d("Status: ${response.statusCode}");
     _logger.d(
-      "Response: ${response.body.length > 500 ? '${response.body.substring(0, 500)}...' : response.body}",
+      "[$method] $url\n Response: ${response.body.length > 500 ? '${response.body.substring(0, 500)}...' : response.body}",
     );
 
     dynamic data;
@@ -324,7 +333,7 @@ class NetworkHelper extends GetxService {
       final streamedResponse = await request.send().timeout(requestTimeout);
       final response = await http.Response.fromStream(streamedResponse);
 
-      return _handleResponse<T>(response, parser);
+      return _handleResponse<T>(method, url, response, parser);
     } on TimeoutException catch (e, st) {
       _logger.e("Multipart request timeout: $e", stackTrace: st);
       return Left(

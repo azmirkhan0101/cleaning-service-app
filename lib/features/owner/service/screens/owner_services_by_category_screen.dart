@@ -1,6 +1,6 @@
-import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,8 +79,8 @@ class _OwnerServicesByCategoryScreenState
                 final service = serviceController.services[index];
                 return InkWell(
                   onTap: () {
-                    Get.toNamed(
-                      AppRoutes.ownerServiceDetailsScreen,
+                    Get.to(
+                      OwnerServiceDetailsScreen(),
                       arguments: {'serviceId': service.id},
                     );
                   },
