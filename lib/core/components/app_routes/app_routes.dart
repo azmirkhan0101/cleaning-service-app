@@ -171,7 +171,7 @@ class AppRoutes {
 
     GetPage(name: ownerScannerScreen, page: () => OwnerScannerScreen()),
 
-    GetPage(name: ownerInboxScreen, page: () => InboxUsersScreen()),
+    GetPage(name: ownerInboxScreen, page: () => InboxScreen()),
 
     GetPage(name: ownerMessageScreen, page: () => ConversationScreen()),
 

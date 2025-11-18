@@ -11,14 +11,14 @@ import 'package:cleaning_service_app/features/inbox/models/chat_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InboxUsersScreen extends StatefulWidget {
-  const InboxUsersScreen({super.key});
+class InboxScreen extends StatefulWidget {
+  const InboxScreen({super.key});
 
   @override
-  State<InboxUsersScreen> createState() => _InboxUsersScreenState();
+  State<InboxScreen> createState() => _InboxScreenState();
 }
 
-class _InboxUsersScreenState extends State<InboxUsersScreen> {
+class _InboxScreenState extends State<InboxScreen> {
   late final OwnerInboxController controller;
 
   @override

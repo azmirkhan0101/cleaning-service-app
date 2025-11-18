@@ -82,8 +82,8 @@ class OwnerQrScannerController extends GetxController {
   }
 
   Future<void> refreshAndGoCompletedTab() async {
-    if (Get.isRegistered<OwnerBookingController>()) {
-      final bookingController = Get.find<OwnerBookingController>();
+    if (Get.isRegistered<BookingController>()) {
+      final bookingController = Get.find<BookingController>();
       await bookingController.refreshAllBookings();
       bookingController.filterServices(3); // Completed tab
     }

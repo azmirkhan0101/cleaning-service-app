@@ -105,8 +105,8 @@ class MainLayoutController extends GetxController {
       label: 'Inbox',
       selectedIconPath: Assets.icons.inboxFilled.path,
       unselectedIconPath: Assets.icons.inboxOutline.path,
-      ownerScreen: const InboxUsersScreen(),
-      providerScreen: const InboxUsersScreen(),
+      ownerScreen: const InboxScreen(),
+      providerScreen: const InboxScreen(),
       // providerScreen: const ProviderInboxScreen(),
     ),
     BottomNavModel(

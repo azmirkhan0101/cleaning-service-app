@@ -12,7 +12,7 @@ class OwnerBookingScreen extends StatefulWidget {
 }
 
 class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
-  final ownerBookingController = Get.find<OwnerBookingController>();
+  final ownerBookingController = Get.find<BookingController>();
 
   @override
   Widget build(BuildContext context) {

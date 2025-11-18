@@ -12,7 +12,48 @@ class ProviderBookingsScreen extends StatefulWidget {
 }
 
 class _ProviderBookingsScreenState extends State<ProviderBookingsScreen> {
-  final ownerBookingController = Get.find<OwnerBookingController>();
+  final ownerBookingController = Get.find<BookingController>();
+  final appBarTabController = Get.put(
+    AppBarTabBarController(),
+    permanent: false,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    // Sync initial tab selection from navigation args or existing controller state
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      int index = ownerBookingController.selectedTabIndex.value;
+      final args = Get.arguments;
+      if (args is List && args.isNotEmpty && args.first is Map) {
+        final status = (args.first as Map)["status"]?.toString().toUpperCase();
+        if (status != null) {
+          switch (status) {
+            case 'ALL':
+              index = 0;
+              break;
+            case 'PENDING':
+            case 'ACCEPT':
+              index = 1;
+              break;
+            case 'ONGOING':
+              index = 2;
+              break;
+            case 'COMPLETED':
+              index = 3;
+              break;
+            case 'CANCELLED':
+            case 'CANCELED':
+              index = 4;
+              break;
+          }
+          ownerBookingController.filterServices(index);
+        }
+      }
+      // Ensure AppBarTabBar highlights the same tab as the bookings controller
+      appBarTabController.selectTab(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

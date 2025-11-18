@@ -61,8 +61,8 @@ class OverviewTabView extends StatelessWidget {
       );
 
       // Get the booking controller and refresh all bookings
-      if (Get.isRegistered<OwnerBookingController>()) {
-        final bookingController = Get.find<OwnerBookingController>();
+      if (Get.isRegistered<BookingController>()) {
+        final bookingController = Get.find<BookingController>();
         // Refresh all booking tabs to get updated data
         await bookingController.refreshAllBookings();
         // Navigate back first

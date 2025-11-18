@@ -163,42 +163,7 @@ class ProfileScreen extends StatelessWidget {
               'My Balance',
               Icons.account_balance_wallet_outlined,
             ),
-            onTap: () async {
-              final profileCtrl = Get.find<ProfileController>();
-              String? url = await profileCtrl.fetchStripeDashboardUrl();
-              if (url == null || url.isEmpty) {
-                url = await profileCtrl.createStripeOnboardingLink();
-                if (url == null || url.isEmpty) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Unable to open Stripe link'),
-                        backgroundColor: Colors.redAccent,
-                      ),
-                    );
-                  }
-                  return;
-                }
-                if (context.mounted) {
-                  Get.to(
-                    () => GenericWebViewScreen(
-                      title: 'Stripe Onboarding',
-                      url: url!,
-                    ),
-                  );
-                }
-                return;
-              }
-              if (context.mounted) {
-                Get.to(
-                  () => GenericWebViewScreen(
-                    title: 'Stripe Dashboard',
-                    url: url!,
-                    isDashboard: true,
-                  ),
-                );
-              }
-            },
+            onTap: () => onTapMyBalance(context),
           ),
 
         // Password Management
@@ -386,5 +351,39 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onTapMyBalance(BuildContext context) async {
+    final profileCtrl = Get.find<ProfileController>();
+    String? url = await profileCtrl.fetchStripeDashboardUrl();
+    if (url == null || url.isEmpty) {
+      url = await profileCtrl.createStripeOnboardingLink();
+      if (url == null || url.isEmpty) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Unable to open Stripe link'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+        return;
+      }
+      if (context.mounted) {
+        Get.to(
+          () => GenericWebViewScreen(title: 'Stripe Onboarding', url: url!),
+        );
+      }
+      return;
+    }
+    if (context.mounted) {
+      Get.to(
+        () => GenericWebViewScreen(
+          title: 'Stripe Dashboard',
+          url: url!,
+          isDashboard: true,
+        ),
+      );
+    }
   }
 }

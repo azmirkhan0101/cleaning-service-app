@@ -120,8 +120,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       );
 
       // Get the booking controller and refresh all bookings
-      if (Get.isRegistered<OwnerBookingController>()) {
-        final bookingController = Get.find<OwnerBookingController>();
+      if (Get.isRegistered<BookingController>()) {
+        final bookingController = Get.find<BookingController>();
         // Refresh all booking tabs to get updated data
         await bookingController.refreshAllBookings();
         // Navigate back and set tab to Ongoing (index 2)
@@ -178,8 +178,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       );
 
       // Get the booking controller and refresh all bookings
-      if (Get.isRegistered<OwnerBookingController>()) {
-        final bookingController = Get.find<OwnerBookingController>();
+      if (Get.isRegistered<BookingController>()) {
+        final bookingController = Get.find<BookingController>();
         // Refresh all booking tabs to get updated data
         await bookingController.refreshAllBookings();
         // Navigate back and set tab to Cancelled (index 4)

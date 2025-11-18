@@ -34,6 +34,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => ServiceBookingController(), fenix: true);
 
     /// === => Owner Booking Controller ===
-    Get.lazyPut(() => OwnerBookingController(), fenix: true);
+    Get.lazyPut(() => BookingController(), fenix: true);
   }
 }

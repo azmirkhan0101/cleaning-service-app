@@ -25,7 +25,7 @@ class ProviderHomeController extends GetxController {
     isLoadingPending.value = true;
     loadError.value = null;
     final result = await network.get<List<ProviderPendingHomeBooking>>(
-      ApiUrl.providerPendingBookings,
+      ApiUrl.providerPendingBookingsHomepage,
       parser: (data) {
         final list = (data['data'] as List?) ?? [];
         return list.map((e) => ProviderPendingHomeBooking.fromJson(e)).toList();

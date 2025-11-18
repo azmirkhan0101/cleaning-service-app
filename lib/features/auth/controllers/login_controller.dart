@@ -20,7 +20,7 @@ class LoginController extends GetxController {
     text: kDebugMode ? "12345678" : null,
   );
 
-  final isRememberMe = false.obs;
+  final isRememberMe = true.obs;
 
   final isLoggingIn = false.obs;
   final loginErrorMessage = ''.obs;

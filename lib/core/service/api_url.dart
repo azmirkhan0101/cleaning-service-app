@@ -107,6 +107,9 @@ class ApiUrl {
   static const String providerMyBookings = '$baseUrl/booking/provider-bookings';
   static const String providerPendingBookings =
       '$baseUrl/booking/provider/pending-bookings';
+  // Homepage-specific compact pending bookings list
+  static const String providerPendingBookingsHomepage =
+      '$baseUrl/booking/provider/pending-bookings-homepage';
   static const String providerOngoingBookings =
       '$baseUrl/booking/provider/ongoing-bookings';
   static const String providerCompletedBookings =
