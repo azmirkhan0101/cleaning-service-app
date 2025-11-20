@@ -17,7 +17,7 @@ class NetworkHelper extends GetxService {
   static final _logger = Logger();
 
   /// Default timeout duration for HTTP requests
-  static const Duration defaultTimeout = Duration(seconds: 30);
+  static const Duration defaultTimeout = Duration(seconds: 90);
 
   /// Generic request method with timeout and better error handling
   Future<Either<ErrorResponseModel, T>> request<T>(
