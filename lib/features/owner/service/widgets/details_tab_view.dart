@@ -1,6 +1,10 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/service/api_url.dart';
+import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
+import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -121,13 +125,23 @@ class DetailsTabView extends StatelessWidget {
 
           // Chat Icon
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFF4899D1),
-              borderRadius: BorderRadius.circular(100),
+          GestureDetector(
+            onTap: () async {
+              print("id: --> ${providerDetails.id}");
+              await sendMessage(
+                providerDetails.id,
+                providerDetails.name,
+                providerDetails.profilePicture,
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFF4899D1),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Assets.icons.chat.svg(),
             ),
-            child: Assets.icons.chat.svg(),
           ),
         ],
       );
@@ -155,5 +169,43 @@ class DetailsTabView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> sendMessage(providerId, String name, String avatar) async {
+    try {
+      // final files = selectedImages
+      //     .map((file) => MultipartBody(key: 'images', file: file))
+      //     .toList();
+
+      final result = await Get.find<NetworkHelper>()
+          .multipart<Map<String, dynamic>>(
+            url: ApiUrl.sendMessage(providerId),
+            method: 'POST',
+            fields: {'text': "Hi"},
+            files: [],
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      result.match(
+        (err) {
+          Toast.errorToast(err.message ?? 'Failed to send message');
+        },
+        (res) {
+          // Navigate to chat screen or show success message
+          Toast.successToast('Message sent successfully');
+          Get.to(
+            () => ConversationScreen(),
+            arguments: {
+              'userId': providerId,
+              'userName': name,
+              'avatar': avatar,
+            },
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint('Error sending message: $e');
+      Toast.errorToast('Failed to send message');
+    }
   }
 }

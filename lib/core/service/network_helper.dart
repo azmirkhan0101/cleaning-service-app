@@ -147,9 +147,25 @@ class NetworkHelper extends GetxService {
       "[$method] $url\n Response: ${response.body.length > 500 ? '${response.body.substring(0, 500)}...' : response.body}",
     );
 
+    // Log full response body for debugging
+    if (url.contains('book-now')) {
+      debugPrint('=== FULL RESPONSE BODY ===');
+      debugPrint(response.body);
+    }
+
     dynamic data;
     try {
       data = response.body.isNotEmpty ? jsonDecode(response.body) : null;
+
+      // Log parsed data for debugging
+      if (url.contains('book-now')) {
+        debugPrint('=== PARSED DATA ===');
+        debugPrint('Data: $data');
+        debugPrint('Data type: ${data.runtimeType}');
+        if (data is Map) {
+          debugPrint('Data keys: ${data.keys}');
+        }
+      }
     } catch (e) {
       _logger.e("Failed to parse JSON response: $e");
       data = null;
@@ -157,7 +173,16 @@ class NetworkHelper extends GetxService {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
-        return Right(parser != null ? parser(data) : data as T);
+        final result = parser != null ? parser(data) : data as T;
+
+        // Log final parsed result
+        if (url.contains('book-now')) {
+          debugPrint('=== FINAL PARSED RESULT ===');
+          debugPrint('Result: $result');
+          debugPrint('Result type: ${result.runtimeType}');
+        }
+
+        return Right(result);
       } catch (e, st) {
         _logger.e("Failed to parse success response: $e", stackTrace: st);
         return Left(

@@ -15,6 +15,7 @@ import 'package:cleaning_service_app/features/owner/service/screens/owner_catego
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
+import 'package:cleaning_service_app/features/payment/screens/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
@@ -111,13 +112,15 @@ class AppRoutes {
     GetPage(name: singUpOtpScreen, page: () => OtpVerifyScreen()),
 
     // // GetPage(name: paymentScreen, page: () => PaymentScreen()),
-    // GetPage(
-    //   name: paymentWebViewScreen,
-    //   page: () => PaymentWebViewScreen(
-    //     paymentUrl: Get.arguments['paymentUrl'] ?? '',
-    //     bookingId: Get.arguments['bookingId'] ?? '',
-    //   ),
-    // ),
+    GetPage(
+      name: paymentWebViewScreen,
+      page: () => PaymentWebViewScreen(
+        paymentUrl: Get.arguments['paymentUrl'] ?? '',
+        bookingId: Get.arguments['bookingId'] ?? '',
+        isUpdatingSubscription:
+            Get.arguments['isUpdatingSubscription'] ?? false,
+      ),
+    ),
     GetPage(name: providerHome, page: () => ProviderHome()),
 
     GetPage(name: bookingsScreen, page: () => ProviderBookingsScreen()),

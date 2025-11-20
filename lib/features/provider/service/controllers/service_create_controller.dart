@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -160,15 +161,16 @@ class ServiceCreateController extends GetxController {
                 'Network error. Please check your internet connection.';
           }
 
-          Get.snackbar(
-            'Service Creation Failed',
-            errorMessage,
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Get.theme.colorScheme.error,
-            colorText: Get.theme.colorScheme.onError,
-            duration: Duration(seconds: 5),
-            margin: EdgeInsets.all(16),
-          );
+          // Get.snackbar(
+          //   'Service Creation Failed',
+          //   errorMessage,
+          //   snackPosition: SnackPosition.BOTTOM,
+          //   backgroundColor: Get.theme.colorScheme.error,
+          //   colorText: Get.theme.colorScheme.onError,
+          //   duration: Duration(seconds: 5),
+          //   margin: EdgeInsets.all(16),
+          // );
+          Toast.errorToast(errorMessage);
           return false;
         },
         (data) {

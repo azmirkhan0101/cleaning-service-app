@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/auth/models/profile_setup_response_model.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
+import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:get/get.dart';
 
 class ProfileSetupController extends SelectionController {
@@ -12,6 +13,15 @@ class ProfileSetupController extends SelectionController {
       Rx<ProfileSetupResponseModel?>(null);
 
   RxBool isUploading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Ensure LocationController is available for location search widget
+    if (!Get.isRegistered<LocationController>()) {
+      Get.put(LocationController(), permanent: true);
+    }
+  }
 
   Future<bool> completeRegistrationSetup({String? plan}) async {
     isUploading.value = true;

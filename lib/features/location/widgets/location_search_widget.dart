@@ -23,7 +23,8 @@ class LocationSearchWidget extends StatefulWidget {
 }
 
 class _LocationSearchWidgetState extends State<LocationSearchWidget> {
-  final LocationController controller = Get.find<LocationController>();
+  late final LocationController controller;
+
   void _onTextChanged() {
     if (mounted) {
       setState(() {});
@@ -33,6 +34,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   @override
   void initState() {
     super.initState();
+    // Ensure controller exists before using it
+    controller = Get.put(LocationController(), permanent: true);
     // Listen to text changes to update UI
     controller.selectedAddress.addListener(_onTextChanged);
   }

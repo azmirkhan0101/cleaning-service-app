@@ -4,7 +4,6 @@ import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/auth/models/login_response_model.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,11 +12,11 @@ class LoginController extends GetxController {
   final loginFormKey = GlobalKey<FormState>();
 
   final TextEditingController loginEmailController = TextEditingController(
-    text: kDebugMode ? "owner1@example.com" : null,
+    // text: kDebugMode ? "owner1@example.com" : null,
   );
 
   final TextEditingController loginPasswordController = TextEditingController(
-    text: kDebugMode ? "12345678" : null,
+    // text: kDebugMode ? "12345678" : null,
   );
 
   final isRememberMe = true.obs;

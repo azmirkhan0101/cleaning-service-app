@@ -185,14 +185,32 @@ class ServiceBookingController extends GetxController {
           return null;
         },
         (response) {
-          debugPrint('Booking successful: $response');
+          debugPrint('=== BOOKING RESPONSE ===');
+          debugPrint('Full response: $response');
+          debugPrint('Response type: ${response.runtimeType}');
+          debugPrint('Response keys: ${response.keys}');
+
           // New response shape includes bookingId, sessionId, paymentUrl
           final data = response['data'];
+          debugPrint('Data: $data');
+          debugPrint('Data type: ${data.runtimeType}');
+
           if (data is Map<String, dynamic>) {
+            debugPrint('Data keys: ${data.keys}');
+            debugPrint('bookingId: ${data['bookingId']}');
+            debugPrint('_id: ${data['_id']}');
+            debugPrint('sessionId: ${data['sessionId']}');
+            debugPrint('paymentUrl: ${data['paymentUrl']}');
+
             bookingId.value = (data['bookingId'] ?? data['_id'] ?? '')
                 .toString();
             sessionId.value = (data['sessionId'] ?? '').toString();
             paymentUrl.value = (data['paymentUrl'] ?? '').toString();
+
+            debugPrint('=== EXTRACTED VALUES ===');
+            debugPrint('bookingId.value: ${bookingId.value}');
+            debugPrint('sessionId.value: ${sessionId.value}');
+            debugPrint('paymentUrl.value: ${paymentUrl.value}');
           }
           return response;
         },

@@ -305,6 +305,17 @@ class ServiceBookingStepTwo extends StatelessWidget {
                     final bookingResponse = await bookingController
                         .bookService();
 
+                    debugPrint('=== WIDGET: Booking Response ===');
+                    debugPrint('Response: $bookingResponse');
+                    debugPrint('Response is null: ${bookingResponse == null}');
+
+                    if (bookingResponse != null) {
+                      debugPrint(
+                        'Response success: ${bookingResponse['success']}',
+                      );
+                      debugPrint('Response data: ${bookingResponse['data']}');
+                    }
+
                     if (bookingResponse != null &&
                         bookingResponse['success'] == true) {
                       final data = bookingResponse['data'];
@@ -313,6 +324,23 @@ class ServiceBookingStepTwo extends StatelessWidget {
                       final message =
                           data?['message'] ?? 'Service booked successfully!';
 
+                      debugPrint('=== WIDGET: Extracted Values ===');
+                      debugPrint('bookingId: $bookingId');
+                      debugPrint('paymentUrl: $paymentUrl');
+                      debugPrint('message: $message');
+
+                      // Also check controller values
+                      debugPrint('=== WIDGET: Controller Values ===');
+                      debugPrint(
+                        'Controller bookingId: ${bookingController.bookingId.value}',
+                      );
+                      debugPrint(
+                        'Controller paymentUrl: ${bookingController.paymentUrl.value}',
+                      );
+                      debugPrint(
+                        'Controller sessionId: ${bookingController.sessionId.value}',
+                      );
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(message),
@@ -320,7 +348,22 @@ class ServiceBookingStepTwo extends StatelessWidget {
                           duration: Duration(seconds: 2),
                         ),
                       );
-                      if (bookingId == null || bookingId.toString().isEmpty) {
+
+                      // Try using controller values first
+                      final finalBookingId =
+                          bookingController.bookingId.value.isNotEmpty
+                          ? bookingController.bookingId.value
+                          : (bookingId ?? '').toString();
+                      final finalPaymentUrl =
+                          bookingController.paymentUrl.value.isNotEmpty
+                          ? bookingController.paymentUrl.value
+                          : (paymentUrl ?? '').toString();
+
+                      debugPrint('=== WIDGET: Final Values ===');
+                      debugPrint('finalBookingId: $finalBookingId');
+                      debugPrint('finalPaymentUrl: $finalPaymentUrl');
+
+                      if (finalBookingId.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Booking ID missing in response'),
@@ -329,7 +372,7 @@ class ServiceBookingStepTwo extends StatelessWidget {
                         );
                         return;
                       }
-                      if (paymentUrl == null || paymentUrl.toString().isEmpty) {
+                      if (finalPaymentUrl.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Payment URL missing in response'),
@@ -338,15 +381,21 @@ class ServiceBookingStepTwo extends StatelessWidget {
                         );
                         return;
                       }
+
+                      debugPrint('=== WIDGET: Navigating to payment ===');
+                      debugPrint('URL: $finalPaymentUrl');
+                      debugPrint('Booking ID: $finalBookingId');
+
                       // Navigate directly to payment WebView (no extra API call needed)
                       Get.toNamed(
                         AppRoutes.paymentWebViewScreen,
                         arguments: {
-                          'paymentUrl': paymentUrl,
-                          'bookingId': bookingId,
+                          'paymentUrl': finalPaymentUrl,
+                          'bookingId': finalBookingId,
                         },
                       );
                     } else {
+                      debugPrint('=== WIDGET: Booking failed ===');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
