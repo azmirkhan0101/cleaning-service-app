@@ -78,13 +78,12 @@ class LoginScreen extends GetView<LoginController> {
                 const SizedBox(height: 16),
 
                 // Or Divider
-                _buildOrDivider(),
+                // _buildOrDivider(),
 
-                SizedBox(height: 24.h),
+                // SizedBox(height: 24.h),
 
                 // Social Buttons
-                _buildSocialButtons(),
-
+                // _buildSocialButtons(),
                 SizedBox(height: 40),
 
                 // Signup Link

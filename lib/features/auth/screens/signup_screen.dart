@@ -10,6 +10,7 @@ import 'package:cleaning_service_app/features/common/widgets/custom_form_field.d
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupScreen extends GetView<SignupController> {
   const SignupScreen({super.key});
@@ -129,22 +130,105 @@ class SignupScreen extends GetView<SignupController> {
           SizedBox(height: 12),
 
           ///--> Phone Field <--///
-          CustomFormField(
-            controller: controller.signupPhoneController,
-            hintText: AppStrings.enterYourPhone,
-            labelText: AppStrings.phoneNumber,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your phone number';
-              }
-              if (value.length < 10) {
-                return 'Please enter a valid phone number';
-              }
-              return null;
-            },
-            keyboardType: TextInputType.phone,
+          // CustomFormField(
+          //   controller: controller.signupPhoneController,
+          //   hintText: AppStrings.enterYourPhone,
+          //   labelText: AppStrings.phoneNumber,
+          //   validator: (value) {
+          //     if (value == null || value.isEmpty) {
+          //       return 'Please enter your phone number';
+          //     }
+          //     if (value.length < 10) {
+          //       return 'Please enter a valid phone number';
+          //     }
+          //     return null;
+          //   },
+          //   keyboardType: TextInputType.phone,
+          // ),
+          GetBuilder<SignupController>(
+            tag: tag,
+            builder: (_) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CustomText(
+                    text: AppStrings.phoneNumber,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                IntlPhoneField(
+                  key: ValueKey(controller.isoCode),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  invalidNumberMessage: 'Invalid phone number',
+                  initialCountryCode: controller.isoCode,
+                  decoration: InputDecoration(
+                    hintText: 'e.g. 5551234567',
+                    prefixIcon: const Icon(Icons.phone),
+                    filled: true,
+                    fillColor: const Color(0xFFE9EBF3),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                      gapPadding: 0,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                      gapPadding: 0,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                      gapPadding: 0,
+                    ),
+                  ),
+                  controller: controller.signupPhoneController,
+                  validator: (phone) {
+                    if (phone == null || phone.number.trim().isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    final e164 = phone.completeNumber.replaceAll(
+                      RegExp(r'\s+'),
+                      '',
+                    );
+                    final e164Pattern = RegExp(r'^\+[1-9]\d{7,14}$');
+                    if (!e164Pattern.hasMatch(e164)) {
+                      return 'Enter a valid phone number';
+                    }
+                    return null;
+                  },
+                  onChanged: (phone) {
+                    // Store complete E.164 separately without disturbing input text
+                    controller.signupE164Phone.value = phone.completeNumber
+                        .replaceAll(RegExp(r'\s+'), '');
+                  },
+                  onCountryChanged: (country) {
+                    if (country.code != controller.isoCode) {
+                      controller.isoCode = country.code;
+                      controller.update();
+                      // Recompose E.164 with new dial code
+                      final dial = country.dialCode.startsWith('+')
+                          ? country.dialCode
+                          : '+${country.dialCode}';
+                      final local = controller.signupPhoneController.text
+                          .replaceAll(RegExp(r'\s+'), '');
+                      controller.signupE164Phone.value = '$dial$local';
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 12),
+
+          // SizedBox(height: 12),
 
           ///--> Email Field <--///
           CustomFormField(
