@@ -60,7 +60,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                 crossAxisCount: 2, // Number of columns
                 crossAxisSpacing: 16, // Space between columns
                 mainAxisSpacing: 12, // Space between rows
-                childAspectRatio: 1.18,
+                childAspectRatio: 1,
               ),
               itemBuilder: (context, index) {
                 final category = categoryController.categories[index];

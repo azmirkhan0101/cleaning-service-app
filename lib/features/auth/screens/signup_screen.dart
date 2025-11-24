@@ -2,6 +2,7 @@ import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/signup_controller.dart';
@@ -465,14 +466,10 @@ class SignupScreen extends GetView<SignupController> {
 
       // Check terms and conditions checkbox
       if (!controller.agreeWithTerms.value) {
-        Get.snackbar(
-          'Terms & Conditions',
+        Toast.errorToast(
           'Please accept the terms of conditions and privacy policy',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.withValues(alpha: 0.8),
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
         );
+
         return;
       }
 

@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
-
 class ApiUrl {
-  static const String baseUrl = kDebugMode
-      ? 'http://10.10.20.73:8000/api'
-      : 'https://brickk-backend.onrender.com/api';
+  // static const String baseUrl = kDebugMode
+  //     ? 'http://10.10.20.73:8000/api'
+  //     : 'https://brickk-backend.onrender.com/api';
 
-  // static const String baseUrl = 'http://10.10.20.73:8000/api';
+  static const String baseUrl = 'http://10.10.20.73:8000/api';
 
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
