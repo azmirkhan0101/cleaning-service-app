@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class OwnerCategoryScreen extends StatefulWidget {
@@ -18,6 +19,9 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+      "Screen width: ${MediaQuery.of(context).size.width}, height: ${MediaQuery.of(context).size.height}",
+    );
     return Scaffold(
       appBar: CustomAppBar(title: "Category", backButton: true),
       body: Obx(() {
@@ -60,50 +64,69 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                 crossAxisCount: 2, // Number of columns
                 crossAxisSpacing: 16, // Space between columns
                 mainAxisSpacing: 12, // Space between rows
-                childAspectRatio: 1,
+                childAspectRatio: (() {
+                  final mq = MediaQuery.of(context);
+                  final screenWidth = mq.size.width;
+                  final horizontalPadding =
+                      16.0 * 2; // Padding from parent (left + right)
+                  final crossAxisCount = 2;
+                  final spacing = 16.0; // crossAxisSpacing
+                  final itemWidth =
+                      (screenWidth -
+                          horizontalPadding -
+                          (crossAxisCount - 1) * spacing) /
+                      crossAxisCount;
+                  final itemHeight =
+                      mq.size.height *
+                      0.23; // device-based item height (adjust fraction as needed)
+                  return itemWidth / itemHeight;
+                })(),
               ),
               itemBuilder: (context, index) {
                 final category = categoryController.categories[index];
-                return InkWell(
-                  onTap: () {
-                    Get.toNamed(
-                      AppRoutes.ownerCategoryByService,
-                      arguments: {
-                        'categoryId': category.id,
-                        'categoryName': category.name,
-                      },
-                    );
-                  },
-                  child: Card(
-                    color: AppColors.white,
-                    elevation: 2,
-                    shadowColor: Colors.grey,
-                    borderOnForeground: false,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        spacing: 8,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: NetworkImage(category.image),
-                                fit: BoxFit.cover,
+                return SizedBox(
+                  height: 1000.h,
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(
+                        AppRoutes.ownerCategoryByService,
+                        arguments: {
+                          'categoryId': category.id,
+                          'categoryName': category.name,
+                        },
+                      );
+                    },
+                    child: Card(
+                      color: AppColors.white,
+                      elevation: 2,
+                      shadowColor: Colors.grey,
+                      borderOnForeground: false,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Column(
+                          spacing: 8,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: NetworkImage(category.image),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          CustomText(
-                            text: category.name,
-                            textAlign: TextAlign.center,
-                            fontSize: 12,
-                            fontFamily: FontFamily.lexend,
-                            fontWeight: FontWeight.w600,
-                            height: 1.50,
-                          ),
-                        ],
+                            CustomText(
+                              text: category.name,
+                              textAlign: TextAlign.center,
+                              fontSize: 12,
+                              fontFamily: FontFamily.lexend,
+                              fontWeight: FontWeight.w600,
+                              height: 1.50,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

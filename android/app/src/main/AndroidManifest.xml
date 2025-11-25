@@ -20,7 +20,7 @@
 
 
     <application
-        android:label="Cleaning Service"
+        android:label="Brikky"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         

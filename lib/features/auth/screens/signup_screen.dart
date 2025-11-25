@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupScreen extends GetView<SignupController> {
   const SignupScreen({super.key});
@@ -53,14 +54,13 @@ class SignupScreen extends GetView<SignupController> {
 
                 SizedBox(height: 16.h),
 
-                _buildOrDivider(),
+                // _buildOrDivider(),
 
-                SizedBox(height: 12.h),
+                // SizedBox(height: 12.h),
 
-                _buildSocialButtons(),
+                // _buildSocialButtons(),
 
-                SizedBox(height: 16.h),
-
+                // SizedBox(height: 16.h),
                 _buildLoginNavigateLink(),
 
                 SizedBox(height: 8.h),
@@ -331,10 +331,41 @@ class SignupScreen extends GetView<SignupController> {
             ),
           ),
           Expanded(
-            child: CustomText(
-              text: 'I agree with terms of conditions and privacy policy',
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+            child: Row(
+              children: [
+                CustomText(
+                  text: 'I agree with ',
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                GestureDetector(
+                  onTap: () => _onClickTermsPrivacyPolicy(
+                    "https://www.example.com/terms",
+                  ),
+                  child: CustomText(
+                    text: 'terms',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF4899D1),
+                  ),
+                ),
+                CustomText(
+                  text: ' of conditions and ',
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                GestureDetector(
+                  onTap: () => _onClickTermsPrivacyPolicy(
+                    "https://www.example.com/privacy",
+                  ),
+                  child: CustomText(
+                    text: 'privacy policy',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF4899D1),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -495,6 +526,24 @@ class SignupScreen extends GetView<SignupController> {
         colorText: Colors.white,
         duration: const Duration(seconds: 3),
       );
+    }
+  }
+
+  void _onClickTermsPrivacyPolicy(String url) async {
+    final uri = Uri.parse(url);
+
+    try {
+      // open in external (default) browser
+      final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!ok) {
+        // fallback or notify user
+        Get.snackbar(
+          'Error',
+          'Could not open link',
+        ); // or use ScaffoldMessenger
+      }
+    } catch (e) {
+      Get.snackbar('Oops', 'Failed to open link');
     }
   }
 }

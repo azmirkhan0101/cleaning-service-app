@@ -115,7 +115,7 @@ class UploadDocumentSection extends StatelessWidget {
           CustomButton(
             onTap: () async {
               if (selectionController.isUploading.value) {
-                return; // Disabled state - do nothing
+                return;
               }
 
               if (selectionController.frontIdImage.value == null) {
@@ -136,6 +136,7 @@ class UploadDocumentSection extends StatelessWidget {
               }
               // fetch affiliation condition text
               await affiliationController.fetchAffiliationProgram();
+              if (!context.mounted) return;
               // Show affiliation condition dialog for Provider
               _showAffiliationConditionDialog(context);
               debugPrint(
@@ -148,13 +149,13 @@ class UploadDocumentSection extends StatelessWidget {
                 'Selfie with ID uploaded: ${selectionController.selfieWithIdImage.value}',
               );
             },
-            title: selectionController.isUploading.value
+            title: affiliationController.isLoading.value
                 ? 'Processing...'
                 : 'Confirm',
             fontSize: 16,
             width: double.infinity,
             height: 50,
-            fillColor: selectionController.isUploading.value
+            fillColor: affiliationController.isLoading.value
                 ? AppColors.grey_1
                 : AppColors.appColors,
             borderRadius: 24,
@@ -320,7 +321,6 @@ class UploadDocumentSection extends StatelessWidget {
 
           SizedBox(height: 32),
 
-          // Accept Button - Call API for Owner
           Obx(() {
             return GestureDetector(
               onTap: () async {
