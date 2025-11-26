@@ -1,11 +1,12 @@
+// ignore: unused_import
 import 'package:flutter/foundation.dart';
 
 class ApiUrl {
-  static const String baseUrl = kDebugMode
-      ? 'http://10.10.20.73:8000/api'
-      : 'http://172.252.13.3:8000/api';
+  // static const String baseUrl = kDebugMode
+  //     ? 'http://10.10.20.73:8000/api'
+  //     : 'http://172.252.13.3:8000/api';
 
-  // static const String baseUrl = 'http://172.252.13.3:8000/api';
+  static const String baseUrl = 'http://172.252.13.3:8000/api';
   // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
   /// =--> Auth Endpoints <--=

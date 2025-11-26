@@ -85,13 +85,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
                   child: GridView.builder(
                     controller: serviceController.scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
-                          childAspectRatio: 0.80,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height * 0.52),
+                    ),
                     itemCount:
                         serviceController.services.length +
                         (serviceController.isLoadingMore.value ? 1 : 0),
@@ -128,104 +129,111 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   service.coverImages.isNotEmpty
                                       ? service.coverImages.first
                                       : 'https://via.placeholder.com/150',
-                                  height: 120,
+                                  // height: 100,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Container(
-                                      height: 120,
+                                      // height: 100,
+                                      height: double.infinity,
                                       color: Colors.grey[300],
                                       child: const Icon(
                                         Icons.image_not_supported,
-                                        size: 50,
+                                        size: 40,
                                       ),
                                     );
                                   },
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: service.name,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.star,
-                                              color: Colors.orange,
-                                              size: 14,
-                                            ),
-                                            const SizedBox(width: 2),
-                                            CustomText2(
-                                              text: service.ratingsAverage
-                                                  .toStringAsFixed(1),
-                                              fontSize: 12,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: service.name,
+                                              fontSize: 13,
                                               fontWeight: FontWeight.w600,
+                                              maxLines: 1,
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        const CustomText(
-                                          text: 'Current booking: ',
-                                          color: Color(0xFF4F4F59),
-                                          fontSize: 10,
-                                          fontFamily: 'Lexend',
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.50,
-                                        ),
-                                        CustomText(
-                                          text: service.totalOrders.toString(),
-                                          color: const Color(0xFF0F0B18),
-                                          fontSize: 10,
-                                          fontFamily: 'Lexend',
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.50,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 4),
-                                    CustomText(
-                                      text:
-                                          'Published date: ${_formatDate(service.createdAt)}',
-                                      color: const Color(0xFF4F4F59),
-                                      fontSize: 10,
-                                      fontFamily: 'Lexend',
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.50,
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: '€${service.rateByHour}/hr',
-                                          fontSize: 12,
-                                          color: AppColors.lightBlue,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        CustomImage(
-                                          imageSrc: AppImages.arrayicon,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.star,
+                                                color: Colors.orange,
+                                                size: 12,
+                                              ),
+                                              const SizedBox(width: 2),
+                                              CustomText2(
+                                                text: service.ratingsAverage
+                                                    .toStringAsFixed(1),
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Row(
+                                        children: [
+                                          const CustomText(
+                                            text: 'Bookings: ',
+                                            color: Color(0xFF4F4F59),
+                                            fontSize: 9,
+                                            fontFamily: 'Lexend',
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.2,
+                                          ),
+                                          CustomText(
+                                            text: service.totalOrders
+                                                .toString(),
+                                            color: const Color(0xFF0F0B18),
+                                            fontSize: 9,
+                                            fontFamily: 'Lexend',
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.2,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 1),
+                                      CustomText(
+                                        text:
+                                            'Date: ${_formatDate(service.createdAt)}',
+                                        color: const Color(0xFF4F4F59),
+                                        fontSize: 9,
+                                        fontFamily: 'Lexend',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2,
+                                      ),
+                                      const Spacer(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            text: '€${service.rateByHour}/hr',
+                                            fontSize: 11,
+                                            color: AppColors.lightBlue,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          CustomImage(
+                                            imageSrc: AppImages.arrayicon,
+                                            height: 16,
+                                            width: 16,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
