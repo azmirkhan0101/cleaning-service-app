@@ -9,11 +9,13 @@ import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
+import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/controllers/provider_home_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProviderHome extends StatefulWidget {
   const ProviderHome({super.key});
@@ -25,6 +27,7 @@ class ProviderHome extends StatefulWidget {
 class _ProviderHomeState extends State<ProviderHome> {
   final notificationController = Get.put(NotificationController());
   final homeController = Get.put(ProviderHomeController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     // Legacy static appointments removed; now using API-driven reactive list.
@@ -41,6 +44,8 @@ class _ProviderHomeState extends State<ProviderHome> {
             await Future.wait([
               homeController.fetchHomepageData(),
               homeController.fetchPendingHomeBookings(),
+              notificationController.fetchNotifications(),
+              profileController.fetchProfile(),
             ]);
           },
           child: SingleChildScrollView(
@@ -428,122 +433,145 @@ class _ProviderHomeState extends State<ProviderHome> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // location section
-        Row(
-          children: [
-            IconWhiteCircleBackground(icon: Assets.icons.locationMarker.svg()),
-
-            SizedBox(width: 8),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CustomText2(
-                      text: 'My Location',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-
-                    SizedBox(width: 6),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.locationScreen);
-                      },
-                      child: Icon(Icons.edit, size: 14, color: AppColors.blue),
-                    ),
-                  ],
-                ),
-
-                CustomText(
-                  text: 'San Francisco, CA', // TODO: dynamic location
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.black,
-                ),
-              ],
-            ),
-          ],
-        ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          spacing: 4,
-          children: [
-            IconWhiteCircleBackground(
-              icon: Assets.icons.badge.svg(
-                // colorFilter: ColorFilter.mode(
-                //   // Colors.blue,
-                //   plan == 'PLATINUM'
-                //       ? Color(0xFFE5E4E2)
-                //       : plan == 'GOLD'
-                //       ? Color(0xFF8A5A2B)
-                //       : plan == 'SILVER'
-                //       ? Color(0xFFC0C0C0)
-                //       : Color(0xFF4B3F72),
-                //   BlendMode.srcIn,
-                // ),
+    return Obx(() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // location section
+          Row(
+            children: [
+              IconWhiteCircleBackground(
+                icon: Assets.icons.locationMarker.svg(),
               ),
-            ),
 
-            CustomText(
-              text: homeController.homepageData.value?.currentPlan ?? '',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.black,
-            ),
+              SizedBox(width: 8),
 
-            SizedBox(width: 4),
-            IconWhiteCircleBackground(
-              icon: Obx(() {
-                return Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Assets.icons.notificationBell.svg(
-                        width: 24,
-                        height: 24,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CustomText2(
+                        text: 'My Location',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
                       ),
+
+                      SizedBox(width: 6),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.locationScreen);
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          size: 14,
+                          color: AppColors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Skeletonizer(
+                    enabled: profileController.isLoading.value,
+                    child: CustomText(
+                      text: () {
+                        final address =
+                            profileController.profile.value?.address ??
+                            'No location set';
+                        // Show only text after the last comma
+                        final lastCommaIndex = address.lastIndexOf(',');
+                        if (lastCommaIndex != -1 &&
+                            lastCommaIndex < address.length - 1) {
+                          return address.substring(lastCommaIndex + 1).trim();
+                        }
+                        return address;
+                      }(),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.black,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (notificationController.unreadCount.value > 0)
-                      Positioned(
-                        right: 0,
-                        child: Container(
-                          width: 14,
-                          height: 14,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF00B046) /* green */,
-                            shape: OvalBorder(),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${notificationController.unreadCount.value}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 4,
+            children: [
+              IconWhiteCircleBackground(
+                icon: Assets.icons.badge.svg(
+                  // colorFilter: ColorFilter.mode(
+                  //   // Colors.blue,
+                  //   plan == 'PLATINUM'
+                  //       ? Color(0xFFE5E4E2)
+                  //       : plan == 'GOLD'
+                  //       ? Color(0xFF8A5A2B)
+                  //       : plan == 'SILVER'
+                  //       ? Color(0xFFC0C0C0)
+                  //       : Color(0xFF4B3F72),
+                  //   BlendMode.srcIn,
+                  // ),
+                ),
+              ),
+
+              CustomText(
+                text: homeController.homepageData.value?.currentPlan ?? '',
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.black,
+              ),
+
+              SizedBox(width: 4),
+              IconWhiteCircleBackground(
+                icon: Obx(() {
+                  return Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Assets.icons.notificationBell.svg(
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                      if (notificationController.unreadCount.value > 0)
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFF00B046) /* green */,
+                              shape: OvalBorder(),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${notificationController.unreadCount.value}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
-                );
-              }),
-              onTap: () {
-                // showCustomDialog(context);
-                Get.toNamed(AppRoutes.notificationScreen);
-              },
-            ),
-          ],
-        ),
-      ],
-    );
+                    ],
+                  );
+                }),
+                onTap: () {
+                  // showCustomDialog(context);
+                  Get.toNamed(AppRoutes.notificationScreen);
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+    });
   }
 }
 

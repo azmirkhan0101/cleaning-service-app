@@ -254,7 +254,7 @@ class _SetLocationSectionState extends State<SetLocationSection> {
           return GestureDetector(
             onTap: () => selectionController.setupExperience(options[index]),
             // onTap: () {
-              
+
             //   selectionController.experience.value = options[index];
             // },
             child: Row(

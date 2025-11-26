@@ -72,6 +72,60 @@ class ProfileController extends GetxController {
     await fetchProfile();
   }
 
+  /// Update user location
+  Future<bool> updateLocation({
+    required String address,
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      isUpdating.value = true;
+      errorMessage.value = '';
+
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.put.method,
+            ApiUrl.updateLocation,
+            body: {
+              'address': address,
+              'lattitude': latitude,
+              'longitude': longitude,
+            },
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      isUpdating.value = false;
+
+      return response.fold(
+        (error) {
+          errorMessage.value = error.message ?? 'Failed to update location';
+          debugPrint('Error updating location: ${error.message}');
+          Get.snackbar(
+            'Error',
+            error.message ?? 'Failed to update location',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return false;
+        },
+        (data) {
+          debugPrint('Location updated successfully: ${data['message']}');
+          return true;
+        },
+      );
+    } catch (e) {
+      isUpdating.value = false;
+      errorMessage.value = 'Failed to update location';
+      debugPrint('Exception updating location: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to update location',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+  }
+
   Future<void> signOut() async {
     try {
       // Call logout API

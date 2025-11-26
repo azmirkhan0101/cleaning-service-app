@@ -23,9 +23,9 @@ class OwnerSearchScreen extends StatefulWidget {
 class _OwnerSearchScreenState extends State<OwnerSearchScreen> {
   final ownerController = Get.find<OwnerController>();
 
-  int? _selectedExperience;
-  bool? _instantBooking;
-  String? _selectedGender;
+  // int? _selectedExperience;
+  // bool? _instantBooking;
+  // String? _selectedGender;
 
   final paymentController = Get.find<PaymentController>();
 

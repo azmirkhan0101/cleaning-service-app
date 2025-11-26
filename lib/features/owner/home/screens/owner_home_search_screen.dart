@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class OwnerHomeSearchScreen extends StatefulWidget {
   const OwnerHomeSearchScreen({super.key});
@@ -365,47 +366,56 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                           ),
                         ),
                         const SizedBox(width: 12),
+
+                        /// Show Button
                         SizedBox(
                           height: 44,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final searchController =
-                                  Get.find<search.SearchController>();
-                              await searchController.searchServices();
-                              if (searchController.searchResults.isNotEmpty) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => SearchResultsScreen(
-                                      services: searchController.searchResults,
-                                      totalResults:
-                                          searchController.totalResults.value,
-                                      appliedFilters:
-                                          searchController.appliedFilters.value,
-                                    ),
+                          child: Obx(() {
+                            return Skeletonizer(
+                              enabled: searchController.isSearching.value,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  final searchController =
+                                      Get.find<search.SearchController>();
+                                  await searchController.searchServices();
+                                  if (searchController
+                                      .searchResults
+                                      .isNotEmpty) {
+                                    Get.to(
+                                      SearchResultsScreen(
+                                        services:
+                                            searchController.searchResults,
+                                        totalResults:
+                                            searchController.totalResults.value,
+                                        appliedFilters: searchController
+                                            .appliedFilters
+                                            .value,
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF7A51D),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFF7A51D),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                  elevation: 0,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 32,
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Show',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Lexend',
+                                  ),
+                                ),
                               ),
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                              ),
-                            ),
-                            child: const Text(
-                              'Show',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Lexend',
-                              ),
-                            ),
-                          ),
+                            );
+                          }),
                         ),
                       ],
                     ),

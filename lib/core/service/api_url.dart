@@ -1,9 +1,11 @@
-class ApiUrl {
-  // static const String baseUrl = kDebugMode
-  //     ? 'http://10.10.20.73:8000/api'
-  //     : 'https://brickk-backend.onrender.com/api';
+import 'package:flutter/foundation.dart';
 
-  static const String baseUrl = 'http://172.252.13.3:8000/api';
+class ApiUrl {
+  static const String baseUrl = kDebugMode
+      ? 'http://10.10.20.73:8000/api'
+      : 'http://172.252.13.3:8000/api';
+
+  // static const String baseUrl = 'http://172.252.13.3:8000/api';
   // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
   /// =--> Auth Endpoints <--=
@@ -36,6 +38,7 @@ class ApiUrl {
   static const String profile = '$baseUrl/auth/me';
   static const String updateOwnerProfile = '$baseUrl/profile/owner';
   static const String updateProviderProfile = '$baseUrl/profile/provider';
+  static const String updateLocation = '$baseUrl/profile/location';
   static const String changePassword = '$baseUrl/auth/change-password';
   static const String getReferralInfo = '$baseUrl/referral/my-info';
 
