@@ -1,6 +1,8 @@
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
+import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:cleaning_service_app/features/owner/booking/controllers/owner_qr_scanner_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -141,13 +143,14 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                                 controller.isSubmittingReview.value = false;
                                 res.fold(
                                   (l) {
-                                    Get.snackbar(
-                                      'Error',
-                                      l,
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white,
-                                    );
+                                    Toast.errorToast("Failed to submit review");
+                                    // Get.snackbar(
+                                    //   'Error',
+                                    //   l,
+                                    //   snackPosition: SnackPosition.BOTTOM,
+                                    //   backgroundColor: Colors.red,
+                                    //   colorText: Colors.white,
+                                    // );
                                   },
                                   (r) async {
                                     Navigator.of(ctx).pop();
@@ -186,22 +189,29 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
   Future<void> _finishFlow({required bool submitReview}) async {
     // Refresh bookings and navigate to main layout -> Bookings tab -> Completed sub-tab
     await controller.refreshAndGoCompletedTab();
+
+    // Navigate back to close scanner screen first
+    Get.back();
+
     // Navigate to main layout with index=2 (Bookings). Then set internal tab
     if (Get.isRegistered<MainLayoutController>()) {
       final layout = Get.find<MainLayoutController>();
       layout.changeTab(2); // Bookings bottom nav
-    } else {
-      Get.offAll(
-        () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+
+      // Show snackbar after navigation completes
+      await Future.delayed(const Duration(milliseconds: 100));
+      Toast.successToast(
+        submitReview ? 'Thanks for your feedback!' : 'You skipped review.',
       );
+      Get.offAll(MainLayout());
+      // Get.snackbar(
+      //   'Booking Completed',
+      //   submitReview ? 'Thanks for your feedback!' : 'You skipped review.',
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   backgroundColor: Colors.green,
+      //   colorText: Colors.white,
+      // );
     }
-    Get.snackbar(
-      'Booking Completed',
-      submitReview ? 'Thanks for your feedback!' : 'You skipped review.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
   }
 
   @override
@@ -215,6 +225,11 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
           // Camera Scanner
           MobileScanner(
             fit: BoxFit.cover,
+            controller: MobileScannerController(
+              facing: CameraFacing.back,
+              formats: const [BarcodeFormat.qrCode],
+              detectionSpeed: DetectionSpeed.noDuplicates,
+            ),
             onDetect: (capture) {
               final codes = capture.barcodes;
               if (codes.isNotEmpty) {

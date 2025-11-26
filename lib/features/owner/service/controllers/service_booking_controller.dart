@@ -182,7 +182,12 @@ class ServiceBookingController extends GetxController {
       return result.fold(
         (error) {
           debugPrint('Booking error: ${error.message}');
-          return null;
+          // Return error details for conflict detection
+          return {
+            'success': false,
+            'message': error.message,
+            'statusCode': error.statusCode,
+          };
         },
         (response) {
           debugPrint('=== BOOKING RESPONSE ===');

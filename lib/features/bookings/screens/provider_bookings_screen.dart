@@ -71,28 +71,51 @@ class _ProviderBookingsScreenState extends State<ProviderBookingsScreen> {
         final currentBookings = ownerBookingController.currentBookings;
 
         if (currentBookings.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.bookmark_border, size: 64, color: Colors.grey[400]),
-                const SizedBox(height: 16),
-                Text(
-                  'No bookings found',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
+          // Keep pull-to-refresh active even when empty
+          return RefreshIndicator(
+            onRefresh: ownerBookingController.refreshBookings,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.bookmark_border,
+                            size: 64,
+                            color: Colors.grey[400],
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No bookings found',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            ownerBookingController.selectedTabIndex.value == 0
+                                ? 'You don\'t have any bookings yet'
+                                : 'No ${ownerBookingController.tabTitles[ownerBookingController.selectedTabIndex.value].toLowerCase()} bookings',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  ownerBookingController.selectedTabIndex.value == 0
-                      ? 'You don\'t have any bookings yet'
-                      : 'No ${ownerBookingController.tabTitles[ownerBookingController.selectedTabIndex.value].toLowerCase()} bookings',
-                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
-                ),
-              ],
+                );
+              },
             ),
           );
         }
@@ -102,6 +125,7 @@ class _ProviderBookingsScreenState extends State<ProviderBookingsScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: ownerBookingController.scrollController,
               itemBuilder: (context, index) {
                 // Show loading indicator at bottom for "All" tab pagination

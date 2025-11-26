@@ -316,6 +316,145 @@ class ServiceBookingStepTwo extends StatelessWidget {
                       debugPrint('Response data: ${bookingResponse['data']}');
                     }
 
+                    // Check for booking conflict (409 status)
+                    if (bookingResponse != null &&
+                        bookingResponse['success'] == false &&
+                        bookingResponse['statusCode'] == 409) {
+                      // Show booking conflict dialog
+                      Get.dialog(
+                        Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: const BorderSide(
+                              color: Color(0xFF1B2D51),
+                              width: 1.6,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 27,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // Title
+                                const Text(
+                                  'Booking Conflict',
+                                  style: TextStyle(
+                                    fontFamily: 'Lexend',
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF0F0B18),
+                                    letterSpacing: -1,
+                                    height: 1.3,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 12),
+
+                                // Clock Icon with X Badge
+                                Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Assets.icons.clock.svg(
+                                        width: 68,
+                                        height: 68,
+                                        colorFilter: const ColorFilter.mode(
+                                          Color(0xFF4899D1),
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
+                                    ),
+                                    // X Badge
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFFDE5640),
+                                        ),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 24,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+
+                                // Error message from API
+                                Text(
+                                  bookingResponse['message'] ??
+                                      'This provider already has a pending booking at this time.',
+                                  style: const TextStyle(
+                                    fontFamily: 'Lexend',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF4F4F59),
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+
+                                // Suggestion
+                                const Text(
+                                  'Please choose a different time slot.',
+                                  style: TextStyle(
+                                    fontFamily: 'Lexend',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF1B2D51),
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 12),
+
+                                // OK Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFF7A51D),
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 100,
+                                      ),
+                                      elevation: 0,
+                                    ),
+                                    child: const Text(
+                                      'OK',
+                                      style: TextStyle(
+                                        fontFamily: 'Lexend',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
                     if (bookingResponse != null &&
                         bookingResponse['success'] == true) {
                       final data = bookingResponse['data'];

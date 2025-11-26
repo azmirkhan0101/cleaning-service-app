@@ -328,8 +328,12 @@ class OverviewTabView extends StatelessWidget {
           if (status == "ongoing") //
             ElevatedButton(
               onPressed: () {
-                // Get.toNamed(AppRoutes.ownerScannerScreen);
-                Get.to(OwnerScannerScreen());
+                // Navigate to scanner with required bookingId
+                final bookingId = serviceDetailsController.bookingId.value;
+                Get.to(
+                  () => const OwnerScannerScreen(),
+                  arguments: {'bookingId': bookingId},
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.appColors,

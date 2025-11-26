@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
@@ -25,9 +26,58 @@ class OwnerQrScannerController extends GetxController {
     // Debounce rapid events
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 600), () {
-      scannedCompletionCode.value = code;
+      final extracted = _extractCompletionCode(code);
+      if (extracted == null || extracted.isEmpty) {
+        errorMessage.value = 'Invalid QR content';
+        return;
+      }
+      scannedCompletionCode.value = extracted;
       _completeByQr();
     });
+  }
+
+  /// Try to extract the actual completion code from common QR payload shapes
+  /// Supports: raw code, URL query (?completionCode=...), JSON {completionCode: ..},
+  /// or key-value text like "completionCode: ABC123".
+  String? _extractCompletionCode(String raw) {
+    final s = raw.trim();
+    if (s.isEmpty) return null;
+
+    // Direct code (no separators typical of URL/JSON)
+    final looksSimple =
+        !s.contains('{') &&
+        !s.contains('}') &&
+        !s.contains('=') &&
+        !s.contains(':') &&
+        !s.contains('/') &&
+        !s.contains('\n');
+    if (looksSimple) return s;
+
+    // URL with query param
+    try {
+      final uri = Uri.tryParse(s);
+      if (uri != null && (uri.hasQuery || s.startsWith('http'))) {
+        final qp = uri.queryParameters;
+        final code = qp['completionCode'] ?? qp['code'] ?? qp['c'];
+        if (code != null && code.isNotEmpty) return code;
+      }
+    } catch (_) {}
+
+    // JSON object
+    try {
+      final obj = jsonDecode(s);
+      if (obj is Map) {
+        final code = obj['completionCode'] ?? obj['code'];
+        if (code is String && code.isNotEmpty) return code;
+      }
+    } catch (_) {}
+
+    // Key-value text pattern
+    final reg = RegExp(r'(completionCode|code)\s*[:=]\s*([A-Za-z0-9\-_.]+)');
+    final m = reg.firstMatch(s);
+    if (m != null) return m.group(2);
+
+    return null;
   }
 
   Future<void> _completeByQr() async {
