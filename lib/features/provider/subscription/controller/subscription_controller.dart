@@ -91,7 +91,7 @@ class SubscriptionController extends GetxController {
     required String plan,
     required String paymentMethodId,
     required String timeline, // 'MONTHLY' | 'YEARLY'
-    int creditsToUse = 0,
+    int redeemPoint = 0,
   }) async {
     if (isCreatingCheckout.value) return checkoutData.value;
     try {
@@ -103,8 +103,8 @@ class SubscriptionController extends GetxController {
         'paymentMethodId': paymentMethodId,
         'timeline': timeline,
       };
-      if (creditsToUse > 0) {
-        body['creditsToUse'] = creditsToUse;
+      if (redeemPoint > 0) {
+        body['creditsToUse'] = redeemPoint;
       }
 
       final response = await Get.find<NetworkHelper>()

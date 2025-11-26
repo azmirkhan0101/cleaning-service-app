@@ -18,8 +18,10 @@ const Color unselectedTextColor = Color(0xFF6A6A6A);
 class ChoosePlanSection extends StatelessWidget {
   ChoosePlanSection({
     super.key,
+    required this.redeemPoint,
     // this.isProfileSetupSelectionScreen = true
   });
+  final int redeemPoint;
   // final bool isProfileSetupSelectionScreen;
 
   // final ProfileSetupController selectionController =
@@ -135,7 +137,7 @@ class ChoosePlanSection extends StatelessWidget {
                 Toast.errorToast('Please select a paid plan to continue');
                 return;
               }
-              Get.to(() => SubscriptionPaymentScreen());
+              Get.to(() => SubscriptionPaymentScreen(redeemPoint: redeemPoint));
               return;
               // }
               // if (selectionController.isUploading.value) {

@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/profile/controllers/knowledge_hub_detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 class KnowledgeHubDetailScreen extends StatefulWidget {
@@ -89,13 +90,15 @@ class _KnowledgeHubDetailScreenState extends State<KnowledgeHubDetailScreen> {
           }
 
           return SingleChildScrollView(
-            child: CustomText(
-              text: article.description,
-              color: const Color(0xFF4F4F59),
-              fontSize: 14,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w400,
-              height: 1.75,
+            child: HtmlWidget(
+              article.description,
+              textStyle: const TextStyle(
+                color: Color(0xFF4F4F59),
+                fontSize: 14,
+                fontFamily: 'Lexend',
+                fontWeight: FontWeight.w400,
+                height: 1.75,
+              ),
             ),
           );
         }),

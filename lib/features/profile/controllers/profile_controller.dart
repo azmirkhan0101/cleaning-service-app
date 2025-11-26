@@ -121,6 +121,7 @@ class ProfileController extends GetxController {
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
           );
+      isLoadingStripeDashboard.value = false;
 
       return response.fold(
         (error) {

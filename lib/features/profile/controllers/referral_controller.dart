@@ -27,7 +27,7 @@ class ReferralController extends GetxController {
       ApiUrl.getReferralInfo,
       parser: (data) => data as Map<String, dynamic>,
     );
-
+    isLoading.value = false;
     result.fold(
       (error) {
         errorMessage.value =

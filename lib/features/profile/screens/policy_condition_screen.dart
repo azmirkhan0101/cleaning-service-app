@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/profile/controllers/policy_condition_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 class PolicyConditionScreen extends StatefulWidget {
@@ -52,13 +53,15 @@ class _PolicyConditionScreenState extends State<PolicyConditionScreen> {
   Widget _buildContent() {
     // If static content is provided, display it directly
     if (widget.content != null) {
-      return CustomText(
-        text: widget.content!,
-        color: const Color(0xFF0F0B18),
-        fontSize: 14,
-        fontFamily: 'Lexend',
-        fontWeight: FontWeight.w400,
-        height: 1.50,
+      return HtmlWidget(
+        widget.content!,
+        textStyle: const TextStyle(
+          color: Color(0xFF0F0B18),
+          fontSize: 14,
+          fontFamily: 'Lexend',
+          fontWeight: FontWeight.w400,
+          height: 1.50,
+        ),
       );
     }
 
@@ -140,13 +143,15 @@ class _PolicyConditionScreenState extends State<PolicyConditionScreen> {
         );
       }
 
-      return CustomText(
-        text: contentText,
-        color: const Color(0xFF0F0B18),
-        fontSize: 14,
-        fontFamily: 'Lexend',
-        fontWeight: FontWeight.w400,
-        height: 1.50,
+      return HtmlWidget(
+        contentText,
+        textStyle: const TextStyle(
+          color: Color(0xFF0F0B18),
+          fontSize: 14,
+          fontFamily: 'Lexend',
+          fontWeight: FontWeight.w400,
+          height: 1.50,
+        ),
       );
     });
   }

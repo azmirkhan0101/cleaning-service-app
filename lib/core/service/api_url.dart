@@ -3,7 +3,8 @@ class ApiUrl {
   //     ? 'http://10.10.20.73:8000/api'
   //     : 'https://brickk-backend.onrender.com/api';
 
-  static const String baseUrl = 'http://10.10.20.73:8000/api';
+  static const String baseUrl = 'http://172.252.13.3:8000/api';
+  // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
@@ -37,6 +38,11 @@ class ApiUrl {
   static const String updateProviderProfile = '$baseUrl/profile/provider';
   static const String changePassword = '$baseUrl/auth/change-password';
   static const String getReferralInfo = '$baseUrl/referral/my-info';
+
+  /// =--> Redemption Endpoints <--=
+  static const String calculateRedemption =
+      '$baseUrl/redemption/calculate-preview';
+  static const String redeemForCash = '$baseUrl/redemption/redeem-for-cash';
 
   /// =--> Subscription Endpoints <--=
   static const String subscriptionPlans = '$baseUrl/subscription/plans';

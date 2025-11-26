@@ -5,7 +5,6 @@ import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
-import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/profile/controllers/edit_profile_controller.dart';
@@ -15,7 +14,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({super.key, required this.isOwner});
+
+  final bool isOwner;
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -39,6 +40,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     editProfileController.addressController.text = profile?.address ?? '';
     editProfileController.aboutMeController.text = profile?.aboutMe ?? '';
     editProfileController.selectedExperience.value = profile?.experience ?? '';
+    editProfileController.setSelectedAddress(
+      address: profile?.address ?? '',
+      latitude: profile?.latitude ?? 0.0,
+      longitude: profile?.longitude ?? 0.0,
+    );
   }
 
   void _showImageSourceSelection() {
@@ -102,9 +108,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ///====================== profile image===================
                   Center(
                     child: Obx(() {
-                      final profile = editProfileController.profile.value;
                       final selectedImage =
                           editProfileController.profileImage.value;
+                      final profilePictureUrl =
+                          profileController.profile.value?.profilePicture ?? '';
+
+                      // Helper function to check if URL is valid
+                      bool isValidUrl(String url) {
+                        if (url.isEmpty) return false;
+                        return Uri.tryParse(url)?.hasAbsolutePath ?? false;
+                      }
 
                       return Stack(
                         clipBehavior: Clip.none,
@@ -114,39 +127,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             width: 130.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.grey,
+                              color: Colors.grey.shade200,
                               border: Border.all(
                                 width: 1,
                                 color: AppColors.white_50,
                               ),
                             ),
-                            child: selectedImage != null
-                                ? ClipOval(
-                                    child: Image.file(
-                                      selectedImage,
+                            child: ClipOval(
+                              child: selectedImage != null
+                                  // Show selected image from gallery/camera
+                                  ? Image.file(selectedImage, fit: BoxFit.cover)
+                                  : isValidUrl(profilePictureUrl)
+                                  // Show network image if valid URL
+                                  ? Image.network(
+                                      profilePictureUrl,
                                       fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : profile?.profilePicture.isNotEmpty == true
-                                ? ClipOval(
-                                    child: Image.network(
-                                      profile!.profilePicture,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                            return Image.asset(
-                                              AppImages.user_image,
-                                              fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        // Show icon if network image fails to load
+                                        return Icon(
+                                          Icons.image,
+                                          size: 50,
+                                          color: Colors.grey.shade400,
+                                        );
+                                      },
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value:
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
+                                                    : null,
+                                              ),
                                             );
                                           },
+                                    )
+                                  // Show icon placeholder if no valid image
+                                  : Icon(
+                                      Icons.image,
+                                      size: 50,
+                                      color: Colors.grey.shade400,
                                     ),
-                                  )
-                                : ClipOval(
-                                    child: Image.asset(
-                                      AppImages.user_image,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                            ),
                           ),
                           Positioned(
                             bottom: 5,
@@ -249,7 +278,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(height: 12.h),
 
                   // Select Experience (Only for Provider)
-                  if (role == Role.provider.value)
+                  if (!widget.isOwner)
                     CustomText(
                       text: "Experience",
                       color: const Color(0xFF0F0B18),

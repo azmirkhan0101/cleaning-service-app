@@ -21,6 +21,7 @@ import 'package:cleaning_service_app/features/provider/subscription/screens/subs
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -84,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
 
                   SizedBox(height: 8.h),
 
-                  _buildSettingsList(context, role),
+                  _buildSettingsList(context, role, profileController),
                 ],
               ),
             ),
@@ -141,7 +142,11 @@ class ProfileScreen extends StatelessWidget {
   }
 
   ///List of Settings
-  Widget _buildSettingsList(BuildContext context, String? role) {
+  Widget _buildSettingsList(
+    BuildContext context,
+    String? role,
+    ProfileController profileController,
+  ) {
     return Column(
       spacing: 16.h,
       children: [
@@ -152,19 +157,22 @@ class ProfileScreen extends StatelessWidget {
             Icons.person_outline,
           ),
           onTap: () {
-            Get.to(EditProfileScreen());
+            Get.to(EditProfileScreen(isOwner: role == Role.owner.value));
           },
         ),
 
         // My Balance (only for Provider)
-        if (role == Role.provider.value)
-          InkWell(
+        // if (role == Role.provider.value)
+        Skeletonizer(
+          enabled: profileController.isLoadingStripeDashboard.value,
+          child: InkWell(
             child: _buildSettingsItem(
               'My Balance',
               Icons.account_balance_wallet_outlined,
             ),
             onTap: () => onTapMyBalance(context),
           ),
+        ),
 
         // Password Management
         InkWell(

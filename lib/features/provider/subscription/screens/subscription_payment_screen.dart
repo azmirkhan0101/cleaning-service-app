@@ -10,9 +10,11 @@ import 'package:get/get.dart';
 class SubscriptionPaymentScreen extends StatefulWidget {
   const SubscriptionPaymentScreen({
     super.key,
+    required this.redeemPoint,
     this.isUpdatingSubscription = false,
   });
 
+  final int redeemPoint;
   final bool isUpdatingSubscription;
 
   @override
@@ -41,12 +43,12 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
     final plan = controller.selectedPlan.value?.plan;
     if (plan == null) return;
     final timeline = controller.isYearlyPlan.value ? 'YEARLY' : 'MONTHLY';
-    final credits = int.tryParse(_creditsController.text.trim()) ?? 0;
+    // final credits = int.tryParse(_creditsController.text.trim()) ?? 0;
     await controller.createCheckout(
       plan: plan,
       paymentMethodId: _paymentMethodId,
       timeline: timeline,
-      creditsToUse: credits,
+      redeemPoint: widget.redeemPoint,
     );
     if (!mounted) return;
     if (controller.checkoutError.isNotEmpty) {
@@ -65,6 +67,7 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Redeem Point in Payment Screen: ${widget.redeemPoint}');
     final plan = controller.selectedPlan.value!;
     return Scaffold(
       appBar: CustomAppBar(title: 'Payment', backButton: true),

@@ -17,10 +17,10 @@ import 'package:cleaning_service_app/features/owner/service/screens/service_book
 import 'package:cleaning_service_app/features/owner/service/widgets/service_booking_step_two.dart';
 import 'package:cleaning_service_app/features/payment/screens/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/change_password_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
+import 'package:cleaning_service_app/features/profile/screens/redeem_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
@@ -57,6 +57,7 @@ class AppRoutes {
   static const String myEarningScreen = "/MyEarningScreen";
   static const String changePasswordScreen = "/ChangePasswordScreen";
   static const String referScreen = "/ReferScreen";
+  static const String redeemScreen = "/RedeemScreen";
   static const String aboutUsScreen = "/AboutUsScreen";
   static const String privacyPolicyScreen = "/PrivacyPolicyScreen";
 
@@ -143,13 +144,18 @@ class AppRoutes {
     GetPage(name: profileScreen, page: () => ProviderProfileScreen()),
 
     // GetPage(name: boostPaymentScreen, page: () => BoostPaymentScreen()),
-    GetPage(name: editPersonProfileScreen, page: () => EditProfileScreen()),
-
+    // GetPage(name: editPersonProfileScreen, page: () => EditProfileScreen()),
     GetPage(name: myEarningScreen, page: () => MyEarningScreen()),
 
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
 
     GetPage(name: referScreen, page: () => ReferScreen()),
+
+    GetPage(
+      name: redeemScreen,
+      page: () =>
+          RedeemScreen(currentBalance: Get.arguments['currentBalance'] ?? 0),
+    ),
 
     // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
     // GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),

@@ -3,7 +3,9 @@ import 'package:cleaning_service_app/features/provider/subscription/widgets/choo
 import 'package:flutter/material.dart';
 
 class SubscriptionScreen extends StatelessWidget {
-  const SubscriptionScreen({super.key});
+  const SubscriptionScreen({super.key, this.redeemPoint = 0});
+
+  final int redeemPoint;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class SubscriptionScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ChoosePlanSection(),
+          child: ChoosePlanSection(redeemPoint: redeemPoint),
         ),
       ),
     );
