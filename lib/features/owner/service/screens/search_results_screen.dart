@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/features/owner/home/controllers/nearby_services_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
@@ -35,8 +36,10 @@ class SearchResultsScreen extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 4,
                 children: [
-                  if (appliedFilters!.categoryId != null)
-                    _buildFilterChip('Category: ${appliedFilters!.categoryId}'),
+                  if (appliedFilters!.categoryName != null)
+                    _buildFilterChip(
+                      'Category: ${appliedFilters!.categoryName}',
+                    ),
                   if (appliedFilters!.date != null)
                     _buildFilterChip('Date: ${appliedFilters!.date}'),
                   if (appliedFilters!.time != null)
@@ -65,12 +68,7 @@ class SearchResultsScreen extends StatelessWidget {
             // Grid of service cards
             Expanded(
               child: services.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No services found.',
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      ),
-                    )
+                  ? _buildNearbyServicesFallback()
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -115,5 +113,85 @@ class SearchResultsScreen extends StatelessWidget {
       backgroundColor: Colors.blue[50],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
+  }
+
+  Widget _buildNearbyServicesFallback() {
+    final nearbyController = Get.find<NearbyServicesController>();
+
+    return Obx(() {
+      if (nearbyController.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      if (nearbyController.error.isNotEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'No services found matching your criteria.',
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8),
+              Text(
+                nearbyController.error.value,
+                style: TextStyle(fontSize: 14, color: Colors.red[400]),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      }
+
+      final nearbyServices = nearbyController.services;
+
+      if (nearbyServices.isEmpty) {
+        return Center(
+          child: Text(
+            'No services found.',
+            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+          ),
+        );
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              'Near for you (${nearbyServices.length} services)',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.85,
+              ),
+              itemCount: nearbyServices.length,
+              itemBuilder: (context, index) {
+                final service = nearbyServices[index];
+                return GestureDetector(
+                  onTap: () => Get.to(
+                    () => OwnerServiceDetailsScreen(),
+                    arguments: {'serviceId': service.id},
+                  ),
+                  child: ServiceCard(service: service),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

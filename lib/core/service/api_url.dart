@@ -6,10 +6,10 @@ class ApiUrl {
   //     ? 'http://10.10.20.73:8000/api'
   //     : 'http://172.252.13.3:8000/api';
 
-  static const String baseUrl = 'http://172.252.13.3:8000/api';
+  static const String baseUrl = 'https://backend.brikky.net/api';
   // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
-  static const String socketBaseUrl = 'http://172.252.13.3:8000';
+  static const String socketBaseUrl = 'https://backend.brikky.net';
 
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';

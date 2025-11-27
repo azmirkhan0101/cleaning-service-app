@@ -13,6 +13,7 @@ import 'package:cleaning_service_app/features/owner/home/controllers/search_cont
     as search;
 import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/search_results_screen.dart';
 import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -64,6 +65,53 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     SizedBox(height: 16.h),
                     _buildCategorySearchTextField(),
                     SizedBox(height: 16),
+
+                    // Show selected category name if any
+                    // Obx(() {
+                    //   if (searchController.selectedService.value.isNotEmpty) {
+                    //     return Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         Container(
+                    //           padding: EdgeInsets.symmetric(
+                    //             horizontal: 12,
+                    //             vertical: 8,
+                    //           ),
+                    //           decoration: BoxDecoration(
+                    //             color: Color(0xFF4899D1).withOpacity(0.1),
+                    //             borderRadius: BorderRadius.circular(8),
+                    //             border: Border.all(
+                    //               color: Color(0xFF4899D1),
+                    //               width: 1,
+                    //             ),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisSize: MainAxisSize.min,
+                    //             children: [
+                    //               Icon(
+                    //                 Icons.category,
+                    //                 size: 16,
+                    //                 color: Color(0xFF4899D1),
+                    //               ),
+                    //               SizedBox(width: 8),
+                    //               Text(
+                    //                 searchController.selectedService.value,
+                    //                 style: TextStyle(
+                    //                   color: Color(0xFF4899D1),
+                    //                   fontSize: 14,
+                    //                   fontFamily: 'Lexend',
+                    //                   fontWeight: FontWeight.w500,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         SizedBox(height: 16),
+                    //       ],
+                    //     );
+                    //   }
+                    //   return SizedBox.shrink();
+                    // }),
                     _buildTitleSection("Date & Time"),
                     _buildDataTimeSection(),
                     SizedBox(height: 24),
@@ -378,21 +426,51 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                                   final searchController =
                                       Get.find<search.SearchController>();
                                   await searchController.searchServices();
-                                  if (searchController
-                                      .searchResults
-                                      .isNotEmpty) {
-                                    Get.to(
-                                      SearchResultsScreen(
-                                        services:
-                                            searchController.searchResults,
-                                        totalResults:
-                                            searchController.totalResults.value,
-                                        appliedFilters: searchController
-                                            .appliedFilters
-                                            .value,
-                                      ),
+
+                                  // Get applied filters and ensure category name is set
+                                  final filters =
+                                      searchController.appliedFilters.value;
+                                  AppliedFilters? updatedFilters;
+
+                                  if (filters != null) {
+                                    // If categoryName is empty but we have a selected service, use it
+                                    final categoryName =
+                                        filters.categoryName?.isEmpty ?? true
+                                        ? searchController
+                                                  .selectedService
+                                                  .value
+                                                  .isNotEmpty
+                                              ? searchController
+                                                    .selectedService
+                                                    .value
+                                              : null
+                                        : filters.categoryName;
+
+                                    updatedFilters = AppliedFilters(
+                                      search: filters.search,
+                                      categoryId: filters.categoryId,
+                                      categoryName: categoryName,
+                                      date: filters.date,
+                                      time: filters.time,
+                                      location: filters.location,
+                                      priceRange: filters.priceRange,
+                                      experience: filters.experience,
+                                      instantBooking: filters.instantBooking,
+                                      gender: filters.gender,
+                                      language: filters.language,
                                     );
                                   }
+
+                                  // Always navigate to results screen, even if empty
+                                  // (to show nearby services fallback)
+                                  Get.to(
+                                    SearchResultsScreen(
+                                      services: searchController.searchResults,
+                                      totalResults:
+                                          searchController.totalResults.value,
+                                      appliedFilters: updatedFilters,
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFFF7A51D),
@@ -440,8 +518,14 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
           Obx(() {
             // Get time from controller if available
             final time = ownerServiceController.selectedTime.value;
-            String timeStr;
+            final date = ownerServiceController.selectedDate.value;
 
+            // If no date selected, show placeholder
+            if (date == null) {
+              return _buildTitleSection('Select Date & Time');
+            }
+
+            String timeStr;
             if (time != null) {
               // Convert 24-hour format to 12-hour with AM/PM
               final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
@@ -449,14 +533,10 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
               final period = time.period == DayPeriod.am ? 'AM' : 'PM';
               timeStr = '$hour:$minute $period';
             } else {
-              timeStr = DateFormat(
-                'hh:mm a',
-              ).format(searchController.selectedDate.value);
+              timeStr = 'Any time';
             }
 
-            final dateStr = DateFormat(
-              'EEE, dd MMM',
-            ).format(searchController.selectedDate.value);
+            final dateStr = DateFormat('EEE, dd MMM').format(date);
 
             return _buildTitleSection('$timeStr, $dateStr');
           }),

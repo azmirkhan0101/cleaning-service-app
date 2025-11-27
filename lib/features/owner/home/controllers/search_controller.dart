@@ -35,7 +35,7 @@ class SearchController extends GetxController {
   final RxnInt selectedExperience = RxnInt(); // 0, 1, 2 for experience options
   final RxnBool instantBooking = RxnBool(); // true, false, or null
   final RxnString selectedGender = RxnString(); // "Male", "Female", or null
-  final Rx<DateTime> selectedDate = DateTime.now().obs;
+  final Rxn<DateTime> selectedDate = Rxn<DateTime>(); // Nullable DateTime
   final RxDouble pricePerHour = 20.0.obs;
   final RxDouble minPrice = 5.0.obs; // Minimum price
   final RxDouble maxPrice = 100.0.obs; // Maximum price for range
@@ -146,6 +146,7 @@ class SearchController extends GetxController {
   /// Set price per hour
   void setPricePerHour(double price) {
     pricePerHour.value = price;
+    maxPrice.value = price; // Update maxPrice for API call
   }
 
   /// Set language
@@ -161,8 +162,10 @@ class SearchController extends GetxController {
     selectedExperience.value = null;
     instantBooking.value = null;
     selectedGender.value = null;
-    selectedDate.value = DateTime.now();
+    selectedDate.value = null;
     pricePerHour.value = 20.0;
+    minPrice.value = 5.0;
+    maxPrice.value = 100.0;
     selectedLanguage.value = 'English';
     selectedTime.value = null;
     showSuggestions.value = false;
@@ -176,8 +179,10 @@ class SearchController extends GetxController {
     // Category - use 'all' if null
     params['categoryId'] = selectedCategoryId.value ?? 'all';
 
-    // Date - format as YYYY-MM-DD
-    params['date'] = DateFormat('yyyy-MM-dd').format(selectedDate.value);
+    // Date - format as YYYY-MM-DD (only if selected)
+    if (selectedDate.value != null) {
+      params['date'] = DateFormat('yyyy-MM-dd').format(selectedDate.value!);
+    }
 
     // Time - format as HH:mm
     if (selectedTime.value != null) {
@@ -194,9 +199,11 @@ class SearchController extends GetxController {
           .toString();
     }
 
-    // Price range
-    params['minPrice'] = minPrice.value.toInt().toString();
-    params['maxPrice'] = maxPrice.value.toInt().toString();
+    // Price range (only include if not default values)
+    if (minPrice.value != 5.0 || maxPrice.value != 100.0) {
+      params['minPrice'] = minPrice.value.toInt().toString();
+      params['maxPrice'] = maxPrice.value.toInt().toString();
+    }
 
     // Experience - convert index to API format
     if (selectedExperience.value != null) {

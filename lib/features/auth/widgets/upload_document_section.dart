@@ -12,7 +12,9 @@ import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart' as image_picker;
 
 const Color primaryDarkBlue = Color(0xFF13224B);
 const Color primaryYellow = Color(0xFFFFC000);
@@ -99,14 +101,14 @@ class UploadDocumentSection extends StatelessWidget {
               description:
                   "Take a selfie while holding your identity card next to your face. Ensure everything clearly visible.",
               onUpload: () {
-                selectionController.showDocumentSourceSelection(
-                  context,
-                  'Selfie with ID',
+                // Directly open camera for selfie
+                selectionController.pickDocumentImage(
+                  image_picker.ImageSource.camera,
                   (file) => selectionController.selfieWithIdImage.value = file,
                 );
               },
               uploadedImage: selectionController.selfieWithIdImage.value,
-              buttonLabel: 'Upload Selfie',
+              buttonLabel: 'Take Selfie',
             ),
 
           SizedBox(height: 56.w),
@@ -306,10 +308,9 @@ class UploadDocumentSection extends StatelessWidget {
             if (affiliationController.isLoading.value) {
               return CircularProgressIndicator();
             }
-            return Text(
+            return HtmlWidget(
               affiliationController.affiliationContent.value,
-              textAlign: TextAlign.center,
-              style: TextStyle(
+              textStyle: TextStyle(
                 color: const Color(0xFF0F0B18),
                 fontSize: 14,
                 fontFamily: 'Lexend',

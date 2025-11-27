@@ -218,6 +218,54 @@ class SelectionController extends GetxController {
     );
   }
 
+  /// Show camera only option for selfie
+  void showSelfieSourceSelection(
+    BuildContext context,
+    String documentType,
+    Function(File) onImagePicked,
+  ) {
+    Get.bottomSheet(
+      Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Take $documentType',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1B2D51),
+                ),
+              ),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 8,
+              ),
+              leading: const Icon(Icons.camera_alt, color: Color(0xFF1B2D51)),
+              title: const Text('Take a Selfie'),
+              onTap: () {
+                Navigator.of(context).pop();
+                pickDocumentImage(ImageSource.camera, onImagePicked);
+              },
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
   /// plan selection (0: Free, 1: Silver, 2: Gold, 3: Platinum)
   // RxInt typPaymentStatues = 1000.obs;
 }

@@ -77,6 +77,7 @@ class FilteredService {
 class AppliedFilters {
   final String? search;
   final String? categoryId;
+  final String? categoryName;
   final String? date;
   final String? time;
   final LocationFilter? location;
@@ -89,6 +90,7 @@ class AppliedFilters {
   AppliedFilters({
     this.search,
     this.categoryId,
+    this.categoryName,
     this.date,
     this.time,
     this.location,
@@ -103,6 +105,7 @@ class AppliedFilters {
     return AppliedFilters(
       search: json['search'],
       categoryId: json['categoryId'],
+      categoryName: json['categoryName'],
       date: json['date'],
       time: json['time'],
       location: json['location'] != null

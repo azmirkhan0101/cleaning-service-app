@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
+import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -109,25 +110,27 @@ class UploadYourPhotoSection extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        GestureDetector(
-          onTap: () {
-            // Go to next step (Upload Documents) for both Owner and Provider
-            selectionController.currentIndex.value = 3;
+        // if role is owner show skip option
+        if (selectionController.selectedRole.value == Role.owner)
+          GestureDetector(
+            onTap: () {
+              // Go to next step (Upload Documents) for both Owner and Provider
+              selectionController.currentIndex.value = 3;
 
-            debugPrint('Skipped photo upload');
-          },
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: CustomText2(
-                text: "Skip for now",
-                color: AppColors.appColors,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+              debugPrint('Skipped photo upload');
+            },
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: CustomText2(
+                  text: "Skip for now",
+                  color: AppColors.appColors,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }

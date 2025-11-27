@@ -212,22 +212,21 @@ class _SetLocationSectionState extends State<SetLocationSection> {
 
         const SizedBox(height: 16),
 
-        GestureDetector(
-          onTap: () {
-            selectionController.currentIndex.value = 2;
-          },
-          child: Center(
-            child: CustomText(
-              text: "Skip",
-              color: const Color(0xFF98A1B2),
-              fontSize: 14,
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: FontWeight.w500,
-              height: 1.50,
-            ),
-          ),
-        ),
-
+        // GestureDetector(
+        //   onTap: () {
+        //     selectionController.currentIndex.value = 2;
+        //   },
+        //   child: Center(
+        //     child: CustomText(
+        //       text: "Skip",
+        //       color: const Color(0xFF98A1B2),
+        //       fontSize: 14,
+        //       fontFamily: 'Plus Jakarta Sans',
+        //       fontWeight: FontWeight.w500,
+        //       height: 1.50,
+        //     ),
+        //   ),
+        // ),
         SizedBox(height: 100),
       ],
     );
