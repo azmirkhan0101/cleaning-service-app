@@ -666,6 +666,10 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
       children: [
         IconButton(
           onPressed: () {
+            // Before navigating back, close any open snackbar safely
+            try {
+              Get.closeCurrentSnackbar();
+            } catch (_) {}
             Get.back();
           },
           icon: Assets.icons.arrowLeft.svg(),
@@ -965,14 +969,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                       }
 
                       Navigator.pop(context);
-
-                      final date = ownerServiceController.selectedDate.value;
-                      final time = ownerServiceController.selectedTime.value;
-                      Get.snackbar(
-                        "Selection",
-                        "Date: ${date ?? "Not set"}\nTime: ${time?.format(context) ?? "Not set"}",
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
                     },
                     child: const Text("Confirm"),
                   ),

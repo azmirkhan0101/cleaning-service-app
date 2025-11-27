@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
+import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_location_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/set_role_section.dart';
 import 'package:cleaning_service_app/features/auth/widgets/upload_document_section.dart';
@@ -103,8 +104,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
             selectionController.currentIndex.value--;
           } else {
             // Action for the left icon
-            Navigator.pop(context);
-            // Get.offNamed(AppRoutes.loginScreen);
+            Get.offAll(() => LoginScreen());
           }
         },
       ),

@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/signup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/otp_verify_screen.dart';
+import 'package:cleaning_service_app/features/auth/screens/selection_screen.dart';
 import 'package:cleaning_service_app/features/common/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -507,13 +508,23 @@ class SignupScreen extends GetView<SignupController> {
       // Call signup function
       final success = await controller.signUp();
 
-      // Navigate to OTP screen if successful
+      // Navigate based on signup response
       if (success) {
-        Get.to(
-          () => OtpVerifyScreen(
-            email: controller.signupEmailController.text.trim(),
-          ),
-        );
+        // Check if user should go to selection screen (OTP already verified)
+        if (controller.shouldGoToSelection.value) {
+          Get.to(
+            () => SelectionScreen(
+              email: controller.signupEmailController.text.trim(),
+            ),
+          );
+        } else {
+          // Normal flow: go to OTP verification screen
+          Get.to(
+            () => OtpVerifyScreen(
+              email: controller.signupEmailController.text.trim(),
+            ),
+          );
+        }
       }
     } catch (e) {
       // Handle any errors that occur during signup

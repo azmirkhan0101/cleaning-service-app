@@ -77,6 +77,9 @@ class SignupController extends GetxController {
   final signupErrorMessage = ''.obs;
 
   final signupResponse = Rxn<SignupResponseModel>();
+  
+  // Flag to indicate if user should go to selection screen (OTP already verified)
+  final shouldGoToSelection = false.obs;
 
   // Control when to show validation errors
   var autovalidateMode = AutovalidateMode.disabled.obs;
@@ -152,12 +155,31 @@ class SignupController extends GetxController {
       // Error case
       (error) {
         signupErrorMessage.value = error.message ?? 'Signup failed';
+        
+        // Check if registration is already in progress
+        // In this case, allow user to proceed to selection screen (OTP already verified)
+        if (signupErrorMessage.value.toLowerCase().contains('registration is already in progress') ||
+            signupErrorMessage.value.toLowerCase().contains('verify your otp')) {
+          Toast.successToast(signupErrorMessage.value);
+          // Store email for selection screen
+          signupResponse.value = SignupResponseModel(
+            email: signupEmailController.text.trim(),
+            userName: signupNameController.text.trim(),
+            otp: '', // OTP was already verified
+          );
+          shouldGoToSelection.value = true; // Navigate to selection screen instead of OTP
+          return true;
+        }
+        
+        // For other errors, show error and block navigation
+        shouldGoToSelection.value = false;
         Toast.errorToast(signupErrorMessage.value);
         return false;
       },
       // Success case
       (data) {
         signupResponse.value = data;
+        shouldGoToSelection.value = false; // Normal flow: go to OTP screen
         Toast.successToast('Registration successful! Please verify your OTP.');
 
         // Log OTP in debug mode

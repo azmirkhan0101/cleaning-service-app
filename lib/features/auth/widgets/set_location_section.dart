@@ -152,14 +152,14 @@ class _SetLocationSectionState extends State<SetLocationSection> {
                     children: [
                       CustomText2(
                         text:
-                            "${selectionController.resultRange.value.round()} miles",
+                            "${selectionController.resultRange.value.round()} Kms",
                         fontWeight: FontWeight.w600,
                         color: AppColors.black_04,
                         fontSize: 14,
                       ),
 
                       const CustomText2(
-                        text: "100 Miles",
+                        text: "100 Kms",
                         fontWeight: FontWeight.w600,
                         color: AppColors.black_04,
                         fontSize: 14,

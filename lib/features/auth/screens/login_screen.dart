@@ -364,34 +364,21 @@ class LoginScreen extends GetView<LoginController> {
   }
 
   Future<void> _onPressedLogin() async {
-    try {
-      final success = await controller.login();
-      if (success) {
-        debugPrint(
-          'user role: ${controller.loginResponse.value?.userData.role}',
-        );
-        // Navigate based on user role
-        Get.offAll(
-          () => MainLayout(
-            isOwner:
-                controller.loginResponse.value?.userData.role ==
-                Role.owner.value,
-          ),
-        );
-        // if (controller.loginResponse.value?.userData.role == Role.owner.value) {
-        //   Get.offAll(() => MainLayout(isOwner: true));
-        // } else {
-        //   Get.offAll(() => MainLayout(isOwner: false));
-        // }
-      }
-    } catch (e) {
-      // Handle any errors that occur during login
-      debugPrint('Login error: $e');
-      // Optionally, show a user-friendly message
-      Get.snackbar(
-        'Login Failed',
-        'An error occurred during login. Please try again.',
+    final success = await controller.login();
+    if (success) {
+      debugPrint('user role: ${controller.loginResponse.value?.userData.role}');
+      // Navigate based on user role
+      Get.offAll(
+        () => MainLayout(
+          isOwner:
+              controller.loginResponse.value?.userData.role == Role.owner.value,
+        ),
       );
+      // if (controller.loginResponse.value?.userData.role == Role.owner.value) {
+      //   Get.offAll(() => MainLayout(isOwner: true));
+      // } else {
+      //   Get.offAll(() => MainLayout(isOwner: false));
+      // }
     }
   }
 }

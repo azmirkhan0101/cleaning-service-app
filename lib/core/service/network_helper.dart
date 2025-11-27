@@ -201,12 +201,15 @@ class NetworkHelper extends GetxService {
         if (data['errorSources'] is List &&
             (data['errorSources'] as List).isNotEmpty) {
           final firstError = (data['errorSources'] as List).first;
-          if (firstError is Map<String, dynamic> &&
-              firstError['message'] != null) {
-            errorMessage = firstError['message'];
+          if (firstError is Map<String, dynamic>) {
+            // Check for message or details in errorSources
+            errorMessage =
+                firstError['message'] ?? firstError['details'] ?? errorMessage;
           }
-        } else {
-          // Fallback to main message
+        }
+
+        // Always fallback to main message if errorMessage is still default
+        if (errorMessage == 'Something went wrong') {
           errorMessage =
               data['message'] ??
               data['error'] ??
