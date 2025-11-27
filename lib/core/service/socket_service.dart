@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -19,7 +20,7 @@ class SocketService {
   bool _isConnecting = false;
 
   // Configuration
-  static const String _baseUrl = 'http://10.10.20.73:8000';
+  // static const String _baseUrl = 'http://10.10.20.73:8000';
   static const int _reconnectionAttempts = 5;
   static const int _reconnectionDelay = 2000; // milliseconds
   static const int _timeout = 10000; // milliseconds
@@ -62,10 +63,10 @@ class SocketService {
     _authToken = token;
 
     try {
-      debugPrint('SocketService: Connecting to $_baseUrl');
+      debugPrint('SocketService: Connecting to ${ApiUrl.socketBaseUrl}');
 
       _socket = IO.io(
-        _baseUrl,
+        ApiUrl.socketBaseUrl,
         IO.OptionBuilder()
             .setTransports(['websocket']) // Use WebSocket transport
             .disableAutoConnect() // Manual connection control
@@ -340,7 +341,7 @@ class SocketService {
       'hasSocket': _socket != null,
       'socketConnected': _socket?.connected ?? false,
       'hasAuthToken': _authToken != null,
-      'baseUrl': _baseUrl,
+      'baseUrl': ApiUrl.socketBaseUrl,
     };
   }
 }

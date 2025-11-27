@@ -39,6 +39,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
   final CategoryController categoryController = Get.put(CategoryController());
 
+  double ratingValue = 0.0;
+  final TextEditingController ratingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Nearby services section below uses live data; removed static demo list

@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:cleaning_service_app/features/owner/booking/controllers/owner_qr_scanner_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -109,6 +110,17 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                   ),
                 ),
                 const SizedBox(height: 20),
+                Text(
+                  'Provider name : ${Get.find<ServiceDetailsController>().providerDetails.value?.name ?? 'N/A'}',
+                  style: TextStyle(
+                    color: const Color(0xFF4F4F59),
+                    fontSize: 18,
+                    fontFamily: 'Lexend',
+                    fontWeight: FontWeight.w400,
+                    height: 1.50,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
@@ -135,22 +147,35 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                         onPressed: controller.isSubmittingReview.value
                             ? null
                             : () async {
+                                // Validate rating and review
+                                final reviewText = ratingController.text.trim();
+
+                                if (ratingValue <= 0) {
+                                  Toast.errorToast("Please provide a rating");
+                                  return;
+                                }
+
+                                if (reviewText.isEmpty) {
+                                  Toast.errorToast("Please write a review");
+                                  return;
+                                }
+
+                                if (reviewText.length < 10) {
+                                  Toast.errorToast(
+                                    "Review must be at least 10 characters",
+                                  );
+                                  return;
+                                }
+
                                 controller.isSubmittingReview.value = true;
                                 final res = await controller.submitRatingReview(
                                   rating: ratingValue,
-                                  review: ratingController.text.trim(),
+                                  review: reviewText,
                                 );
                                 controller.isSubmittingReview.value = false;
                                 res.fold(
                                   (l) {
-                                    Toast.errorToast("Failed to submit review");
-                                    // Get.snackbar(
-                                    //   'Error',
-                                    //   l,
-                                    //   snackPosition: SnackPosition.BOTTOM,
-                                    //   backgroundColor: Colors.red,
-                                    //   colorText: Colors.white,
-                                    // );
+                                    Toast.errorToast(l);
                                   },
                                   (r) async {
                                     Navigator.of(ctx).pop();
@@ -160,6 +185,7 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                               },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.appColors,
+                          foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),

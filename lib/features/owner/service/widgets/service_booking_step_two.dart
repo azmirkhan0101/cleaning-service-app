@@ -5,6 +5,7 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart'
     show AppColors;
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
@@ -480,13 +481,7 @@ class ServiceBookingStepTwo extends StatelessWidget {
                         'Controller sessionId: ${bookingController.sessionId.value}',
                       );
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(message),
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
+                      Toast.successToast(message);
 
                       // Try using controller values first
                       final finalBookingId =
@@ -534,14 +529,9 @@ class ServiceBookingStepTwo extends StatelessWidget {
                         },
                       );
                     } else {
-                      debugPrint('=== WIDGET: Booking failed ===');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
+                      Toast.errorToast(
+                        bookingResponse?['message'] ??
                             'Failed to book service. Please try again.',
-                          ),
-                          backgroundColor: Colors.redAccent,
-                        ),
                       );
                     }
                   },

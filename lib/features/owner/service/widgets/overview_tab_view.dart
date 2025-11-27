@@ -27,22 +27,125 @@ class OverviewTabView extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Cancel Booking'),
-          content: const Text(
-            'Are you sure you want to cancel this booking? This action cannot be undone.',
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Color(0xFF1B2D51), width: 1.6),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('No'),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Cancel Icon (red circle with diagonal line)
+                Container(
+                  width: 90,
+                  height: 90,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: const Icon(
+                    Icons.cancel,
+                    size: 90,
+                    color: Color(0xFFDE5640),
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // Title
+                const Text(
+                  'Booking Cancellation',
+                  style: TextStyle(
+                    fontFamily: 'Lexend',
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF0F0B18),
+                    letterSpacing: -1,
+                    height: 1.3,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+
+                // Message
+                const SizedBox(
+                  width: 283,
+                  child: Text(
+                    'Do you really want to cancel your booking?',
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF4F4F59),
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Yes Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF7A51D),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 100,
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Yes',
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // No Button
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFF4899D1),
+                      side: const BorderSide(
+                        color: Color(0xFF4899D1),
+                        width: 1,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 100,
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'No',
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              child: const Text('Yes, Cancel'),
-            ),
-          ],
+          ),
         );
       },
     );

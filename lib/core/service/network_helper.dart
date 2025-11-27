@@ -197,8 +197,22 @@ class NetworkHelper extends GetxService {
       String errorMessage = 'Something went wrong';
 
       if (data is Map<String, dynamic>) {
-        errorMessage =
-            data['message'] ?? data['error'] ?? data['detail'] ?? errorMessage;
+        // Try to extract validation error from errorSources array
+        if (data['errorSources'] is List &&
+            (data['errorSources'] as List).isNotEmpty) {
+          final firstError = (data['errorSources'] as List).first;
+          if (firstError is Map<String, dynamic> &&
+              firstError['message'] != null) {
+            errorMessage = firstError['message'];
+          }
+        } else {
+          // Fallback to main message
+          errorMessage =
+              data['message'] ??
+              data['error'] ??
+              data['detail'] ??
+              errorMessage;
+        }
       } else if (data is String) {
         errorMessage = data;
       }

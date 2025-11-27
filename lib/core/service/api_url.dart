@@ -9,6 +9,8 @@ class ApiUrl {
   static const String baseUrl = 'http://172.252.13.3:8000/api';
   // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
+  static const String socketBaseUrl = 'http://172.252.13.3:8000';
+
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
   static const String login = '$baseUrl/auth/login';

@@ -23,33 +23,48 @@ class ReviewsTabView extends StatelessWidget {
       }
 
       if (serviceDetailsController.reviews.isEmpty) {
-        return const Center(
-          child: Padding(
-            padding: EdgeInsets.all(40.0),
-            child: Column(
-              children: [
-                Icon(Icons.rate_review_outlined, size: 64, color: Colors.grey),
-                SizedBox(height: 16),
-                Text('No reviews yet'),
-              ],
+        return RefreshIndicator(
+          onRefresh: () => serviceDetailsController.fetchReviews(),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.all(40.0),
+              constraints: const BoxConstraints(minHeight: 400),
+              child: const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.rate_review_outlined,
+                      size: 64,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 16),
+                    Text('No reviews yet'),
+                  ],
+                ),
+              ),
             ),
           ),
         );
       }
 
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: serviceDetailsController.reviews.length,
-        itemBuilder: (BuildContext context, index) {
-          final review = serviceDetailsController.reviews[index];
-          return _buildTestimonial(
-            name: review.ownerName,
-            rating: review.rating,
-            testimonial: review.review,
-            imageUrl: review.ownerProfilePicture,
-          );
-        },
+      return RefreshIndicator(
+        onRefresh: () => serviceDetailsController.fetchReviews(),
+        child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: serviceDetailsController.reviews.length,
+          itemBuilder: (BuildContext context, index) {
+            final review = serviceDetailsController.reviews[index];
+            return _buildTestimonial(
+              name: review.ownerName,
+              rating: review.rating,
+              testimonial: review.review,
+              imageUrl: review.ownerProfilePicture,
+            );
+          },
+        ),
       );
     });
   }
