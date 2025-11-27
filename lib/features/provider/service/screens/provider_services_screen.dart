@@ -8,6 +8,7 @@ import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/provider_service_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ServiceScreen extends StatefulWidget {
@@ -125,25 +126,36 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  service.coverImages.isNotEmpty
-                                      ? service.coverImages.first
-                                      : 'https://via.placeholder.com/150',
-                                  // height: 100,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      // height: 100,
-                                      height: double.infinity,
-                                      color: Colors.grey[300],
-                                      child: const Icon(
-                                        Icons.image_not_supported,
-                                        size: 40,
+                                child:
+                                    service.coverImages.isEmpty ||
+                                        service.coverImages.first.isEmpty
+                                    ? Container(
+                                        height: 100.h,
+                                        width: double.infinity,
+                                        color: Colors.grey[300],
+                                        child: const Icon(
+                                          Icons.image_not_supported,
+                                          size: 40,
+                                        ),
+                                      )
+                                    : Image.network(
+                                        service.coverImages.first,
+                                        height: 100.h,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                              return Container(
+                                                height: 100.h,
+                                                width: double.infinity,
+                                                color: Colors.grey[300],
+                                                child: const Icon(
+                                                  Icons.image_not_supported,
+                                                  size: 40,
+                                                ),
+                                              );
+                                            },
                                       ),
-                                    );
-                                  },
-                                ),
                               ),
                               Expanded(
                                 child: Padding(
