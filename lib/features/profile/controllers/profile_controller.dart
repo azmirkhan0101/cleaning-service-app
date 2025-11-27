@@ -78,52 +78,41 @@ class ProfileController extends GetxController {
     required double latitude,
     required double longitude,
   }) async {
-    try {
-      isUpdating.value = true;
-      errorMessage.value = '';
+    // try {
+    isUpdating.value = true;
+    errorMessage.value = '';
 
-      final response = await Get.find<NetworkHelper>()
-          .request<Map<String, dynamic>>(
-            HttpRequestType.put.method,
-            ApiUrl.updateLocation,
-            body: {
-              'address': address,
-              'lattitude': latitude,
-              'longitude': longitude,
-            },
-            withAuth: true,
-            parser: (data) => data as Map<String, dynamic>,
-          );
+    final response = await Get.find<NetworkHelper>()
+        .request<Map<String, dynamic>>(
+          HttpRequestType.put.method,
+          ApiUrl.updateLocation,
+          body: {
+            'address': address,
+            'lattitude': latitude,
+            'longitude': longitude,
+          },
+          withAuth: true,
+          parser: (data) => data as Map<String, dynamic>,
+        );
 
-      isUpdating.value = false;
+    isUpdating.value = false;
 
-      return response.fold(
-        (error) {
-          errorMessage.value = error.message ?? 'Failed to update location';
-          debugPrint('Error updating location: ${error.message}');
-          Get.snackbar(
-            'Error',
-            error.message ?? 'Failed to update location',
-            snackPosition: SnackPosition.BOTTOM,
-          );
-          return false;
-        },
-        (data) {
-          debugPrint('Location updated successfully: ${data['message']}');
-          return true;
-        },
-      );
-    } catch (e) {
-      isUpdating.value = false;
-      errorMessage.value = 'Failed to update location';
-      debugPrint('Exception updating location: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to update location',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
-    }
+    return response.fold(
+      (error) {
+        errorMessage.value = error.message ?? 'Failed to update location';
+        debugPrint('Error updating location: ${error.message}');
+        Get.snackbar(
+          'Error',
+          error.message ?? 'Failed to update location',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return false;
+      },
+      (data) {
+        debugPrint('Location updated successfully: ${data['message']}');
+        return true;
+      },
+    );
   }
 
   Future<void> signOut() async {

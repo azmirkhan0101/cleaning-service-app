@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/profile/controllers/knowledge_hub_controller.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 class KnowledgeHubScreen extends StatefulWidget {
@@ -20,13 +21,6 @@ class _KnowledgeHubScreenState extends State<KnowledgeHubScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> imagelist = [
-      {'image': AppIcons.book},
-      {'image': AppIcons.note},
-      {'image': AppIcons.opport},
-      {'image': AppIcons.opport},
-    ];
-
     return Scaffold(
       appBar: CustomAppBar(title: "Knowledge Hub", backButton: true),
       body: Obx(() {
@@ -102,9 +96,6 @@ class _KnowledgeHubScreenState extends State<KnowledgeHubScreen> {
             itemCount: controller.articles.length,
             itemBuilder: (context, index) {
               final article = controller.articles[index];
-              final image = index < imagelist.length
-                  ? imagelist[index]
-                  : imagelist[0];
 
               return Card(
                 elevation: 0.8,
@@ -127,7 +118,7 @@ class _KnowledgeHubScreenState extends State<KnowledgeHubScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomImage(imageSrc: "${image['image']}"),
+                        CustomImage(imageSrc: AppIcons.book),
                         SizedBox(height: 10),
                         CustomText2(
                           text: article.title,
@@ -139,12 +130,10 @@ class _KnowledgeHubScreenState extends State<KnowledgeHubScreen> {
                         ),
                         SizedBox(height: 5),
                         Expanded(
-                          child: Text(
+                          child: HtmlWidget(
                             article.description,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 11),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                            textStyle: const TextStyle(fontSize: 11),
+                            renderMode: RenderMode.column,
                           ),
                         ),
                         SizedBox(height: 10),

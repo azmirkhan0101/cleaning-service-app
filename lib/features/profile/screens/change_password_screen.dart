@@ -17,7 +17,7 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ChangePasswordController controller = Get.put(
+  final ChangePasswordController changePasswordController = Get.put(
     ChangePasswordController(),
   );
 
@@ -35,8 +35,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   Future<void> _handleChangePassword() async {
+    if (changePasswordController.isLoading.value) {
+      return; // Prevent multiple submissions
+    }
     if (_formKey.currentState?.validate() ?? false) {
-      final success = await controller.changePassword(
+      final success = await changePasswordController.changePassword(
         oldPassword: oldPasswordController.text.trim(),
         newPassword: newPasswordController.text.trim(),
         confirmPassword: confirmPasswordController.text.trim(),
@@ -125,13 +128,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 SizedBox(height: 50.h),
 
                 Obx(() {
-                  final isLoading = controller.isLoading.value;
+                  final isLoading = changePasswordController.isLoading.value;
                   return CustomButton(
-                    onTap: () {
-                      if (!isLoading) {
-                        _handleChangePassword();
-                      }
-                    },
+                    onTap: () => _handleChangePassword(),
                     title: isLoading ? "Changing..." : "Save",
                     fontSize: 16,
                     width: double.infinity,
