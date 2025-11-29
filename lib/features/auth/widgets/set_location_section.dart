@@ -134,8 +134,8 @@ class _SetLocationSectionState extends State<SetLocationSection> {
                 Slider(
                   value: selectionController.resultRange.value,
                   min: 5.0,
-                  max: 100.0,
-                  divisions: 19,
+                  max: 200.0,
+                  divisions: 40,
                   label:
                       '${selectionController.resultRange.value.round()} miles',
                   activeColor: AppColors.lightBlue,
@@ -159,7 +159,7 @@ class _SetLocationSectionState extends State<SetLocationSection> {
                       ),
 
                       const CustomText2(
-                        text: "100 Kms",
+                        text: "200 Kms",
                         fontWeight: FontWeight.w600,
                         color: AppColors.black_04,
                         fontSize: 14,

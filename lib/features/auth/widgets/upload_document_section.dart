@@ -343,8 +343,24 @@ class UploadDocumentSection extends StatelessWidget {
                     "Registration complete successfully. Owner documents uploaded successfully. Please login to continue.",
                   );
                 } else {
-                  // Show error toast
-                  Toast.errorToast(selectionController.errorMessage.value);
+                  // Check if error is session expired
+                  final errorMsg = selectionController.errorMessage.value
+                      .toLowerCase();
+                  if (errorMsg.contains('session has expired') ||
+                      errorMsg.contains(
+                        'start registration from the first step',
+                      )) {
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                    // Navigate to signup screen
+                    Get.offAllNamed('/SignupScreen');
+                    Toast.errorToast(
+                      "Your session has expired. Please start registration again.",
+                    );
+                  } else {
+                    // Show error toast for other errors
+                    Toast.errorToast(selectionController.errorMessage.value);
+                  }
                 }
                 // }
               },
