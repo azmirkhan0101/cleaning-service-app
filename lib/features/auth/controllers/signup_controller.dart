@@ -27,7 +27,7 @@ class SignupController extends GetxController {
 
   RxBool agreeWithTerms = false.obs;
 
-  String isoCode = Get.deviceLocale?.countryCode ?? 'IT';
+  // String isoCode = Get.deviceLocale?.countryCode ?? 'IT';
 
   /// Stores complete E.164 number like +15551234567
   final RxString signupE164Phone = ''.obs;
