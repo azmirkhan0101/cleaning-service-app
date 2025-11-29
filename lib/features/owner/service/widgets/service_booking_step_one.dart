@@ -3,13 +3,14 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/countries.dart' as phone_countries;
-import 'package:intl_phone_field/intl_phone_field.dart';
+// import 'package:intl_mobile_field/countries.dart' as phone_countries;
+// import 'package:intl_mobile_field/intl_mobile_field.dart';
 
 class ServiceBookingStepOne extends StatefulWidget {
   const ServiceBookingStepOne({
@@ -24,60 +25,57 @@ class ServiceBookingStepOne extends StatefulWidget {
 }
 
 class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
-  late final TextEditingController _localPhoneController;
-  late String _isoCode;
-  bool _adjusting = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _localPhoneController = TextEditingController();
-    _isoCode = Get.deviceLocale?.countryCode ?? 'US';
-    _localPhoneController.addListener(_onLocalNumberChanged);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _localPhoneController = TextEditingController();
+  //   _isoCode = Get.deviceLocale?.countryCode ?? 'US';
+  //   _localPhoneController.addListener(_onLocalNumberChanged);
+  // }
 
-  @override
-  void dispose() {
-    _localPhoneController.removeListener(_onLocalNumberChanged);
-    _localPhoneController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // _localPhoneController.removeListener(_onLocalNumberChanged);
+  //   // _localPhoneController.dispose();
+  //   super.dispose();
+  // }
 
-  void _onLocalNumberChanged() {
-    if (_adjusting) return;
-    final text = _localPhoneController.text;
-    if (text.startsWith('+')) {
-      final match = RegExp(r'^\+(\d{1,4})').firstMatch(text);
-      if (match != null) {
-        final digits = match.group(1)!;
-        final dialWithPlus = '+$digits';
-        final matches = phone_countries.countries.where((c) {
-          final cd = c.dialCode;
-          return cd == digits || cd == dialWithPlus;
-        }).toList();
-        if (matches.isNotEmpty) {
-          final country = matches.first;
-          final iso = country.code;
-          if (iso != _isoCode && iso.isNotEmpty) {
-            setState(() {
-              _isoCode = iso;
-            });
-          }
-          final withoutDial = text.substring(match.group(0)!.length);
-          _adjusting = true;
-          _localPhoneController.text = withoutDial;
-          _localPhoneController.selection = TextSelection.collapsed(
-            offset: _localPhoneController.text.length,
-          );
-          _adjusting = false;
-          // Update E.164 in controller using new iso/dial code
-          final e164 =
-              '${country.dialCode.startsWith('+') ? country.dialCode : '+${country.dialCode}'}$withoutDial';
-          widget.serviceBookingController.phoneNumberController.text = e164;
-        }
-      }
-    }
-  }
+  // void _onLocalNumberChanged() {
+  //   if (_adjusting) return;
+  //   final text = _localPhoneController.text;
+  //   if (text.startsWith('+')) {
+  //     final match = RegExp(r'^\+(\d{1,4})').firstMatch(text);
+  //     if (match != null) {
+  //       final digits = match.group(1)!;
+  //       final dialWithPlus = '+$digits';
+  //       final matches = phone_countries.countries.where((c) {
+  //         final cd = c.dialCode;
+  //         return cd == digits || cd == dialWithPlus;
+  //       }).toList();
+  //       if (matches.isNotEmpty) {
+  //         final country = matches.first;
+  //         final iso = country.code;
+  //         if (iso != _isoCode && iso.isNotEmpty) {
+  //           setState(() {
+  //             _isoCode = iso;
+  //           });
+  //         }
+  //         final withoutDial = text.substring(match.group(0)!.length);
+  //         _adjusting = true;
+  //         _localPhoneController.text = withoutDial;
+  //         _localPhoneController.selection = TextSelection.collapsed(
+  //           offset: _localPhoneController.text.length,
+  //         );
+  //         _adjusting = false;
+  //         // Update E.164 in controller using new iso/dial code
+  //         final e164 =
+  //             '${country.dialCode.startsWith('+') ? country.dialCode : '+${country.dialCode}'}$withoutDial';
+  //         widget.serviceBookingController.phoneNumberController.text = e164;
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -132,52 +130,58 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
           ),
         ),
         const SizedBox(height: 4),
-        IntlPhoneField(
-          key: ValueKey(_isoCode),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          invalidNumberMessage: 'Invalid phone number',
-          initialCountryCode: _isoCode,
-          decoration: InputDecoration(
-            hintText: 'e.g. 1XXXXXXXXX',
-            prefixIcon: const Icon(Icons.phone),
-            filled: true,
-            fillColor: const Color(0xFFE9EBF3),
-            isDense: true,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-              gapPadding: 0,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-              gapPadding: 0,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-              gapPadding: 0,
-            ),
-          ),
-          controller: _localPhoneController,
-          onChanged: (phone) {
+        PhoneInputField(
+          onChanged: (e164) {
             // Persist E.164 complete number in controller
-            widget.serviceBookingController.phoneNumberController.text =
-                phone.completeNumber;
-          },
-          onCountryChanged: (country) {
-            if (country.code != _isoCode) {
-              setState(() {
-                _isoCode = country.code;
-              });
-            }
+            widget.serviceBookingController.phoneNumberController.text = e164;
           },
         ),
 
+        // IntlMobileField(
+        //   key: ValueKey(_isoCode),
+        //   autovalidateMode: AutovalidateMode.onUserInteraction,
+        //   invalidNumberMessage: 'Invalid phone number',
+        //   initialCountryCode: _isoCode,
+        //   decoration: InputDecoration(
+        //     hintText: 'e.g. 1XXXXXXXXX',
+        //     prefixIcon: const Icon(Icons.phone),
+        //     filled: true,
+        //     fillColor: const Color(0xFFE9EBF3),
+        //     isDense: true,
+        //     contentPadding: const EdgeInsets.symmetric(
+        //       horizontal: 16,
+        //       vertical: 16,
+        //     ),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: BorderSide.none,
+        //       gapPadding: 0,
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: BorderSide.none,
+        //       gapPadding: 0,
+        //     ),
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: BorderSide.none,
+        //       gapPadding: 0,
+        //     ),
+        //   ),
+        //   controller: _localPhoneController,
+        //   onChanged: (phone) {
+        //     // Persist E.164 complete number in controller
+        //     widget.serviceBookingController.phoneNumberController.text =
+        //         phone.completeNumber;
+        //   },
+        //   onCountryChanged: (country) {
+        //     if (country.code != _isoCode) {
+        //       setState(() {
+        //         _isoCode = country.code;
+        //       });
+        //     }
+        //   },
+        // ),
         SizedBox(height: 12),
 
         /// Service name Field
@@ -391,8 +395,8 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
       );
       return;
     }
-    final rawPhone = widget.serviceBookingController.phoneNumberController.text;
-    if (rawPhone.isEmpty) {
+    // Phone number captured via PhoneInputField callback into controller
+    if (widget.serviceBookingController.phoneNumberController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please enter phone number'),
@@ -401,21 +405,6 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
       );
       return;
     }
-    final normalized = widget.serviceBookingController
-        .validateAndNormalizePhone(rawPhone);
-    if (normalized == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Please enter a valid phone number with country code (e.g., +8801XXXXXXXXX)',
-          ),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      return;
-    }
-    // Update the controller with normalized value so subsequent steps use it
-    widget.serviceBookingController.phoneNumberController.text = normalized;
     if (widget.serviceBookingController.addressController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

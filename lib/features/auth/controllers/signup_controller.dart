@@ -5,7 +5,6 @@ import 'package:cleaning_service_app/features/auth/models/signup_response_model.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/countries.dart' as phone_countries;
 
 class SignupController extends GetxController {
   // Create a unique key for each controller instance
@@ -28,51 +27,10 @@ class SignupController extends GetxController {
 
   RxBool agreeWithTerms = false.obs;
 
-  String isoCode = Get.deviceLocale?.countryCode ?? 'US';
-  bool _adjusting = false;
+  String isoCode = Get.deviceLocale?.countryCode ?? 'IT';
 
   /// Stores complete E.164 number like +15551234567
   final RxString signupE164Phone = ''.obs;
-
-  void _onLocalNumberChanged() {
-    if (_adjusting) return;
-    final text = signupPhoneController.text;
-    // If user pasted a full number with +<dial><local>, auto-detect country
-    if (text.startsWith('+')) {
-      final match = RegExp(r'^\+(\d{1,4})').firstMatch(text);
-      if (match != null) {
-        final digits = match.group(1)!;
-        final dialWithPlus = '+$digits';
-        final matches = phone_countries.countries.where((c) {
-          final cd = c.dialCode;
-          return cd == digits || cd == dialWithPlus;
-        }).toList();
-        if (matches.isNotEmpty) {
-          final country = matches.first;
-          final iso = country.code;
-          if (iso != isoCode && iso.isNotEmpty) {
-            isoCode = iso;
-            // Rebuild phone widget region
-            update();
-          }
-          final withoutDial = text.substring(match.group(0)!.length);
-          _adjusting = true;
-          signupPhoneController.text = withoutDial;
-          signupPhoneController.selection = TextSelection.collapsed(
-            offset: signupPhoneController.text.length,
-          );
-          _adjusting = false;
-          // Also update stored E.164
-          final dial = country.dialCode.startsWith('+')
-              ? country.dialCode
-              : '+${country.dialCode}';
-          final local = withoutDial.replaceAll(RegExp(r'\s+'), '');
-          signupE164Phone.value = '$dial$local';
-        }
-      }
-    }
-  }
-
   final isSigningUp = false.obs;
   final signupErrorMessage = ''.obs;
 
@@ -84,12 +42,6 @@ class SignupController extends GetxController {
   // Control when to show validation errors
   var autovalidateMode = AutovalidateMode.disabled.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    signupPhoneController.addListener(_onLocalNumberChanged);
-  }
-
   Future<bool> signUp() async {
     // Enable validation mode when user tries to submit
     autovalidateMode.value = AutovalidateMode.onUserInteraction;
@@ -100,35 +52,10 @@ class SignupController extends GetxController {
 
     isSigningUp.value = true;
 
-    // Compose E.164 if empty (fallback)
-    String e164 = signupE164Phone.value.trim();
-    if (e164.isEmpty) {
-      try {
-        final local = signupPhoneController.text.replaceAll(RegExp(r'\s+'), '');
-        final country = phone_countries.countries.firstWhere(
-          (c) => c.code.toUpperCase() == isoCode.toUpperCase(),
-        );
-        final dial = country.dialCode.startsWith('+')
-            ? country.dialCode
-            : '+${country.dialCode}';
-        e164 = '$dial$local';
-      } catch (_) {
-        e164 = signupPhoneController.text.trim();
-      }
-    }
-
-    // Basic E.164 validation
-    final e164Pattern = RegExp(r'^\+[1-9]\d{7,14}$');
-    if (!e164Pattern.hasMatch(e164)) {
-      isSigningUp.value = false;
-      Toast.errorToast('Please enter a valid phone number');
-      return false;
-    }
-
     final Map<String, dynamic> signupData = {
       "userName": signupNameController.text.trim(),
       "email": signupEmailController.text.trim(),
-      "phoneNumber": e164,
+      "phoneNumber": signupE164Phone.value,
       "password": signupPasswordController.text.trim(),
       "confirmPassword": signupConfirmPasswordController.text.trim(),
     };

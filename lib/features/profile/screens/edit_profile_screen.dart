@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
+import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
 import 'package:cleaning_service_app/features/profile/controllers/edit_profile_controller.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
@@ -218,12 +219,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(height: 12.h),
 
                   ///============ Phone Number ============
-                  CustomFormCard(
-                    title: 'Phone Number',
-                    hintText: "Enter Phone Number",
-                    fontSize: isTablet ? 16 : 16,
-                    hasBackgroundColor: true,
-                    controller: editProfileController.phoneController,
+                  CustomText(
+                    text: 'Phone Number',
+                    color: const Color(0xFF0F0B18),
+                    fontSize: 16,
+                    fontFamily: 'Lexend',
+                    fontWeight: FontWeight.w600,
+                    height: 1.50,
+                  ),
+                  const SizedBox(height: 4),
+                  PhoneInputField(
+                    initialE164: editProfileController.phoneController.text,
+                    onChanged: (e164) {
+                      editProfileController.phoneController.text = e164;
+                    },
                   ),
 
                   SizedBox(height: 12.h),
