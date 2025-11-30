@@ -9,12 +9,10 @@ import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/auth/controllers/affiliation_controller.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
-import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart' as image_picker;
 
 const Color primaryDarkBlue = Color(0xFF13224B);
 const Color primaryYellow = Color(0xFFFFC000);
@@ -92,26 +90,25 @@ class UploadDocumentSection extends StatelessWidget {
             buttonLabel: 'Upload Back Side',
           ),
 
-          SizedBox(height: 20.w),
+          // SizedBox(height: 20.w),
 
           /// Upload Selfie with ID
-          if (selectionController.selectedRole.value == Role.provider)
-            _buildUploadDocument(
-              title: "Upload a Selfie with Your ID",
-              description:
-                  "Take a selfie while holding your identity card next to your face. Ensure everything clearly visible.",
-              onUpload: () {
-                // Directly open camera for selfie
-                selectionController.pickDocumentImage(
-                  image_picker.ImageSource.camera,
-                  (file) => selectionController.selfieWithIdImage.value = file,
-                );
-              },
-              uploadedImage: selectionController.selfieWithIdImage.value,
-              buttonLabel: 'Take Selfie',
-            ),
-
-          SizedBox(height: 56.w),
+          // if (selectionController.selectedRole.value == Role.provider)
+          //   _buildUploadDocument(
+          //     title: "Upload a Selfie with Your ID",
+          //     description:
+          //         "Take a selfie while holding your identity card next to your face. Ensure everything clearly visible.",
+          //     onUpload: () {
+          //       // Directly open camera for selfie
+          //       selectionController.pickDocumentImage(
+          //         image_picker.ImageSource.camera,
+          //         (file) => selectionController.selfieWithIdImage.value = file,
+          //       );
+          //     },
+          //     uploadedImage: selectionController.selfieWithIdImage.value,
+          //     buttonLabel: 'Take Selfie',
+          //   ),
+          SizedBox(height: 150.w),
 
           /// Confirm Button
           CustomButton(
@@ -130,12 +127,12 @@ class UploadDocumentSection extends StatelessWidget {
                 return;
               }
 
-              if (selectionController.selectedRole.value == Role.provider) {
-                if (selectionController.selfieWithIdImage.value == null) {
-                  Toast.errorToast("Please upload a selfie with your ID");
-                  return;
-                }
-              }
+              // if (selectionController.selectedRole.value == Role.provider) {
+              //   if (selectionController.selfieWithIdImage.value == null) {
+              //     Toast.errorToast("Please upload a selfie with your ID");
+              //     return;
+              //   }
+              // }
               // fetch affiliation condition text
               await affiliationController.fetchAffiliationProgram();
               if (!context.mounted) return;

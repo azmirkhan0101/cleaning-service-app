@@ -51,11 +51,11 @@ class ProfileSetupController extends SelectionController {
       MultipartBody(key: "NIDBack", file: backIdImage.value!),
     ];
 
-    if (selfieWithIdImage.value != null) {
-      files.add(
-        MultipartBody(key: "selfieWithNID", file: selfieWithIdImage.value!),
-      );
-    }
+    // if (selfieWithIdImage.value != null) {
+    //   files.add(
+    //     MultipartBody(key: "selfieWithNID", file: selfieWithIdImage.value!),
+    //   );
+    // }
 
     try {
       final response = await Get.find<NetworkHelper>().multipart(
