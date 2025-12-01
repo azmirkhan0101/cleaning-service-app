@@ -25,6 +25,20 @@ class _LocationScreenState extends State<LocationScreen> {
   final profileController = Get.find<ProfileController>();
 
   @override
+  void initState() {
+    super.initState();
+    final profile = profileController.profile.value;
+    if (profile != null) {
+      final address = profile.address;
+      final lat = profile.latitude;
+      final lng = profile.longitude;
+      if (address.isNotEmpty && (lat != 0.0 || lng != 0.0)) {
+        locationController.updateLocation(address, lat, lng);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(backButton: true),
@@ -60,11 +74,12 @@ class _LocationScreenState extends State<LocationScreen> {
               const SizedBox(height: 24),
 
               LocationSearchWidget(
-                onResultSelected: (result) {
+                onResultSelected: (_) {
+                  // Ensure controller values are committed if parent relies on callback
                   locationController.updateLocation(
-                    result['address'] ?? '',
-                    result['latitude'] ?? 0.0,
-                    result['longitude'] ?? 0.0,
+                    locationController.selectedAddress.text,
+                    locationController.selectedLatitude.value,
+                    locationController.selectedLongitude.value,
                   );
                 },
               ),

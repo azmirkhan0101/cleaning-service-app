@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
+import 'package:cleaning_service_app/features/location/models/place_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -108,7 +109,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
         Obx(
           () =>
               controller.showSearchResults.value &&
-                  controller.searchResults.isNotEmpty
+                  controller.placePredictions.isNotEmpty
               ? Container(
                   margin: EdgeInsets.only(top: 8),
                   decoration: BoxDecoration(
@@ -126,15 +127,26 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                   constraints: BoxConstraints(maxHeight: 300),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: controller.searchResults.length,
+                    itemCount: controller.placePredictions.length,
                     itemBuilder: (context, index) {
-                      final result = controller.searchResults[index];
-                      // print(result);
+                      final PlacePrediction prediction =
+                          controller.placePredictions[index];
                       return InkWell(
-                        onTap: () {
-                          controller.selectSearchResult(result);
+                        onTap: () async {
+                          await controller.selectPrediction(prediction);
                           if (widget.onResultSelected != null) {
-                            widget.onResultSelected!(result);
+                            widget.onResultSelected!({
+                              'address': prediction.description,
+                              'place_id': prediction.placeId,
+                              'main_text':
+                                  prediction.structuredFormatting?.mainText ??
+                                  prediction.description,
+                              'secondary_text':
+                                  prediction
+                                      .structuredFormatting
+                                      ?.secondaryText ??
+                                  '',
+                            });
                           }
                         },
                         child: Container(
@@ -143,7 +155,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                             vertical: 12,
                           ),
                           decoration: BoxDecoration(
-                            border: index < controller.searchResults.length - 1
+                            border:
+                                index < controller.placePredictions.length - 1
                                 ? Border(
                                     bottom: BorderSide(
                                       color: Colors.grey.shade200,
@@ -165,8 +178,10 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      result['main_text']?.toString() ??
-                                          'Unknown location',
+                                      prediction
+                                              .structuredFormatting
+                                              ?.mainText ??
+                                          prediction.description,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -175,12 +190,16 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    if ((result['secondary_text']?.toString() ??
+                                    if ((prediction
+                                                .structuredFormatting
+                                                ?.secondaryText ??
                                             '')
                                         .isNotEmpty) ...[
                                       SizedBox(height: 2),
                                       Text(
-                                        result['secondary_text']?.toString() ??
+                                        prediction
+                                                .structuredFormatting
+                                                ?.secondaryText ??
                                             '',
                                         style: TextStyle(
                                           fontSize: 12,

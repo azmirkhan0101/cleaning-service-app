@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:cleaning_service_app/features/location/models/place_autocomplete.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
 
 class LocationController extends GetxController {
   TextEditingController selectedAddress = TextEditingController();
@@ -8,7 +12,9 @@ class LocationController extends GetxController {
   var selectedLongitude = 0.0.obs;
 
   // Search related
-  final searchResults = <Map<String, dynamic>>[].obs;
+  // final searchResults =
+  //     <Map<String, dynamic>>[].obs; // legacy, will be phased out
+  final placePredictions = <PlacePrediction>[].obs;
   final showSearchResults = false.obs;
   final isSearching = false.obs;
 
@@ -20,7 +26,7 @@ class LocationController extends GetxController {
 
   Future<void> searchLocations(String query) async {
     if (query.isEmpty || query.length < 3) {
-      searchResults.clear();
+      // searchResults.clear();
       showSearchResults.value = false;
       return;
     }
@@ -28,109 +34,89 @@ class LocationController extends GetxController {
     isSearching.value = true;
 
     try {
-      // Search with multiple variations for better results
-      List<String> searchQueries = [
-        query,
-        "$query, USA",
-        "$query city",
-        "$query state",
-      ];
-
-      Set<Map<String, dynamic>> uniqueResults = {};
-
-      for (String searchQuery in searchQueries) {
-        try {
-          List<Location> locations = await locationFromAddress(
-            searchQuery,
-          ).timeout(Duration(seconds: 3));
-
-          for (var location in locations.take(10)) {
-            try {
-              List<Placemark> placemarks = await placemarkFromCoordinates(
-                location.latitude,
-                location.longitude,
-              ).timeout(Duration(seconds: 2));
-
-              if (placemarks.isNotEmpty) {
-                Placemark place = placemarks[0];
-
-                // Build detailed address
-                List<String> addressParts = [];
-                if (place.name != null && place.name!.isNotEmpty) {
-                  addressParts.add(place.name!);
-                }
-                if (place.street != null &&
-                    place.street!.isNotEmpty &&
-                    place.street != place.name) {
-                  addressParts.add(place.street!);
-                }
-                if (place.subLocality != null &&
-                    place.subLocality!.isNotEmpty) {
-                  addressParts.add(place.subLocality!);
-                }
-                if (place.locality != null && place.locality!.isNotEmpty) {
-                  addressParts.add(place.locality!);
-                }
-                if (place.administrativeArea != null &&
-                    place.administrativeArea!.isNotEmpty) {
-                  addressParts.add(place.administrativeArea!);
-                }
-                if (place.country != null && place.country!.isNotEmpty) {
-                  addressParts.add(place.country!);
-                }
-
-                String fullAddress = addressParts.join(', ');
-
-                // Create unique key to avoid duplicates
-                String key =
-                    "${location.latitude.toStringAsFixed(4)}_${location.longitude.toStringAsFixed(4)}";
-
-                // Add to set if not duplicate
-                if (!uniqueResults.any((r) => r['key'] == key)) {
-                  // Determine main and secondary text
-                  String mainText =
-                      place.name ?? place.street ?? place.locality ?? 'Unknown';
-                  String secondaryText = [
-                    if (place.locality != null && place.locality != mainText)
-                      place.locality,
-                    if (place.administrativeArea != null)
-                      place.administrativeArea,
-                    if (place.country != null) place.country,
-                  ].join(', ');
-
-                  uniqueResults.add({
-                    'key': key,
-                    'address': fullAddress,
-                    'main_text': mainText,
-                    'secondary_text': secondaryText,
-                    'latitude': location.latitude,
-                    'longitude': location.longitude,
-                  });
-                }
-
-                // Stop if we have enough results
-                if (uniqueResults.length >= 15) break;
-              }
-            } catch (e) {
-              continue;
-            }
-          }
-
-          if (uniqueResults.length >= 15) break;
-        } catch (e) {
-          continue;
-        }
+      // Get API key from .env
+      final apiKey = dotenv.env['MAPS_API_KEY'];
+      if (apiKey == null || apiKey.isEmpty) {
+        debugPrint('Google Maps API key not found in .env file');
+        isSearching.value = false;
+        return;
       }
 
-      searchResults.value = uniqueResults.take(15).toList();
-      showSearchResults.value = searchResults.isNotEmpty;
+      // Google Places Autocomplete API endpoint
+      final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${Uri.encodeComponent(query)}&key=$apiKey',
+      );
+
+      // Make API request
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+
+      // debugPrint('Places API response: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['status'] == 'OK' && data['predictions'] != null) {
+          final predictions = (data['predictions'] as List<dynamic>)
+              .map((p) => PlacePrediction.fromJson(p as Map<String, dynamic>))
+              .toList();
+
+          // Limit to 10 results for UI
+          placePredictions
+            ..clear()
+            ..addAll(predictions.take(10));
+
+          // Keep legacy map empty to avoid mixed sources
+          // searchResults.clear();
+          showSearchResults.value = placePredictions.isNotEmpty;
+        } else {
+          // searchResults.clear();
+          placePredictions.clear();
+          showSearchResults.value = false;
+        }
+      } else {
+        print('Failed to fetch places: ${response.statusCode}');
+        // searchResults.clear();
+        placePredictions.clear();
+        showSearchResults.value = false;
+      }
     } catch (e) {
       print("Error searching locations: $e");
-      searchResults.clear();
+      // searchResults.clear();
+      placePredictions.clear();
       showSearchResults.value = false;
     } finally {
       isSearching.value = false;
     }
+  }
+
+  // Get place details including coordinates
+  Future<Map<String, double>?> _getPlaceDetails(
+    String placeId,
+    String apiKey,
+  ) async {
+    try {
+      final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=geometry&key=$apiKey',
+      );
+
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['status'] == 'OK' &&
+            data['result']?['geometry']?['location'] != null) {
+          final location = data['result']['geometry']['location'];
+          return {
+            'lat': location['lat'].toDouble(),
+            'lng': location['lng'].toDouble(),
+          };
+        }
+      }
+    } catch (e) {
+      print('Error fetching place details: $e');
+    }
+    return null;
   }
 
   void selectSearchResult(Map<String, dynamic> result) {
@@ -138,8 +124,22 @@ class LocationController extends GetxController {
     clearSearchResults();
   }
 
+  Future<void> selectPrediction(PlacePrediction prediction) async {
+    final apiKey = dotenv.env['MAPS_API_KEY'];
+    if (apiKey == null || apiKey.isEmpty) {
+      debugPrint('Google Maps API key not found in .env file');
+      return;
+    }
+    final details = await _getPlaceDetails(prediction.placeId, apiKey);
+    if (details != null) {
+      updateLocation(prediction.description, details['lat']!, details['lng']!);
+      clearSearchResults();
+    }
+  }
+
   void clearSearchResults() {
-    searchResults.clear();
+    // searchResults.clear();
+    placePredictions.clear();
     showSearchResults.value = false;
   }
 

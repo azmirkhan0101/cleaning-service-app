@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
+import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +29,28 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
     -122.4194,
   ); // Default San Francisco
   String _selectedAddress = "";
+  bool _skipNextReverseGeocode = false;
 
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
   final LocationController _locationController = Get.find<LocationController>();
 
   @override
   void initState() {
     super.initState();
-    getUserCurrentLocation();
+    // If a location is already selected (from profile), use it; else fallback to current location
+    final presetLat = _locationController.selectedLatitude.value;
+    final presetLng = _locationController.selectedLongitude.value;
+    final presetAddress = _locationController.selectedAddress.text;
+    if ((presetLat != 0.0 || presetLng != 0.0) && presetAddress.isNotEmpty) {
+      _selectedLocation = LatLng(presetLat, presetLng);
+      _selectedAddress = presetAddress;
+      // Map controller isn't ready yet; onMapCreated animates to _selectedLocation
+    } else {
+      getUserCurrentLocation();
+    }
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
-    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -55,6 +63,7 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
         _selectedLocation = LatLng(position.latitude, position.longitude);
       });
 
+      _skipNextReverseGeocode = true;
       mapController.animateCamera(
         CameraUpdate.newLatLngZoom(
           LatLng(position.latitude, position.longitude),
@@ -62,8 +71,16 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
         ),
       );
 
-      // Get initial address
+      // Get address for current location and update controller + search text
       await _getAddressFromLatLng(_selectedLocation);
+      final address = _selectedAddress;
+      locationController.updateLocation(
+        address,
+        _selectedLocation.latitude,
+        _selectedLocation.longitude,
+      );
+      // Ensure any focused input is dismissed
+      if (mounted) FocusScope.of(context).unfocus();
     } catch (e) {
       debugPrint("Error getting location: $e");
     }
@@ -78,8 +95,27 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-        String address =
-            "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
+        final parts = <String?>[
+          // Prefer street, then name when street is empty
+          (place.street != null && place.street!.trim().isNotEmpty)
+              ? place.street
+              : (place.name != null && place.name!.trim().isNotEmpty)
+              ? place.name
+              : null,
+          (place.subLocality != null && place.subLocality!.trim().isNotEmpty)
+              ? place.subLocality
+              : null,
+          (place.locality != null && place.locality!.trim().isNotEmpty)
+              ? place.locality
+              : null,
+          (place.postalCode != null && place.postalCode!.trim().isNotEmpty)
+              ? place.postalCode
+              : null,
+          (place.country != null && place.country!.trim().isNotEmpty)
+              ? place.country
+              : null,
+        ];
+        final address = parts.whereType<String>().join(', ');
 
         setState(() {
           _selectedAddress = address;
@@ -98,11 +134,12 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   }
 
   void _onCameraIdle() {
+    if (_skipNextReverseGeocode) {
+      _skipNextReverseGeocode = false;
+      return;
+    }
     // Get address when user stops moving the map
     _getAddressFromLatLng(_selectedLocation);
-
-    // Update the map controller's position to ensure smooth movement
-    mapController.animateCamera(CameraUpdate.newLatLng(_selectedLocation));
   }
 
   // This method is no longer needed as we handle the search result directly in the onResultSelected callback
@@ -223,111 +260,34 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
             ),
           ),
 
-          // Search Widget
+          // Search Widget (reused component)
           Positioned(
             top: 16,
             left: 16,
             right: 16,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: TextField(
-                controller: _searchController,
-                focusNode: _searchFocusNode,
-                decoration: InputDecoration(
-                  hintText: 'Search for a location...',
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: Icon(Icons.clear, color: Colors.grey),
-                          onPressed: () {
-                            _searchController.clear();
-                            _locationController.clearSearchResults();
-                          },
-                        )
-                      : null,
-                ),
-                onChanged: (value) {
-                  _locationController.searchLocations(value);
-                },
-              ),
+            child: LocationSearchWidget(
+              hintText: 'Search for a location...',
+              onResultSelected: (result) {
+                // Controller already fetches lat/lng in selectPrediction
+                final lat = _locationController.selectedLatitude.value;
+                final lng = _locationController.selectedLongitude.value;
+                final address = _locationController.selectedAddress.text;
+
+                final location = LatLng(lat, lng);
+                setState(() {
+                  _selectedLocation = location;
+                  _selectedAddress = address;
+                });
+                _skipNextReverseGeocode = true;
+                mapController.animateCamera(
+                  CameraUpdate.newLatLngZoom(location, 16),
+                );
+                FocusScope.of(context).unfocus();
+              },
             ),
           ),
 
-          // Search results
-          Obx(
-            () =>
-                _locationController.showSearchResults.value &&
-                    _locationController.searchResults.isNotEmpty
-                ? Positioned(
-                    top: 80,
-                    left: 16,
-                    right: 16,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      constraints: BoxConstraints(maxHeight: 200),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _locationController.searchResults.length,
-                        itemBuilder: (context, index) {
-                          final result =
-                              _locationController.searchResults[index];
-                          return ListTile(
-                            leading: Icon(
-                              Icons.location_on,
-                              color: Colors.blue,
-                            ),
-                            title: Text(
-                              result['main_text'] ?? 'Unknown location',
-                            ),
-                            subtitle: Text(result['secondary_text'] ?? ''),
-                            onTap: () {
-                              final location = LatLng(
-                                result['latitude'],
-                                result['longitude'],
-                              );
-                              setState(() {
-                                _selectedLocation = location;
-                                _selectedAddress = result['address'];
-                                _searchController.text = result['address'];
-                              });
-                              mapController.animateCamera(
-                                CameraUpdate.newLatLngZoom(location, 16),
-                              );
-                              _locationController.clearSearchResults();
-                              _searchFocusNode.unfocus();
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ),
+          // Search results handled inside LocationSearchWidget
 
           // OK Button and Current Location Button Row
           Positioned(
