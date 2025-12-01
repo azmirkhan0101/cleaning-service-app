@@ -49,97 +49,108 @@ class _LocationScreenState extends State<LocationScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                text: AppStrings.setLocation,
-                color: const Color(0xFF0F0B18),
-                fontSize: 24,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                height: 1.40,
-                letterSpacing: -0.50,
-              ),
+              // Scrollable content area to prevent overflow when suggestions show
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: AppStrings.setLocation,
+                        color: const Color(0xFF0F0B18),
+                        fontSize: 24,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        height: 1.40,
+                        letterSpacing: -0.50,
+                      ),
 
-              const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-              const CustomText(
-                text:
-                    "Choose your location directly from the map to get the best service experience. This helps us connect you with nearby providers and ensures faster, more reliable service right at your doorstep.",
-                color: Color(0xFF4F4F59),
-                fontSize: 12,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-                height: 1.50,
-              ),
+                      const CustomText(
+                        text:
+                            "Choose your location directly from the map to get the best service experience. This helps us connect you with nearby providers and ensures faster, more reliable service right at your doorstep.",
+                        color: Color(0xFF4F4F59),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        height: 1.50,
+                      ),
 
-              const SizedBox(height: 24),
+                      const SizedBox(height: 24),
 
-              LocationSearchWidget(
-                onResultSelected: (_) {
-                  // Ensure controller values are committed if parent relies on callback
-                  locationController.updateLocation(
-                    locationController.selectedAddress.text,
-                    locationController.selectedLatitude.value,
-                    locationController.selectedLongitude.value,
-                  );
-                },
-              ),
-              SizedBox(height: 16),
+                      LocationSearchWidget(
+                        onResultSelected: (_) {
+                          // Ensure controller values are committed if parent relies on callback
+                          locationController.updateLocation(
+                            locationController.selectedAddress.text,
+                            locationController.selectedLatitude.value,
+                            locationController.selectedLongitude.value,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16),
 
-              ///============ Location ============
-              ElevatedButton(
-                onPressed: () async {
-                  // Navigate to the map picker and await the result (latitude, longitude, address)
-                  final result = await Get.to(() => PickerMapScreen());
-                  // print("Map Picker Result: $result");
+                      ///============ Location ============
+                      ElevatedButton(
+                        onPressed: () async {
+                          // Navigate to the map picker and await the result (latitude, longitude, address)
+                          final result = await Get.to(() => PickerMapScreen());
+                          // print("Map Picker Result: $result");
 
-                  if (result != null && result is Map) {
-                    locationController.updateLocation(
-                      result['address'] ?? '',
-                      result['latitude'] ?? 0.0,
-                      result['longitude'] ?? 0.0,
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.white_50,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50), // pill shape
-                    side: const BorderSide(
-                      color: Colors.lightBlue,
-                      width: 1,
-                    ), // border
+                          if (result != null && result is Map) {
+                            locationController.updateLocation(
+                              result['address'] ?? '',
+                              result['latitude'] ?? 0.0,
+                              result['longitude'] ?? 0.0,
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.white_50,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              50,
+                            ), // pill shape
+                            side: const BorderSide(
+                              color: Colors.lightBlue,
+                              width: 1,
+                            ), // border
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 14,
+                          ),
+                          elevation: 0, // flat style, remove shadow
+
+                          minimumSize: Size(
+                            MediaQuery.of(context).size.width * 0.9,
+                            50,
+                          ), // 90% of screen width
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomImage(imageSrc: AppIcons.send_icon),
+
+                            SizedBox(width: 8),
+
+                            CustomText(
+                              text: 'Use my current location',
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 16),
+                    ],
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 14,
-                  ),
-                  elevation: 0, // flat style, remove shadow
-
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width * 0.9,
-                    50,
-                  ), // 90% of screen width
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomImage(imageSrc: AppIcons.send_icon),
-
-                    SizedBox(width: 8),
-
-                    CustomText(
-                      text: 'Use my current location',
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
                 ),
               ),
-
-              SizedBox(height: 16),
-
-              Spacer(),
 
               Obx(() {
                 return CustomButton(
