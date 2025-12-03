@@ -486,6 +486,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  flutter_image_compress:
+    dependency: "direct main"
+    description:
+      name: flutter_image_compress
+      sha256: "51d23be39efc2185e72e290042a0da41aed70b14ef97db362a6b5368d0523b27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  flutter_image_compress_common:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_common
+      sha256: c5c5d50c15e97dd7dc72ff96bd7077b9f791932f2076c5c5b6c43f2c88607bfb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
+  flutter_image_compress_macos:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_macos
+      sha256: "20019719b71b743aba0ef874ed29c50747461e5e8438980dfa5c2031898f7337"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
+  flutter_image_compress_ohos:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_ohos
+      sha256: e76b92bbc830ee08f5b05962fc78a532011fcd2041f620b5400a593e96da3f51
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
+  flutter_image_compress_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_platform_interface
+      sha256: "579cb3947fd4309103afe6442a01ca01e1e6f93dc53bb4cbd090e8ce34a41889"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
+  flutter_image_compress_web:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_web
+      sha256: b9b141ac7c686a2ce7bb9a98176321e1182c9074650e47bb140741a44b6f5a96
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -591,10 +639,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: b9c2ad5872518a27507ab432d1fb97e8813b05f0fc693f9d40fad06d073e0678
+      sha256: "87fbd7c534435b6c5d9d98b01e1fd527812b82e68ddd8bd35fc45ed0fa8f0a95"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -633,18 +681,18 @@ packages:
     dependency: "direct main"
     description:
       name: font_awesome_flutter
-      sha256: b738e35f8bb4957896c34957baf922f99c5d415b38ddc8b070d14b7fa95715d4
+      sha256: b9011df3a1fa02993630b8fb83526368cf2206a711259830325bab2f1d2a4eb0
       url: "https://pub.dev"
     source: hosted
-    version: "10.9.1"
+    version: "10.12.0"
   fpdart:
     dependency: "direct main"
     description:
       name: fpdart
-      sha256: "1b84ce64453974159f08046f5d05592020d1fcb2099d7fe6ec58da0e7337af77"
+      sha256: f8e9d0989ba293946673e382c59ac513e30cb6746a9452df195f29e3357a73d4
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   freezed_annotation:
     dependency: transitive
     description:
@@ -825,10 +873,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: ebc94ed30fd13cefd397cb1658b593f21571f014b7d1197eeb41fb95f05d899a
+      sha256: ba03d03bcaa2f6cb7bd920e3b5027181db75ab524f8891c8bc3aa603885b8055
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.3"
   google_maps:
     dependency: transitive
     description:
@@ -841,10 +889,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_maps_flutter
-      sha256: c389e16fafc04b37a4105e0757ecb9d59806026cee72f408f1ba68811d01bfe6
+      sha256: "819985697596a42e1054b5feb2f407ba1ac92262e02844a40168e742b9f36dca"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.1"
+    version: "2.14.0"
   google_maps_flutter_android:
     dependency: transitive
     description:
@@ -913,10 +961,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: bb2ce4590bc2667c96f318d68cac1b5a7987ec819351d32b1c987239a815e007
+      sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -945,10 +993,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: "736eb56a911cf24d1859315ad09ddec0b66104bc41a7f8c5b96b4e2620cf5041"
+      sha256: "784210112be18ea55f69d7076e2c656a4e24949fa9e76429fe53af0c0f4fa320"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   image_picker_android:
     dependency: transitive
     description:
@@ -1617,10 +1665,10 @@ packages:
     dependency: "direct main"
     description:
       name: skeletonizer
-      sha256: eebc03dc86b298e2d7f61e0ebce5713e9dbbc3e786f825909b4591756f196eb6
+      sha256: "5d2d44120916cc749ede54c236cef60c2478742806df0b1f065212f00721b185"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0+1"
+    version: "2.1.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1630,10 +1678,10 @@ packages:
     dependency: "direct main"
     description:
       name: socket_io_client
-      sha256: c8471c2c6843cf308a5532ff653f2bcdb7fa9ae79d84d1179920578a06624f0d
+      sha256: e8deafca92e944ac33fd7f93ce7ea453cedc4dac41c9c2526dbd5fdff9636dca
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.2"
+    version: "3.1.3"
   socket_io_common:
     dependency: transitive
     description:
@@ -2060,4 +2108,4 @@ packages:
     version: "3.1.3"
 sdks:
   dart: ">=3.9.0 <4.0.0"
-  flutter: ">=3.32.0"
+  flutter: ">=3.35.0"

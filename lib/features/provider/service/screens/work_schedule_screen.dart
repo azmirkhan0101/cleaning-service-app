@@ -671,6 +671,11 @@ class WorkScheduleScreen extends StatelessWidget {
     // Save schedule data to create controller
     createController.workSchedule.value = scheduleData;
 
+    // Validate before API call (Toast.errorToast will show error)
+    if (!createController.validateServiceData()) {
+      return;
+    }
+
     // Call the appropriate API based on edit mode
     final success = createController.isEditMode.value
         ? await createController.updateService()

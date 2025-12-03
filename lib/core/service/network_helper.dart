@@ -196,7 +196,11 @@ class NetworkHelper extends GetxService {
     } else {
       String errorMessage = 'Something went wrong';
 
-      if (data is Map<String, dynamic>) {
+      // Handle 413 Payload Too Large specifically
+      if (response.statusCode == 413) {
+        errorMessage =
+            'File size too large. Please use smaller images or compress them before uploading.';
+      } else if (data is Map<String, dynamic>) {
         // Try to extract validation error from errorSources array
         if (data['errorSources'] is List &&
             (data['errorSources'] as List).isNotEmpty) {

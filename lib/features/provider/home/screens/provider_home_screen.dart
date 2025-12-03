@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
+import 'package:cleaning_service_app/core/utils/address_from_latlng/address_from_latlng.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
@@ -28,10 +29,63 @@ class _ProviderHomeState extends State<ProviderHome> {
   final notificationController = Get.put(NotificationController());
   final homeController = Get.put(ProviderHomeController());
   final profileController = Get.put(ProfileController());
+
+  final RxString address = 'Loading...'.obs;
+  final RxBool isLoadingAddress = true.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAddress();
+
+    // Listen to profile changes to update address
+    ever(profileController.profile, (_) {
+      _fetchAddress();
+    });
+  }
+
+  void _fetchAddress() async {
+    if (profileController.profile.value?.latitude == null ||
+        profileController.profile.value?.longitude == null) {
+      address.value = 'No location set';
+      isLoadingAddress.value = false;
+      return;
+    }
+
+    isLoadingAddress.value = true;
+    try {
+      final fetchedAddress = await AddressFromLatLng.getAddressFromLatLng(
+        profileController.profile.value!.latitude,
+        profileController.profile.value!.longitude,
+      );
+
+      if (fetchedAddress != null && fetchedAddress.isNotEmpty) {
+        // Extract city/area (text after last comma)
+        final parts = fetchedAddress.split(',');
+        if (parts.length >= 2) {
+          // Show last 2 parts (e.g., "Dhaka, Bangladesh")
+          address.value = parts.reversed
+              .take(2)
+              .toList()
+              .reversed
+              .join(', ')
+              .trim();
+        } else {
+          address.value = fetchedAddress;
+        }
+      } else {
+        address.value = 'No location set';
+      }
+    } catch (e) {
+      debugPrint('Error fetching address: $e');
+      address.value = 'Location unavailable';
+    } finally {
+      isLoadingAddress.value = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Legacy static appointments removed; now using API-driven reactive list.
-
     return Scaffold(
       backgroundColor: Color(0xFFF0EEFF),
       // appBar: PreferredSize(
@@ -472,27 +526,18 @@ class _ProviderHomeState extends State<ProviderHome> {
                     ],
                   ),
 
-                  Skeletonizer(
-                    enabled: profileController.isLoading.value,
-                    child: CustomText(
-                      text: () {
-                        final address =
-                            profileController.profile.value?.address ??
-                            'No location set';
-                        // Show only text after the last comma
-                        final lastCommaIndex = address.lastIndexOf(',');
-                        if (lastCommaIndex != -1 &&
-                            lastCommaIndex < address.length - 1) {
-                          return address.substring(lastCommaIndex + 1).trim();
-                        }
-                        return address;
-                      }(),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.black,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                  Obx(() {
+                    return Skeletonizer(
+                      enabled: isLoadingAddress.value,
+                      child: CustomText(
+                        text: address.value,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.black,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }),
                 ],
               ),
             ],

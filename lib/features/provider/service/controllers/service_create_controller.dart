@@ -31,60 +31,45 @@ class ServiceCreateController extends GetxController {
   RxMap<String, Map<String, dynamic>> workSchedule =
       <String, Map<String, dynamic>>{}.obs;
 
-  Future<bool> createService() async {
-    // Validation
+  /// Validates all service data before creation/update
+  /// Returns true if valid, false otherwise (shows error message)
+  bool validateServiceData() {
     if (selectedCategoryId.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please select a category',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please select a category');
       return false;
     }
 
     if (serviceName.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter service name',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter service name');
       return false;
     }
 
     if (description.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter description',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter description');
       return false;
     }
 
     if (rateByHour.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter rate by hour',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter rate by hour');
       return false;
     }
 
     if (selectedLanguages.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please select at least one language',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please select at least one language');
       return false;
     }
 
-    if (coverImages.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please select at least one cover image',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 3),
-      );
+    if (coverImages.isEmpty && existingImageUrls.isEmpty) {
+      Toast.errorToast('Please select at least one cover image');
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> createService() async {
+    // Validation
+    if (!validateServiceData()) {
       return false;
     }
 

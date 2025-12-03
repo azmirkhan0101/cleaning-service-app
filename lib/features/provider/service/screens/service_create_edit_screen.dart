@@ -12,6 +12,7 @@ import 'package:cleaning_service_app/features/provider/service/models/provider_s
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -65,6 +66,51 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
     descriptionController.dispose();
     rateByHourController.dispose();
     super.dispose();
+  }
+
+  /// Compress image to reduce file size for upload
+  /// Target: < 1-2MB per image
+  Future<File?> _compressImage(File file, {int quality = 60}) async {
+    try {
+      final filePath = file.absolute.path;
+      final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+      final splitPath = filePath.substring(0, lastIndex);
+      final outPath = "${splitPath}_compressed.jpg";
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        outPath,
+        quality: quality,
+        minWidth: 1024,
+        minHeight: 1024,
+        format: CompressFormat.jpeg,
+      );
+
+      if (result != null) {
+        final compressedFile = File(result.path);
+        final originalSize = await file.length();
+        final compressedSize = await compressedFile.length();
+
+        debugPrint(
+          'Cover image compressed: ${(originalSize / 1024 / 1024).toStringAsFixed(2)} MB '
+          '-> ${(compressedSize / 1024 / 1024).toStringAsFixed(2)} MB '
+          '(${((1 - compressedSize / originalSize) * 100).toStringAsFixed(1)}% reduction)',
+        );
+
+        // If still too large (> 2MB), compress again with lower quality
+        if (compressedSize > 2 * 1024 * 1024 && quality > 30) {
+          debugPrint('Image still large, compressing again...');
+          return await _compressImage(compressedFile, quality: quality - 20);
+        }
+
+        return compressedFile;
+      }
+
+      return file;
+    } catch (e) {
+      debugPrint('Compression error: $e');
+      return file;
+    }
   }
 
   @override
@@ -609,7 +655,14 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
 
                     if (images.isNotEmpty) {
                       for (var image in images) {
-                        createController.coverImages.add(File(image.path));
+                        final originalFile = File(image.path);
+                        // Compress image before adding
+                        final compressedFile = await _compressImage(
+                          originalFile,
+                        );
+                        if (compressedFile != null) {
+                          createController.coverImages.add(compressedFile);
+                        }
                       }
                     }
                   },
@@ -652,6 +705,11 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                       serviceController.genderType.value;
                   createController.selectedLanguages.value =
                       serviceController.selectedLanguages;
+
+                  // Validate before navigation
+                  if (!createController.validateServiceData()) {
+                    return; // Stop if validation fails (error will be shown by validateServiceData)
+                  }
 
                   // Navigate to work schedule screen
                   Get.toNamed(AppRoutes.workScheduleScreen);

@@ -47,6 +47,7 @@ class ProfileSetupController extends SelectionController {
     }
 
     final List<MultipartBody> files = [
+      MultipartBody(key: "profilePicture", file: profileImage.value!),
       MultipartBody(key: "NIDFront", file: frontIdImage.value!),
       MultipartBody(key: "NIDBack", file: backIdImage.value!),
     ];

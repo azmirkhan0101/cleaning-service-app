@@ -6,12 +6,14 @@ import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart'
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
+import 'package:cleaning_service_app/features/location/screens/show_provider_location.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OverviewTabView extends StatelessWidget {
   const OverviewTabView({super.key, this.status});
@@ -266,7 +268,14 @@ class OverviewTabView extends StatelessWidget {
                     const SizedBox(width: 16),
                     InkWell(
                       onTap: () {
-                        Get.toNamed(AppRoutes.pickerMapScreen);
+                        Get.to(
+                          ShowProviderLocation(
+                            providerLatLng: LatLng(
+                              serviceDetails.latitude,
+                              serviceDetails.longitude,
+                            ),
+                          ),
+                        );
                       },
                       child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

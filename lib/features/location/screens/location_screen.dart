@@ -7,7 +7,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
-import 'package:cleaning_service_app/features/location/map_picker.dart';
+import 'package:cleaning_service_app/features/location/screens/map_picker.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';

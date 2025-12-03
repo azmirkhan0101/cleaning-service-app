@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -48,15 +49,67 @@ class SelectionController extends GetxController {
     }
   }
 
+  /// Compress image to reduce file size
+  /// Target: < 1MB for uploads
+  Future<File?> _compressImage(File file, {int quality = 60}) async {
+    try {
+      final filePath = file.absolute.path;
+      final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+      final splitPath = filePath.substring(0, lastIndex);
+      final outPath = "${splitPath}_compressed.jpg";
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        outPath,
+        quality: quality,
+        minWidth: 1024,
+        minHeight: 1024,
+        format: CompressFormat.jpeg,
+      );
+
+      if (result != null) {
+        final compressedFile = File(result.path);
+        final originalSize = await file.length();
+        final compressedSize = await compressedFile.length();
+
+        debugPrint(
+          'Image compressed: ${(originalSize / 1024 / 1024).toStringAsFixed(2)} MB '
+          '-> ${(compressedSize / 1024 / 1024).toStringAsFixed(2)} MB '
+          '(${((1 - compressedSize / originalSize) * 100).toStringAsFixed(1)}% reduction)',
+        );
+
+        // If still too large (> 2MB), compress again with lower quality
+        if (compressedSize > 2 * 1024 * 1024 && quality > 30) {
+          debugPrint(
+            'File still large, compressing again with lower quality...',
+          );
+          return await _compressImage(compressedFile, quality: quality - 20);
+        }
+
+        return compressedFile;
+      }
+
+      return file;
+    } catch (e) {
+      debugPrint('Compression error: $e');
+      return file;
+    }
+  }
+
   // Pick image from gallery
   Future<void> pickImageFromGallery() async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        profileImage.value = File(image.path);
+        final file = File(image.path);
+        final originalSize = await file.length();
+        debugPrint(
+          'Original gallery image: ${(originalSize / 1024 / 1024).toStringAsFixed(2)} MB',
+        );
+
+        // Compress image
+        final compressedFile = await _compressImage(file, quality: 70);
+        profileImage.value = compressedFile;
       }
     } catch (e) {
       Get.snackbar(
@@ -67,15 +120,20 @@ class SelectionController extends GetxController {
     }
   }
 
-  // Pick image from camera
+  // Pick image from camera with aggressive compression
   Future<void> pickImageFromCamera() async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 80,
-      );
+      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
       if (image != null) {
-        profileImage.value = File(image.path);
+        final file = File(image.path);
+        final originalSize = await file.length();
+        debugPrint(
+          'Original camera image: ${(originalSize / 1024 / 1024).toStringAsFixed(2)} MB',
+        );
+
+        // Compress image with lower quality for camera photos
+        final compressedFile = await _compressImage(file, quality: 50);
+        profileImage.value = compressedFile;
       }
     } catch (e) {
       Get.snackbar(
@@ -140,12 +198,19 @@ class SelectionController extends GetxController {
     Function(File) onImagePicked,
   ) async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: source,
-        imageQuality: 80,
-      );
+      final XFile? image = await _picker.pickImage(source: source);
       if (image != null) {
-        onImagePicked(File(image.path));
+        final file = File(image.path);
+        final originalSize = await file.length();
+        debugPrint(
+          'Original ${source == ImageSource.camera ? "camera" : "gallery"} document: '
+          '${(originalSize / 1024 / 1024).toStringAsFixed(2)} MB',
+        );
+
+        // Compress with source-specific quality
+        final quality = source == ImageSource.camera ? 50 : 70;
+        final compressedFile = await _compressImage(file, quality: quality);
+        onImagePicked(compressedFile!);
       }
     } catch (e) {
       Get.snackbar(

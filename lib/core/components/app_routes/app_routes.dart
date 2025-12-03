@@ -5,8 +5,8 @@ import 'package:cleaning_service_app/features/bookings/screens/provider_bookings
 import 'package:cleaning_service_app/features/bookings/screens/qr_code_display_screen.dart';
 import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
 import 'package:cleaning_service_app/features/inbox/screens/inbox_screen.dart';
-import 'package:cleaning_service_app/features/location/location_screen.dart';
-import 'package:cleaning_service_app/features/location/map_picker.dart';
+import 'package:cleaning_service_app/features/location/screens/location_screen.dart';
+import 'package:cleaning_service_app/features/location/screens/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
