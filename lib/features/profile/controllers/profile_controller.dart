@@ -2,6 +2,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:cleaning_service_app/features/profile/models/profile_model.dart';
@@ -44,11 +45,8 @@ class ProfileController extends GetxController {
           // Handle error
           errorMessage.value = error.message ?? 'Failed to load profile';
           debugPrint('Error fetching profile: ${error.message}');
-          Get.snackbar(
-            'Error',
-            error.message ?? 'Failed to load profile',
-            snackPosition: SnackPosition.BOTTOM,
-          );
+
+          Toast.errorToast(error.message ?? 'Failed to load profile');
         },
         (data) {
           // Parse response
@@ -59,11 +57,7 @@ class ProfileController extends GetxController {
       isLoading.value = false;
       errorMessage.value = 'Failed to load profile';
       debugPrint('Exception fetching profile: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to load profile',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Failed to load profile');
     }
   }
 
@@ -101,11 +95,8 @@ class ProfileController extends GetxController {
       (error) {
         errorMessage.value = error.message ?? 'Failed to update location';
         debugPrint('Error updating location: ${error.message}');
-        Get.snackbar(
-          'Error',
-          error.message ?? 'Failed to update location',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+
+        Toast.errorToast(error.message ?? 'Failed to update location');
         return false;
       },
       (data) {
@@ -217,6 +208,71 @@ class ProfileController extends GetxController {
       return null;
     } finally {
       isCreatingStripeOnboarding.value = false;
+    }
+  }
+
+  /// Complete Stripe Connect onboarding - forces fresh Stripe status check
+  /// Must be called immediately after user returns from Stripe onboarding
+  Future<bool> completeStripeConnectOnboarding() async {
+    try {
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.post.method,
+            ApiUrl.stripeConnectCompleteCallback,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      return response.fold(
+        (error) {
+          debugPrint('Stripe completion callback error: ${error.message}');
+          return false;
+        },
+        (data) {
+          debugPrint('Stripe completion callback successful');
+          // Refresh profile to update Stripe status
+          refreshProfile();
+          return true;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception calling stripe completion callback: $e');
+      return false;
+    }
+  }
+
+  /// Disconnect Stripe Connect account
+  Future<bool> disconnectStripeAccount() async {
+    try {
+      final response = await Get.find<NetworkHelper>()
+          .request<Map<String, dynamic>>(
+            HttpRequestType.delete.method,
+            ApiUrl.stripeConnectDisconnect,
+            withAuth: true,
+            parser: (data) => data as Map<String, dynamic>,
+          );
+
+      return response.fold(
+        (error) {
+          debugPrint('Stripe disconnect error: ${error.message}');
+
+          Toast.errorToast(
+            error.message ?? 'Failed to disconnect Stripe account',
+          );
+          return false;
+        },
+        (data) {
+          debugPrint('Stripe account disconnected successfully');
+          // Refresh profile to update Stripe status
+          refreshProfile();
+          Toast.successToast('Stripe account disconnected successfully');
+          return true;
+        },
+      );
+    } catch (e) {
+      debugPrint('Exception disconnecting stripe account: $e');
+      Toast.errorToast('Failed to disconnect Stripe account');
+      return false;
     }
   }
 }

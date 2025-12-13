@@ -1,6 +1,7 @@
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_details_controller.dart';
@@ -62,11 +63,7 @@ class _ProviderServiceDetailsScreenState
                   // Navigate to edit screen with service model
                   Get.to(() => ServiceCreateEditScreen(serviceModel: service));
                 } else {
-                  Get.snackbar(
-                    'Error',
-                    'Service data not available',
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
+                  Toast.errorToast('Service data not available');
                 }
               },
               icon: const Icon(Icons.edit_square),

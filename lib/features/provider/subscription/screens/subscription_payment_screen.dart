@@ -1,6 +1,7 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/payment/screens/payment_webview_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/controller/subscription_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/widgets/subscription_plan_card.dart';
@@ -53,13 +54,7 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
     if (!mounted) return;
     if (controller.checkoutError.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(controller.checkoutError.value),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        Toast.errorToast(controller.checkoutError.value);
       });
     }
     setState(() {});

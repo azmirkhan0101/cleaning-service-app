@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -112,11 +113,7 @@ class SelectionController extends GetxController {
         profileImage.value = compressedFile;
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to pick image from gallery',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Failed to pick image from gallery');
     }
   }
 
@@ -136,11 +133,7 @@ class SelectionController extends GetxController {
         profileImage.value = compressedFile;
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to take photo',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Failed to take photo');
     }
   }
 
@@ -213,11 +206,7 @@ class SelectionController extends GetxController {
         onImagePicked(compressedFile!);
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to pick image',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Failed to pick image');
     }
   }
 

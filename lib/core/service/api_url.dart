@@ -9,6 +9,7 @@ class ApiUrl {
   static const String baseUrl = 'https://backend.brikky.net/api';
   // static const String baseUrl = 'http://10.10.20.73:8000/api';
 
+  // static const String socketBaseUrl = 'http://10.10.20.73:8000';
   static const String socketBaseUrl = 'https://backend.brikky.net';
 
   /// =--> Auth Endpoints <--=
@@ -99,6 +100,10 @@ class ApiUrl {
       '$baseUrl/stripe-connect/dashboard';
   static const String stripeConnectOnboarding =
       '$baseUrl/stripe-connect/onboarding';
+  static const String stripeConnectCompleteCallback =
+      '$baseUrl/stripe-connect/complete-callback';
+  static const String stripeConnectDisconnect =
+      '$baseUrl/stripe-connect/disconnect';
 
   /// =--> Messages Endpoints <--=
   static const String messagesUsers = '$baseUrl/messages/users';

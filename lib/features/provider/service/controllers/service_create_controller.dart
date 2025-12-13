@@ -5,7 +5,6 @@ import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ServiceCreateController extends GetxController {
@@ -76,11 +75,8 @@ class ServiceCreateController extends GetxController {
     // Validate that all image files exist
     for (var file in coverImages) {
       if (!await file.exists()) {
-        Get.snackbar(
-          'Error',
+        Toast.errorToast(
           'Some selected images are no longer available. Please select images again.',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 3),
         );
         coverImages.clear();
         return false;
@@ -88,12 +84,7 @@ class ServiceCreateController extends GetxController {
     }
 
     if (workSchedule.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please set your work schedule',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 3),
-      );
+      Toast.errorToast('Please set your work schedule');
       return false;
     }
 
@@ -145,30 +136,12 @@ class ServiceCreateController extends GetxController {
             errorMessage =
                 'Network error. Please check your internet connection.';
           }
-
-          // Get.snackbar(
-          //   'Service Creation Failed',
-          //   errorMessage,
-          //   snackPosition: SnackPosition.BOTTOM,
-          //   backgroundColor: Get.theme.colorScheme.error,
-          //   colorText: Get.theme.colorScheme.onError,
-          //   duration: Duration(seconds: 5),
-          //   margin: EdgeInsets.all(16),
-          // );
           Toast.errorToast(errorMessage);
           return false;
         },
         (data) {
           // success
-          Get.snackbar(
-            'Success',
-            'Service created successfully',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Get.theme.primaryColor,
-            colorText: Get.theme.colorScheme.onPrimary,
-            duration: Duration(seconds: 3),
-            margin: EdgeInsets.all(16),
-          );
+          Toast.successToast('Service created successfully');
 
           // Navigate back to services screen
           Get.until((route) => route.isFirst);
@@ -181,14 +154,8 @@ class ServiceCreateController extends GetxController {
       );
     } on PathNotFoundException {
       isCreating.value = false;
-      Get.snackbar(
-        'Error',
+      Toast.errorToast(
         'Image files are no longer available. Please select images again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.theme.colorScheme.error,
-        colorText: Get.theme.colorScheme.onError,
-        duration: Duration(seconds: 4),
-        margin: EdgeInsets.all(16),
       );
       coverImages.clear();
       return false;
@@ -206,16 +173,7 @@ class ServiceCreateController extends GetxController {
       } else {
         errorMessage = 'An unexpected error occurred. Please try again.';
       }
-
-      Get.snackbar(
-        'Error',
-        errorMessage,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.theme.colorScheme.error,
-        colorText: Get.theme.colorScheme.onError,
-        duration: Duration(seconds: 4),
-        margin: EdgeInsets.all(16),
-      );
+      Toast.errorToast(errorMessage);
       return false;
     }
   }
@@ -305,71 +263,43 @@ class ServiceCreateController extends GetxController {
   /// Update existing service
   Future<bool> updateService() async {
     if (editServiceId.value.isEmpty) {
-      Get.snackbar('Error', 'Service ID is required');
+      Toast.errorToast('Service ID is required');
       return false;
     }
 
     // Validation
     if (selectedCategoryId.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please select a category',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please select a category');
       return false;
     }
 
     if (serviceName.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter service name',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter service name');
       return false;
     }
 
     if (description.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter description',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter description');
       return false;
     }
 
     if (rateByHour.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please enter rate by hour',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please enter rate by hour');
       return false;
     }
 
     if (selectedLanguages.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please select at least one language',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please select at least one language');
       return false;
     }
 
     if (coverImages.isEmpty && existingImageUrls.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please add at least one image',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please add at least one image');
       return false;
     }
 
     if (workSchedule.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please set your work schedule',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Toast.errorToast('Please set your work schedule');
       return false;
     }
 
@@ -423,25 +353,12 @@ class ServiceCreateController extends GetxController {
             errorMessage = 'You don\'t have permission to update this service.';
           }
 
-          Get.snackbar(
-            'Update Failed',
-            errorMessage,
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Get.theme.colorScheme.error,
-            colorText: Get.theme.colorScheme.onError,
-            duration: Duration(seconds: 5),
-          );
+          Toast.errorToast(errorMessage);
+
           return false;
         },
         (data) {
-          Get.snackbar(
-            'Success',
-            'Service updated successfully',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Get.theme.primaryColor,
-            colorText: Get.theme.colorScheme.onPrimary,
-            duration: Duration(seconds: 3),
-          );
+          Toast.successToast('Service updated successfully');
 
           // Navigate back to services screen
           Get.until((route) => route.isFirst);
@@ -454,13 +371,7 @@ class ServiceCreateController extends GetxController {
       );
     } catch (e) {
       isCreating.value = false;
-      Get.snackbar(
-        'Error',
-        'An unexpected error occurred. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.theme.colorScheme.error,
-        colorText: Get.theme.colorScheme.onError,
-      );
+      Toast.errorToast('An unexpected error occurred. Please try again.');
       return false;
     }
   }

@@ -2,6 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
@@ -25,7 +26,6 @@ class ServiceBookingStepOne extends StatefulWidget {
 }
 
 class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
-
   // @override
   // void initState() {
   //   super.initState();
@@ -378,40 +378,20 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
 
   void _onPressNext(BuildContext context) {
     if (widget.serviceBookingController.dateTimeController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please select date and time'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      Toast.errorToast('Please select date and time');
       return;
     }
     if (widget.serviceBookingController.durationController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter service duration'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      Toast.errorToast('Please enter service duration');
       return;
     }
     // Phone number captured via PhoneInputField callback into controller
     if (widget.serviceBookingController.phoneNumberController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter phone number'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      Toast.errorToast('Please enter phone number');
       return;
     }
     if (widget.serviceBookingController.addressController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter address'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      Toast.errorToast('Please enter address');
       return;
     }
     // Get.toNamed(AppRoutes.serviceBookSecondScreen);

@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
@@ -370,12 +371,7 @@ class ProfileScreen extends StatelessWidget {
       url = await profileCtrl.createStripeOnboardingLink();
       if (url == null || url.isEmpty) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Unable to open Stripe link'),
-              backgroundColor: Colors.redAccent,
-            ),
-          );
+          Toast.errorToast('Unable to open Stripe link');
         }
         return;
       }

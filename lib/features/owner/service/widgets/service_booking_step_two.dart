@@ -498,21 +498,11 @@ class ServiceBookingStepTwo extends StatelessWidget {
                       debugPrint('finalPaymentUrl: $finalPaymentUrl');
 
                       if (finalBookingId.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Booking ID missing in response'),
-                            backgroundColor: Colors.orange,
-                          ),
-                        );
+                        Toast.errorToast('Booking ID missing in response');
                         return;
                       }
                       if (finalPaymentUrl.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Payment URL missing in response'),
-                            backgroundColor: Colors.redAccent,
-                          ),
-                        );
+                        Toast.errorToast('Payment URL missing in response');
                         return;
                       }
 

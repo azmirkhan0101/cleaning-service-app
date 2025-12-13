@@ -449,14 +449,7 @@ class SignupScreen extends GetView<SignupController> {
     } catch (e) {
       // Handle any errors that occur during signup
       debugPrint('Signup error: $e');
-      Get.snackbar(
-        'Signup Failed',
-        'An error occurred during signup. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.8),
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      Toast.errorToast('An error occurred during signup. Please try again.');
     }
   }
 
@@ -468,13 +461,11 @@ class SignupScreen extends GetView<SignupController> {
       final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!ok) {
         // fallback or notify user
-        Get.snackbar(
-          'Error',
-          'Could not open link',
-        ); // or use ScaffoldMessenger
+        Toast.errorToast('Could not open link');
       }
     } catch (e) {
-      Get.snackbar('Oops', 'Failed to open link');
+      Toast.errorToast('Failed to open link');
+      debugPrint('Error launching URL: $e');
     }
   }
 }

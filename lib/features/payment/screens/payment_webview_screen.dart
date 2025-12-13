@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/main-layout/screens/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -51,14 +52,8 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('Payment WebView error: ${error.description}');
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Error loading payment page: ${error.description}',
-                ),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
+            Toast.errorToast('Error loading payment page: ${error.description}');
+            
           },
           onNavigationRequest: (NavigationRequest request) {
             debugPrint('Navigation request ====>: ${request.url}');

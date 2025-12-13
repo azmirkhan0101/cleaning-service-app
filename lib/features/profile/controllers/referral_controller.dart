@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/profile/models/referral_model.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -52,12 +53,7 @@ class ReferralController extends GetxController {
       await Clipboard.setData(
         ClipboardData(text: referralInfo.value!.myReferralCode),
       );
-      Get.snackbar(
-        'Success',
-        'Referral code copied to clipboard',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
-      );
+      Toast.successToast('Referral code copied to clipboard');
     }
   }
 
@@ -73,20 +69,11 @@ class ReferralController extends GetxController {
 
         // Optional: Handle share result
         if (result.status == ShareResultStatus.success) {
-          Get.snackbar(
-            'Shared',
-            'Referral code shared successfully',
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 2),
-          );
+          // 
+          Toast.successToast('Referral code shared successfully');
         }
       } catch (e) {
-        Get.snackbar(
-          'Error',
-          'Failed to share referral code',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 2),
-        );
+        Toast.errorToast('Failed to share referral code');
       }
     }
   }

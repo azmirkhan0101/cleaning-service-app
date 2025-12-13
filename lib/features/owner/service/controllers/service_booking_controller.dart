@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -119,7 +120,7 @@ class ServiceBookingController extends GetxController {
       // Format: "2025-11-12 16:30"
       final dateTimeParts = dateTimeController.text.split(' ');
       if (dateTimeParts.length != 2) {
-        Get.snackbar('Error', 'Invalid date time format');
+        Toast.errorToast('Invalid date time format');
         return null;
       }
 
