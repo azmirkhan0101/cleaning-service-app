@@ -137,51 +137,6 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
           },
         ),
 
-        // IntlMobileField(
-        //   key: ValueKey(_isoCode),
-        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-        //   invalidNumberMessage: 'Invalid phone number',
-        //   initialCountryCode: _isoCode,
-        //   decoration: InputDecoration(
-        //     hintText: 'e.g. 1XXXXXXXXX',
-        //     prefixIcon: const Icon(Icons.phone),
-        //     filled: true,
-        //     fillColor: const Color(0xFFE9EBF3),
-        //     isDense: true,
-        //     contentPadding: const EdgeInsets.symmetric(
-        //       horizontal: 16,
-        //       vertical: 16,
-        //     ),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(12),
-        //       borderSide: BorderSide.none,
-        //       gapPadding: 0,
-        //     ),
-        //     enabledBorder: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(12),
-        //       borderSide: BorderSide.none,
-        //       gapPadding: 0,
-        //     ),
-        //     focusedBorder: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(12),
-        //       borderSide: BorderSide.none,
-        //       gapPadding: 0,
-        //     ),
-        //   ),
-        //   controller: _localPhoneController,
-        //   onChanged: (phone) {
-        //     // Persist E.164 complete number in controller
-        //     widget.serviceBookingController.phoneNumberController.text =
-        //         phone.completeNumber;
-        //   },
-        //   onCountryChanged: (country) {
-        //     if (country.code != _isoCode) {
-        //       setState(() {
-        //         _isoCode = country.code;
-        //       });
-        //     }
-        //   },
-        // ),
         SizedBox(height: 12),
 
         /// Service name Field
@@ -250,9 +205,7 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
   void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // fullscreen feel
-      // isDismissible: false, // Prevent tap outside dismiss
-      // enableDrag: false, // Prevent drag down dismiss
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -329,6 +282,15 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
                             widget.serviceBookingController.selectedDate.value,
                           ],
                           onValueChanged: (value) {
+                            print(
+                              "Selected Date: ${value.first.toIso8601String().substring(0, 10)}",
+                            );
+                            widget
+                                .serviceBookingController
+                                .selectedDateString
+                                .value = value.first
+                                .toIso8601String()
+                                .substring(0, 10);
                             widget.serviceBookingController.setSelectedDate(
                               value.first,
                             );
@@ -396,6 +358,6 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
     }
     // Get.toNamed(AppRoutes.serviceBookSecondScreen);
     widget.serviceBookingController.currentStep.value += 1;
-    widget.serviceBookingController.printStepOneInfo();
+    // widget.serviceBookingController.printStepOneInfo();
   }
 }

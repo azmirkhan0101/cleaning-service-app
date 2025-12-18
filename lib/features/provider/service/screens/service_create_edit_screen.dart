@@ -263,18 +263,19 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Radio<bool>(
-                      value: false, // Value for "No"
+                      value: true, // Value for "No"
                       fillColor: WidgetStateColor.resolveWith(
                         (states) => AppColors.black_04,
                       ),
-                      groupValue: serviceController.typeModeStatues.value,
+
+                      groupValue: !serviceController.typeModeStatues.value,
                       onChanged: (bool? value) {
-                        serviceController.typeModeStatues.value = value!;
+                        serviceController.typeModeStatues.value = !value!;
                       },
                     ),
                     GestureDetector(
                       onTap: () {
-                        serviceController.typeModeStatues.value = false;
+                        serviceController.typeModeStatues.value = true;
                       },
                       child: const CustomText2(
                         text: "NO",
@@ -285,18 +286,18 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                     ),
                     SizedBox(width: 8),
                     Radio<bool>(
-                      value: true, // Value for "Yes"
+                      value: false, // Value for "Yes"
                       fillColor: WidgetStateColor.resolveWith(
                         (states) => AppColors.black_04,
                       ),
-                      groupValue: serviceController.typeModeStatues.value,
+                      groupValue: !serviceController.typeModeStatues.value,
                       onChanged: (bool? value) {
-                        serviceController.typeModeStatues.value = value!;
+                        serviceController.typeModeStatues.value = !value!;
                       },
                     ),
                     GestureDetector(
                       onTap: () {
-                        serviceController.typeModeStatues.value = true;
+                        serviceController.typeModeStatues.value = false;
                       },
                       child: const CustomText2(
                         text: "Yes",

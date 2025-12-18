@@ -1,6 +1,5 @@
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
-import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,48 +24,41 @@ class ServiceBookingController extends GetxController {
   final serviceId = ''.obs;
   final selectedLatitude = 0.0.obs;
   final selectedLongitude = 0.0.obs;
+  var selectedTimeString = ''.obs;
+  var selectedDateString = ''.obs;
 
   var selectedDate = DateTime.now().obs;
   var selectedTime = TimeOfDay.now().obs;
 
-  var unAvailableSlots = <TimeOfDay>[
-    TimeOfDay(hour: 22, minute: 00),
-    TimeOfDay(hour: 22, minute: 30),
-    TimeOfDay(hour: 23, minute: 00),
-    TimeOfDay(hour: 23, minute: 30),
-    TimeOfDay(hour: 24, minute: 00),
-    TimeOfDay(hour: 24, minute: 30),
-    TimeOfDay(hour: 0, minute: 00),
-    TimeOfDay(hour: 0, minute: 30),
-    TimeOfDay(hour: 1, minute: 00),
-    TimeOfDay(hour: 1, minute: 30),
-    TimeOfDay(hour: 2, minute: 00),
-    TimeOfDay(hour: 2, minute: 30),
-    TimeOfDay(hour: 3, minute: 00),
-    TimeOfDay(hour: 3, minute: 30),
-    TimeOfDay(hour: 4, minute: 00),
-    TimeOfDay(hour: 4, minute: 30),
-    TimeOfDay(hour: 5, minute: 00),
-    TimeOfDay(hour: 5, minute: 30),
-    TimeOfDay(hour: 6, minute: 00),
-    TimeOfDay(hour: 6, minute: 30),
-    TimeOfDay(hour: 7, minute: 00),
-    TimeOfDay(hour: 7, minute: 30),
-    TimeOfDay(hour: 8, minute: 00),
-  ].obs;
+
 
   void setSelectedDate(DateTime date) {
     selectedDate.value = date;
+    selectedDateString.value = _formatDate(date);
   }
 
   void setSelectedTime(TimeOfDay time) {
     selectedTime.value = time;
+    selectedTimeString.value = _formatTime(time);
   }
 
   void setDateTimeController() {
-    String formattedDate =
-        '${selectedDate.value.year}-${selectedDate.value.month.toString().padLeft(2, '0')}-${selectedDate.value.day.toString().padLeft(2, '0')} ${selectedTime.value.hour}:${(selectedTime.value.minute).toString().padLeft(2, '0')}';
-    dateTimeController.text = formattedDate;
+    final formattedDate = _formatDate(selectedDate.value);
+    final formattedTime = _formatTime(selectedTime.value);
+
+    // Keep the display field in sync with the API payload
+    selectedDateString.value = formattedDate;
+    selectedTimeString.value = formattedTime;
+
+    dateTimeController.text = '$formattedDate $formattedTime';
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTime(TimeOfDay time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   void setServiceId(String id) {
@@ -83,16 +75,16 @@ class ServiceBookingController extends GetxController {
     selectedLongitude.value = longitude;
   }
 
-  // print first step info
-  void printStepOneInfo() {
-    debugPrint('=== DateTime: ${dateTimeController.text} ===');
-    debugPrint('=== Phone: ${phoneNumberController.text} ===');
-    debugPrint('=== Address: ${addressController.text} ===');
-    debugPrint('=== Description: ${descriptionController.text} ===');
-    debugPrint('=== Duration: ${durationController.text} ===');
-    debugPrint('=== Latitude: ${selectedLatitude.value} ===');
-    debugPrint('=== Longitude: ${selectedLongitude.value} ===');
-  }
+  // // print first step info
+  // void printStepOneInfo() {
+  //   debugPrint('=== DateTime: ${dateTimeController.text} ===');
+  //   debugPrint('=== Phone: ${phoneNumberController.text} ===');
+  //   debugPrint('=== Address: ${addressController.text} ===');
+  //   debugPrint('=== Description: ${descriptionController.text} ===');
+  //   debugPrint('=== Duration: ${durationController.text} ===');
+  //   debugPrint('=== Latitude: ${selectedLatitude.value} ===');
+  //   debugPrint('=== Longitude: ${selectedLongitude.value} ===');
+  // }
 
   void clearControllers() {
     dateTimeController.clear();
@@ -116,31 +108,20 @@ class ServiceBookingController extends GetxController {
     try {
       isBooking.value = true;
 
-      // Parse scheduledAt from dateTimeController
-      // Format: "2025-11-12 16:30"
-      final dateTimeParts = dateTimeController.text.split(' ');
-      if (dateTimeParts.length != 2) {
-        Toast.errorToast('Invalid date time format');
-        return null;
-      }
-
-      final dateParts = dateTimeParts[0].split('-');
-      final timeParts = dateTimeParts[1].split(':');
-
-      final scheduledDateTime = DateTime(
-        int.parse(dateParts[0]),
-        int.parse(dateParts[1]),
-        int.parse(dateParts[2]),
-        int.parse(timeParts[0]),
-        int.parse(timeParts[1]),
-      );
-
       // Ensure phone number is normalized; fallback to raw if already validated earlier
       final normalizedPhone = phoneNumberController.text.trim();
 
+      final scheduledDate = selectedDateString.value.isNotEmpty
+          ? selectedDateString.value
+          : _formatDate(selectedDate.value);
+      final scheduledTime = selectedTimeString.value.isNotEmpty
+          ? selectedTimeString.value
+          : _formatTime(selectedTime.value);
+
       final body = {
         'serviceId': serviceId.value,
-        'scheduledAt': scheduledDateTime.toUtc().toIso8601String(),
+        'scheduledTime': scheduledTime,
+        'scheduledDate': scheduledDate,
         'phoneNumber': normalizedPhone,
         'address': {
           'city': addressController.text,

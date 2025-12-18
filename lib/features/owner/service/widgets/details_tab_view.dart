@@ -19,6 +19,10 @@ class DetailsTabView extends StatelessWidget {
     return Obx(() {
       final providerDetails = serviceDetailsController.providerDetails.value;
 
+      print(
+        'providerDetails:--> ${serviceDetailsController.providerDetails.value?.profilePicture}',
+      );
+
       if (serviceDetailsController.isProviderLoading.value) {
         return const Center(
           child: Padding(

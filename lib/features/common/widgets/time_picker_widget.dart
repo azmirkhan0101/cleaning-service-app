@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/features/common/controllers/time_picker_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,8 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   final TimePickerController timePickerController = Get.put(
     TimePickerController(),
   );
+
+  final ServiceBookingController serviceBookingController = Get.find();
 
   late int _hour;
   late int _minute; // Will be 0 or 30
@@ -41,6 +44,12 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   void _updateTime() {
     // Convert to 24-hour format for TimeOfDay
     int hour24 = _hour == 12 ? (_isAM ? 0 : 12) : (_isAM ? _hour : _hour + 12);
+
+    final hh = hour24.toString().padLeft(2, '0');
+    final mm = _minute.toString().padLeft(2, '0');
+    serviceBookingController.selectedTimeString.value = "$hh:$mm";
+    print(serviceBookingController.selectedTimeString.value);
+
     timePickerController.setTime(TimeOfDay(hour: hour24, minute: _minute));
     widget.onTimeSelected?.call(TimeOfDay(hour: hour24, minute: _minute));
   }
