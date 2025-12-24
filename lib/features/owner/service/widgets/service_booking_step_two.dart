@@ -65,6 +65,31 @@ class ServiceBookingStepTwo extends StatelessWidget {
     return '$hour:$minute $period';
   }
 
+  String _formatTimeString(String timeString) {
+    if (timeString.isEmpty) return 'Not selected';
+    try {
+      // Parse time in 24-hour format (HH:mm)
+      final parts = timeString.split(':');
+      if (parts.length != 2) return timeString;
+
+      final hour = int.parse(parts[0]);
+      final minute = parts[1];
+
+      // Convert to 12-hour format
+      if (hour == 0) {
+        return '12:$minute AM';
+      } else if (hour < 12) {
+        return '${hour.toString()}:$minute AM';
+      } else if (hour == 12) {
+        return '12:$minute PM';
+      } else {
+        return '${(hour - 12).toString()}:$minute PM';
+      }
+    } catch (e) {
+      return timeString;
+    }
+  }
+
   String _formattedTotal() {
     final duration =
         int.tryParse(bookingController.durationController.text) ?? 2;
@@ -152,7 +177,7 @@ class ServiceBookingStepTwo extends StatelessWidget {
                             children: [
                               CustomText2(
                                 text:
-                                    "Time: ${_formatTime(bookingController.selectedTime.value)}",
+                                    "Time: ${_formatTimeString(bookingController.selectedTimeString.value)}",
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black87,

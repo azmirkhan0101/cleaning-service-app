@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
 import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
+import 'package:cleaning_service_app/features/owner/service/screens/confirm_schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,57 +27,6 @@ class ServiceBookingStepOne extends StatefulWidget {
 }
 
 class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _localPhoneController = TextEditingController();
-  //   _isoCode = Get.deviceLocale?.countryCode ?? 'US';
-  //   _localPhoneController.addListener(_onLocalNumberChanged);
-  // }
-
-  // @override
-  // void dispose() {
-  //   // _localPhoneController.removeListener(_onLocalNumberChanged);
-  //   // _localPhoneController.dispose();
-  //   super.dispose();
-  // }
-
-  // void _onLocalNumberChanged() {
-  //   if (_adjusting) return;
-  //   final text = _localPhoneController.text;
-  //   if (text.startsWith('+')) {
-  //     final match = RegExp(r'^\+(\d{1,4})').firstMatch(text);
-  //     if (match != null) {
-  //       final digits = match.group(1)!;
-  //       final dialWithPlus = '+$digits';
-  //       final matches = phone_countries.countries.where((c) {
-  //         final cd = c.dialCode;
-  //         return cd == digits || cd == dialWithPlus;
-  //       }).toList();
-  //       if (matches.isNotEmpty) {
-  //         final country = matches.first;
-  //         final iso = country.code;
-  //         if (iso != _isoCode && iso.isNotEmpty) {
-  //           setState(() {
-  //             _isoCode = iso;
-  //           });
-  //         }
-  //         final withoutDial = text.substring(match.group(0)!.length);
-  //         _adjusting = true;
-  //         _localPhoneController.text = withoutDial;
-  //         _localPhoneController.selection = TextSelection.collapsed(
-  //           offset: _localPhoneController.text.length,
-  //         );
-  //         _adjusting = false;
-  //         // Update E.164 in controller using new iso/dial code
-  //         final e164 =
-  //             '${country.dialCode.startsWith('+') ? country.dialCode : '+${country.dialCode}'}$withoutDial';
-  //         widget.serviceBookingController.phoneNumberController.text = e164;
-  //       }
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -101,7 +51,33 @@ class _ServiceBookingStepOneState extends State<ServiceBookingStepOne> {
           controller: widget.serviceBookingController.dateTimeController,
           readOnly: true,
           onTap: () async {
-            _openBottomSheet(context);
+            // _openBottomSheet(context);
+            final result = await Get.to(
+              ConfirmScheduleScreen(
+                serviceId: widget.serviceBookingController.serviceId.value,
+              ),
+            );
+
+            if (result != null) {
+              final selectedDate = result['date'] as DateTime?;
+              final startTime = result['startTime'] as String?;
+
+              if (selectedDate != null && startTime != null) {
+                // Update controller with selected date and time
+                widget.serviceBookingController.selectedDateString.value =
+                    '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+                widget.serviceBookingController.selectedTimeString.value =
+                    startTime;
+
+                // Update the display field
+                widget.serviceBookingController.dateTimeController.text =
+                    '${widget.serviceBookingController.selectedDateString.value} $startTime';
+
+                // Update selectedDate in controller
+                widget.serviceBookingController.selectedDate.value =
+                    selectedDate;
+              }
+            }
           },
         ),
 

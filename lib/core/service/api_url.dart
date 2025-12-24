@@ -87,6 +87,10 @@ class ApiUrl {
       '$baseUrl/service/my/services?page=$page&limit=$limit';
   static const String createService = '$baseUrl/service/create';
 
+  /// Get available time slots for a service provider
+  static String getAvailableSlots(String providerId, String date) =>
+      '$baseUrl/service/provider/available-slots/$providerId?date=$date';
+
   /// =--> Discovery / Distance Endpoints <--=
   static String nearbyServices({int radiusKm = 200, int limit = 50}) =>
       '$baseUrl/distance/nearby?radiusKm=$radiusKm&limit=$limit';
