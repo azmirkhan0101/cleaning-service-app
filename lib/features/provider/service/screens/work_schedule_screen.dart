@@ -39,6 +39,22 @@ class WorkScheduleScreen extends StatelessWidget {
                 maxLines: 2,
               ),
               const SizedBox(height: 12),
+
+              /// ======> Set Buffer Time <=====
+              FilledButton(
+                onPressed: () {
+                  _showBufferTimePicker(context);
+                },
+                child: const CustomText2(
+                  text: 'Set Buffer Time',
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              /// Schedule
               Expanded(
                 child: Obx(
                   () => ListView.separated(
@@ -201,15 +217,17 @@ class WorkScheduleScreen extends StatelessWidget {
                 Column(
                   spacing: 4,
                   children: [
-                    CustomText(
-                      text: '${daySchedule.bufferTime} Min',
-                      textAlign: TextAlign.center,
-                      color: const Color(0xFF0F0B18),
-                      fontSize: 12,
-                      fontFamily: 'Lexend',
-                      fontWeight: FontWeight.w400,
-                      height: 1.50,
-                    ),
+                    Obx(() {
+                      return CustomText(
+                        text: '${controller.bufferTime.value} Min',
+                        textAlign: TextAlign.center,
+                        color: const Color(0xFF0F0B18),
+                        fontSize: 12,
+                        fontFamily: 'Lexend',
+                        fontWeight: FontWeight.w400,
+                        height: 1.50,
+                      );
+                    }),
 
                     Container(
                       width: 12,
@@ -250,44 +268,44 @@ class WorkScheduleScreen extends StatelessWidget {
                 SizedBox(width: 22.w),
 
                 /// Set buffer time button
-                GestureDetector(
-                  onTap: () => _showBufferTimePicker(
-                    context,
-                    controller,
-                    key,
-                    daySchedule,
-                  ),
-                  child: Container(
-                    width: 82.w,
-                    height: 23.h,
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFF4899D1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 10,
-                      children: [
-                        Text(
-                          'Set Buffer Time',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontFamily: 'Lexend',
-                            fontWeight: FontWeight.w400,
-                            height: 1.50,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () => _showBufferTimePicker(
+                //     context,
+                //     controller,
+                //     key,
+                //     daySchedule,
+                //   ),
+                //   child: Container(
+                //     width: 82.w,
+                //     height: 23.h,
+                //     padding: const EdgeInsets.symmetric(vertical: 2),
+                //     decoration: ShapeDecoration(
+                //       color: const Color(0xFF4899D1),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(2),
+                //       ),
+                //     ),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.min,
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       spacing: 10,
+                //       children: [
+                //         Text(
+                //           'Set Buffer Time',
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 10,
+                //             fontFamily: 'Lexend',
+                //             fontWeight: FontWeight.w400,
+                //             height: 1.50,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ],
           ),
@@ -511,13 +529,9 @@ class WorkScheduleScreen extends StatelessWidget {
     );
   }
 
-  void _showBufferTimePicker(
-    BuildContext context,
-    WorkScheduleController controller,
-    String key,
-    DaySchedule daySchedule,
-  ) {
-    int bufferTime = daySchedule.bufferTime;
+  void _showBufferTimePicker(BuildContext context) {
+    final controller = Get.find<WorkScheduleController>();
+    int bufferTime = controller.bufferTime.value;
 
     showDialog(
       context: context,
@@ -540,7 +554,7 @@ class WorkScheduleScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Schedule ${daySchedule.day}',
+                          'Buffer Time',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -580,7 +594,7 @@ class WorkScheduleScreen extends StatelessWidget {
                             IconButton(
                               onPressed: () {
                                 setDialogState(() {
-                                  bufferTime = (bufferTime + 5).clamp(5, 60);
+                                  controller.increaseBufferTime();
                                 });
                               },
                               icon: const Icon(Icons.keyboard_arrow_up),
@@ -588,7 +602,10 @@ class WorkScheduleScreen extends StatelessWidget {
                               color: const Color(0xFF4F4F59),
                             ),
                             Text(
-                              bufferTime.toString().padLeft(2, '0'),
+                              controller.bufferTime.value.toString().padLeft(
+                                2,
+                                '0',
+                              ),
                               style: const TextStyle(
                                 fontSize: 48,
                                 fontWeight: FontWeight.w700,
@@ -598,7 +615,7 @@ class WorkScheduleScreen extends StatelessWidget {
                             IconButton(
                               onPressed: () {
                                 setDialogState(() {
-                                  bufferTime = (bufferTime - 5).clamp(5, 60);
+                                  controller.decreaseBufferTime();
                                 });
                               },
                               icon: const Icon(Icons.keyboard_arrow_down),
@@ -628,28 +645,27 @@ class WorkScheduleScreen extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     // Confirm button
-                    ElevatedButton(
-                      onPressed: () {
-                        controller.updateBufferTime(key, bufferTime);
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF7A51D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        minimumSize: const Size(double.infinity, 48),
-                      ),
-                      child: const Text(
-                        'Confirm',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: const Color(0xFFF7A51D),
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(24),
+                    //     ),
+                    //     padding: const EdgeInsets.symmetric(vertical: 14),
+                    //     minimumSize: const Size(double.infinity, 48),
+                    //   ),
+                    //   child: const Text(
+                    //     'Confirm',
+                    //     style: TextStyle(
+                    //       fontSize: 16,
+                    //       fontWeight: FontWeight.w600,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -662,14 +678,15 @@ class WorkScheduleScreen extends StatelessWidget {
 
   void _confirmSchedule() async {
     // Get controllers
-    final controller = Get.find<WorkScheduleController>();
+    final workScheduleController = Get.find<WorkScheduleController>();
     final createController = Get.find<ServiceCreateController>();
 
     // Get schedule data from controller
-    final scheduleData = controller.getScheduleData();
+    final scheduleData = workScheduleController.getScheduleData();
 
     // Save schedule data to create controller
     createController.workSchedule.value = scheduleData;
+    createController.bufferTime.value = workScheduleController.bufferTime.value;
 
     // Validate before API call (Toast.errorToast will show error)
     if (!createController.validateServiceData()) {

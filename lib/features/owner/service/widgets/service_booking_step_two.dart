@@ -183,12 +183,12 @@ class ServiceBookingStepTwo extends StatelessWidget {
                                 color: Colors.black87,
                               ),
                               SizedBox(width: 8),
-                              CustomText2(
-                                text: "Buffer Time: 30 minutes",
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87,
-                              ),
+                              // CustomText2(
+                              //   text: "Buffer Time: 30 minutes",
+                              //   fontSize: 12,
+                              //   fontWeight: FontWeight.w400,
+                              //   color: Colors.black87,
+                              // ),
                             ],
                           ),
                         ],

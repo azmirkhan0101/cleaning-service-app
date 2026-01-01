@@ -20,8 +20,8 @@ class ProviderServiceDetailsController extends GetxController {
     fetchServiceDetails();
   }
 
-  Future<void> fetchServiceDetails() async {
-    if (serviceId.value.isEmpty) {
+  Future<void> fetchServiceDetails([String? id]) async {
+    if (serviceId.value.isEmpty && id == null) {
       Toast.errorToast('Service ID is required');
       return;
     }
@@ -31,7 +31,7 @@ class ProviderServiceDetailsController extends GetxController {
 
     final response = await network.request<ProviderServiceModel>(
       'GET',
-      '${ApiUrl.baseUrl}/service/${serviceId.value}',
+      '${ApiUrl.baseUrl}/service/${id ?? serviceId.value}',
       withAuth: true,
       parser: (data) => ProviderServiceModel.fromJson(data['data']),
     );

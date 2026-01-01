@@ -65,15 +65,15 @@ class ServiceDetailsController extends GetxController {
     );
   }
 
-  Future<void> fetchProviderDetails() async {
-    if (serviceId.value.isEmpty) return;
+  Future<void> fetchProviderDetails([String? id]) async {
+    if (serviceId.value.isEmpty && id == null) return;
 
     isProviderLoading.value = true;
 
     final response = await Get.find<NetworkHelper>()
         .request<ServiceProviderDetailsModel>(
           HttpRequestType.get.method,
-          ApiUrl.serviceProviderDetails(serviceId.value),
+          ApiUrl.serviceProviderDetails(id ?? serviceId.value),
           withAuth: true,
           parser: (data) => ServiceProviderDetailsModel.fromJson(data['data']),
         );

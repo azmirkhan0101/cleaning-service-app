@@ -16,19 +16,19 @@ class ServiceCreateController extends GetxController {
   RxString editServiceId = ''.obs;
 
   // Form fields from service_add_screen
-  RxString selectedCategoryId = ''.obs;
-  RxString serviceName = ''.obs;
-  RxString description = ''.obs;
-  RxString rateByHour = ''.obs;
-  RxBool needApproval = false.obs;
-  RxBool isFemaleOnly = false.obs;
-  RxList<String> selectedLanguages = <String>[].obs;
-  RxList<File> coverImages = <File>[].obs;
-  RxList<String> existingImageUrls = <String>[].obs; // For edit mode
+  var selectedCategoryId = ''.obs;
+  var serviceName = ''.obs;
+  var description = ''.obs;
+  var rateByHour = ''.obs;
+  var needApproval = false.obs;
+  var isFemaleOnly = false.obs;
+  var selectedLanguages = <String>[].obs;
+  var coverImages = <File>[].obs;
+  var existingImageUrls = <CoverImageMeta>[].obs; // For edit mode
 
   // Work schedule from work_schedule_screen
-  RxMap<String, Map<String, dynamic>> workSchedule =
-      <String, Map<String, dynamic>>{}.obs;
+  var workSchedule = <String, Map<String, dynamic>>{}.obs;
+  var bufferTime = 15.obs;
 
   /// Validates all service data before creation/update
   /// Returns true if valid, false otherwise (shows error message)
@@ -101,6 +101,7 @@ class ServiceCreateController extends GetxController {
         'gender': isFemaleOnly.value ? 'Female' : 'Male',
         'languages': selectedLanguages.join(','),
         'workSchedule': _convertWorkScheduleToJson(),
+        'bufferTime': bufferTime.value.toString(),
       };
 
       // Prepare cover images for multipart
@@ -211,7 +212,7 @@ class ServiceCreateController extends GetxController {
     needApproval.value = service.needApproval;
     isFemaleOnly.value = service.gender == 'Female';
     selectedLanguages.value = service.languages;
-    existingImageUrls.value = service.coverImages;
+    existingImageUrls.value = service.coverImagesMeta;
 
     // Convert WorkSchedule model to Map format for the controller
     workSchedule.value = {
@@ -219,43 +220,43 @@ class ServiceCreateController extends GetxController {
         'isAvailable': service.workSchedule.monday.isAvailable,
         'startTime': service.workSchedule.monday.startTime,
         'endTime': service.workSchedule.monday.endTime,
-        'bufferTime': service.workSchedule.monday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Tuesday': {
         'isAvailable': service.workSchedule.tuesday.isAvailable,
         'startTime': service.workSchedule.tuesday.startTime,
         'endTime': service.workSchedule.tuesday.endTime,
-        'bufferTime': service.workSchedule.tuesday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Wednesday': {
         'isAvailable': service.workSchedule.wednesday.isAvailable,
         'startTime': service.workSchedule.wednesday.startTime,
         'endTime': service.workSchedule.wednesday.endTime,
-        'bufferTime': service.workSchedule.wednesday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Thursday': {
         'isAvailable': service.workSchedule.thursday.isAvailable,
         'startTime': service.workSchedule.thursday.startTime,
         'endTime': service.workSchedule.thursday.endTime,
-        'bufferTime': service.workSchedule.thursday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Friday': {
         'isAvailable': service.workSchedule.friday.isAvailable,
         'startTime': service.workSchedule.friday.startTime,
         'endTime': service.workSchedule.friday.endTime,
-        'bufferTime': service.workSchedule.friday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Saturday': {
         'isAvailable': service.workSchedule.saturday.isAvailable,
         'startTime': service.workSchedule.saturday.startTime,
         'endTime': service.workSchedule.saturday.endTime,
-        'bufferTime': service.workSchedule.saturday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
       'Sunday': {
         'isAvailable': service.workSchedule.sunday.isAvailable,
         'startTime': service.workSchedule.sunday.startTime,
         'endTime': service.workSchedule.sunday.endTime,
-        'bufferTime': service.workSchedule.sunday.bufferTime,
+        'bufferTime': service.bufferTime,
       },
     };
   }
@@ -318,6 +319,7 @@ class ServiceCreateController extends GetxController {
         'gender': isFemaleOnly.value ? 'Female' : 'Male',
         'languages': selectedLanguages.join(','),
         'workSchedule': _convertWorkScheduleToJson(),
+        'bufferTime': bufferTime.value.toString(),
       };
 
       // Add existing image URLs

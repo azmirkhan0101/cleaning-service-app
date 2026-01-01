@@ -8,6 +8,7 @@ import 'package:cleaning_service_app/features/owner/home/controllers/owner_contr
 import 'package:cleaning_service_app/features/owner/service/controllers/owner_service_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/payment/controllers/payment_controller.dart';
+import 'package:cleaning_service_app/features/provider/service/controllers/delete_service_images_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
 import 'package:get/get.dart';
 
@@ -35,5 +36,8 @@ class DependencyInjection extends Bindings {
 
     /// === => Owner Booking Controller ===
     Get.lazyPut(() => BookingController(), fenix: true);
+
+    /// === => Delete Service Images Controller ===
+    Get.lazyPut(() => DeleteServiceImagesController(), fenix: true);
   }
 }

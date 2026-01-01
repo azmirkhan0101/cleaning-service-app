@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/custom_drop_down_button.dart';
+import 'package:cleaning_service_app/features/provider/service/controllers/delete_service_images_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/service_create_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/models/provider_service_model.dart';
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ServiceCreateEditScreen extends StatefulWidget {
   const ServiceCreateEditScreen({super.key, this.serviceModel});
@@ -472,13 +474,13 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                                           ),
                                           decoration: BoxDecoration(
                                             color: AppColors.appColors
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                             borderRadius: BorderRadius.circular(
                                               4,
                                             ),
                                             border: Border.all(
                                               color: AppColors.appColors
-                                                  .withOpacity(0.3),
+                                                  .withValues(alpha: 0.3),
                                             ),
                                           ),
                                           child: Text(
@@ -557,7 +559,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                     runSpacing: 8,
                     children: [
                       // Display existing images from URLs
-                      ...createController.existingImageUrls.map((url) {
+                      ...createController.existingImageUrls.map((image) {
                         return Stack(
                           children: [
                             Container(
@@ -566,7 +568,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(
-                                  image: NetworkImage(url),
+                                  image: NetworkImage(image.url),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -582,21 +584,146 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
-                                    Icons.close,
+                                    // if edit screen, show delete icon
+                                    widget.serviceModel?.id != null
+                                        ? Icons.delete
+                                        : Icons.close,
                                     size: 16,
                                     color: Colors.white,
                                   ),
                                 ),
                                 onPressed: () {
+                                  if (widget.serviceModel?.id != null) {
+                                    // show a alert dialog
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        titlePadding: const EdgeInsets.only(
+                                          top: 24,
+                                        ),
+                                        title: const Icon(
+                                          Icons.delete_outline_rounded,
+                                          color: Colors.red,
+                                          size: 48,
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Text(
+                                              "Delete Image",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.black,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 12),
+                                            const Text(
+                                              "Are you sure you want to delete this image? It will be permanently removed from the service.",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        actionsPadding:
+                                            const EdgeInsets.fromLTRB(
+                                              16,
+                                              0,
+                                              16,
+                                              20,
+                                            ),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                      color: AppColors.grey_1,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: Obx(() {
+                                                  final deleteController =
+                                                      Get.find<
+                                                        DeleteServiceImagesController
+                                                      >();
+                                                  return Skeletonizer(
+                                                    enabled: deleteController
+                                                        .isLoading
+                                                        .value,
+                                                    child: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        elevation: 0,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                12,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      onPressed: () async {
+                                                        final bool success =
+                                                            await Get.find<
+                                                                  DeleteServiceImagesController
+                                                                >()
+                                                                .deleteImage(
+                                                                  widget
+                                                                      .serviceModel!
+                                                                      .id,
+                                                                  image.id,
+                                                                );
+
+                                                        if (success) {
+                                                          createController
+                                                              .existingImageUrls
+                                                              .remove(image);
+                                                          Get.back();
+                                                        }
+                                                      },
+                                                      child: const Text(
+                                                        "Delete",
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                    return;
+                                  }
+
                                   createController.existingImageUrls.remove(
-                                    url,
+                                    image,
                                   );
                                 },
                               ),
                             ),
                           ],
                         );
-                      }).toList(),
+                      }),
                       // Display newly selected images from files
                       ...createController.coverImages.map((file) {
                         return Stack(
@@ -645,7 +772,9 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                 width: double.infinity,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: AppColors.grey_3.withOpacity(0.6), // light background
+                  color: AppColors.grey_3.withValues(
+                    alpha: 0.6,
+                  ), // light background
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: InkWell(
@@ -680,7 +809,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                         "Select Images",
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black.withOpacity(0.7),
+                          color: Colors.black.withValues(alpha: 0.7),
                         ),
                       ),
                     ],

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class WorkScheduleController extends GetxController {
   // Schedule state
   final RxMap<String, DaySchedule> schedule = <String, DaySchedule>{}.obs;
+  final RxInt bufferTime = 15.obs;
 
   @override
   void onInit() {
@@ -101,11 +102,23 @@ class WorkScheduleController extends GetxController {
   }
 
   /// Update buffer time
-  void updateBufferTime(String key, int minutes) {
-    final daySchedule = schedule[key];
-    if (daySchedule != null) {
-      daySchedule.bufferTime = minutes;
-      schedule.refresh();
+  // void updateBufferTime(String key, int minutes) {
+  //   final daySchedule = schedule[key];
+  //   if (daySchedule != null) {
+  //     daySchedule.bufferTime = minutes;
+  //     schedule.refresh();
+  //   }
+  // }
+
+  void increaseBufferTime() {
+    if (bufferTime.value < 60 * 24) {
+      bufferTime.value += 15;
+    }
+  }
+
+  void decreaseBufferTime() {
+    if (bufferTime.value > 15) {
+      bufferTime.value -= 15;
     }
   }
 
@@ -123,6 +136,7 @@ class WorkScheduleController extends GetxController {
         daySchedule.startTime = value['startTime'] ?? '';
         daySchedule.endTime = value['endTime'] ?? '';
         daySchedule.bufferTime = value['bufferTime'] ?? 15;
+        bufferTime.value = value['bufferTime'] ?? 15;
       }
     });
     schedule.refresh();
