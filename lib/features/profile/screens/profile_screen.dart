@@ -112,23 +112,26 @@ class ProfileScreen extends StatelessWidget {
         ),
 
         const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText2(
-              text: profile?.userName ?? 'Loading...',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-            CustomText2(
-              text: profile?.email ?? 'Loading...',
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText2(
+                text: profile?.userName ?? 'Loading...',
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              CustomText2(
+                text: profile?.email ?? 'Loading...',
+                fontSize: 14,
+                color: Colors.grey,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
 
-        const Spacer(),
+        // const Spacer(),
 
         // Sign Out Button
         TextButton(

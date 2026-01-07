@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class WorkScheduleController extends GetxController {
   // Schedule state
   final RxMap<String, DaySchedule> schedule = <String, DaySchedule>{}.obs;
-  final RxInt bufferTime = 15.obs;
+  final RxInt bufferTime = 60.obs;
 
   @override
   void onInit() {

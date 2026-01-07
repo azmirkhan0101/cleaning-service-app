@@ -29,12 +29,12 @@ class NearbyServiceCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 service.serviceImage,
-                // height: 120,
+                height: 140,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    height: 120,
+                    height: 140,
                     color: Colors.grey[300],
                     child: Icon(Icons.image_not_supported, size: 50),
                   );

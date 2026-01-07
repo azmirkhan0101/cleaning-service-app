@@ -41,18 +41,18 @@ class WorkScheduleScreen extends StatelessWidget {
               const SizedBox(height: 12),
 
               /// ======> Set Buffer Time <=====
-              FilledButton(
-                onPressed: () {
-                  _showBufferTimePicker(context);
-                },
-                child: const CustomText2(
-                  text: 'Set Buffer Time',
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 12),
+              // FilledButton(
+              //   onPressed: () {
+              //     _showBufferTimePicker(context);
+              //   },
+              //   child: const CustomText2(
+              //     text: 'Set Buffer Time',
+              //     color: Colors.white,
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
+              // const SizedBox(height: 12),
 
               /// Schedule
               Expanded(
@@ -531,7 +531,6 @@ class WorkScheduleScreen extends StatelessWidget {
 
   void _showBufferTimePicker(BuildContext context) {
     final controller = Get.find<WorkScheduleController>();
-    int bufferTime = controller.bufferTime.value;
 
     showDialog(
       context: context,
