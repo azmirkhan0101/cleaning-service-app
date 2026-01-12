@@ -24,7 +24,7 @@ class ServiceDetailsModel {
   final bool
   instantBooking; // renamed from isApprovalRequired (API now returns `instantBooking` boolean)
   final String description;
-  final List<String> photos;
+  final List<PhotosModel> photos;
 
   ServiceDetailsModel({
     required this.id,
@@ -58,7 +58,7 @@ class ServiceDetailsModel {
       totalOrders: _asInt(json['totalOrders'] ?? 0),
       instantBooking: instant,
       description: json['description'] ?? '',
-      photos: rawPhotos.map((e) => e.toString()).toList(),
+      photos: rawPhotos.map((e) => PhotosModel.fromJson(e)).toList(),
     );
   }
 
@@ -87,7 +87,29 @@ class ServiceDetailsModel {
       totalOrders: _asInt(json['totalOrders'] ?? 0),
       instantBooking: json['instantBooking'] ?? false,
       description: json['description'] ?? '',
-      photos: rawPhotos.map((e) => e.toString()).toList(),
+      photos: rawPhotos.map((e) => PhotosModel.fromJson(e)).toList(),
     );
+  }
+}
+
+class PhotosModel{
+
+  final String imageUrl;
+  final String id;
+
+  PhotosModel({required this.imageUrl, required this.id});
+
+  factory PhotosModel.fromJson(Map<String, dynamic> json) {
+    return PhotosModel(
+      imageUrl: json['url'] ?? '',
+      id: json['id'] ?? '',
+    );
+  }
+
+  Map<String, String> toJson(){
+    return {
+      'url': imageUrl,
+      'id': id,
+    };
   }
 }

@@ -374,7 +374,8 @@ class OverviewTabView extends StatelessWidget {
             ),
             itemCount: serviceDetails.photos.length,
             itemBuilder: (context, index) {
-              final imageUrl = serviceDetails.photos[index];
+              final imageUrl = serviceDetails.photos[index].imageUrl;
+              print("Image urllllllllll: ${imageUrl}");
               return Card(
                 elevation: 0.3,
                 color: AppColors.white,
