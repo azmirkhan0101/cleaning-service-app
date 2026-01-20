@@ -25,7 +25,7 @@ class DependencyInjection extends Bindings {
     // LoginController and SignupController are created per-screen with tags
 
     ///==========================Default Custom Controller ==================
-    Get.lazyPut(() => SelectionController(), fenix: true);
+    //Get.lazyPut(() => SelectionController(), fenix: true);
     Get.lazyPut(() => PaymentController(), fenix: true);
     // Get.lazyPut(() => BookingController(), fenix: true);
     Get.lazyPut(() => ServiceController(), fenix: true);

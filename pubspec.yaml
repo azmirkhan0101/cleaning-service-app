@@ -87,6 +87,7 @@ dependencies:
   intl_phone_number_input: ^0.7.5
   flutter_dotenv: ^6.0.0
   flutter_google_maps_webservices: ^1.1.1
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:
