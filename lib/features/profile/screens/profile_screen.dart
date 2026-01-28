@@ -164,21 +164,20 @@ class ProfileScreen extends StatelessWidget {
             Get.to(EditProfileScreen(isOwner: role == Role.owner.value));
           },
         ),
-
         // My Balance (only for Provider)
         // if (role == Role.provider.value)
         Skeletonizer(
           enabled: profileController.isLoadingStripeDashboard.value,
           child: InkWell(
             child: _buildSettingsItem(
-              'My Balance',
+              'My Balance Stripe',
               Icons.account_balance_wallet_outlined,
             ),
             onTap: () => onTapMyBalance(context),
           ),
         ),
 
-        // Password Management
+        //Password Management
         InkWell(
           child: _buildSettingsItem('Password Management', Icons.lock_outline),
           onTap: () {

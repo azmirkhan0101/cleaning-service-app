@@ -11,6 +11,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class SearchController extends GetxController {
+
+  //#######################
+  //FOR DROPDOWN VISIBILITY
+  RxBool showDropDownList = false.obs;
+  //#######################
+
   final Rxn<AppliedFilters> appliedFilters = Rxn<AppliedFilters>();
   final CategoryController categoryController = Get.find<CategoryController>();
   final LocationController locationController = Get.find<LocationController>();
@@ -45,7 +51,7 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Initialize with all services
+    //Initialize with all services
     _updateFilteredServices('');
   }
 

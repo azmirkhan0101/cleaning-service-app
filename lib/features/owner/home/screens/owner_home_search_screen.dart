@@ -620,7 +620,15 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
               ),
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Assets.icons.arrowDown.svg(width: 12, height: 12),
+                //child: Assets.icons.arrowDown.svg(width: 12, height: 12),
+                child: GestureDetector(
+                  onTap: (){
+                    searchController.showDropDownList.value = !searchController.showDropDownList.value;
+                  },
+                  //child: searchController.showDropDownList.value ? Assets.icons.arrowLeft.svg(width: 12, height: 12) : Assets.icons.arrowDown.svg(width: 12, height: 12),
+                  child: searchController.showDropDownList.value ? Icon(Icons.keyboard_arrow_up, weight: 600, size: 30.r, color: Colors.black,) : Icon(Icons.keyboard_arrow_down, weight: 600, size: 30.r, color: Colors.black,),
+                  //child: searchController.showDropDownList.value ? Image.asset("assets/icons/arrow_up.png") : Assets.icons.arrowDown.svg(width: 12, height: 12),
+                ),
               ),
               filled: true,
               fillColor: Color(0xFFE9EBF3),
@@ -646,7 +654,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                   ),
                 ],
               ),
-              child: ListView.builder(
+              child: !searchController.showDropDownList.value ? SizedBox.shrink() : ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(8),
                 itemCount: searchController.filteredServices.length,
