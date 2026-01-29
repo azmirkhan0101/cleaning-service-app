@@ -25,6 +25,7 @@ class ServiceDetailsModel {
   instantBooking; // renamed from isApprovalRequired (API now returns `instantBooking` boolean)
   final String description;
   final List<PhotosModel> photos;
+  //final List<String>? photosBooking;
 
   ServiceDetailsModel({
     required this.id,
@@ -38,6 +39,7 @@ class ServiceDetailsModel {
     required this.instantBooking,
     required this.description,
     required this.photos,
+    //required this.photosBooking,
   });
 
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -53,12 +55,12 @@ class ServiceDetailsModel {
       latitude: _asDouble(json['lattitude'] ?? json['latitude'] ?? 0),
       longitude: _asDouble(json['longitude'] ?? 0),
       averageRatings: _asDouble(
-        json['averageRatings'] ?? json['ratingsAverage'] ?? 0,
+        json['ratingsAverage'] ?? json['averageRatings'] ?? 0,
       ),
       totalOrders: _asInt(json['totalOrders'] ?? 0),
       instantBooking: instant,
       description: json['description'] ?? '',
-      photos: rawPhotos.map((e) => PhotosModel.fromJson(e)).toList(),
+      photos: rawPhotos.map<PhotosModel>((e) => PhotosModel.fromJson(e)).toList(),
     );
   }
 
@@ -74,6 +76,9 @@ class ServiceDetailsModel {
         (json['photos'] as List<dynamic>?) ??
         (json['allImages'] as List<dynamic>?) ??
         [];
+
+    //final List<dynamic> rawPhotosBooking = (json['allImages'] as List<dynamic>?) ?? [];
+
     return ServiceDetailsModel(
       id: json['_id'] ?? json['id'] ?? '',
       name: json['name'] ?? '',
@@ -87,7 +92,22 @@ class ServiceDetailsModel {
       totalOrders: _asInt(json['totalOrders'] ?? 0),
       instantBooking: json['instantBooking'] ?? false,
       description: json['description'] ?? '',
-      photos: rawPhotos.map((e) => PhotosModel.fromJson(e)).toList(),
+      photos: rawPhotos.isNotEmpty
+          ? rawPhotos
+          .where((e) => e != null)
+          .map((e) {
+        if (e is Map<String, dynamic>) {
+          return PhotosModel.fromJson(e);
+        } else if (e is String) {
+          return PhotosModel.fromJson({'url': e});
+        } else {
+          return null;
+        }
+      })
+          .whereType<PhotosModel>()
+          .toList()
+          : [],
+      //photosBooking: rawPhotosBooking.map<String>((e) => e.toString()).toList(),
     );
   }
 }

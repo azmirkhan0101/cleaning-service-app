@@ -605,8 +605,20 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
           TextField(
             controller: searchController.searchTextController,
             onTap: () => searchController.openSuggestions(),
-            onChanged: (value) =>
-                searchController.onSearchCategoryChanged(value),
+            onChanged: (value) {
+              searchController.onSearchCategoryChanged(value);
+              if (value.isNotEmpty) {
+                if ( !searchController.showDropDownList.value ) {
+                  print("Searchhhhhhhhhhhhhh false");
+                  searchController.showDropDownList.value = true;
+                }
+              }else{
+                print("Searchhhhhhhhhhhhhh true");
+                if (searchController.showDropDownList.value) {
+                  searchController.showDropDownList.value = false;
+                }
+              }
+            },
             decoration: InputDecoration(
               hintText: 'Search Category',
               hintStyle: TextStyle(
@@ -622,11 +634,24 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                 padding: const EdgeInsets.all(12.0),
                 //child: Assets.icons.arrowDown.svg(width: 12, height: 12),
                 child: GestureDetector(
-                  onTap: (){
-                    searchController.showDropDownList.value = !searchController.showDropDownList.value;
+                  onTap: () {
+                    searchController.showDropDownList.value =
+                        !searchController.showDropDownList.value;
                   },
                   //child: searchController.showDropDownList.value ? Assets.icons.arrowLeft.svg(width: 12, height: 12) : Assets.icons.arrowDown.svg(width: 12, height: 12),
-                  child: searchController.showDropDownList.value ? Icon(Icons.keyboard_arrow_up, weight: 600, size: 30.r, color: Colors.black,) : Icon(Icons.keyboard_arrow_down, weight: 600, size: 30.r, color: Colors.black,),
+                  child: searchController.showDropDownList.value
+                      ? Icon(
+                          Icons.keyboard_arrow_up,
+                          weight: 600,
+                          size: 30.r,
+                          color: Colors.black,
+                        )
+                      : Icon(
+                          Icons.keyboard_arrow_down,
+                          weight: 600,
+                          size: 30.r,
+                          color: Colors.black,
+                        ),
                   //child: searchController.showDropDownList.value ? Image.asset("assets/icons/arrow_up.png") : Assets.icons.arrowDown.svg(width: 12, height: 12),
                 ),
               ),
@@ -640,102 +665,113 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
           ),
           if (searchController.showSuggestions.value &&
               searchController.filteredServices.isNotEmpty)
-            Container(
-              margin: EdgeInsets.only(top: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Color(0xFF4F4F59), width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
+            Obx((){
+              if( !searchController.showDropDownList.value ){
+                return SizedBox.shrink();
+              }
+              return Container(
+                  margin: EdgeInsets.only(top: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Color(0xFF4F4F59), width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: !searchController.showDropDownList.value ? SizedBox.shrink() : ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.all(8),
-                itemCount: searchController.filteredServices.length,
-                itemBuilder: (context, index) {
-                  final service = searchController.filteredServices[index];
-                  final isSelected =
-                      searchController.selectedService.value ==
-                      service['label'];
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: searchController.filteredServices.length,
+                    itemBuilder: (context, index) {
+                      final service = searchController.filteredServices[index];
+                      final isSelected =
+                          searchController.selectedService.value ==
+                              service['label'];
 
-                  return InkWell(
-                    onTap: () => searchController.selectService(service),
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        bottom:
+                      return InkWell(
+                        onTap: () => searchController.selectService(service),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            bottom:
                             index ==
                                 searchController.filteredServices.length - 1
-                            ? 0
-                            : 8,
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: isSelected ? Color(0xFF4899D1) : Colors.white,
-                        border: Border.all(color: Color(0xFF4F4F59), width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          // Display image based on type (SVG or Network)
-                          if (service['isSvg'] == true)
-                            CustomImage(
-                              imageSrc: service['icon'] as String,
-                              imageType: ImageType.svg,
-                              height: 20,
-                              width: 20,
-                              imageColor: isSelected ? Colors.white : null,
-                            )
-                          else
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: Image.network(
-                                service['icon'] as String,
-                                height: 20,
-                                width: 20,
-                                fit: BoxFit.cover,
-                                color: isSelected ? Colors.white : null,
-                                colorBlendMode: isSelected
-                                    ? BlendMode.srcIn
-                                    : null,
-                                errorBuilder: (context, error, stackTrace) {
-                                  // Fallback to a default icon on error
-                                  return Icon(
-                                    Icons.category,
-                                    size: 20,
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Color(0xFF0F0B18),
-                                  );
-                                },
-                              ),
-                            ),
-                          SizedBox(width: 8),
-                          Text(
-                            service['label'] as String,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : Color(0xFF0F0B18),
-                              fontSize: 14,
-                              fontWeight: isSelected
-                                  ? FontWeight.w500
-                                  : FontWeight.w400,
-                              fontFamily: 'Lexend',
-                            ),
+                                ? 0
+                                : 8,
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? Color(0xFF4899D1) : Colors.white,
+                            border: Border.all(
+                              color: Color(0xFF4F4F59),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              // Display image based on type (SVG or Network)
+                              if (service['isSvg'] == true)
+                                CustomImage(
+                                  imageSrc: service['icon'] as String,
+                                  imageType: ImageType.svg,
+                                  height: 20,
+                                  width: 20,
+                                  imageColor: isSelected ? Colors.white : null,
+                                )
+                              else
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: Image.network(
+                                    service['icon'] as String,
+                                    height: 20,
+                                    width: 20,
+                                    fit: BoxFit.cover,
+                                    color: isSelected ? Colors.white : null,
+                                    colorBlendMode: isSelected
+                                        ? BlendMode.srcIn
+                                        : null,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Fallback to a default icon on error
+                                      return Icon(
+                                        Icons.category,
+                                        size: 20,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Color(0xFF0F0B18),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              SizedBox(width: 8),
+                              Text(
+                                service['label'] as String,
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : Color(0xFF0F0B18),
+                                  fontSize: 14,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w500
+                                      : FontWeight.w400,
+                                  fontFamily: 'Lexend',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )
+              );
+            })
         ],
       );
     });
@@ -947,9 +983,12 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
   void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // fullscreen feel
-      isDismissible: false, // Prevent tap outside dismiss
-      enableDrag: false, // Prevent drag down dismiss
+      isScrollControlled: true,
+      // fullscreen feel
+      isDismissible: false,
+      // Prevent tap outside dismiss
+      enableDrag: false,
+      // Prevent drag down dismiss
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),

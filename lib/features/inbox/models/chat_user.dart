@@ -12,7 +12,7 @@ class ChatUser {
     required this.email,
     required this.role,
     required this.profilePicture,
-    required this.unreadCount,
+    required this.unreadCount
   });
 
   factory ChatUser.fromJson(Map<String, dynamic> json) {

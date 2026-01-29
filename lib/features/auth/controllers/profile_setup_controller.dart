@@ -44,6 +44,7 @@ class ProfileSetupController extends GetxController {
       'lattitude': latitude.value,
       'longitude': longitude.value,
       'role': selectedRole.value.value,
+      "address": address.value,
       'affiliationCondition': 'true',
     };
 
@@ -118,6 +119,9 @@ class ProfileSetupController extends GetxController {
     resultRange.value = 25.0;
     experience.value = '';
     currentIndex.value = 0;
+    selectedRole.value = Role.owner;
+    locationController.value.text = '';
+    address.value = "";
   }
 
 

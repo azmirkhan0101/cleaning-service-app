@@ -25,11 +25,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 50,
       elevation: 0,
-      foregroundColor: Colors.transparent,
+      forceMaterialTransparency: true,
+      //foregroundColor: Colors.transparent,
       centerTitle: true,
       scrolledUnderElevation: 0,
       actions: actions,
-      backgroundColor: Colors.transparent,
+      //backgroundColor: Colors.transparent,
       leading: backButton == true
           ? BackButton(color: AppColors.black, onPressed: onPressed)
           : null,

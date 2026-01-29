@@ -62,7 +62,10 @@ class ReferralController extends GetxController {
     if (referralInfo.value?.myReferralCode != null) {
       try {
         final result = await SharePlus.instance.share(
-          ShareParams(text: referralInfo.value!.myReferralCode),
+          ShareParams(
+            text: "Use this referral code for discounts on Brikky App.\nCode: ${referralInfo.value!.myReferralCode}",
+          subject: "Join Brikky"
+          ),
           // referralInfo.value!.shareMessage,
           // subject: 'Join Cleaning Service',
         );

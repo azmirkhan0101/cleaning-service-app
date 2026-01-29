@@ -139,7 +139,7 @@ class _InboxScreenState extends State<InboxScreen> {
                         ),
                     ],
                   ),
-                  subtitle: Text(user.email),
+                  //subtitle: Text(user.email),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 4),
                 );
               },

@@ -46,28 +46,33 @@ class _ProviderServiceDetailsScreenState
           backButton: true,
           actions: [
             /// Edit Button
-            IconButton(
-              onPressed: () {
-                if (service != null) {
-                  // Initialize or get existing create controller
-                  ServiceCreateController createController;
-                  if (Get.isRegistered<ServiceCreateController>()) {
-                    createController = Get.find<ServiceCreateController>();
+            Obx((){
+              if( controller.isLoading.value ){
+                return SizedBox.shrink();
+              }
+              return IconButton(
+                onPressed: () {
+                  if (service != null) {
+                    // Initialize or get existing create controller
+                    ServiceCreateController createController;
+                    if (Get.isRegistered<ServiceCreateController>()) {
+                      createController = Get.find<ServiceCreateController>();
+                    } else {
+                      createController = Get.put(ServiceCreateController());
+                    }
+
+                    // Load service data into create controller for editing
+                    createController.loadServiceForEdit(service);
+
+                    // Navigate to edit screen with service model
+                    Get.to(() => ServiceCreateEditScreen(serviceModel: service));
                   } else {
-                    createController = Get.put(ServiceCreateController());
+                    Toast.errorToast('Service data not available');
                   }
-
-                  // Load service data into create controller for editing
-                  createController.loadServiceForEdit(service);
-
-                  // Navigate to edit screen with service model
-                  Get.to(() => ServiceCreateEditScreen(serviceModel: service));
-                } else {
-                  Toast.errorToast('Service data not available');
-                }
-              },
-              icon: const Icon(Icons.edit_square),
-            ),
+                },
+                icon: const Icon(Icons.edit_square),
+              );
+            }),
             IconButton(
               onPressed: () => _showDeleteDialog(),
               icon: const Icon(Icons.delete_forever, color: Colors.red),

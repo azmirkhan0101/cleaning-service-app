@@ -27,7 +27,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
     final categoryName = args?['categoryName'] ?? 'My Services';
 
     return Scaffold(
-      appBar: CustomAppBar(title: categoryName, backButton: true),
+      appBar: CustomAppBar(title: categoryName, backButton: false),
       body: Obx(() {
         return RefreshIndicator(
           onRefresh: serviceController.refreshServices,

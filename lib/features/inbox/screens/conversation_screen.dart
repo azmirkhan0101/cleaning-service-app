@@ -221,7 +221,7 @@ class ConversationScreen extends StatelessWidget {
                                 ),
                               SizedBox(height: 6.h),
                               CustomText2(
-                                text: _formatTime(m.timestamp),
+                                text: _formatTime(m.timestamp.toLocal()),
                                 fontSize: 10.sp,
                                 color: mine
                                     ? Colors.white70

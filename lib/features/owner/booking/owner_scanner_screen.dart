@@ -77,134 +77,136 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                 ),
               ],
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 4),
-                const Text(
-                  'Give your Rating',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 12),
-                RatingBar.builder(
-                  initialRating: ratingValue,
-                  minRating: 1,
-                  allowHalfRating: true,
-                  itemSize: 32,
-                  itemBuilder: (context, _) =>
-                      const Icon(Icons.star, color: Colors.orangeAccent),
-                  onRatingUpdate: (val) => ratingValue = val,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ratingController,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    hintText: 'Write a review (optional)',
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Give your Rating',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Provider name : ${Get.find<ServiceDetailsController>().providerDetails.value?.name ?? 'N/A'}',
-                  style: TextStyle(
-                    color: const Color(0xFF4F4F59),
-                    fontSize: 18,
-                    fontFamily: 'Lexend',
-                    fontWeight: FontWeight.w400,
-                    height: 1.50,
+                  const SizedBox(height: 12),
+                  RatingBar.builder(
+                    initialRating: ratingValue,
+                    minRating: 1,
+                    allowHalfRating: true,
+                    itemSize: 32,
+                    itemBuilder: (context, _) =>
+                        const Icon(Icons.star, color: Colors.orangeAccent),
+                    onRatingUpdate: (val) => ratingValue = val,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: controller.isSubmittingReview.value
-                            ? null
-                            : () async {
-                                Navigator.of(ctx).pop();
-                                await _finishFlow(submitReview: false);
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
-                          foregroundColor: Colors.black87,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                        child: const Text('Skip'),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: ratingController,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      hintText: 'Write a review',
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: controller.isSubmittingReview.value
-                            ? null
-                            : () async {
-                                // Validate rating and review
-                                final reviewText = ratingController.text.trim();
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Provider name : ${Get.find<ServiceDetailsController>().providerDetails.value?.name ?? 'N/A'}',
+                    style: TextStyle(
+                      color: const Color(0xFF4F4F59),
+                      fontSize: 18,
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.w400,
+                      height: 1.50,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: controller.isSubmittingReview.value
+                              ? null
+                              : () async {
+                                  Navigator.of(ctx).pop();
+                                  await _finishFlow(submitReview: false);
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade300,
+                            foregroundColor: Colors.black87,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          child: const Text('Skip'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: controller.isSubmittingReview.value
+                              ? null
+                              : () async {
+                                  // Validate rating and review
+                                  final reviewText = ratingController.text.trim();
 
-                                if (ratingValue <= 0) {
-                                  Toast.errorToast("Please provide a rating");
-                                  return;
-                                }
+                                  if (ratingValue <= 0) {
+                                    Toast.errorToast("Please provide a rating");
+                                    return;
+                                  }
 
-                                if (reviewText.isEmpty) {
-                                  Toast.errorToast("Please write a review");
-                                  return;
-                                }
+                                  if (reviewText.isEmpty) {
+                                    Toast.errorToast("Please write a review");
+                                    return;
+                                  }
 
-                                if (reviewText.length < 10) {
-                                  Toast.errorToast(
-                                    "Review must be at least 10 characters",
+                                  if (reviewText.length < 10) {
+                                    Toast.errorToast(
+                                      "Review must be at least 10 characters",
+                                    );
+                                    return;
+                                  }
+
+                                  controller.isSubmittingReview.value = true;
+                                  final res = await controller.submitRatingReview(
+                                    rating: ratingValue,
+                                    review: reviewText,
                                   );
-                                  return;
-                                }
-
-                                controller.isSubmittingReview.value = true;
-                                final res = await controller.submitRatingReview(
-                                  rating: ratingValue,
-                                  review: reviewText,
-                                );
-                                controller.isSubmittingReview.value = false;
-                                res.fold(
-                                  (l) {
-                                    Toast.errorToast(l);
-                                  },
-                                  (r) async {
-                                    Navigator.of(ctx).pop();
-                                    await _finishFlow(submitReview: true);
-                                  },
-                                );
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.appColors,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+                                  controller.isSubmittingReview.value = false;
+                                  res.fold(
+                                    (l) {
+                                      Toast.errorToast(l);
+                                    },
+                                    (r) async {
+                                      Navigator.of(ctx).pop();
+                                      await _finishFlow(submitReview: true);
+                                    },
+                                  );
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.appColors,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                           ),
+                          child: controller.isSubmittingReview.value
+                              ? const SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text('Submit'),
                         ),
-                        child: controller.isSubmittingReview.value
-                            ? const SizedBox(
-                                height: 18,
-                                width: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Text('Submit'),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

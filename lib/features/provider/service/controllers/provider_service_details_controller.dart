@@ -8,7 +8,7 @@ class ProviderServiceDetailsController extends GetxController {
   final network = Get.find<NetworkHelper>();
 
   // Observables
-  final Rx<ProviderServiceModel?> serviceDetails = Rx<ProviderServiceModel?>(
+  final Rxn<ProviderServiceModel?> serviceDetails = Rxn<ProviderServiceModel?>(
     null,
   );
   final RxBool isLoading = false.obs;

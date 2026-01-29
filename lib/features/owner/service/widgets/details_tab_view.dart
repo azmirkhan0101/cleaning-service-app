@@ -130,9 +130,9 @@ class DetailsTabView extends StatelessWidget {
           // Chat Icon
           const SizedBox(height: 16),
           GestureDetector(
-            onTap: () async {
+            onTap: () {
               print("id: --> ${providerDetails.id}");
-              await sendMessage(
+              sendMessage(
                 providerDetails.id,
                 providerDetails.name,
                 providerDetails.profilePicture,
@@ -175,41 +175,51 @@ class DetailsTabView extends StatelessWidget {
     );
   }
 
-  Future<void> sendMessage(providerId, String name, String avatar) async {
-    try {
-      // final files = selectedImages
-      //     .map((file) => MultipartBody(key: 'images', file: file))
-      //     .toList();
-
-      final result = await Get.find<NetworkHelper>()
-          .multipart<Map<String, dynamic>>(
-            url: ApiUrl.sendMessage(providerId),
-            method: 'POST',
-            fields: {'text': "Hi"},
-            files: [],
-            parser: (data) => data as Map<String, dynamic>,
-          );
-
-      result.match(
-        (err) {
-          Toast.errorToast(err.message ?? 'Failed to send message');
-        },
-        (res) {
-          // Navigate to chat screen or show success message
-          Toast.successToast('Message sent successfully');
-          Get.to(
-            () => ConversationScreen(),
-            arguments: {
-              'userId': providerId,
-              'userName': name,
-              'avatar': avatar,
-            },
-          );
-        },
-      );
-    } catch (e) {
-      debugPrint('Error sending message: $e');
-      Toast.errorToast('Failed to send message');
-    }
+  // Future<void> sendMessage(providerId, String name, String avatar) async {
+  //   try {
+  //     // final files = selectedImages
+  //     //     .map((file) => MultipartBody(key: 'images', file: file))
+  //     //     .toList();
+  //
+  //     final result = await Get.find<NetworkHelper>()
+  //         .multipart<Map<String, dynamic>>(
+  //           url: ApiUrl.sendMessage(providerId),
+  //           method: 'POST',
+  //           fields: {'text': "hi"},
+  //           files: [],
+  //           parser: (data) => data as Map<String, dynamic>,
+  //         );
+  //
+  //     result.match(
+  //       (err) {
+  //         Toast.errorToast(err.message ?? 'Failed to send message');
+  //       },
+  //       (res) {
+  //         // Navigate to chat screen or show success message
+  //         Toast.successToast('Message sent successfully');
+  //         Get.to(
+  //           () => ConversationScreen(),
+  //           arguments: {
+  //             'userId': providerId,
+  //             'userName': name,
+  //             'avatar': avatar,
+  //           },
+  //         );
+  //       },
+  //     );
+  //   } catch (e) {
+  //     debugPrint('Error sending message: $e');
+  //     Toast.errorToast('Failed to send message');
+  //   }
+  // }
+  sendMessage(providerId, String name, String avatar) {
+    Get.to(
+          () => ConversationScreen(),
+      arguments: {
+        'userId': providerId,
+        'userName': name,
+        'avatar': avatar,
+      },
+    );
   }
 }

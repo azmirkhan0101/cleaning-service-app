@@ -14,44 +14,47 @@ class HomeServiceCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ///Navigate to owner service  page
+        //Navigate to owner service  page
         Get.toNamed(
           AppRoutes.ownerCategoryByService,
           arguments: {'categoryId': service.id, 'categoryName': service.name},
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: Image.network(
-              service.image,
-              width: 78.w,
-              height: 66.h,
-              fit: BoxFit.fill,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 78.w,
-                  height: 66.h,
-                  color: Colors.grey[300],
-                  child: Icon(Icons.broken_image, color: Colors.grey[600]),
-                );
-              },
+      child: Padding(
+        padding: EdgeInsets.only(right: 10.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: Image.network(
+                service.image,
+                width: 78.w,
+                height: 66.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 78.w,
+                    height: 66.h,
+                    color: Colors.grey[300],
+                    child: Icon(Icons.broken_image, color: Colors.grey[600]),
+                  );
+                },
+              ),
             ),
-          ),
 
-          SizedBox(height: 8),
+            SizedBox(height: 8),
 
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: CustomText2(
-              text: service.name,
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CustomText2(
+                text: service.name,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
