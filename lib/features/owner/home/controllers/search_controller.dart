@@ -251,6 +251,9 @@ class SearchController extends GetxController {
 
   /// Perform search with current filters
   Future<void> searchServices() async {
+    if( isSearching.value ){
+      return;
+    }
     try {
       isSearching.value = true;
       errorMessage.value = '';
@@ -283,7 +286,7 @@ class SearchController extends GetxController {
           appliedFilters.value = data.data.filters;
 
           if (searchResults.isEmpty) {
-            Toast.errorToast('No services found matching your criteria');
+            //Toast.errorToast('No services found matching your criteria');
           } else {
             Toast.successToast('${totalResults.value} service(s) found');
           }

@@ -8,7 +8,7 @@ class AppStorageService {
 
   // Storage instances
   static final FlutterSecureStorage _secureStorage =
-      const FlutterSecureStorage();
+      const FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   static late SharedPreferences _preferences;
   static bool _isInitialized = false;
 
@@ -27,6 +27,11 @@ class AppStorageService {
   static Future<void> init() async {
     if (_isInitialized) return;
 
+    try {
+      await _secureStorage.read(key: 'dummy');
+    } catch (_) {
+      await _secureStorage.deleteAll();
+    }
     try {
       _preferences = await SharedPreferences.getInstance();
       _isInitialized = true;

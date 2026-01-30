@@ -5,6 +5,7 @@ import 'package:cleaning_service_app/features/owner/service/models/service_model
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SearchResultsScreen extends StatelessWidget {
@@ -71,11 +72,12 @@ class SearchResultsScreen extends StatelessWidget {
                   ? _buildNearbyServicesFallback()
                   : GridView.builder(
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                           SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 8.h,
+                            crossAxisSpacing: 8.w,
                             childAspectRatio: 0.85,
+                            mainAxisExtent: 235.h
                           ),
                       itemCount: services.length,
                       itemBuilder: (context, index) {
@@ -137,7 +139,7 @@ class SearchResultsScreen extends StatelessWidget {
               Text(
                 nearbyController.error.value,
                 style: TextStyle(fontSize: 14, color: Colors.red[400]),
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.center
               ),
             ],
           ),

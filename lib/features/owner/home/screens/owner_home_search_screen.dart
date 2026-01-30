@@ -184,7 +184,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              '\$${searchController.pricePerHour.value.toInt()}h',
+                              '€${searchController.pricePerHour.value.toInt()}/h',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -609,11 +609,9 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
               searchController.onSearchCategoryChanged(value);
               if (value.isNotEmpty) {
                 if ( !searchController.showDropDownList.value ) {
-                  print("Searchhhhhhhhhhhhhh false");
                   searchController.showDropDownList.value = true;
                 }
               }else{
-                print("Searchhhhhhhhhhhhhh true");
                 if (searchController.showDropDownList.value) {
                   searchController.showDropDownList.value = false;
                 }

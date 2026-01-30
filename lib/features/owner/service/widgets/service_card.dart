@@ -66,7 +66,7 @@ class ServiceCard extends StatelessWidget {
                           text: service.serviceName,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          maxLines: 1,
+                          maxLines: 1
                         ),
                       ),
                       SizedBox(width: 4),

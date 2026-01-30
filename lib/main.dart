@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
           transitionDuration: const Duration(milliseconds: 200),
           initialRoute: AppRoutes.splashScreen,
           navigatorKey: Get.key,
-          getPages: AppRoutes.routes,
+          getPages: AppRoutes.routes
         ),
       ),
     );
