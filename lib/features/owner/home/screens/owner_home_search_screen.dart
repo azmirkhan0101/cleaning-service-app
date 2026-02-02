@@ -65,56 +65,9 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     SizedBox(height: 16.h),
                     _buildCategorySearchTextField(),
                     SizedBox(height: 16),
-
-                    // Show selected category name if any
-                    // Obx(() {
-                    //   if (searchController.selectedService.value.isNotEmpty) {
-                    //     return Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Container(
-                    //           padding: EdgeInsets.symmetric(
-                    //             horizontal: 12,
-                    //             vertical: 8,
-                    //           ),
-                    //           decoration: BoxDecoration(
-                    //             color: Color(0xFF4899D1).withOpacity(0.1),
-                    //             borderRadius: BorderRadius.circular(8),
-                    //             border: Border.all(
-                    //               color: Color(0xFF4899D1),
-                    //               width: 1,
-                    //             ),
-                    //           ),
-                    //           child: Row(
-                    //             mainAxisSize: MainAxisSize.min,
-                    //             children: [
-                    //               Icon(
-                    //                 Icons.category,
-                    //                 size: 16,
-                    //                 color: Color(0xFF4899D1),
-                    //               ),
-                    //               SizedBox(width: 8),
-                    //               Text(
-                    //                 searchController.selectedService.value,
-                    //                 style: TextStyle(
-                    //                   color: Color(0xFF4899D1),
-                    //                   fontSize: 14,
-                    //                   fontFamily: 'Lexend',
-                    //                   fontWeight: FontWeight.w500,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //         SizedBox(height: 16),
-                    //       ],
-                    //     );
-                    //   }
-                    //   return SizedBox.shrink();
-                    // }),
-                    _buildTitleSection("Date & Time"),
-                    _buildDataTimeSection(),
-                    SizedBox(height: 24),
+                    //_buildTitleSection("Date & Time"),
+                    //_buildDataTimeSection(),
+                    //SizedBox(height: 24),
 
                     /// Searchable Address Field
                     LocationSearchWidget(
@@ -143,7 +96,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                           vertical: 14,
                         ),
                         elevation: 0, // flat style, remove shadow
-                        // minimumSize: Size(50, 50),  // 90% of screen width
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -225,60 +177,23 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                         ),
                       ),
                     ),
-
                     SizedBox(height: 12),
-
-                    // CustomText(
-                    //   text: "Select Rating",
-                    //   fontSize: 16,
-                    //   fontWeight: FontWeight.w400,
-                    //   color: AppColors.black,
-                    // ),
-
-                    // SizedBox(height: 10),
-
-                    // RatingBar.builder(
-                    //   initialRating: 5,
-                    //   minRating: 1,
-                    //   itemSize: 40,
-                    //   itemCount: 5,
-                    //   itemPadding: EdgeInsets.symmetric(horizontal: 2),
-                    //   itemBuilder: (context, _) =>
-                    //       Icon(Icons.star, color: Colors.orange),
-                    //   onRatingUpdate: (rating) {
-                    //     print('Rating: $rating');
-                    //   },
-                    // ),
-
-                    // SizedBox(width: 12),
-
                     ///Professional's Experience Section
                     _buildSectionHeader("Professional's experience"),
                     const SizedBox(height: 16),
                     _buildExperienceOptions(),
                     const SizedBox(height: 16),
-
                     ///Instant Booking Section
                     _buildSectionHeader("Instant Booking"),
-                    // 12.h.heightBox,
                     _buildInstantBookingOptions(),
-                    // const SizedBox(height: 16),
-
                     ///Gender Section
                     _buildSectionHeader("Gender"),
-                    // const SizedBox(height: 16),
                     _buildGenderOptions(),
 
                     const SizedBox(height: 16),
-                    // CustomText(
-                    //   text: "Spoken Language",
-                    //   fontSize: 16,
-                    //   fontWeight: FontWeight.w700,
-                    //   color: AppColors.black,
-                    // ),
+
                     _buildSectionHeader("Spoken Language"),
 
-                    // SizedBox(height: 12),
                     Obx(
                       () => DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
@@ -369,19 +284,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                     ),
 
                     const SizedBox(height: 16),
-
-                    // CustomButton(
-                    //   onTap: () {
-                    //     Navigator.of(context).pop();
-                    //     Get.toNamed(AppRoutes.ownerSearchScreen);
-                    //   },
-                    //   title: "Apply",
-                    //   fontSize: 16, // Bigger button text for tablets
-                    //   width: double.infinity,
-                    //   height: 50,
-                    //   fillColor: AppColors.appColors,
-                    //   borderRadius: 24,
-                    // ),
                     Row(
                       children: [
                         Expanded(
@@ -497,6 +399,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -540,35 +443,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
             return _buildTitleSection('$timeStr, $dateStr');
           }),
-
-          // Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          //   decoration: ShapeDecoration(
-          //     shape: RoundedRectangleBorder(
-          //       side: BorderSide(width: 0.50, color: const Color(0xFF0D0D0D)),
-          //       borderRadius: BorderRadius.circular(2),
-          //     ),
-          //   ),
-          //   child: Row(
-          //     mainAxisSize: MainAxisSize.min,
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     spacing: 4,
-          //     children: [
-          //       Text(
-          //         DateFormat('dd MMM').format(_selectedDate),
-          //         style: TextStyle(
-          //           color: const Color(0xFF4F4F59),
-          //           fontSize: 10,
-          //           fontFamily: 'Poppins',
-          //           fontWeight: FontWeight.w400,
-          //           height: 1.50,
-          //         ),
-          //       ),
-          //       Assets.icons.calanderIcon.svg(),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
@@ -947,36 +821,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
       ),
     );
   }
-
-  // Future<void> _showCalendarPicker() async {
-  //   final DateTime? picked = await showDatePicker(
-  //     context: context,
-  //     initialDate: searchController.selectedDate.value,
-  //     firstDate: DateTime(2020),
-  //     lastDate: DateTime(2030),
-  //     builder: (context, child) {
-  //       return Theme(
-  //         data: Theme.of(context).copyWith(
-  //           colorScheme: ColorScheme.light(
-  //             primary: Color(0xFF4899D1), // Header background color
-  //             onPrimary: Colors.white, // Header text color
-  //             onSurface: Color(0xFF0D0D0D), // Body text color
-  //           ),
-  //           textButtonTheme: TextButtonThemeData(
-  //             style: TextButton.styleFrom(
-  //               foregroundColor: Color(0xFF4899D1), // Button text color
-  //             ),
-  //           ),
-  //         ),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-
-  //   if (picked != null && picked != searchController.selectedDate.value) {
-  //     searchController.setDate(picked);
-  //   }
-  // }
 
   void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(

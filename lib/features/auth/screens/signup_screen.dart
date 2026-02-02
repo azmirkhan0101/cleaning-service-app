@@ -341,50 +341,50 @@ class SignupScreen extends GetView<SignupController> {
     );
   }
 
-  Widget _buildOrDivider() {
-    return Row(
-      spacing: 8,
-      children: [
-        Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
-        CustomText(
-          text: 'or continue with',
-          color: const Color(0xFF0F0B18),
-          fontSize: 14,
-          fontFamily: 'Lexend',
-          fontWeight: FontWeight.w400,
-          height: 1.50,
-        ),
-        Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
-      ],
-    );
-  }
+  // Widget _buildOrDivider() {
+  //   return Row(
+  //     spacing: 8,
+  //     children: [
+  //       Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
+  //       CustomText(
+  //         text: 'or continue with',
+  //         color: const Color(0xFF0F0B18),
+  //         fontSize: 14,
+  //         fontFamily: 'Lexend',
+  //         fontWeight: FontWeight.w400,
+  //         height: 1.50,
+  //       ),
+  //       Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
+  //     ],
+  //   );
+  // }
 
-  Widget _buildSocialButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x26000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 0),
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: Assets.icons.googleLogo.svg(),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildSocialButtons() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       GestureDetector(
+  //         onTap: () {},
+  //         child: Container(
+  //           padding: const EdgeInsets.all(12),
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(12),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                 color: Color(0x26000000),
+  //                 blurRadius: 4,
+  //                 offset: Offset(0, 0),
+  //                 spreadRadius: 0,
+  //               ),
+  //             ],
+  //           ),
+  //           child: Assets.icons.googleLogo.svg(),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildLoginNavigateLink() {
     return GestureDetector(

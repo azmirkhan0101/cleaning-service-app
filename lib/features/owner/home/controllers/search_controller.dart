@@ -214,7 +214,7 @@ class SearchController extends GetxController {
     // Experience - convert index to API format
     if (selectedExperience.value != null) {
       final experienceMap = {
-        0: '0-2', // 0-1 year maps to 0-2
+        0: '0-1', // 0-1 year maps to 0-2
         1: '1-5', // 1-5 years
         2: '5+', // 5+ years maps to 5+
       };
@@ -296,7 +296,6 @@ class SearchController extends GetxController {
       isSearching.value = false;
       errorMessage.value = 'An error occurred while searching';
       Toast.errorToast(errorMessage.value);
-      debugPrint('Search error: $e');
     }
   }
 

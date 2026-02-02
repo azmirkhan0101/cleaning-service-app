@@ -57,8 +57,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    debugPrint("${MediaQuery.sizeOf(context).height}");
-    debugPrint("${MediaQuery.sizeOf(context).width}");
 
     return OKToast(
       child: ScreenUtilInit(

@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
-import 'package:cleaning_service_app/features/auth/controllers/selection_controller.dart';
 import 'package:cleaning_service_app/features/auth/models/profile_setup_response_model.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
@@ -14,9 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../core/utils/ToastMsg/toast.dart';
-
-
-import 'package:flutter/foundation.dart';
 
 class ProfileSetupController extends GetxController {
   RxString email = ''.obs;

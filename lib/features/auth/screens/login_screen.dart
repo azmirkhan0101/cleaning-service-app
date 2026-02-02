@@ -122,74 +122,74 @@ class LoginScreen extends GetView<LoginController> {
     );
   }
 
-  Widget _buildSocialButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x26000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 0),
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: Assets.icons.googleLogo.svg(),
-          ),
-        ),
+  // Widget _buildSocialButtons() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       GestureDetector(
+  //         onTap: () {},
+  //         child: Container(
+  //           padding: const EdgeInsets.all(12),
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(12),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                 color: Color(0x26000000),
+  //                 blurRadius: 4,
+  //                 offset: Offset(0, 0),
+  //                 spreadRadius: 0,
+  //               ),
+  //             ],
+  //           ),
+  //           child: Assets.icons.googleLogo.svg(),
+  //         ),
+  //       ),
+  //
+  //       // SizedBox(width: 24),
+  //
+  //       // GestureDetector(
+  //       //   onTap: () async {},
+  //       //   child: Container(
+  //       //     padding: const EdgeInsets.all(12),
+  //       //     decoration: BoxDecoration(
+  //       //       color: Colors.white,
+  //       //       border: Border.all(color: Colors.grey.shade300),
+  //       //       borderRadius: BorderRadius.circular(12),
+  //       //     ),
+  //       //     child: CircleAvatar(
+  //       //       backgroundColor: Colors.grey.shade200,
+  //       //       radius: 20,
+  //       //       child: Icon(
+  //       //         Icons.apple,
+  //       //         color: Colors.black,
+  //       //         size: 24,
+  //       //       ),
+  //       //     ),
+  //       //   ),
+  //       // ),
+  //       //  SocialIconButton(icon: Icons.apple),
+  //     ],
+  //   );
+  // }
 
-        // SizedBox(width: 24),
-
-        // GestureDetector(
-        //   onTap: () async {},
-        //   child: Container(
-        //     padding: const EdgeInsets.all(12),
-        //     decoration: BoxDecoration(
-        //       color: Colors.white,
-        //       border: Border.all(color: Colors.grey.shade300),
-        //       borderRadius: BorderRadius.circular(12),
-        //     ),
-        //     child: CircleAvatar(
-        //       backgroundColor: Colors.grey.shade200,
-        //       radius: 20,
-        //       child: Icon(
-        //         Icons.apple,
-        //         color: Colors.black,
-        //         size: 24,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        //  SocialIconButton(icon: Icons.apple),
-      ],
-    );
-  }
-
-  Widget _buildOrDivider() {
-    return Row(
-      spacing: 8,
-      children: [
-        Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
-        CustomText(
-          text: 'or sign in with',
-          color: const Color(0xFF0F0B18),
-          fontSize: 14,
-          fontFamily: 'Lexend',
-          fontWeight: FontWeight.w400,
-          height: 1.50,
-        ),
-        Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
-      ],
-    );
-  }
+  // Widget _buildOrDivider() {
+  //   return Row(
+  //     spacing: 8,
+  //     children: [
+  //       Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
+  //       CustomText(
+  //         text: 'or sign in with',
+  //         color: const Color(0xFF0F0B18),
+  //         fontSize: 14,
+  //         fontFamily: 'Lexend',
+  //         fontWeight: FontWeight.w400,
+  //         height: 1.50,
+  //       ),
+  //       Expanded(child: Divider(thickness: 1, color: const Color(0xFF0F0B18))),
+  //     ],
+  //   );
+  // }
 
   Widget _buildLoginButton(BuildContext context) {
     return Obx(

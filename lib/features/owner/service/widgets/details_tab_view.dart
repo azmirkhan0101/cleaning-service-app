@@ -1,9 +1,6 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/custom_network_image/custom_network_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
-import 'package:cleaning_service_app/core/service/api_url.dart';
-import 'package:cleaning_service_app/core/service/network_helper.dart';
-import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';

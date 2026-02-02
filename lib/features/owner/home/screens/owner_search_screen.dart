@@ -13,6 +13,10 @@ import 'package:cleaning_service_app/features/payment/controllers/payment_contro
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+//#############################################
+//NO USAGE OF THIS CLASS IN THIS PROJECT. CAN BE DELETED SAFELY
+//#############################################
 class OwnerSearchScreen extends StatefulWidget {
   const OwnerSearchScreen({super.key});
 
