@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class OwnerServiceListController extends GetxController {
+
+  Timer? timer;
+
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
   RxList<ServiceModel> services = <ServiceModel>[].obs;
@@ -13,16 +19,28 @@ class OwnerServiceListController extends GetxController {
 
   void setCategoryId(String id) {
     categoryId.value = id;
-    fetchServices();
+    fetchServices(refresh: true);
+    autoRefreshServices();
   }
 
-  Future<void> fetchServices() async {
+  void autoRefreshServices(){
+    if (timer != null) {
+      timer!.cancel();
+    }
+    timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      fetchServices(refresh: false);
+    });
+  }
+
+  Future<void> fetchServices({bool refresh = true}) async {
     if (categoryId.value.isEmpty) {
       Toast.errorToast('Category ID is required');
       return;
     }
 
-    isLoading.value = true;
+    if (refresh) {
+      isLoading.value = true;
+    }
     errorMessage.value = '';
 
     final response = await Get.find<NetworkHelper>()
@@ -33,7 +51,9 @@ class OwnerServiceListController extends GetxController {
           parser: (data) => ServiceResponseModel.fromJson(data),
         );
 
-    isLoading.value = false;
+    if ( isLoading.value ){
+      isLoading.value = false;
+    }
 
     response.fold(
       (error) {
@@ -41,12 +61,20 @@ class OwnerServiceListController extends GetxController {
         Toast.errorToast(errorMessage.value);
       },
       (data) {
-        services.value = data.services;
+        if( !listEquals(data.services, services.value) ){
+          services.assignAll(data.services);
+        }
       },
     );
   }
 
   Future<void> refreshServices() async {
     await fetchServices();
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
   }
 }

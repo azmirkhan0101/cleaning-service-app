@@ -337,7 +337,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        serviceController.genderType.value = false;
+                        serviceController.genderType.value = true;
                       },
                       child: const CustomText2(
                         text: "Male",
@@ -359,7 +359,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        serviceController.genderType.value = true;
+                        serviceController.genderType.value = false;
                       },
                       child: const CustomText2(
                         text: "Female",

@@ -7,7 +7,7 @@ class ServiceController extends GetxController {
   final network = Get.find<NetworkHelper>();
 
   /// Can owner book directly without approval?
-  RxBool typeModeStatues = false.obs;
+  RxBool typeModeStatues = true.obs;
 
   RxBool genderType = false.obs;
 
