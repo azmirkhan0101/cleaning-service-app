@@ -327,7 +327,7 @@ class ServiceBookingStepTwo extends StatelessWidget {
                     bookingController.isBooking.value
                 ? null
                 : () async {
-                    // Step 1: Create booking
+                  // Step 1: Create booking
                     final bookingResponse = await bookingController
                         .bookService();
 
@@ -543,10 +543,18 @@ class ServiceBookingStepTwo extends StatelessWidget {
                           'bookingId': finalBookingId,
                         },
                       );
-                    } else {
-                      Toast.errorToast(
-                        bookingResponse?['message'] ??
-                            'Failed to book service. Please try again.',
+                    }
+                    else {
+                      String unwantedResponse = "This provider has reached their monthly booking limit for their FREE plan. Please choose another provider.";
+                      String customMessage = "This service is no longer available. Please choose another service.";
+                      if( (bookingResponse?['message'] ?? '') == unwantedResponse ){
+                        Get.back();
+                        Get.back();
+                        //Get.until((route) => Get.currentRoute == AppRoutes.ownerCategoryByService);
+                      }
+                      Toast.warningToast(
+                        (bookingResponse?['message'] ?? 'Failed to book service. Please try again.') ==
+                  unwantedResponse ? customMessage : bookingResponse?['message'] ?? 'Failed to book service. Please try again.',
                       );
                     }
                   },

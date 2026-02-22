@@ -57,8 +57,10 @@ class OwnerServiceListController extends GetxController {
 
     response.fold(
       (error) {
-        errorMessage.value = error.message ?? 'Failed to fetch services';
-        Toast.errorToast(errorMessage.value);
+        if( refresh ){
+          errorMessage.value = error.message ?? 'Failed to fetch services';
+          Toast.errorToast(errorMessage.value);
+        }
       },
       (data) {
         if( !listEquals(data.services, services.value) ){

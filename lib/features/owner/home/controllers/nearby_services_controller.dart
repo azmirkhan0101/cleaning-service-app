@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 // class NearbyServiceModel {
@@ -54,8 +57,18 @@ class NearbyServicesController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxString error = ''.obs;
   final RxList<ServiceModel> services = <ServiceModel>[].obs;
+  Timer? timer;
 
   int currentRadiusKm = 200;
+
+  void autoRefreshServices(){
+    if (timer != null) {
+      timer!.cancel();
+    }
+    timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      fetchNearby(refresh: false);
+    });
+  }
 
   @override
   void onInit() {
@@ -63,8 +76,10 @@ class NearbyServicesController extends GetxController {
     fetchNearby();
   }
 
-  Future<void> fetchNearby({int? radiusKm, int limit = 50}) async {
-    isLoading.value = true;
+  Future<void> fetchNearby({int? radiusKm, int limit = 50, bool refresh = true}) async {
+    if( refresh ){
+      isLoading.value = true;
+    }
     error.value = '';
     currentRadiusKm = radiusKm ?? currentRadiusKm;
 
@@ -76,8 +91,10 @@ class NearbyServicesController extends GetxController {
 
     result.fold(
       (err) {
-        error.value = err.message ?? 'Failed to load nearby services';
-        services.clear();
+        if( refresh ){
+          error.value = err.message ?? 'Failed to load nearby services';
+          services.clear();
+        }
         isLoading.value = false;
       },
       (data) {
@@ -85,14 +102,26 @@ class NearbyServicesController extends GetxController {
           final list = (data['data']?['services'] as List<dynamic>? ?? [])
               .map((e) => ServiceModel.fromJson(e as Map<String, dynamic>))
               .toList();
-          services.assignAll(list);
+          if( !listEquals(list, services.value) ){
+            services.assignAll(list);
+          }
         } catch (e) {
-          error.value = 'Failed to parse services';
-          services.clear();
+          if( refresh ){
+            error.value = 'Failed to parse services';
+            services.clear();
+          }
         } finally {
           isLoading.value = false;
         }
       },
     );
+  }
+
+  @override
+  void onClose() {
+
+    timer?.cancel();
+
+    super.onClose();
   }
 }

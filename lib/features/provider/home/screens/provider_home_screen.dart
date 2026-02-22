@@ -375,14 +375,14 @@ class _ProviderHomeState extends State<ProviderHome> {
                                   Row(
                                     children: [
                                       CustomText2(
-                                        text: 'Expired date:',
+                                        text: '',
                                         fontSize: 8.0,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.neutral03,
                                       ),
 
                                       CustomText2(
-                                        text: '10 October 2025',
+                                        text: '',
                                         fontSize: 8.0,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.lightBlue,

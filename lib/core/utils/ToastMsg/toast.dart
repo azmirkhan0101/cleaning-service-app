@@ -13,6 +13,18 @@ class Toast {
     );
   }
 
+  static warningToast(String message) {
+    showToast(
+      message,
+      dismissOtherToast: true,
+      position: ToastPosition.bottom,
+      //backgroundColor: Colors.orangeAccent,
+      backgroundColor: Colors.amber.shade700,
+      duration: const Duration(seconds: 5),
+      radius: 8,
+    );
+  }
+
   static successToast(String message) {
     showToast(
       message,

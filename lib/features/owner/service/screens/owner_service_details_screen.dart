@@ -25,11 +25,11 @@ class _OwnerServiceDetailsScreenState extends State<OwnerServiceDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Get the arguments passed through Get
+    //Get the arguments passed through Get
     final arguments = Get.arguments;
 
     if (arguments != null) {
-      // Handle old status argument format
+      //Handle old status argument format
       if (arguments is List && arguments.isNotEmpty) {
         status = arguments[0]["status"];
       }

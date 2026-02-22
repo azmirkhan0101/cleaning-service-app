@@ -195,6 +195,7 @@ class _ProviderServiceDetailsScreenState
                                     const SizedBox(width: 8),
                                     InkWell(
                                       onTap: () {
+                                        //TODO: REVIEW API IN REVIEW SCREEN
                                         Get.toNamed(AppRoutes.reviewScreen);
                                       },
                                       child: const CustomText2(

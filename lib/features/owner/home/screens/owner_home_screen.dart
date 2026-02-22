@@ -27,9 +27,18 @@ class OwnerHomeScreen extends StatefulWidget {
 
   @override
   State<OwnerHomeScreen> createState() => _OwnerHomeScreenState();
+
 }
 
 class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
+
+  @override
+  void initState() {
+
+    nearbyController.autoRefreshServices();
+    super.initState();
+  }
+
   final ownerController = Get.find<OwnerController>();
   final nearbyController = Get.put(NearbyServicesController());
 
@@ -44,7 +53,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Nearby services section below uses live data; removed static demo list
+    //Nearby services section below uses live data; removed static demo list
 
     return Scaffold(
       body: Container(
@@ -64,12 +73,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   24.h.heightBox,
-
                   /// My Location Row
                   _buildHeader(),
-
                   SizedBox(height: 16),
-
                   // Carousel Slider with Expanded
                   CarouselSlider.builder(
                     options: CarouselOptions(
@@ -124,7 +130,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                                     textAlign: TextAlign.start,
                                   ),
                                   SizedBox(height: 8),
-
                                   // Using Flexible for the button to adapt its space
                                   Flexible(
                                     child: Card(
@@ -154,9 +159,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       );
                     },
                   ),
-
                   SizedBox(height: 16),
-
                   // Dots for Carousel
                   Obx(() {
                     return Row(
@@ -168,9 +171,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     );
                   }),
-
                   const SizedBox(height: 16),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -180,7 +181,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                       ),
-
                       InkWell(
                         onTap: () {
                           Get.toNamed(AppRoutes.ownerCategoryScreen);
@@ -197,7 +197,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     ],
                   ),
-
                   ///==================== Category show =====================
                   Obx(() {
                     return SizedBox(
@@ -219,9 +218,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     );
                   }),
-
                   const SizedBox(height: 16),
-
                   // Nearby services
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,9 +245,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 12),
-
                   Obx(() {
                     if (nearbyController.error.isNotEmpty) {
                       return Card(
@@ -287,7 +282,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         ),
                       );
                     }
-
                     final items = nearbyController.services;
                     if (items.isEmpty) {
                       return SizedBox(
@@ -302,7 +296,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         ),
                       );
                     }
-
                     return SizedBox(
                       height: 300,
                       width: double.infinity,

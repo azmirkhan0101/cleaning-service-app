@@ -277,7 +277,7 @@ class LoginScreen extends GetView<LoginController> {
               final emailRegex = RegExp(
                 r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
               );
-              if (!emailRegex.hasMatch(value)) {
+              if (!emailRegex.hasMatch(value.trim())) {
                 return 'Please enter a valid email';
               }
               return null;

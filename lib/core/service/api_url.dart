@@ -85,6 +85,8 @@ class ApiUrl {
   /// =--> Provider Service Endpoints <--=
   static String myServices({int page = 1, int limit = 20}) =>
       '$baseUrl/service/my/services?page=$page&limit=$limit';
+  static String reviews({required String serviceId}) =>
+      '$baseUrl/service/ratings-reviews/$serviceId';
   static const String createService = '$baseUrl/service/create';
 
   /// Get available time slots for a service provider

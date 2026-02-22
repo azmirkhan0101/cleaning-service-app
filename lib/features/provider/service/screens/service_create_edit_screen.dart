@@ -311,9 +311,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                   ],
                 ),
               ),
-
               SizedBox(height: 12),
-
               const CustomText2(
                 text: "Gender",
                 fontSize: 18,
