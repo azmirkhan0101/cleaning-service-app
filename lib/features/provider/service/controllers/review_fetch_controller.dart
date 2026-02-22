@@ -17,6 +17,7 @@ class ReviewFetchController extends GetxController{
   void onInit() {
 
     serviceID = Get.arguments as String? ?? "";
+    fetchReviews(serviceID: serviceID);
 
     super.onInit();
   }
@@ -25,8 +26,10 @@ class ReviewFetchController extends GetxController{
 fetchReviews({required String serviceID}) async{
 
     try{
+      isLoading.value = true;
       final result = await network.request<List<ReviewModel>>(
         'GET',
+        withAuth: true,
         ApiUrl.reviews(serviceId: serviceID),
         parser: (data) {
           // Parse pagination meta
@@ -36,28 +39,29 @@ fetchReviews({required String serviceID}) async{
           // }
 
           // Parse services list
-          final servicesList =
+          final fetchedReviews =
               (data['data'] as List?)
                   ?.map((item) => ReviewModel.fromJson(item))
                   .toList() ??
                   [];
-          return servicesList;
+          return fetchedReviews;
         },
       );
 
-      // result.fold(
-      //       (error) {
-      //     loadError.value = error.message ?? 'Failed to load services';
-      //     isLoading.value = false;
-      //   },
-      //       (servicesList) {
-      //     services.value = servicesList;
-      //     isLoading.value = false;
-      //   },
-      // );
+      result.fold(
+            (error) {
+          errorMessage.value = error.message ?? 'Failed to load services';
+          isLoading.value = false;
+        },
+            (fetchedReviews) {
+          reviews.value = fetchedReviews;
+          isLoading.value = false;
+        },
+      );
 
     }catch(e){
-
+      errorMessage.value = e.toString();
+      isLoading.value = false;
     }
 }
 }

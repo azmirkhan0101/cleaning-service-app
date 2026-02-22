@@ -2,7 +2,7 @@
 class ReviewModel {
   final String ownerName;
   final String ownerProfilePicture;
-  final int rating;
+  final double rating;
   final String review;
 
   ReviewModel({
@@ -16,7 +16,7 @@ class ReviewModel {
     return ReviewModel(
       ownerName: json['ownerName'] ?? '',
       ownerProfilePicture: json['ownerProfilePicture'] ?? '',
-      rating: json['rating'] ?? 0,
+      rating: ((json['rating'] as num?) ?? 0).toDouble(),
       review: json['review'] ?? '',
     );
   }

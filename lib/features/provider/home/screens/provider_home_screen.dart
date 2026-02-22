@@ -105,7 +105,7 @@ class _ProviderHomeState extends State<ProviderHome> {
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

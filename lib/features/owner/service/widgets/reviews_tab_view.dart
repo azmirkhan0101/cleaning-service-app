@@ -71,7 +71,7 @@ class ReviewsTabView extends StatelessWidget {
 
   Widget _buildTestimonial({
     required String name,
-    required int rating,
+    required double rating,
     required String testimonial,
     required String imageUrl,
   }) {
