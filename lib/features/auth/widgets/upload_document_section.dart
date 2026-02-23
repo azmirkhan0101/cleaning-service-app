@@ -280,126 +280,123 @@ class UploadDocumentSection extends StatelessWidget {
         border: Border.all(width: 2, color: const Color(0xFF1B2D51)),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 16),
-
-          // Title
-          Text(
-            'Affiliation Condition',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF0F0B18),
-              fontSize: 24,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.w700,
-              height: 1.3,
-            ),
-          ),
-
-          SizedBox(height: 24),
-
-          // Content
-          Obx(() {
-            if (affiliationController.isLoading.value) {
-              return CircularProgressIndicator();
-            }
-            return HtmlWidget(
-              affiliationController.affiliationContent.value,
-              textStyle: TextStyle(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 16),
+            // Title
+            Text(
+              'Affiliation Condition',
+              textAlign: TextAlign.center,
+              style: TextStyle(
                 color: const Color(0xFF0F0B18),
-                fontSize: 14,
+                fontSize: 24,
                 fontFamily: 'Lexend',
-                fontWeight: FontWeight.w400,
-                height: 1.5,
+                fontWeight: FontWeight.w700,
+                height: 1.3,
               ),
-            );
-          }),
-
-          SizedBox(height: 32),
-
-          Obx(() {
-            return GestureDetector(
-              onTap: () async {
-                // If role is Provider, go to next step
-                // if (selectionController.selectedRole.value != Role.owner) {
-                //   Navigator.pop(context);
-                //   selectionController.currentIndex.value++;
-                // } else {
-                // else complete registration
-                // Upload all documents for Owner
-                final result = await selectionController
-                    .completeRegistrationSetup();
-                if (result) {
-                  // Close the dialog first
-                  Navigator.of(context).pop();
-                  // Then navigate to login (this removes all previous routes)
-                  Get.offAll(() => LoginScreen());
-                  Toast.successToast(
-                    "Registration complete successfully. Owner documents uploaded successfully. Please login to continue.",
-                  );
-                } else {
-                  // Check if error is session expired
-                  final errorMsg = selectionController.errorMessage.value
-                      .toLowerCase();
-                  if (errorMsg.contains('session has expired') ||
-                      errorMsg.contains(
-                        'start registration from the first step',
-                      )) {
-                    // Close the dialog
+            ),
+            SizedBox(height: 24),
+            // Content
+            Obx(() {
+              if (affiliationController.isLoading.value) {
+                return CircularProgressIndicator();
+              }
+              return HtmlWidget(
+                affiliationController.affiliationContent.value,
+                textStyle: TextStyle(
+                  color: const Color(0xFF0F0B18),
+                  fontSize: 14,
+                  fontFamily: 'Lexend',
+                  fontWeight: FontWeight.w400,
+                  height: 1.5,
+                ),
+              );
+            }),
+            SizedBox(height: 32),
+            Obx(() {
+              return GestureDetector(
+                onTap: () async {
+                  // If role is Provider, go to next step
+                  // if (selectionController.selectedRole.value != Role.owner) {
+                  //   Navigator.pop(context);
+                  //   selectionController.currentIndex.value++;
+                  // } else {
+                  // else complete registration
+                  // Upload all documents for Owner
+                  final result = await selectionController
+                      .completeRegistrationSetup();
+                  if (result) {
+                    // Close the dialog first
                     Navigator.of(context).pop();
-                    // Navigate to signup screen
-                    Get.offAllNamed('/SignupScreen');
-                    Toast.errorToast(
-                      "Your session has expired. Please start registration again.",
+                    // Then navigate to login (this removes all previous routes)
+                    Get.offAll(() => LoginScreen());
+                    Toast.successToast(
+                      "Registration complete successfully. Owner documents uploaded successfully. Please login to continue.",
                     );
                   } else {
-                    // Show error toast for other errors
-                    Toast.errorToast(selectionController.errorMessage.value);
+                    // Check if error is session expired
+                    final errorMsg = selectionController.errorMessage.value
+                        .toLowerCase();
+                    if (errorMsg.contains('session has expired') ||
+                        errorMsg.contains(
+                          'start registration from the first step',
+                        )) {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                      // Navigate to signup screen
+                      Get.offAllNamed('/SignupScreen');
+                      Toast.errorToast(
+                        "Your session has expired. Please start registration again.",
+                      );
+                    } else {
+                      // Show error toast for other errors
+                      Toast.errorToast(selectionController.errorMessage.value);
+                    }
                   }
-                }
-                // }
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF7A51D),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 16,
-                  children: [
-                    if (selectionController.isUploading.value)
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(),
+                  // }
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF7A51D),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 16,
+                    children: [
+                      if (selectionController.isUploading.value)
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(),
+                        ),
+                      Text(
+                        selectionController.isUploading.value
+                            ? 'proceeding...'
+                            : 'Accept',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Lexend',
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                        ),
                       ),
-                    Text(
-                      selectionController.isUploading.value
-                          ? 'proceeding...'
-                          : 'Accept',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Lexend',
-                        fontWeight: FontWeight.w600,
-                        height: 1.5,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
 
-          SizedBox(height: 16),
-        ],
+            SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

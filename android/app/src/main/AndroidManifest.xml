@@ -52,9 +52,14 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+<!--        CHANGE THIS MAPS API KEY.-->
+<!--        THIS KEY IS FROM ANOTHER PROJECT(EL AFRIK)-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyDYM21Y0hzB_vRkJqhCfSr5UuLANFC0rU0"
+            />
+
+<!--        android:value="${MAPS_API_KEY}"-->
 
     </application>
     <!-- Required to query activities that can process text, see:

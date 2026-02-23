@@ -19,17 +19,3 @@ class ReviewModel {
     );
   }
 }
-
-var c = {
-  "success": true,
-  "message": "Service ratings and reviews retrieved successfully",
-  "data": [
-    {
-      "ownerName": "Brikk Owner",
-      "ownerProfilePicture":
-          "https://res.cloudinary.com/dmanyahsz/image/upload/v1771472419/uploads/1771472418865_8favbf4cg9_1771472366995_compressed.jpg%22",
-      "rating": 5,
-      "review": "Goodgoooddoooddodod",
-    },
-  ],
-};

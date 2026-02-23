@@ -154,9 +154,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: 8.0),
-
                                   Obx(() {
                                     final count = homeController
                                         .homepageData
@@ -169,9 +167,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                                       color: Colors.black,
                                     );
                                   }),
-
                                   SizedBox(height: 8.0),
-
                                   CustomText2(
                                     text: 'Current Bookings',
                                     fontSize: 8.0,
@@ -188,7 +184,9 @@ class _ProviderHomeState extends State<ProviderHome> {
                       /// Earnings Card
                       Expanded(
                         child: InkWell(
-                          onTap: () => ProfileScreen().onTapMyBalance(context),
+                          onTap: (){
+                            //ProfileScreen().onTapMyBalance(context);
+                          },
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.0),

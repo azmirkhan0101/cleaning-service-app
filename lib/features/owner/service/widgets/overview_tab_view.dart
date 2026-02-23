@@ -268,6 +268,8 @@ class OverviewTabView extends StatelessWidget {
                     const SizedBox(width: 16),
                     InkWell(
                       onTap: () {
+                        print("lat: ${serviceDetails.latitude}");
+                        print("long: ${serviceDetails.longitude}");
                         Get.to(
                           ShowProviderLocation(
                             providerLatLng: LatLng(

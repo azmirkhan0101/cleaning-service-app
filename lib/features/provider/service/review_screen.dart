@@ -37,9 +37,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
             child: Text("No reviews found"),
           );
         }else{
-         return ListView.builder(itemBuilder: (context, index){
+         return ListView.builder(
+           itemCount: controller.reviews.length,
+             itemBuilder: (context, index){
            final review = controller.reviews[index];
            return _buildTestimonial(
+             imageUrl: review.ownerProfilePicture,
              name: review.ownerName,
              rating: review.rating,
              testimonial: review.review,
@@ -51,17 +54,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   Widget _buildTestimonial({
+    required String imageUrl,
     required String name,
     required double rating,
     required String testimonial,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomNetworkImage(
-            imageUrl: AppConstants.profileImage,
+            imageUrl: imageUrl,
             height: 50,
             width: 50,
             boxShape: BoxShape.circle,

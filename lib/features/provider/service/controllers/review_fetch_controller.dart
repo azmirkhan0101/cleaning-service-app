@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
 import '../../../../core/service/api_url.dart';
+import '../../../../core/service/app_storage_service.dart';
 import '../../../../core/service/network_helper.dart';
+import '../../../common/types/http_method.dart';
 import '../../../owner/service/models/review_model.dart';
 
 class ReviewFetchController extends GetxController{
@@ -28,17 +30,15 @@ fetchReviews({required String serviceID}) async{
     try{
       isLoading.value = true;
       final result = await network.request<List<ReviewModel>>(
-        'GET',
-        withAuth: true,
+        HttpRequestType.get.method,
         ApiUrl.reviews(serviceId: serviceID),
+        withAuth: true,
         parser: (data) {
           // Parse pagination meta
           // if (data['meta'] != null) {
           //   meta.value = PaginationMeta.fromJson(data['meta']);
           //   hasMorePages = currentPage < (meta.value?.totalPages ?? 1);
           // }
-
-          // Parse services list
           final fetchedReviews =
               (data['data'] as List?)
                   ?.map((item) => ReviewModel.fromJson(item))
