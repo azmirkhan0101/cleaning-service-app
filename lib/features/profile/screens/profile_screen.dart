@@ -24,6 +24,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../core/assets-gen/assets.gen.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -130,8 +132,6 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
         ),
-
-        // const Spacer(),
 
         // Sign Out Button
         TextButton(

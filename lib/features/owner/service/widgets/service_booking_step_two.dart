@@ -457,8 +457,8 @@ class ServiceBookingStepTwo extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(24),
                                       ),
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 100,
+                                        vertical: 0,
+                                        horizontal: 60,
                                       ),
                                       elevation: 0,
                                     ),
@@ -466,9 +466,8 @@ class ServiceBookingStepTwo extends StatelessWidget {
                                       'OK',
                                       style: TextStyle(
                                         fontFamily: 'Lexend',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1.5,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),

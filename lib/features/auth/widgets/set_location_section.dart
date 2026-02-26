@@ -136,12 +136,10 @@ class _SetLocationSectionState extends State<SetLocationSection> {
                   min: 5.0,
                   max: 200.0,
                   divisions: 40,
-                  label:
-                      '${selectionController.resultRange.value.round()} miles',
+                  label: '${selectionController.resultRange.value.round()} kilometer',
                   activeColor: AppColors.lightBlue,
                   onChanged: (double value) {
                     selectionController.resultRange.value = value;
-                    print("Selected distance: ${value.round()} miles");
                   },
                 ),
                 // Range Slider Values

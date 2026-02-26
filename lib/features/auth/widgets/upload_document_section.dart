@@ -333,7 +333,7 @@ class UploadDocumentSection extends StatelessWidget {
                     // Then navigate to login (this removes all previous routes)
                     Get.offAll(() => LoginScreen());
                     Toast.successToast(
-                      "Registration complete successfully. Owner documents uploaded successfully. Please login to continue.",
+                      "Registration completed successfully",
                     );
                   } else {
                     // Check if error is session expired
