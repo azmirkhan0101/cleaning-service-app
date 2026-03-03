@@ -104,6 +104,8 @@ class ServiceCreateController extends GetxController {
         'bufferTime': bufferTime.value.toString(),
       };
 
+      print("Service create data: ${jsonEncode(fields)}");
+
       // Prepare cover images for multipart
       final List<MultipartBody> files = coverImages
           .map((file) => MultipartBody(key: 'coverImages', file: file))

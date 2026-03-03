@@ -269,7 +269,6 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                       fillColor: WidgetStateColor.resolveWith(
                         (states) => AppColors.black_04,
                       ),
-
                       groupValue: !serviceController.typeModeStatues.value,
                       onChanged: (bool? value) {
                         serviceController.typeModeStatues.value = !value!;
@@ -828,7 +827,7 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                       descriptionController.text;
                   createController.rateByHour.value = rateByHourController.text;
                   createController.needApproval.value =
-                      serviceController.typeModeStatues.value;
+                      !serviceController.typeModeStatues.value;
                   createController.isFemaleOnly.value =
                       serviceController.genderType.value;
                   createController.selectedLanguages.value =
@@ -838,6 +837,9 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
                   if (!createController.validateServiceData()) {
                     return; // Stop if validation fails (error will be shown by validateServiceData)
                   }
+
+                  //print("Need approval: ${!serviceController.typeModeStatues.value}");
+                  //print("Need approval: ${createController.needApproval.value}");
 
                   // Navigate to work schedule screen
                   Get.toNamed(AppRoutes.workScheduleScreen);
