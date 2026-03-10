@@ -28,18 +28,18 @@ class ServiceCard extends StatelessWidget {
                 (service.serviceImage.isEmpty ||
                     !service.serviceImage.startsWith('http'))
                 ? Container(
-                    height: 100,
+                    height: 85,
                     color: Colors.grey[300],
                     child: const Icon(Icons.image_not_supported, size: 40),
                   )
                 : Image.network(
                     service.serviceImage,
-                    height: 100,
+                    height: 85,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        height: 100,
+                        height: 85,
                         color: Colors.grey[300],
                         child: const Icon(Icons.image_not_supported, size: 40),
                       );

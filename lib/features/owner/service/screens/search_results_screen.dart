@@ -1,5 +1,6 @@
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
-import 'package:cleaning_service_app/features/owner/home/controllers/nearby_services_controller.dart';
+import 'package:cleaning_service_app/features/owner/home/controllers/search_controller.dart'
+as search;
 import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
@@ -7,8 +8,6 @@ import 'package:cleaning_service_app/features/owner/service/widgets/service_card
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:cleaning_service_app/features/owner/home/controllers/search_controller.dart'
-as search;
 
 class SearchResultsScreen extends GetView<search.SearchController> {
   //final List<FilteredService> services;
@@ -19,7 +18,7 @@ class SearchResultsScreen extends GetView<search.SearchController> {
     super.key,
     //required this.services,
     required this.totalResults,
-    this.appliedFilters,
+    this.appliedFilters
   });
 
   @override
@@ -122,7 +121,7 @@ class SearchResultsScreen extends GetView<search.SearchController> {
                 if( controller.isSearching.value ){
                   return Center(child: CircularProgressIndicator(color: Colors.blue));
                 }else if( controller.searchResults.isEmpty ){
-                  return _buildNearbyServicesFallback();
+                  return Center(child: Text("No services found"),);
                 }else{
                   return GridView.builder(
                     gridDelegate:
@@ -131,7 +130,7 @@ class SearchResultsScreen extends GetView<search.SearchController> {
                         mainAxisSpacing: 8.h,
                         crossAxisSpacing: 8.w,
                         childAspectRatio: 0.85,
-                        mainAxisExtent: 235.h
+                        mainAxisExtent: 250.h
                     ),
                     itemCount: controller.searchResults.length,
                     itemBuilder: (context, index) {
@@ -175,84 +174,84 @@ class SearchResultsScreen extends GetView<search.SearchController> {
     );
   }
 
-  Widget _buildNearbyServicesFallback() {
-    final nearbyController = Get.isRegistered<NearbyServicesController>() ?
-    Get.find<NearbyServicesController>() : Get.put(NearbyServicesController());
-
-    return Obx(() {
-      if (nearbyController.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
-      }
-
-      if (nearbyController.error.isNotEmpty) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'No services found matching your criteria.',
-                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8),
-              Text(
-                nearbyController.error.value,
-                style: TextStyle(fontSize: 14, color: Colors.red[400]),
-                textAlign: TextAlign.center
-              ),
-            ],
-          ),
-        );
-      }
-
-      final nearbyServices = nearbyController.services;
-
-      if (nearbyServices.isEmpty) {
-        return Center(
-          child: Text(
-            'No services found.',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-          ),
-        );
-      }
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              'Near for you (${nearbyServices.length} services)',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.85,
-              ),
-              itemCount: nearbyServices.length,
-              itemBuilder: (context, index) {
-                final service = nearbyServices[index];
-                return GestureDetector(
-                  onTap: () => Get.to(
-                    () => OwnerServiceDetailsScreen(),
-                    arguments: {'serviceId': service.id},
-                  ),
-                  child: ServiceCard(service: service),
-                );
-              },
-            ),
-          ),
-        ],
-      );
-    });
-  }
+  // Widget _buildNearbyServicesFallback() {
+  //   final nearbyController = Get.isRegistered<NearbyServicesController>() ?
+  //   Get.find<NearbyServicesController>() : Get.put(NearbyServicesController());
+  //
+  //   return Obx(() {
+  //     if (nearbyController.isLoading.value) {
+  //       return Center(child: CircularProgressIndicator());
+  //     }
+  //
+  //     if (nearbyController.error.isNotEmpty) {
+  //       return Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Text(
+  //               'No services found matching your criteria.',
+  //               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             SizedBox(height: 8),
+  //             Text(
+  //               nearbyController.error.value,
+  //               style: TextStyle(fontSize: 14, color: Colors.red[400]),
+  //               textAlign: TextAlign.center
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //
+  //     final nearbyServices = nearbyController.services;
+  //
+  //     if (nearbyServices.isEmpty) {
+  //       return Center(
+  //         child: Text(
+  //           'No services found.',
+  //           style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+  //         ),
+  //       );
+  //     }
+  //
+  //     return Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 8.0),
+  //           child: Text(
+  //             'Near for you (${nearbyServices.length} services)',
+  //             style: TextStyle(
+  //               fontSize: 16,
+  //               fontWeight: FontWeight.w600,
+  //               color: Colors.black87,
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: GridView.builder(
+  //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+  //               crossAxisCount: 2,
+  //               mainAxisSpacing: 16,
+  //               crossAxisSpacing: 16,
+  //               childAspectRatio: 0.85,
+  //             ),
+  //             itemCount: nearbyServices.length,
+  //             itemBuilder: (context, index) {
+  //               final service = nearbyServices[index];
+  //               return GestureDetector(
+  //                 onTap: () => Get.to(
+  //                   () => OwnerServiceDetailsScreen(),
+  //                   arguments: {'serviceId': service.id},
+  //                 ),
+  //                 child: ServiceCard(service: service),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   });
+  // }
 }

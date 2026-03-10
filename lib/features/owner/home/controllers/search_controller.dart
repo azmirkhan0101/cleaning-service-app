@@ -24,6 +24,11 @@ class SearchController extends GetxController {
   var sortByPrice = ''.obs;
   var sortByRating = ''.obs;
 
+  void resetSortFilterValues() {
+    sortByPrice.value = '';
+    sortByRating.value = '';
+  }
+
   void setPriceFilter(String value) {
     sortByPrice.value = value;
     late Map<String, String> filterParams;

@@ -71,7 +71,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
                     /// Searchable Address Field
                     LocationSearchWidget(
-                      // controller: locationController,
+                      //controller: locationController,
                       hintText: "Search for your address...",
                       showLabel: true,
                       labelText: "Enter your address",
@@ -328,7 +328,8 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                                   final searchController =
                                       Get.find<search.SearchController>();
                                   await searchController.searchServices();
-
+                                  //RESET SORT FILTER VALUES
+                                  searchController.resetSortFilterValues();
                                   // Get applied filters and ensure category name is set
                                   final filters =
                                       searchController.appliedFilters.value;
