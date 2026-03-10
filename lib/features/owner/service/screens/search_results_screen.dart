@@ -7,24 +7,74 @@ import 'package:cleaning_service_app/features/owner/service/widgets/service_card
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:cleaning_service_app/features/owner/home/controllers/search_controller.dart'
+as search;
 
-class SearchResultsScreen extends StatelessWidget {
-  final List<FilteredService> services;
+class SearchResultsScreen extends GetView<search.SearchController> {
+  //final List<FilteredService> services;
   final int totalResults;
   final AppliedFilters? appliedFilters;
 
   const SearchResultsScreen({
     super.key,
-    required this.services,
+    //required this.services,
     required this.totalResults,
     this.appliedFilters,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(title: 'Search Result', backButton: true),
 
+    return Scaffold(
+      appBar: CustomAppBar(
+          title: 'Search Result',
+          backButton: true,
+        actions: [
+          PopupMenuButton<String>(
+            color: Colors.white,
+            icon: Icon(Icons.filter_list),
+            onSelected: (value) {
+              // Logic to determine which filter was clicked
+              if (value.contains('price')) {
+                controller.setPriceFilter(value.split('_').last == 'low' ? 'low_to_high' : 'high_to_low');
+              } else {
+                controller.setRatingFilter(value.split('_').last == 'high' ? 'high_to_low' : 'low_to_high');
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem(
+                enabled: false,
+                child: Text("SORT BY PRICE", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              ),
+              CheckedPopupMenuItem<String>(
+                value: 'price_low',
+                checked: controller.sortByPrice.value == 'low_to_high',
+                child: const Text("Low to High"),
+              ),
+              CheckedPopupMenuItem<String>(
+                value: 'price_high',
+                checked: controller.sortByPrice.value == 'high_to_low',
+                child: const Text("High to Low"),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem(
+                enabled: false,
+                child: Text("SORT BY RATING", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              ),
+              CheckedPopupMenuItem<String>(
+                value: 'rating_high',
+                checked: controller.sortByRating.value == 'high_to_low',
+                child: const Text("High to Low"),
+              ),
+              CheckedPopupMenuItem<String>(
+                value: 'rating_low',
+                checked: controller.sortByRating.value == 'low_to_high',
+                child: const Text("Low to High"),
+              ),
+            ],
+          )
+        ],
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,40 +118,48 @@ class SearchResultsScreen extends StatelessWidget {
             const SizedBox(height: 12),
             // Grid of service cards
             Expanded(
-              child: services.isEmpty
-                  ? _buildNearbyServicesFallback()
-                  : GridView.builder(
-                      gridDelegate:
-                           SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8.h,
-                            crossAxisSpacing: 8.w,
-                            childAspectRatio: 0.85,
-                            mainAxisExtent: 235.h
-                          ),
-                      itemCount: services.length,
-                      itemBuilder: (context, index) {
-                        final s = services[index];
-                        final serviceModel = ServiceModel(
-                          id: s.id,
-                          serviceName: s.serviceName,
-                          serviceImage: s.serviceImage,
-                          averageRatings: s.averageRating,
-                          providerName: s.providerName,
-                          providerProfilePicture: s.providerProfilePicture,
-                          isApprovalRequired:
-                              false, // Not available in FilteredService
-                          price: s.rateByHour,
-                        );
-                        return GestureDetector(
-                          onTap: () => Get.to(
-                            () => OwnerServiceDetailsScreen(),
-                            arguments: {'serviceId': serviceModel.id},
-                          ),
-                          child: ServiceCard(service: serviceModel),
-                        );
-                      },
+              child: Obx((){
+                if( controller.isSearching.value ){
+                  return Center(child: CircularProgressIndicator(color: Colors.blue));
+                }else if( controller.searchResults.isEmpty ){
+                  return _buildNearbyServicesFallback();
+                }else{
+                  return GridView.builder(
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.h,
+                        crossAxisSpacing: 8.w,
+                        childAspectRatio: 0.85,
+                        mainAxisExtent: 235.h
                     ),
+                    itemCount: controller.searchResults.length,
+                    itemBuilder: (context, index) {
+
+                      final s = controller.searchResults[index];
+
+                      final serviceModel = ServiceModel(
+                        id: s.id,
+                        serviceName: s.serviceName,
+                        serviceImage: s.serviceImage,
+                        averageRatings: s.averageRating,
+                        providerName: s.providerName,
+                        providerProfilePicture: s.providerProfilePicture,
+                        isApprovalRequired:
+                        false, // Not available in FilteredService
+                        price: s.rateByHour,
+                      );
+                      return GestureDetector(
+                        onTap: () => Get.to(
+                              () => OwnerServiceDetailsScreen(),
+                          arguments: {'serviceId': serviceModel.id},
+                        ),
+                        child: ServiceCard(service: serviceModel),
+                      );
+                    },
+                  );
+                }
+              })
             ),
           ],
         ),
@@ -118,7 +176,8 @@ class SearchResultsScreen extends StatelessWidget {
   }
 
   Widget _buildNearbyServicesFallback() {
-    final nearbyController = Get.find<NearbyServicesController>();
+    final nearbyController = Get.isRegistered<NearbyServicesController>() ?
+    Get.find<NearbyServicesController>() : Get.put(NearbyServicesController());
 
     return Obx(() {
       if (nearbyController.isLoading.value) {

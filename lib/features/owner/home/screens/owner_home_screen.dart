@@ -40,7 +40,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   }
 
   final ownerController = Get.find<OwnerController>();
-  final nearbyController = Get.put(NearbyServicesController());
+  final nearbyController = Get.find<NearbyServicesController>();
 
   final paymentController = Get.find<PaymentController>();
 

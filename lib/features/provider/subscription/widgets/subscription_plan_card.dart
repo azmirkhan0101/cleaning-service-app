@@ -111,17 +111,17 @@ class SubscriptionPlanCard extends StatelessWidget {
                                     : const Color(0xFF0F0B18),
                               ),
                             ],
-                            if (plan.price > 0) ...[
-                              const SizedBox(height: 4),
-                              CustomText(
-                                text: "20% commission",
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: isSelected
-                                    ? Colors.white
-                                    : const Color(0xFF4F4F59),
-                              ),
-                            ],
+                            // if (plan.price > 0) ...[
+                            //   const SizedBox(height: 4),
+                            //   CustomText(
+                            //     text: "20% commission",
+                            //     fontSize: 10,
+                            //     fontWeight: FontWeight.w400,
+                            //     color: isSelected
+                            //         ? Colors.white
+                            //         : const Color(0xFF4F4F59),
+                            //   ),
+                            // ],
                           ],
                         ),
                       ),

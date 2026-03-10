@@ -10,7 +10,6 @@ import 'package:cleaning_service_app/features/location/screens/map_picker.dart';
 import 'package:cleaning_service_app/features/notification/notification_screen.dart';
 import 'package:cleaning_service_app/features/owner/booking/owner_scanner_screen.dart';
 import 'package:cleaning_service_app/features/owner/home/screens/owner_home_screen.dart';
-import 'package:cleaning_service_app/features/owner/home/screens/owner_search_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/owner_services_by_category_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/service_booking_screen.dart';
@@ -97,7 +96,7 @@ class AppRoutes {
 
   static const String educationTrainingScreen = "/EducationTrainingScreen";
 
-  static const String ownerSearchScreen = "/OwnerSearchScreen";
+  //static const String ownerSearchScreen = "/OwnerSearchScreen";
 
   static List<GetPage> routes = [
     ///===========================Authentication==========================
@@ -165,7 +164,10 @@ class AppRoutes {
     // ),
     GetPage(name: reviewScreen, page: () => ReviewScreen()),
 
-    GetPage(name: ownerHomeScreen, page: () => OwnerHomeScreen()),
+    GetPage(name: ownerHomeScreen, page: (){
+      return OwnerHomeScreen();
+    },
+    ),
 
     GetPage(
       name: ownerCategoryByService,
@@ -187,7 +189,5 @@ class AppRoutes {
     GetPage(name: ownerProfileScreen, page: () => ProfileScreen()),
 
     GetPage(name: educationHomeScreen, page: () => KnowledgeHubScreen()),
-
-    GetPage(name: ownerSearchScreen, page: () => OwnerSearchScreen()),
   ];
 }

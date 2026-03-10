@@ -367,7 +367,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                                   // (to show nearby services fallback)
                                   Get.to(
                                     SearchResultsScreen(
-                                      services: searchController.searchResults,
+                                      //services: searchController.searchResults,
                                       totalResults:
                                           searchController.totalResults.value,
                                       appliedFilters: updatedFilters,

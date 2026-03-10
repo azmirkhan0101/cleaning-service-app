@@ -11,6 +11,8 @@ import 'package:cleaning_service_app/features/provider/service/controllers/delet
 import 'package:cleaning_service_app/features/provider/service/service_controller.dart';
 import 'package:get/get.dart';
 
+import '../../features/owner/home/controllers/nearby_services_controller.dart';
+
 class DependencyInjection extends Bindings {
   @override
   void dependencies() {
@@ -29,6 +31,7 @@ class DependencyInjection extends Bindings {
     // Get.lazyPut(() => BookingController(), fenix: true);
     Get.lazyPut(() => ServiceController(), fenix: true);
     Get.lazyPut(() => OwnerController(), fenix: true);
+    Get.lazyPut(() => NearbyServicesController(), fenix: true);
     Get.lazyPut(() => OwnerServiceController(), fenix: true);
     Get.lazyPut(() => LocationController(), fenix: true);
     Get.lazyPut(() => ServiceBookingController(), fenix: true);

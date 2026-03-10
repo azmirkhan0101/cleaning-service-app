@@ -7,6 +7,7 @@ import 'package:cleaning_service_app/features/location/controllers/location_cont
 import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +16,46 @@ class SearchController extends GetxController {
   //#######################
   //FOR DROPDOWN VISIBILITY
   RxBool showDropDownList = false.obs;
+  //#######################
+
+  //#######################
+  //FOR SEARCH RESULT SCREEN FILTERING
+  // Current filter states
+  var sortByPrice = ''.obs;
+  var sortByRating = ''.obs;
+
+  void setPriceFilter(String value) {
+    sortByPrice.value = value;
+    late Map<String, String> filterParams;
+    if( sortByRating.value.isNotEmpty ){
+      filterParams = {
+        'sortByPrice': value,
+        'sortByRating': sortByRating.value
+      };
+    }else{
+      filterParams = {
+        'sortByPrice': value
+      };
+    }
+
+    searchServices(filterParams: filterParams);
+  }
+
+  void setRatingFilter(String value) {
+    sortByRating.value = value;
+    late Map<String, String> filterParams;
+    if( sortByPrice.value.isNotEmpty ){
+      filterParams = {
+        'sortByPrice': sortByPrice.value,
+        'sortByRating': value
+      };
+    }else{
+      filterParams = {
+        'sortByRating': value
+      };
+    }
+    searchServices(filterParams: filterParams);
+  }
   //#######################
 
   final Rxn<AppliedFilters> appliedFilters = Rxn<AppliedFilters>();
@@ -241,16 +282,22 @@ class SearchController extends GetxController {
   }
 
   /// Build URL with query parameters
-  String _buildUrlWithParams(String baseUrl, Map<String, String> params) {
+  String _buildUrlWithParams(String baseUrl, Map<String, String> params, {Map<String, String>? filterParams}) {
     if (params.isEmpty) return baseUrl;
 
+    final Map<String, String> combinedParams = Map.from(params);
+    if (filterParams != null && filterParams.isNotEmpty) {
+      combinedParams.addAll(filterParams);
+    }
+
+
     final uri = Uri.parse(baseUrl);
-    final newUri = uri.replace(queryParameters: params);
+    final newUri = uri.replace(queryParameters: combinedParams);
     return newUri.toString();
   }
 
   /// Perform search with current filters
-  Future<void> searchServices() async {
+  Future<void> searchServices({Map<String, String>? filterParams}) async {
     if( isSearching.value ){
       return;
     }
@@ -259,7 +306,7 @@ class SearchController extends GetxController {
       errorMessage.value = '';
 
       final params = getSearchParams();
-      final url = _buildUrlWithParams(ApiUrl.searchFilter, params);
+      final url = _buildUrlWithParams(ApiUrl.searchFilter, params, filterParams: filterParams);
 
       debugPrint('Search URL: $url');
 
