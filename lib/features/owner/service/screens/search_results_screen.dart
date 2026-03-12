@@ -31,7 +31,6 @@ class SearchResultsScreen extends GetView<search.SearchController> {
         actions: [
           PopupMenuButton<String>(
             color: Colors.white,
-            icon: Icon(Icons.filter_list),
             onSelected: (value) {
               // Logic to determine which filter was clicked
               if (value.contains('price')) {
@@ -71,6 +70,10 @@ class SearchResultsScreen extends GetView<search.SearchController> {
                 child: const Text("Low to High"),
               ),
             ],
+            child: Padding(
+              padding: const EdgeInsets.only(right: 25.0),
+              child: Text("Sort by", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16), ),
+            ),
           )
         ],
       ),
