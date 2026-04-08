@@ -61,10 +61,10 @@ class SignupController extends GetxController {
     };
 
     // Add referral code only if provided
-    final referralCode = signupReferralController.text.trim();
-    if (referralCode.isNotEmpty) {
-      signupData["referralCode"] = referralCode;
-    }
+    // final referralCode = signupReferralController.text.trim();
+    // if (referralCode.isNotEmpty) {
+    //   signupData["referralCode"] = referralCode;
+    // }
 
     final response = await Get.find<NetworkHelper>().post(
       ApiUrl.signup,

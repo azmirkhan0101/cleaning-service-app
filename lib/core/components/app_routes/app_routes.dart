@@ -148,7 +148,7 @@ class AppRoutes {
 
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
 
-    GetPage(name: referScreen, page: () => ReferScreen()),
+    //GetPage(name: referScreen, page: () => ReferScreen()),
 
     GetPage(
       name: redeemScreen,

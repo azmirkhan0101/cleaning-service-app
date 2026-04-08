@@ -23,9 +23,9 @@ class UploadDocumentSection extends StatelessWidget {
   UploadDocumentSection({super.key});
 
   final selectionController = Get.find<ProfileSetupController>();
-  final affiliationController = Get.put<AffiliationController>(
-    AffiliationController(),
-  );
+  // final affiliationController = Get.put<AffiliationController>(
+  //   AffiliationController(),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +127,37 @@ class UploadDocumentSection extends StatelessWidget {
                 return;
               }
 
+              final result = await selectionController
+                  .completeRegistrationSetup();
+              if (result) {
+                // Close the dialog first
+                //Navigator.of(context).pop();
+                // Then navigate to login (this removes all previous routes)
+                Get.offAll(() => LoginScreen());
+                Toast.successToast(
+                  "Registration completed successfully",
+                );
+              } else {
+                // Check if error is session expired
+                final errorMsg = selectionController.errorMessage.value
+                    .toLowerCase();
+                if (errorMsg.contains('session has expired') ||
+                    errorMsg.contains(
+                      'start registration from the first step',
+                    )) {
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                  // Navigate to signup screen
+                  Get.offAllNamed('/SignupScreen');
+                  Toast.errorToast(
+                    "Your session has expired. Please start registration again.",
+                  );
+                } else {
+                  // Show error toast for other errors
+                  Toast.errorToast(selectionController.errorMessage.value);
+                }
+              }
+
               // if (selectionController.selectedRole.value == Role.provider) {
               //   if (selectionController.selfieWithIdImage.value == null) {
               //     Toast.errorToast("Please upload a selfie with your ID");
@@ -134,10 +165,10 @@ class UploadDocumentSection extends StatelessWidget {
               //   }
               // }
               // fetch affiliation condition text
-              await affiliationController.fetchAffiliationProgram();
-              if (!context.mounted) return;
-              // Show affiliation condition dialog for Provider
-              _showAffiliationConditionDialog(context);
+              // await affiliationController.fetchAffiliationProgram();
+              // if (!context.mounted) return;
+              // // Show affiliation condition dialog for Provider
+              // _showAffiliationConditionDialog(context);
               debugPrint(
                 'Front side of id: ${selectionController.frontIdImage.value}',
               );
@@ -148,13 +179,13 @@ class UploadDocumentSection extends StatelessWidget {
                 'Selfie with ID uploaded: ${selectionController.selfieWithIdImage.value}',
               );
             },
-            title: affiliationController.isLoading.value
+            title: selectionController.isUploading.value
                 ? 'Processing...'
                 : 'Confirm',
             fontSize: 16,
             width: double.infinity,
             height: 50,
-            fillColor: affiliationController.isLoading.value
+            fillColor: selectionController.isUploading.value
                 ? AppColors.grey_1
                 : AppColors.appColors,
             borderRadius: 24,
@@ -166,24 +197,24 @@ class UploadDocumentSection extends StatelessWidget {
     });
   }
 
-  void _showAffiliationConditionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.white.withValues(alpha: 0.5), // Blur effect
-      barrierDismissible: true,
-      builder: (context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Dialog(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            insetPadding: EdgeInsets.symmetric(horizontal: 24),
-            child: _showAffiliateDialog(context),
-          ),
-        );
-      },
-    );
-  }
+  // void _showAffiliationConditionDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     barrierColor: Colors.white.withValues(alpha: 0.5), // Blur effect
+  //     barrierDismissible: true,
+  //     builder: (context) {
+  //       return BackdropFilter(
+  //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+  //         child: Dialog(
+  //           elevation: 0,
+  //           backgroundColor: Colors.transparent,
+  //           insetPadding: EdgeInsets.symmetric(horizontal: 24),
+  //           child: _showAffiliateDialog(context),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildUploadDocument({
     required String title,
@@ -272,132 +303,132 @@ class UploadDocumentSection extends StatelessWidget {
     );
   }
 
-  Widget _showAffiliateDialog(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 2, color: const Color(0xFF1B2D51)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 16),
-            // Title
-            Text(
-              'Affiliation Condition',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFF0F0B18),
-                fontSize: 24,
-                fontFamily: 'Lexend',
-                fontWeight: FontWeight.w700,
-                height: 1.3,
-              ),
-            ),
-            SizedBox(height: 24),
-            // Content
-            Obx(() {
-              if (affiliationController.isLoading.value) {
-                return CircularProgressIndicator();
-              }
-              return HtmlWidget(
-                affiliationController.affiliationContent.value,
-                textStyle: TextStyle(
-                  color: const Color(0xFF0F0B18),
-                  fontSize: 14,
-                  fontFamily: 'Lexend',
-                  fontWeight: FontWeight.w400,
-                  height: 1.5,
-                ),
-              );
-            }),
-            SizedBox(height: 32),
-            Obx(() {
-              return GestureDetector(
-                onTap: () async {
-                  // If role is Provider, go to next step
-                  // if (selectionController.selectedRole.value != Role.owner) {
-                  //   Navigator.pop(context);
-                  //   selectionController.currentIndex.value++;
-                  // } else {
-                  // else complete registration
-                  // Upload all documents for Owner
-                  final result = await selectionController
-                      .completeRegistrationSetup();
-                  if (result) {
-                    // Close the dialog first
-                    Navigator.of(context).pop();
-                    // Then navigate to login (this removes all previous routes)
-                    Get.offAll(() => LoginScreen());
-                    Toast.successToast(
-                      "Registration completed successfully",
-                    );
-                  } else {
-                    // Check if error is session expired
-                    final errorMsg = selectionController.errorMessage.value
-                        .toLowerCase();
-                    if (errorMsg.contains('session has expired') ||
-                        errorMsg.contains(
-                          'start registration from the first step',
-                        )) {
-                      // Close the dialog
-                      Navigator.of(context).pop();
-                      // Navigate to signup screen
-                      Get.offAllNamed('/SignupScreen');
-                      Toast.errorToast(
-                        "Your session has expired. Please start registration again.",
-                      );
-                    } else {
-                      // Show error toast for other errors
-                      Toast.errorToast(selectionController.errorMessage.value);
-                    }
-                  }
-                  // }
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7A51D),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 16,
-                    children: [
-                      if (selectionController.isUploading.value)
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(),
-                        ),
-                      Text(
-                        selectionController.isUploading.value
-                            ? 'proceeding...'
-                            : 'Accept',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Lexend',
-                          fontWeight: FontWeight.w600,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
-
-            SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _showAffiliateDialog(BuildContext context) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(24),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       border: Border.all(width: 2, color: const Color(0xFF1B2D51)),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     child: SingleChildScrollView(
+  //       child: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           SizedBox(height: 16),
+  //           // Title
+  //           Text(
+  //             'Affiliation Condition',
+  //             textAlign: TextAlign.center,
+  //             style: TextStyle(
+  //               color: const Color(0xFF0F0B18),
+  //               fontSize: 24,
+  //               fontFamily: 'Lexend',
+  //               fontWeight: FontWeight.w700,
+  //               height: 1.3,
+  //             ),
+  //           ),
+  //           SizedBox(height: 24),
+  //           // Content
+  //           Obx(() {
+  //             if (affiliationController.isLoading.value) {
+  //               return CircularProgressIndicator();
+  //             }
+  //             return HtmlWidget(
+  //               affiliationController.affiliationContent.value,
+  //               textStyle: TextStyle(
+  //                 color: const Color(0xFF0F0B18),
+  //                 fontSize: 14,
+  //                 fontFamily: 'Lexend',
+  //                 fontWeight: FontWeight.w400,
+  //                 height: 1.5,
+  //               ),
+  //             );
+  //           }),
+  //           SizedBox(height: 32),
+  //           Obx(() {
+  //             return GestureDetector(
+  //               onTap: () async {
+  //                 // If role is Provider, go to next step
+  //                 // if (selectionController.selectedRole.value != Role.owner) {
+  //                 //   Navigator.pop(context);
+  //                 //   selectionController.currentIndex.value++;
+  //                 // } else {
+  //                 // else complete registration
+  //                 // Upload all documents for Owner
+  //                 final result = await selectionController
+  //                     .completeRegistrationSetup();
+  //                 if (result) {
+  //                   // Close the dialog first
+  //                   Navigator.of(context).pop();
+  //                   // Then navigate to login (this removes all previous routes)
+  //                   Get.offAll(() => LoginScreen());
+  //                   Toast.successToast(
+  //                     "Registration completed successfully",
+  //                   );
+  //                 } else {
+  //                   // Check if error is session expired
+  //                   final errorMsg = selectionController.errorMessage.value
+  //                       .toLowerCase();
+  //                   if (errorMsg.contains('session has expired') ||
+  //                       errorMsg.contains(
+  //                         'start registration from the first step',
+  //                       )) {
+  //                     // Close the dialog
+  //                     Navigator.of(context).pop();
+  //                     // Navigate to signup screen
+  //                     Get.offAllNamed('/SignupScreen');
+  //                     Toast.errorToast(
+  //                       "Your session has expired. Please start registration again.",
+  //                     );
+  //                   } else {
+  //                     // Show error toast for other errors
+  //                     Toast.errorToast(selectionController.errorMessage.value);
+  //                   }
+  //                 }
+  //                 // }
+  //               },
+  //               child: Container(
+  //                 width: double.infinity,
+  //                 padding: const EdgeInsets.symmetric(vertical: 16),
+  //                 decoration: BoxDecoration(
+  //                   color: const Color(0xFFF7A51D),
+  //                   borderRadius: BorderRadius.circular(50),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   spacing: 16,
+  //                   children: [
+  //                     if (selectionController.isUploading.value)
+  //                       SizedBox(
+  //                         width: 24,
+  //                         height: 24,
+  //                         child: CircularProgressIndicator(),
+  //                       ),
+  //                     Text(
+  //                       selectionController.isUploading.value
+  //                           ? 'proceeding...'
+  //                           : 'Accept',
+  //                       textAlign: TextAlign.center,
+  //                       style: TextStyle(
+  //                         color: Colors.white,
+  //                         fontSize: 16,
+  //                         fontFamily: 'Lexend',
+  //                         fontWeight: FontWeight.w600,
+  //                         height: 1.5,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             );
+  //           }),
+  //
+  //           SizedBox(height: 16),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

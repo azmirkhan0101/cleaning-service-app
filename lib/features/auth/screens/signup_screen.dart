@@ -15,6 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../profile/screens/policy_condition_screen.dart';
+
 class SignupScreen extends GetView<SignupController> {
   const SignupScreen({super.key});
 
@@ -212,12 +214,12 @@ class SignupScreen extends GetView<SignupController> {
           SizedBox(height: 12),
 
           ///--> Referral Code Field (Optional) <--///
-          CustomFormField(
-            controller: controller.signupReferralController,
-            hintText: AppStrings.enterReferralCode,
-            labelText: AppStrings.referralCode,
-            keyboardType: TextInputType.text,
-          ),
+          // CustomFormField(
+          //   controller: controller.signupReferralController,
+          //   hintText: AppStrings.enterReferralCode,
+          //   labelText: AppStrings.referralCode,
+          //   keyboardType: TextInputType.text,
+          // ),
         ],
       ),
     );
@@ -260,9 +262,12 @@ class SignupScreen extends GetView<SignupController> {
                   fontWeight: FontWeight.w500,
                 ),
                 GestureDetector(
-                  onTap: () => _onClickTermsPrivacyPolicy(
-                    "https://www.example.com/terms",
-                  ),
+                  onTap: () {
+                    Get.to(PolicyConditionScreen(title: "Terms & Conditions"));
+                    // _onClickTermsPrivacyPolicy(
+                    // "https://www.example.com/terms",
+                    // );
+                  },
                   child: CustomText(
                     text: 'terms',
                     fontSize: 12.sp,
@@ -276,9 +281,12 @@ class SignupScreen extends GetView<SignupController> {
                   fontWeight: FontWeight.w500,
                 ),
                 GestureDetector(
-                  onTap: () => _onClickTermsPrivacyPolicy(
-                    "https://www.example.com/privacy",
-                  ),
+                  onTap: () {
+                    Get.to(PolicyConditionScreen(title: "Privacy Policy"));
+                    // _onClickTermsPrivacyPolicy(
+                    // "https://www.example.com/privacy",
+                    // );
+                  },
                   child: CustomText(
                     text: 'privacy policy',
                     fontSize: 12.sp,

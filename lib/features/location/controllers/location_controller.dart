@@ -53,9 +53,12 @@ class LocationController extends GetxController {
       // debugPrint('Places API response: ${response.body}');
 
       if (response.statusCode == 200) {
+        print("Response is 200");
+        print("${response.body}");
         final data = json.decode(response.body);
 
         if (data['status'] == 'OK' && data['predictions'] != null) {
+          print("Response is okay");
           final predictions = (data['predictions'] as List<dynamic>)
               .map((p) => PlacePrediction.fromJson(p as Map<String, dynamic>))
               .toList();
@@ -69,6 +72,7 @@ class LocationController extends GetxController {
           // searchResults.clear();
           showSearchResults.value = placePredictions.isNotEmpty;
         } else {
+          print("Response is not okay");
           // searchResults.clear();
           placePredictions.clear();
           showSearchResults.value = false;

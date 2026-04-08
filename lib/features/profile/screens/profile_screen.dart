@@ -165,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
           },
         ),
         // My Balance (only for Provider)
-        // if (role == Role.provider.value)
+         if (role == Role.provider.value)
         Skeletonizer(
           enabled: profileController.isLoadingStripeDashboard.value,
           child: InkWell(
@@ -229,27 +229,27 @@ class ProfileScreen extends StatelessWidget {
         ),
 
         // Affiliation condition (Only for Provider
-        if (role == Role.provider.value)
-          InkWell(
-            child: _buildSettingsItem(
-              'Affiliation Condition',
-              Icons.handshake_outlined,
-            ),
-            onTap: () {
-              // Get.toNamed(AppRoutes.affiliationConditionScreen);
-              Get.to(PolicyConditionScreen(title: "Affiliation Condition"));
-            },
-          ),
+        // if (role == Role.provider.value)
+        //   InkWell(
+        //     child: _buildSettingsItem(
+        //       'Affiliation Condition',
+        //       Icons.handshake_outlined,
+        //     ),
+        //     onTap: () {
+        //       // Get.toNamed(AppRoutes.affiliationConditionScreen);
+        //       Get.to(PolicyConditionScreen(title: "Affiliation Condition"));
+        //     },
+        //   ),
 
         // Invite Friend
-        InkWell(
-          child: _buildSettingsItem('Invite Friend', Icons.people_outline),
-          onTap: () {
-            //ReferScreen
-            // Get.toNamed(AppRoutes.referScreen);
-            Get.to(ReferScreen());
-          },
-        ),
+        // InkWell(
+        //   child: _buildSettingsItem('Invite Friend', Icons.people_outline),
+        //   onTap: () {
+        //     //ReferScreen
+        //     // Get.toNamed(AppRoutes.referScreen);
+        //     Get.to(ReferScreen());
+        //   },
+        // ),
 
         // Delete Account
         InkWell(

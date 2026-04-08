@@ -1,4 +1,4 @@
-package com.gianluigi.cleaningservice
+package com.gianluigi.brikky
 
 import io.flutter.embedding.android.FlutterActivity
 
