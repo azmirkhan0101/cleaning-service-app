@@ -57,9 +57,13 @@
 
 <!--    TODO:       CHANGE THIS MAPS API KEY.-->
 <!--        THIS KEY IS FROM ANOTHER PROJECT(EL AFRIK)-->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyDYM21Y0hzB_vRkJqhCfSr5UuLANFC0rU0"-->
+<!--            />-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDYM21Y0hzB_vRkJqhCfSr5UuLANFC0rU0"
+            android:value="AIzaSyCLvh4F_KlAIxJQukyAcdwddOA9-HMxBIc"
             />
 
 <!--        android:value="${MAPS_API_KEY}"-->
