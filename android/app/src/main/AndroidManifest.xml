@@ -55,12 +55,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-<!--    TODO:       CHANGE THIS MAPS API KEY.-->
-<!--        THIS KEY IS FROM ANOTHER PROJECT(EL AFRIK)-->
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.API_KEY"-->
-<!--            android:value="AIzaSyDYM21Y0hzB_vRkJqhCfSr5UuLANFC0rU0"-->
-<!--            />-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBqXn2DRFlnz-DLCBbCuY8XnqeFsOjuuyI"

@@ -36,6 +36,8 @@ void main() async {
     await AppStorageService.clearAll();
   }
 
+
+
   DependencyInjection di = DependencyInjection();
   di.dependencies();
 
