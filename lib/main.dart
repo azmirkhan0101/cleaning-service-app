@@ -29,13 +29,6 @@ void main() async {
   // Initialize storage services
   await AppStorageService.init();
   await GetStorage.init();
-  try {
-    final value = await AppStorageService.readSecure("hello");
-  } catch (e) {
-    // If decryption fails, clear the storage to fix the 'stuck' state
-    await AppStorageService.clearAll();
-  }
-
 
 
   DependencyInjection di = DependencyInjection();

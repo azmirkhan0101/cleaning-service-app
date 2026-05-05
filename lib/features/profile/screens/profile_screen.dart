@@ -359,7 +359,6 @@ class ProfileScreen extends StatelessWidget {
             height: 1.50,
           ),
           const Spacer(),
-
           const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
         ],
       ),
@@ -369,8 +368,11 @@ class ProfileScreen extends StatelessWidget {
   void onTapMyBalance(BuildContext context) async {
     final profileCtrl = Get.find<ProfileController>();
     String? url = await profileCtrl.fetchStripeDashboardUrl();
+    print("URL: $url");
     if (url == null || url.isEmpty) {
+      print("URL is null");
       url = await profileCtrl.createStripeOnboardingLink();
+      print("URL after: $url");
       if (url == null || url.isEmpty) {
         if (context.mounted) {
           Toast.errorToast('Unable to open Stripe link');

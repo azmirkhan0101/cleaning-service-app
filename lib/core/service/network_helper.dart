@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
@@ -28,6 +29,7 @@ class NetworkHelper extends GetxService {
     bool withAuth = true,
     T Function(dynamic data)? parser,
     Duration? timeout,
+        bool shouldPrint = false
   }) async {
     try {
       final token = await AppStorageService.getAuthToken();
@@ -41,10 +43,10 @@ class NetworkHelper extends GetxService {
       };
 
       // Log request without sensitive data in production
-      _logger.d(
-        "[$method] $url\nHeaders: $finalHeaders\n"
-        "Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}",
-      );
+      // _logger.d(
+      //   "[$method] $url\nHeaders: $finalHeaders\n"
+      //   "Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}",
+      // );
       // _logger.d("Body: ${body != null ? jsonEncode(body) : 'null'}");
 
       late http.Response response;
@@ -92,11 +94,16 @@ class NetworkHelper extends GetxService {
           return Left(ErrorResponseModel(message: "Invalid HTTP method"));
       }
 
+      if( shouldPrint ){
+        print("ENDPOINT: $url");
+        logPrettyJson(response.body);
+      }
+
       return _handleResponse<T>(method, url, response, parser);
     } on TimeoutException catch (e, st) {
-      _logger.d(
-        "[$method] $url\n Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}\n Request timeout: $e, stackTrace: $st",
-      );
+      // _logger.d(
+      //   "[$method] $url\n Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}\n Request timeout: $e, stackTrace: $st",
+      // );
       // _logger.e("Request timeout: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
@@ -106,7 +113,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } on SocketException catch (e, st) {
-      _logger.e("[$method] $url\n Network error: $e", stackTrace: st);
+      //_logger.e("[$method] $url\n Network error: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Network Error",
@@ -115,7 +122,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } on FormatException catch (e, st) {
-      _logger.e("[$method] $url\n Invalid URL format: $e", stackTrace: st);
+      //_logger.e("[$method] $url\n Invalid URL format: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Invalid URL",
@@ -124,7 +131,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } catch (e, st) {
-      _logger.e("[$method] $url\n Request failed: $e", stackTrace: st);
+      //_logger.e("[$method] $url\n Request failed: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Failed",
@@ -135,6 +142,22 @@ class NetworkHelper extends GetxService {
     }
   }
 
+  void logPrettyJson(String responseBody) {
+    try {
+      // 1. Parse the string into an object (Map or List)
+      final dynamic decoded = json.decode(responseBody);
+
+      // 2. Encode it back to a string with 2-space indentation
+      final String prettyString = const JsonEncoder.withIndent('  ').convert(decoded);
+
+      // 3. Log the result
+      developer.log(prettyString, name: 'API_RESPONSE');
+    } catch (e) {
+      // If it's not valid JSON, just log the raw string
+      developer.log("Invalid JSON: $responseBody", name: 'ERROR');
+    }
+  }
+
   /// Handle HTTP response and parse data
   Either<ErrorResponseModel, T> _handleResponse<T>(
     String method,
@@ -142,10 +165,10 @@ class NetworkHelper extends GetxService {
     http.Response response,
     T Function(dynamic data)? parser,
   ) {
-    _logger.d("Status: ${response.statusCode}");
-    _logger.d(
-      "[$method] $url\n Response: ${response.body.length > 500 ? '${response.body.substring(0, 500)}...' : response.body}",
-    );
+    //_logger.d("Status: ${response.statusCode}");
+    // _logger.d(
+    //   "[$method] $url\n Response: ${response.body.length > 500 ? '${response.body.substring(0, 500)}...' : response.body}",
+    // );
 
     // Log full response body for debugging
     if (url.contains('book-now')) {
@@ -167,7 +190,7 @@ class NetworkHelper extends GetxService {
         }
       }
     } catch (e) {
-      _logger.e("Failed to parse JSON response: $e");
+     // _logger.e("Failed to parse JSON response: $e");
       data = null;
     }
 
@@ -184,7 +207,7 @@ class NetworkHelper extends GetxService {
 
         return Right(result);
       } catch (e, st) {
-        _logger.e("Failed to parse success response: $e", stackTrace: st);
+       // _logger.e("Failed to parse success response: $e", stackTrace: st);
         return Left(
           ErrorResponseModel(
             status: "Parse Error",
@@ -372,8 +395,8 @@ class NetworkHelper extends GetxService {
         );
       }
 
-      _logger.d("Multipart [$method] $url with ${files.length} file(s)");
-      _logger.d("Fields: ${fields ?? {}}");
+      //_logger.d("Multipart [$method] $url with ${files.length} file(s)");
+      //_logger.d("Fields: ${fields ?? {}}");
 
       final requestTimeout = timeout ?? defaultTimeout;
       final streamedResponse = await request.send().timeout(requestTimeout);
@@ -381,7 +404,7 @@ class NetworkHelper extends GetxService {
 
       return _handleResponse<T>(method, url, response, parser);
     } on TimeoutException catch (e, st) {
-      _logger.e("Multipart request timeout: $e", stackTrace: st);
+      //_logger.e("Multipart request timeout: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Timeout",
@@ -390,7 +413,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } on SocketException catch (e, st) {
-      _logger.e("Multipart network error: $e", stackTrace: st);
+     // _logger.e("Multipart network error: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Network Error",
@@ -399,7 +422,7 @@ class NetworkHelper extends GetxService {
         ),
       );
     } catch (e, st) {
-      _logger.e("Multipart request failed: $e", stackTrace: st);
+      //_logger.e("Multipart request failed: $e", stackTrace: st);
       return Left(
         ErrorResponseModel(
           status: "Failed",

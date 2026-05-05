@@ -144,6 +144,7 @@ class ProfileController extends GetxController {
 
   /// Fetch Stripe Connect dashboard link
   Future<String?> fetchStripeDashboardUrl() async {
+
     try {
       isLoadingStripeDashboard.value = true;
       errorMessage.value = '';
@@ -154,6 +155,7 @@ class ProfileController extends GetxController {
             ApiUrl.stripeConnectDashboard,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
+        shouldPrint: true
           );
       isLoadingStripeDashboard.value = false;
 
@@ -189,6 +191,7 @@ class ProfileController extends GetxController {
             ApiUrl.stripeConnectOnboarding,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
+        shouldPrint: true
           );
 
       return response.fold(
