@@ -34,13 +34,27 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
           onPageFinished: (_) => setState(() => _isLoading = false),
           onNavigationRequest: (request) {
             final url = request.url;
+            print("YYYYYYYYYYYYYYYYYYYYYYYYYY:$url");
             // Detect Stripe Connect completion URL and treat as success
+            if( url.contains("stripe-connect/callback-complete") ){
+              _completeStripeOnboarding();
+              return NavigationDecision.prevent;
+            }
             if (url.contains('stripe-connect/complete')) {
               // Call the completion callback endpoint to sync database
               _completeStripeOnboarding();
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
+          },
+          onUrlChange: (UrlChange change) {
+            final url = change.url;
+            //print("URL CHANGED TO: $url");
+            print("XXXXXXXXXXXXXXXXXXXXXXX:$url");
+            // Some developers prefer checking the success URL here as well
+            if (url != null && url.contains('stripe-connect/complete')) {
+              //_completeStripeOnboarding();
+            }
           },
         ),
       )

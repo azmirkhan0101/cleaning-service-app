@@ -220,10 +220,11 @@ class ProfileController extends GetxController {
     try {
       final response = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
-            HttpRequestType.post.method,
+            HttpRequestType.get.method,
             ApiUrl.stripeConnectCompleteCallback,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
+        shouldPrint: true
           );
 
       return response.fold(
