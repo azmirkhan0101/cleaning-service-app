@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
@@ -8,6 +10,7 @@ import 'package:cleaning_service_app/features/main-layout/controllers/main_layou
 import 'package:cleaning_service_app/features/profile/models/profile_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   // Observable profile data
@@ -144,7 +147,6 @@ class ProfileController extends GetxController {
 
   /// Fetch Stripe Connect dashboard link
   Future<String?> fetchStripeDashboardUrl() async {
-
     try {
       isLoadingStripeDashboard.value = true;
       errorMessage.value = '';
@@ -155,7 +157,7 @@ class ProfileController extends GetxController {
             ApiUrl.stripeConnectDashboard,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
-        shouldPrint: true
+            shouldPrint: true,
           );
       isLoadingStripeDashboard.value = false;
 
@@ -191,7 +193,7 @@ class ProfileController extends GetxController {
             ApiUrl.stripeConnectOnboarding,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
-        shouldPrint: true
+            shouldPrint: true,
           );
 
       return response.fold(
@@ -216,31 +218,41 @@ class ProfileController extends GetxController {
 
   /// Complete Stripe Connect onboarding - forces fresh Stripe status check
   /// Must be called immediately after user returns from Stripe onboarding
-  Future<bool> completeStripeConnectOnboarding() async {
+  Future<bool> completeStripeConnectOnboarding(String url) async {
     try {
       final response = await Get.find<NetworkHelper>()
           .request<Map<String, dynamic>>(
             HttpRequestType.get.method,
-            ApiUrl.stripeConnectCompleteCallback,
+            url,
+            //ApiUrl.stripeConnectCompleteCallback,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
-        shouldPrint: true
+            shouldPrint: true,
           );
 
       return response.fold(
         (error) {
-          debugPrint('Stripe completion callback error: ${error.message}');
+          print(
+            "completeStripeConnectOnboarding ERORRRRRRRRRRRRRRR: ${error.message}",
+          );
+          //debugPrint('Stripe completion callback error: ${error.message}');
           return false;
         },
         (data) {
-          debugPrint('Stripe completion callback successful');
+          print(
+            "completeStripeConnectOnboarding DONEEEEEEEEEEEEEEEEE: ${data}",
+          );
+          print(
+            "completeStripeConnectOnboarding DONEEEEEEEEEEEEEEEEE2222: ${data?['success']}",
+          );
+          //debugPrint('Stripe completion callback successful');
           // Refresh profile to update Stripe status
           refreshProfile();
           return true;
         },
       );
     } catch (e) {
-      debugPrint('Exception calling stripe completion callback: $e');
+      //debugPrint('Exception calling stripe completion callback: $e');
       return false;
     }
   }
@@ -276,6 +288,35 @@ class ProfileController extends GetxController {
     } catch (e) {
       debugPrint('Exception disconnecting stripe account: $e');
       Toast.errorToast('Failed to disconnect Stripe account');
+      return false;
+    }
+  }
+
+  //UPLOAD COUNTRY TO SERVER
+  Future<bool> uploadCountry({required String country}) async {
+
+    try{
+      final token = await AppStorageService.getAuthToken();
+      final finalHeaders = {
+        "Content-Type": "application/json",
+        "Cookie": "token=$token",
+      };
+      final uri = Uri.parse(ApiUrl.uploadCountry);
+      final payLoad = {"country": country};
+      final response = await http
+          .put(uri, headers: finalHeaders, body: jsonEncode(payLoad))
+          .timeout(Duration(seconds: 10));
+
+      print("Country upload result: ${response.statusCode}");
+      print("Country upload result: ${response.body}");
+
+      if( response.statusCode == 200 || response.statusCode == 201 ){
+        return true;
+      }else{
+        return false;
+      }
+    }catch(e){
+      print("Country upload eror: $e");
       return false;
     }
   }

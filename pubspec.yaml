@@ -88,6 +88,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   flutter_google_maps_webservices: ^1.1.1
   path_provider: ^2.1.5
+  dropdown_search: 6.0.1
 
 dev_dependencies:
   flutter_test:

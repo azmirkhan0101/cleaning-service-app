@@ -8,6 +8,7 @@ class ApiUrl {
 
   //static const String baseUrl = 'https://backend.brikky.net/api';
   static const String baseUrl = 'http://10.10.20.73:8000/api';
+  //static const String baseUrl2 = 'http://10.10.20.73:8000';
 
   // static const String socketBaseUrl = 'http://10.10.20.73:8000';
   static const String socketBaseUrl = 'https://backend.brikky.net';
@@ -110,6 +111,7 @@ class ApiUrl {
       '$baseUrl/stripe-connect/callback-complete';
   static const String stripeConnectDisconnect =
       '$baseUrl/stripe-connect/disconnect';
+  static const String uploadCountry = '$baseUrl/profile/country';
 
   /// =--> Messages Endpoints <--=
   static const String messagesUsers = '$baseUrl/messages/users';

@@ -37,12 +37,12 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
             print("YYYYYYYYYYYYYYYYYYYYYYYYYY:$url");
             // Detect Stripe Connect completion URL and treat as success
             if( url.contains("stripe-connect/callback-complete") ){
-              _completeStripeOnboarding();
+              _completeStripeOnboarding(url);
               return NavigationDecision.prevent;
             }
             if (url.contains('stripe-connect/complete')) {
               // Call the completion callback endpoint to sync database
-              _completeStripeOnboarding();
+              _completeStripeOnboarding(url);
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -127,7 +127,7 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
   }
 
   /// Handle Stripe onboarding completion
-  Future<void> _completeStripeOnboarding() async {
+  Future<void> _completeStripeOnboarding(String url) async {
     if (!mounted) return;
 
     try {
@@ -149,7 +149,8 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
 
       // Call the completion callback API
       final profileCtrl = Get.find<ProfileController>();
-      final success = await profileCtrl.completeStripeConnectOnboarding();
+      //TODO: CALL THIS IN LOOP UNTIL GET TRUE OF EXCEED 10 SECONDS
+      final success = await profileCtrl.completeStripeConnectOnboarding(url);
 
       if (mounted) {
         Navigator.pop(context); // Close loading dialog

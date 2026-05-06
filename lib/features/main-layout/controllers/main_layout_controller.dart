@@ -113,8 +113,8 @@ class MainLayoutController extends GetxController {
       label: 'Profile',
       selectedIconPath: Assets.icons.profileFilled.path,
       unselectedIconPath: Assets.icons.profileOutliine.path,
-      ownerScreen: const ProfileScreen(),
-      providerScreen: const ProfileScreen(),
+      ownerScreen: ProfileScreen(),
+      providerScreen: ProfileScreen(),
     ),
   ];
 

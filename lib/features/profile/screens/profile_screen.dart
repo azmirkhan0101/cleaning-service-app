@@ -19,6 +19,7 @@ import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_scre
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -27,11 +28,16 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/assets-gen/assets.gen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+
+  RxBool isCountryUploading = false.obs;
+  final TextEditingController countryController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final profileController = Get.put(ProfileController());
+  RxString selectedCountryCode = "".obs;
 
   @override
   Widget build(BuildContext context) {
-    final profileController = Get.put(ProfileController());
     final String? role = AppStorageService.getUserRole();
 
     return Scaffold(
@@ -368,32 +374,152 @@ class ProfileScreen extends StatelessWidget {
   void onTapMyBalance(BuildContext context) async {
     final profileCtrl = Get.find<ProfileController>();
     String? url = await profileCtrl.fetchStripeDashboardUrl();
-    print("URL: $url");
+    print("On click -> url: $url");
+    //safe so far
+    //print("URL: $url");
     if (url == null || url.isEmpty) {
-      print("URL is null");
-      url = await profileCtrl.createStripeOnboardingLink();
-      print("URL after: $url");
-      if (url == null || url.isEmpty) {
-        if (context.mounted) {
-          Toast.errorToast('Unable to open Stripe link');
-        }
-        return;
-      }
+      showCountryDialog();
+    }else{
       if (context.mounted) {
         Get.to(
-          () => GenericWebViewScreen(title: 'Stripe Onboarding', url: url!),
+              () => GenericWebViewScreen(
+            title: 'Stripe Dashboard',
+            url: url,
+            isDashboard: true,
+          ),
         );
       }
-      return;
-    }
-    if (context.mounted) {
-      Get.to(
-        () => GenericWebViewScreen(
-          title: 'Stripe Dashboard',
-          url: url!,
-          isDashboard: true,
-        ),
-      );
     }
   }
+
+
+
+  //COUNTRY INPUT DIALOG FOR STRIPE CONNECTION
+  void showCountryDialog() {
+    // Reset selection when opening dialog
+    selectedCountryCode.value = "";
+
+    Get.dialog(
+      Obx(() => AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text("Connect to Stripe"),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Your account is not connected to Stripe.\n"
+                    "To connect, please select your country.",
+              ),
+              const SizedBox(height: 20),
+
+              // Searchable Dropdown
+              DropdownSearch<String>(
+                items: (filter, infiniteScrollProps) => countryMap.keys.toList(),
+                // Display name instead of code in the list
+                itemAsString: (String code) => countryMap[code] ?? code,
+                onChanged: (String? code){
+                  selectedCountryCode.value = code ?? "";
+                  print("Selected Country: ${selectedCountryCode.value}");
+                },
+                // onSaved: (String? code) {
+                // },
+                // Validation
+                validator: (value) => (value == null || value.isEmpty)
+                    ? "Please select a country"
+                    : null,
+                decoratorProps: const DropDownDecoratorProps(
+                  decoration: InputDecoration(
+                    labelText: "Select Country",
+                    hintText: "Search country...",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  ),
+                ),
+                popupProps: const PopupProps.menu(
+                  showSearchBox: true,
+                  searchFieldProps: TextFieldProps(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Search country...",
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Changed for visibility, customize as needed
+              foregroundColor: Colors.white,
+            ),
+            onPressed: isCountryUploading.value
+                ? null
+                : () async {
+              if (!formKey.currentState!.validate()) return;
+
+              print("Country code: ${selectedCountryCode.value}");
+
+              isCountryUploading.value = true;
+              try {
+                // Use the selected country code directly from the Rx variable
+                bool success = await profileController.uploadCountry(
+                  country: selectedCountryCode.value,
+                );
+
+                if (success) {
+                  String? url = await profileController.createStripeOnboardingLink();
+                  if (url == null || url.isEmpty) {
+                    Toast.errorToast('Unable to open Stripe link');
+                  } else {
+                    Get.back(); // Close dialog before navigating
+                    Get.to(() => GenericWebViewScreen(title: 'Stripe Onboarding', url: url));
+                  }
+                } else {
+                  Toast.errorToast("Country upload failed!");
+                }
+              } catch (e) {
+                Toast.errorToast("Something went wrong. Try again.");
+              } finally {
+                isCountryUploading.value = false;
+              }
+            },
+            child: isCountryUploading.value
+                ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+            )
+                : const Text("Submit"),
+          ),
+        ],
+      )),
+      barrierDismissible: false,
+    );
+  }
+
+  // Map of codes to names for display purposes
+  final Map<String, String> countryMap = {
+    "US": "United States", "GB": "United Kingdom", "FR": "France", "DE": "Germany",
+    "IT": "Italy", "ES": "Spain", "NL": "Netherlands", "BE": "Belgium",
+    "AT": "Austria", "CH": "Switzerland", "SE": "Sweden", "NO": "Norway",
+    "DK": "Denmark", "FI": "Finland", "IE": "Ireland", "CZ": "Czech Republic",
+    "SK": "Slovakia", "HU": "Hungary", "RO": "Romania", "BG": "Bulgaria",
+    "HR": "Croatia", "SI": "Slovenia", "LT": "Lithuania", "LV": "Latvia",
+    "EE": "Estonia", "MT": "Malta", "CY": "Cyprus", "GR": "Greece",
+    "PT": "Portugal", "LU": "Luxembourg", "AU": "Australia", "JP": "Japan",
+    "SG": "Singapore", "HK": "Hong Kong", "CA": "Canada", "MX": "Mexico",
+    "BR": "Brazil", "IN": "India", "TH": "Thailand", "MY": "Malaysia",
+    "NZ": "New Zealand", "PH": "Philippines", "ID": "Indonesia", "VN": "Vietnam",
+    "AE": "United Arab Emirates", "SA": "Saudi Arabia", "PK": "Pakistan"
+  };
 }
