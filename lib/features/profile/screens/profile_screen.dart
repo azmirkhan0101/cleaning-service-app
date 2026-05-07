@@ -374,9 +374,6 @@ class ProfileScreen extends StatelessWidget {
   void onTapMyBalance(BuildContext context) async {
     final profileCtrl = Get.find<ProfileController>();
     String? url = await profileCtrl.fetchStripeDashboardUrl();
-    print("On click -> url: $url");
-    //safe so far
-    //print("URL: $url");
     if (url == null || url.isEmpty) {
       showCountryDialog();
     }else{

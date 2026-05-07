@@ -47,15 +47,15 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
             }
             return NavigationDecision.navigate;
           },
-          onUrlChange: (UrlChange change) {
-            final url = change.url;
-            //print("URL CHANGED TO: $url");
-            print("XXXXXXXXXXXXXXXXXXXXXXX:$url");
-            // Some developers prefer checking the success URL here as well
-            if (url != null && url.contains('stripe-connect/complete')) {
-              //_completeStripeOnboarding();
-            }
-          },
+          // onUrlChange: (UrlChange change) {
+          //   final url = change.url;
+          //   //print("URL CHANGED TO: $url");
+          //   print("XXXXXXXXXXXXXXXXXXXXXXX:$url");
+          //   // Some developers prefer checking the success URL here as well
+          //   if (url != null && url.contains('stripe-connect/complete')) {
+          //     //_completeStripeOnboarding();
+          //   }
+          // },
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
@@ -149,8 +149,19 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
 
       // Call the completion callback API
       final profileCtrl = Get.find<ProfileController>();
-      //TODO: CALL THIS IN LOOP UNTIL GET TRUE OF EXCEED 10 SECONDS
-      final success = await profileCtrl.completeStripeConnectOnboarding(url);
+      bool success = false;
+      for( int i = 0; i < 5; i++ ){
+        print("Trialllllllllllll: $i");
+        success = await profileCtrl.completeStripeConnectOnboarding(url);
+        if( success ){
+          print("Success on trial: $i");
+          break;
+        }else{
+          await Future.delayed(const Duration(milliseconds: 1200));
+          print("Failed on trial: $i");
+        }
+      }
+
 
       if (mounted) {
         Navigator.pop(context); // Close loading dialog

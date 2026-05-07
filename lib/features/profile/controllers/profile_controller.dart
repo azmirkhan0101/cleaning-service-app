@@ -224,7 +224,6 @@ class ProfileController extends GetxController {
           .request<Map<String, dynamic>>(
             HttpRequestType.get.method,
             url,
-            //ApiUrl.stripeConnectCompleteCallback,
             withAuth: true,
             parser: (data) => data as Map<String, dynamic>,
             shouldPrint: true,

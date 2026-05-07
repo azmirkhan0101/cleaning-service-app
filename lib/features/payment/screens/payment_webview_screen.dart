@@ -72,6 +72,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             }
             return NavigationDecision.navigate;
           },
+          onUrlChange: (UrlChange urlChange){
+            print("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP: ${urlChange.url}");
+          }
         ),
       )
       ..loadRequest(Uri.parse(widget.paymentUrl));
