@@ -3,14 +3,17 @@ import 'package:flutter/foundation.dart';
 
 class ApiUrl {
   // static const String baseUrl = kDebugMode
+
   //     ? 'http://10.10.20.73:8000/api'
   //     : 'http://172.252.13.3:8000/api';
 
-  static const String baseUrl = 'https://backend.brikky.net/api';
+  //static const String baseUrl = 'https://backend.brikky.net/api';
+  static const String baseUrl = 'https://backend.brikkydash.net/api';
   //static const String baseUrl = 'http://10.10.20.73:8000/api';
 
   // static const String socketBaseUrl = 'http://10.10.20.73:8000';
-  static const String socketBaseUrl = 'https://backend.brikky.net';
+  //static const String socketBaseUrl = 'https://backend.brikky.net';
+  static const String socketBaseUrl = 'https://backend.brikkydash.net';
 
   /// =--> Auth Endpoints <--=
   static const String signup = '$baseUrl/auth/register';
