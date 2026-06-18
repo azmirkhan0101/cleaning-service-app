@@ -50,8 +50,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
           ),
         TextFormField(
           controller: widget.controller,
+          style: TextStyle(fontSize: isTab ? 10.sp : null),
           decoration: InputDecoration(
             hintText: widget.hintText,
+            hintStyle: TextStyle(fontSize: isTab ? 10.sp : null),
             errorText: widget.errorText,
             suffixIcon: widget.isPassword == true
                 ? IconButton(

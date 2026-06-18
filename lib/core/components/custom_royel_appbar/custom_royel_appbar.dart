@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/context_extension/context_extension.dart';
 import '../custom_text/custom_text_2.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,6 +24,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return AppBar(
       toolbarHeight: 50,
       elevation: 0,
@@ -32,11 +37,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       //backgroundColor: Colors.transparent,
       leading: backButton == true
-          ? BackButton(color: AppColors.black, onPressed: onPressed)
+          ? BackButton(color: AppColors.black, onPressed: onPressed, style: ButtonStyle(iconSize: isTab ? WidgetStatePropertyAll(30) : WidgetStatePropertyAll(20)),)
           : null,
       title: CustomText2(
         text: title ?? "",
-        fontSize: fontSize,
+        fontSize: isTab ? 12.sp : fontSize,
         fontWeight: FontWeight.w700,
         color: AppColors.black,
       ),

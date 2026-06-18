@@ -54,7 +54,7 @@ class CustomButton extends StatelessWidget {
           color: fillColor,
         ),
         child: CustomText2(
-          fontSize: fontSize ?? 18.sp,
+          fontSize: fontSize ?? 18,
           fontWeight: FontWeight.w600,
           color: textColor,
           textAlign: TextAlign.center,

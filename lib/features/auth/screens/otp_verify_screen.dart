@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
+
 class OtpVerifyScreen extends StatefulWidget {
   const OtpVerifyScreen({super.key, this.forgotPassword, this.email});
   final bool? forgotPassword;
@@ -34,6 +36,9 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: CustomAppBar(backButton: true),
       body: Padding(
@@ -47,7 +52,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
               children: [
                 CustomText(
                   text: 'Verify Account',
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   fontFamily: FontFamily.poppins,
                 ),
@@ -71,7 +76,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 Center(
                   child: CustomText(
                     text: AppStrings.enterCode,
-                    fontSize: 32,
+                    fontSize: isTab ? 20 : 32,
                     fontWeight: FontWeight.w600,
                     fontFamily: FontFamily.lexend,
                     textAlign: TextAlign.center,
@@ -102,7 +107,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                     controller: otpVerifyController.otpController,
                     textStyle: TextStyle(
                       color: AppColors.lightBlue,
-                      fontSize: 32.sp,
+                      fontSize: isTab ? 16.sp : 32.sp,
                       fontWeight: FontWeight.w700,
                     ),
                     keyboardType: TextInputType.number,
@@ -186,7 +191,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                                 },
                                 child: CustomText(
                                   text: AppStrings.sendAgain,
-                                  fontSize: 12.sp,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.lightBlue,
                                 ),

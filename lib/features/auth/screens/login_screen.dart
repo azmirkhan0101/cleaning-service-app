@@ -74,7 +74,7 @@ class LoginScreen extends GetView<LoginController> {
 
                 _buildEmailPasswordForm(),
 
-                _buildRememberMeAndForgotPassword(),
+                _buildRememberMeAndForgotPassword(isTab),
 
                 SizedBox(height: 16),
 
@@ -82,13 +82,6 @@ class LoginScreen extends GetView<LoginController> {
 
                 const SizedBox(height: 16),
 
-                // Or Divider
-                // _buildOrDivider(),
-
-                // SizedBox(height: 24.h),
-
-                // Social Buttons
-                // _buildSocialButtons(),
                 SizedBox(height: 40),
 
                 // Signup Link
@@ -227,7 +220,7 @@ class LoginScreen extends GetView<LoginController> {
                   CustomText2(
                     text: 'Logging In...',
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
                 ],
@@ -235,7 +228,7 @@ class LoginScreen extends GetView<LoginController> {
             : CustomText2(
                 text: AppStrings.logIn,
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
       ),
@@ -312,7 +305,7 @@ class LoginScreen extends GetView<LoginController> {
     );
   }
 
-  Widget _buildRememberMeAndForgotPassword() {
+  Widget _buildRememberMeAndForgotPassword(bool isTab) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -324,8 +317,8 @@ class LoginScreen extends GetView<LoginController> {
             spacing: 8,
             children: [
               Container(
-                width: 24.w,
-                height: 24.w,
+                width: isTab ? 30 : 24.w,
+                height: isTab ? 30 : 24.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(

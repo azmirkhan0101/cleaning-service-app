@@ -3,6 +3,8 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/context_extension/context_extension.dart';
+
 class CustomSubmitButton extends StatelessWidget {
   const CustomSubmitButton({
     super.key,
@@ -24,6 +26,9 @@ class CustomSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return FilledButton(
       onPressed: isLoading != true ? onPressed : null,
       style: FilledButton.styleFrom(
@@ -43,7 +48,7 @@ class CustomSubmitButton extends StatelessWidget {
             CircularProgressIndicator(color: AppColors.white, strokeWidth: 2),
           CustomText(
             text: isLoading != null ? loadingTitle ?? title : title,
-            fontSize: 14.sp,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
             color: textColor ?? AppColors.white,
           ),

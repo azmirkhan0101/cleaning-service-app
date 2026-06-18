@@ -104,6 +104,7 @@ class OtpVerifyController extends GetxController {
         return false;
       },
       (data) {
+        print(data.toString());
         Toast.successToast('OTP resent successfully');
         startCountdown();
         return true;

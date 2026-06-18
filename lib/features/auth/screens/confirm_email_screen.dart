@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
+
 class ConfirmEmailScreen extends StatefulWidget {
   const ConfirmEmailScreen({super.key});
 
@@ -28,6 +30,9 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: CustomAppBar(backButton: true),
       body: Padding(
@@ -49,7 +54,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
 
                 CustomText2(
                   text: 'Welcome back',
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
 
@@ -110,7 +115,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                         ? "Sending..."
                         : "Send Verification Code",
                     height: 50.h,
-                    fontSize: 14.sp,
+                    fontSize: 18,
                     fillColor: forgotPasswordController.isSubmitting.value
                         ? AppColors.grey_1
                         : AppColors.appColors,

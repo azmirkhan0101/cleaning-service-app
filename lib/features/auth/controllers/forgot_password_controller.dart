@@ -17,9 +17,6 @@ class ForgotPasswordController extends GetxController {
       ApiUrl.forgotPassword,
       body: {"email": emailController.text.trim()},
       withAuth: false,
-      // parser: (data) {
-      //   return LoginResponseModel.fromJson(data["data"]);
-      // },
     );
 
     isSubmitting.value = false;
@@ -34,6 +31,7 @@ class ForgotPasswordController extends GetxController {
       },
       // Success case
       (data) async {
+        print(data.toString());
         String message =
             data['message'] ??
             'Six digit code sent to your email. verify to reset password.';

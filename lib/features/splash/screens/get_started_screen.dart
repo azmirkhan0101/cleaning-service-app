@@ -108,7 +108,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
           onPressed: _onClickGetStarted,
           style: FilledButton.styleFrom(
             backgroundColor: Colors.white,
-            fixedSize: Size(double.maxFinite, 48),
+            fixedSize: Size(double.maxFinite, isTab ? 60 : 48),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
             ),

@@ -29,4 +29,12 @@ class SignupResponseModel {
       otp: json['otp'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'userName': userName,
+      'otp': otp,
+    };
+  }
 }

@@ -110,6 +110,7 @@ class SignupController extends GetxController {
       },
       // Success case
       (data) {
+        print(data.toJson());
         signupResponse.value = data;
         shouldGoToSelection.value = false; // Normal flow: go to OTP screen
         Toast.successToast('Registration successful! Please verify your OTP.');

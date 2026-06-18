@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/context_extension/context_extension.dart';
+
 class CustomText2 extends StatelessWidget {
   const CustomText2({
     super.key,
@@ -38,6 +40,9 @@ class CustomText2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Padding(
       padding: EdgeInsets.only(
         left: left,
@@ -52,7 +57,7 @@ class CustomText2 extends StatelessWidget {
         overflow: overflow,
         style: language == true
             ? GoogleFonts.poppins(
-                fontSize: fontSize.sp,
+                fontSize: isTab ? tabFontSize(fontSize).sp : fontSize.sp,
                 fontWeight: fontWeight,
                 color: color,
                 decoration: decoration,
@@ -60,7 +65,7 @@ class CustomText2 extends StatelessWidget {
                 decorationThickness: 2,
               )
             : GoogleFonts.lexend(
-                fontSize: fontSize.sp,
+                fontSize: isTab ? tabFontSize(fontSize).sp : fontSize.sp,
                 fontWeight: fontWeight,
                 color: color,
                 decoration: decoration,
@@ -71,4 +76,9 @@ class CustomText2 extends StatelessWidget {
       ),
     );
   }
+
+  //FONTSIZE TO TAB FONTSIZE
+double tabFontSize(double fontSize){
+    return fontSize * 0.70;
+}
 }

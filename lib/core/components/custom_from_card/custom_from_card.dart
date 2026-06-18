@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/context_extension/context_extension.dart';
+
 class CustomFormCard extends StatelessWidget {
   final String title;
   final String? hintText;
@@ -45,13 +47,16 @@ class CustomFormCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
           text: title,
           color: titleColor ?? const Color(0xFF0F0B18),
-          fontSize: 16,
+          fontSize: 14,
           fontFamily: 'Lexend',
           fontWeight: FontWeight.w600,
           height: 1.50,
@@ -63,14 +68,14 @@ class CustomFormCard extends StatelessWidget {
           hintText: hintText,
           hintStyle: GoogleFonts.lexend(
             fontWeight: FontWeight.w400,
-            fontSize: 14.sp,
+            fontSize: isTab ? 12.sp : 14.sp,
             color: AppColors.lightBlue,
           ), //grey_1
           suffixIcon: suffixIcon,
           suffixIconColor: AppColors.brinkPink,
           isPassword: isPassword,
           textEditingController: controller,
-          inputTextStyle: GoogleFonts.lexend(color: AppColors.black),
+          inputTextStyle: GoogleFonts.lexend(color: AppColors.black, fontSize: isTab ? 10.sp : null),
           // fillColor: hasBackgroundColor ? AppColors.black_80 : AppColors.white,
           fillColor: const Color(0xFFE9EBF3),
           fieldBorderColor: AppColors.grey001,

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
 import '../../profile/screens/policy_condition_screen.dart';
 
 class SignupScreen extends GetView<SignupController> {
@@ -24,6 +25,9 @@ class SignupScreen extends GetView<SignupController> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     // Initialize controller if not exists with unique tag
     if (!Get.isRegistered<SignupController>(tag: tag)) {
       Get.put(SignupController(), tag: tag);
@@ -34,35 +38,27 @@ class SignupScreen extends GetView<SignupController> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            // child: Obx(() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 44.h),
 
-                _buildHeader(),
+                _buildHeader(isTab),
 
                 SizedBox(height: 56.h),
 
-                _buildSignupForm(),
+                _buildSignupForm(isTab),
 
                 SizedBox(height: 16.h),
 
-                _buildTermsAndConditions(),
+                _buildTermsAndConditions(isTab),
 
                 SizedBox(height: 16.h),
 
-                _buildSignupButton(context),
+                Center(child: _buildSignupButton(context)),
 
                 SizedBox(height: 16.h),
 
-                // _buildOrDivider(),
-
-                // SizedBox(height: 12.h),
-
-                // _buildSocialButtons(),
-
-                // SizedBox(height: 16.h),
                 _buildLoginNavigateLink(),
 
                 SizedBox(height: 8.h),
@@ -75,7 +71,7 @@ class SignupScreen extends GetView<SignupController> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(bool isTab) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -84,7 +80,7 @@ class SignupScreen extends GetView<SignupController> {
             CustomText(
               text: 'Create Account',
               color: const Color(0xFF0F0B18),
-              fontSize: 24,
+              fontSize: isTab ? 18 : 24,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600,
               height: 1.40,
@@ -108,7 +104,7 @@ class SignupScreen extends GetView<SignupController> {
     );
   }
 
-  Widget _buildSignupForm() {
+  Widget _buildSignupForm(bool isTab) {
     return Form(
       key: controller.signupFormKey,
       autovalidateMode: controller.autovalidateMode.value,
@@ -136,7 +132,7 @@ class SignupScreen extends GetView<SignupController> {
             alignment: Alignment.centerLeft,
             child: CustomText(
               text: 'Phone Number',
-              fontSize: 14.sp,
+              fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Color(0xFF0F0B18),
             ),
@@ -224,7 +220,7 @@ class SignupScreen extends GetView<SignupController> {
     );
   }
 
-  Widget _buildTermsAndConditions() {
+  Widget _buildTermsAndConditions(bool isTab) {
     return GestureDetector(
       onTap: () {
         controller.agreeWithTerms.value = !controller.agreeWithTerms.value;
@@ -233,8 +229,8 @@ class SignupScreen extends GetView<SignupController> {
         spacing: 8,
         children: [
           Container(
-            width: 24.w,
-            height: 24.w,
+            width: isTab ? 30 : 24.w,
+            height: isTab ? 30 : 24.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               border: Border.all(
@@ -257,7 +253,7 @@ class SignupScreen extends GetView<SignupController> {
               children: [
                 CustomText(
                   text: 'I agree with ',
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 GestureDetector(
@@ -269,14 +265,14 @@ class SignupScreen extends GetView<SignupController> {
                   },
                   child: CustomText(
                     text: 'terms',
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF4899D1),
                   ),
                 ),
                 CustomText(
                   text: ' of conditions and ',
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 GestureDetector(
@@ -288,7 +284,7 @@ class SignupScreen extends GetView<SignupController> {
                   },
                   child: CustomText(
                     text: 'privacy policy',
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF4899D1),
                   ),
@@ -333,7 +329,7 @@ class SignupScreen extends GetView<SignupController> {
                   CustomText2(
                     text: 'Creating Account...',
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ],
@@ -341,7 +337,7 @@ class SignupScreen extends GetView<SignupController> {
             : CustomText2(
                 text: AppStrings.signUp,
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
       ),
