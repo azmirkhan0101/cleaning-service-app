@@ -34,7 +34,6 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
           onPageFinished: (_) => setState(() => _isLoading = false),
           onNavigationRequest: (request) {
             final url = request.url;
-            print("YYYYYYYYYYYYYYYYYYYYYYYYYY:$url");
             // Detect Stripe Connect completion URL and treat as success
             if( url.contains("stripe-connect/callback-complete") ){
               _completeStripeOnboarding(url);
@@ -47,15 +46,6 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
             }
             return NavigationDecision.navigate;
           },
-          // onUrlChange: (UrlChange change) {
-          //   final url = change.url;
-          //   //print("URL CHANGED TO: $url");
-          //   print("XXXXXXXXXXXXXXXXXXXXXXX:$url");
-          //   // Some developers prefer checking the success URL here as well
-          //   if (url != null && url.contains('stripe-connect/complete')) {
-          //     //_completeStripeOnboarding();
-          //   }
-          // },
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
@@ -151,14 +141,11 @@ class _GenericWebViewScreenState extends State<GenericWebViewScreen> {
       final profileCtrl = Get.find<ProfileController>();
       bool success = false;
       for( int i = 0; i < 5; i++ ){
-        print("Trialllllllllllll: $i");
         success = await profileCtrl.completeStripeConnectOnboarding(url);
         if( success ){
-          print("Success on trial: $i");
           break;
         }else{
           await Future.delayed(const Duration(milliseconds: 1200));
-          print("Failed on trial: $i");
         }
       }
 

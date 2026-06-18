@@ -1,17 +1,14 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:cleaning_service_app/core/components/custom_button/custom_button.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
-import 'package:cleaning_service_app/features/auth/controllers/affiliation_controller.dart';
 import 'package:cleaning_service_app/features/auth/controllers/profile_setup_controller.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 const Color primaryDarkBlue = Color(0xFF13224B);

@@ -231,20 +231,10 @@ class ProfileController extends GetxController {
 
       return response.fold(
         (error) {
-          print(
-            "completeStripeConnectOnboarding ERORRRRRRRRRRRRRRR: ${error.message}",
-          );
           //debugPrint('Stripe completion callback error: ${error.message}');
           return false;
         },
         (data) {
-          print(
-            "completeStripeConnectOnboarding DONEEEEEEEEEEEEEEEEE: ${data}",
-          );
-          print(
-            "completeStripeConnectOnboarding DONEEEEEEEEEEEEEEEEE2222: ${data?['success']}",
-          );
-          //debugPrint('Stripe completion callback successful');
           // Refresh profile to update Stripe status
           refreshProfile();
           return true;
@@ -306,16 +296,12 @@ class ProfileController extends GetxController {
           .put(uri, headers: finalHeaders, body: jsonEncode(payLoad))
           .timeout(Duration(seconds: 10));
 
-      print("Country upload result: ${response.statusCode}");
-      print("Country upload result: ${response.body}");
-
       if( response.statusCode == 200 || response.statusCode == 201 ){
         return true;
       }else{
         return false;
       }
     }catch(e){
-      print("Country upload eror: $e");
       return false;
     }
   }

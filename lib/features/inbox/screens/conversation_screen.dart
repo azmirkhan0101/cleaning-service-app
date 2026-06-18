@@ -189,7 +189,7 @@ class ConversationScreen extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(.05),
+                                color: Colors.black.withValues(alpha: .05),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -225,7 +225,7 @@ class ConversationScreen extends StatelessWidget {
                                 fontSize: 10.sp,
                                 color: mine
                                     ? Colors.white70
-                                    : Colors.black.withOpacity(.6),
+                                    : Colors.black.withValues(alpha: .6),
                               ),
                             ],
                           ),
@@ -295,7 +295,7 @@ class ConversationScreen extends StatelessWidget {
                       Expanded(
                         child: CustomTextField(
                           textEditingController: controller.inputController,
-                          fillColor: Colors.grey.withOpacity(.1),
+                          fillColor: Colors.grey.withValues(alpha: .1),
                           hintText: 'Write your message',
                           fieldBorderColor: Colors.grey,
                           suffixIcon: IconButton(
@@ -334,7 +334,7 @@ class ConversationScreen extends StatelessWidget {
                             width: 45,
                             decoration: BoxDecoration(
                               color: controller.isSending.value
-                                  ? AppColors.lightBlue.withOpacity(.5)
+                                  ? AppColors.lightBlue.withValues(alpha: .5)
                                   : AppColors.lightBlue,
                               borderRadius: BorderRadius.circular(70),
                             ),

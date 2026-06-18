@@ -53,12 +53,9 @@ class LocationController extends GetxController {
       // debugPrint('Places API response: ${response.body}');
 
       if (response.statusCode == 200) {
-        print("Response is 200");
-        print("${response.body}");
         final data = json.decode(response.body);
 
         if (data['status'] == 'OK' && data['predictions'] != null) {
-          print("Response is okay");
           final predictions = (data['predictions'] as List<dynamic>)
               .map((p) => PlacePrediction.fromJson(p as Map<String, dynamic>))
               .toList();
@@ -72,19 +69,16 @@ class LocationController extends GetxController {
           // searchResults.clear();
           showSearchResults.value = placePredictions.isNotEmpty;
         } else {
-          print("Response is not okay");
           // searchResults.clear();
           placePredictions.clear();
           showSearchResults.value = false;
         }
       } else {
-        print('Failed to fetch places: ${response.statusCode}');
         // searchResults.clear();
         placePredictions.clear();
         showSearchResults.value = false;
       }
     } catch (e) {
-      print("Error searching locations: $e");
       // searchResults.clear();
       placePredictions.clear();
       showSearchResults.value = false;
@@ -117,8 +111,7 @@ class LocationController extends GetxController {
           };
         }
       }
-    } catch (e) {
-      print('Error fetching place details: $e');
+    } catch (_) {
     }
     return null;
   }
@@ -131,7 +124,6 @@ class LocationController extends GetxController {
   Future<void> selectPrediction(PlacePrediction prediction) async {
     final apiKey = dotenv.env['MAPS_API_KEY'];
     if (apiKey == null || apiKey.isEmpty) {
-      debugPrint('Google Maps API key not found in .env file');
       return;
     }
     final details = await _getPlaceDetails(prediction.placeId, apiKey);
@@ -142,7 +134,6 @@ class LocationController extends GetxController {
   }
 
   void clearSearchResults() {
-    // searchResults.clear();
     placePredictions.clear();
     showSearchResults.value = false;
   }

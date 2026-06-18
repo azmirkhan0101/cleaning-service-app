@@ -52,7 +52,6 @@ class OngoingBookingsController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Toast.errorToast('Failed to fetch ongoing bookings');
-      print('Exception fetching ongoing bookings: $e');
     }
   }
 

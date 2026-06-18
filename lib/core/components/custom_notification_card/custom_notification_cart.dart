@@ -85,7 +85,7 @@ class CustomNotificationCard extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         //======================== Divider ========================//
-        Divider(height: 1, color: AppColors.white.withOpacity(.2)),
+        Divider(height: 1, color: AppColors.white.withValues(alpha: .2)),
         SizedBox(height: 16.h),
       ],
     );

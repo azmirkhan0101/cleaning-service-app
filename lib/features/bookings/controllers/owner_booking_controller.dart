@@ -118,7 +118,6 @@ class BookingController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Toast.errorToast('Failed to fetch bookings');
-      print('Exception fetching bookings: $e');
     }
   }
 
@@ -158,7 +157,6 @@ class BookingController extends GetxController {
       isLoadingMore.value = false;
       currentPage.value--; // Revert page increment on error
       Toast.errorToast('Failed to load more bookings');
-      print('Exception loading more bookings: $e');
     }
   }
 

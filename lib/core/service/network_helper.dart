@@ -10,12 +10,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:logger/logger.dart';
 import 'package:mime/mime.dart';
 
 /// Network service for handling HTTP requests with error handling and timeout support
 class NetworkHelper extends GetxService {
-  static final _logger = Logger();
 
   /// Default timeout duration for HTTP requests
   static const Duration defaultTimeout = Duration(seconds: 90);
@@ -41,13 +39,6 @@ class NetworkHelper extends GetxService {
         if (withAuth && token != null) "Cookie": "token=$token",
         ...?headers,
       };
-
-      // Log request without sensitive data in production
-      // _logger.d(
-      //   "[$method] $url\nHeaders: $finalHeaders\n"
-      //   "Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}",
-      // );
-      // _logger.d("Body: ${body != null ? jsonEncode(body) : 'null'}");
 
       late http.Response response;
       final requestTimeout = timeout ?? defaultTimeout;
@@ -94,17 +85,13 @@ class NetworkHelper extends GetxService {
           return Left(ErrorResponseModel(message: "Invalid HTTP method"));
       }
 
-      if( shouldPrint ){
-        print("ENDPOINT: $url");
-        logPrettyJson(response.body);
-      }
+      // if( shouldPrint ){
+      //   logPrettyJson(response.body);
+      // }
 
       return _handleResponse<T>(method, url, response, parser);
     } on TimeoutException catch (e, st) {
-      // _logger.d(
-      //   "[$method] $url\n Body: ${body != null ? (kDebugMode ? jsonEncode(body) : '***') : 'null'}\n Request timeout: $e, stackTrace: $st",
-      // );
-      // _logger.e("Request timeout: $e", stackTrace: st);
+
       return Left(
         ErrorResponseModel(
           status: "Timeout",

@@ -7,7 +7,6 @@ import 'package:cleaning_service_app/features/location/controllers/location_cont
 import 'package:cleaning_service_app/features/owner/service/controllers/category_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/models/search_filter_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 

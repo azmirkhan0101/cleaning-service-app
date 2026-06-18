@@ -45,23 +45,19 @@ class ProviderBookingDetailsController extends GetxController {
         (error) {
           errorMessage.value =
               error.message ?? 'Failed to load booking details';
-          print('Error fetching provider booking details: ${error.message}');
         },
         (response) {
           try {
             bookingDetails.value = ProviderBookingDetailsModel.fromJson(
               response,
             );
-            print('Provider booking details loaded successfully');
           } catch (e) {
             errorMessage.value = 'Invalid booking details format';
-            print('Error parsing provider booking details: $e');
           }
         },
       );
     } catch (e) {
       errorMessage.value = 'An unexpected error occurred';
-      print('Unexpected error: $e');
     } finally {
       isLoading.value = false;
     }
@@ -94,18 +90,15 @@ class ProviderBookingDetailsController extends GetxController {
       return result.fold(
         (error) {
           errorMessage.value = error.message ?? 'Failed to accept booking';
-          print('Error accepting booking: ${error.message}');
           return false;
         },
         (response) {
-          print('Booking accepted successfully');
           // Update local booking details if response contains updated data
           if (response['data'] != null) {
             try {
               // Refresh booking details to get updated status
               fetchBookingDetails();
-            } catch (e) {
-              print('Error updating booking details: $e');
+            } catch (_) {
             }
           }
           return true;
@@ -113,7 +106,6 @@ class ProviderBookingDetailsController extends GetxController {
       );
     } catch (e) {
       errorMessage.value = 'An unexpected error occurred';
-      print('Unexpected error accepting booking: $e');
       return false;
     } finally {
       isAccepting.value = false;
@@ -142,18 +134,15 @@ class ProviderBookingDetailsController extends GetxController {
       return result.fold(
         (error) {
           errorMessage.value = error.message ?? 'Failed to reject booking';
-          print('Error rejecting booking: ${error.message}');
           return false;
         },
         (response) {
-          print('Booking rejected successfully');
           // Update local booking details if response contains updated data
           if (response['data'] != null) {
             try {
               // Refresh booking details to get updated status
               fetchBookingDetails();
-            } catch (e) {
-              print('Error updating booking details: $e');
+            } catch (_) {
             }
           }
           return true;
@@ -161,7 +150,6 @@ class ProviderBookingDetailsController extends GetxController {
       );
     } catch (e) {
       errorMessage.value = 'An unexpected error occurred';
-      print('Unexpected error rejecting booking: $e');
       return false;
     } finally {
       isRejecting.value = false;

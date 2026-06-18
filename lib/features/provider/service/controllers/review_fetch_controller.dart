@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../../../core/service/api_url.dart';
-import '../../../../core/service/app_storage_service.dart';
 import '../../../../core/service/network_helper.dart';
 import '../../../common/types/http_method.dart';
 import '../../../owner/service/models/review_model.dart';

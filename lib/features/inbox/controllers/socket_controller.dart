@@ -42,7 +42,6 @@ class SocketController extends GetxController {
             : ConnectionState.disconnected;
       },
       onError: (error) {
-        print('SocketController: Connection state error: $error');
         _lastError.value = error.toString();
       },
     );
@@ -54,12 +53,10 @@ class SocketController extends GetxController {
           final message = MessageModel.fromJson(data);
           _messages.add(message);
         } catch (e) {
-          print('SocketController: Error parsing message: $e');
           _lastError.value = 'Error parsing message: $e';
         }
       },
       onError: (error) {
-        print('SocketController: Message stream error: $error');
         _lastError.value = error.toString();
       },
     );
@@ -70,7 +67,6 @@ class SocketController extends GetxController {
         _onlineUsers.value = users.map((user) => user.toString()).toList();
       },
       onError: (error) {
-        print('SocketController: Online users stream error: $error');
         _lastError.value = error.toString();
       },
     );

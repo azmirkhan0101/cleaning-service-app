@@ -11,7 +11,6 @@ import 'package:cleaning_service_app/features/bookings/controllers/owner_booking
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
 import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
-import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/controllers/provider_home_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:flutter/material.dart';
@@ -461,7 +460,6 @@ class _ProviderHomeState extends State<ProviderHome> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final b = items[index];
-                        print("======> image url: ${b.ownerProfilePicture}");
                         return AppointmentCard(
                           name: b.ownerName,
                           time: b.timeAgo,

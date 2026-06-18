@@ -59,7 +59,6 @@ class ChangePasswordController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Toast.errorToast('Failed to change password');
-      print('Exception changing password: $e');
       return false;
     }
   }

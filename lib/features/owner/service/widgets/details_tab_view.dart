@@ -16,10 +16,6 @@ class DetailsTabView extends StatelessWidget {
     return Obx(() {
       final providerDetails = serviceDetailsController.providerDetails.value;
 
-      print(
-        'providerDetails:--> ${serviceDetailsController.providerDetails.value?.profilePicture}',
-      );
-
       if (serviceDetailsController.isProviderLoading.value) {
         return const Center(
           child: Padding(
@@ -128,7 +124,6 @@ class DetailsTabView extends StatelessWidget {
           const SizedBox(height: 16),
           GestureDetector(
             onTap: () {
-              print("id: --> ${providerDetails.id}");
               sendMessage(
                 providerDetails.id,
                 providerDetails.name,

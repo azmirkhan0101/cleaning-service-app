@@ -268,8 +268,6 @@ class OverviewTabView extends StatelessWidget {
                     const SizedBox(width: 16),
                     InkWell(
                       onTap: () {
-                        print("lat: ${serviceDetails.latitude}");
-                        print("long: ${serviceDetails.longitude}");
                         Get.to(
                           ShowProviderLocation(
                             providerLatLng: LatLng(
@@ -377,7 +375,6 @@ class OverviewTabView extends StatelessWidget {
             itemCount: serviceDetails.photos.length,
             itemBuilder: (context, index) {
               final imageUrl = serviceDetails.photos[index].imageUrl;
-              print("Image urllllllllll: ${imageUrl}");
               return Card(
                 elevation: 0.3,
                 color: AppColors.white,

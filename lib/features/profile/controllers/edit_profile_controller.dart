@@ -64,7 +64,6 @@ class EditProfileController extends GetxController {
 
       return permanentFile;
     } catch (e) {
-      print('Error saving image permanently: $e');
       return null;
     }
   }
@@ -87,7 +86,6 @@ class EditProfileController extends GetxController {
       }
     } catch (e) {
       Toast.errorToast('Failed to pick image from gallery');
-      print('Error picking image from gallery: $e');
     }
   }
 
@@ -109,7 +107,6 @@ class EditProfileController extends GetxController {
       }
     } catch (e) {
       Toast.errorToast('Failed to take photo');
-      print('Error taking photo: $e');
     }
   }
 
@@ -171,7 +168,6 @@ class EditProfileController extends GetxController {
     } catch (e) {
       isUpdating.value = false;
       Toast.errorToast('Failed to update profile');
-      print('Exception updating owner profile: $e');
       return false;
     }
   }
@@ -228,7 +224,6 @@ class EditProfileController extends GetxController {
     } catch (e) {
       isUpdating.value = false;
       Toast.errorToast('Failed to update profile');
-      print('Exception updating provider profile: $e');
       return false;
     }
   }
@@ -280,8 +275,7 @@ class EditProfileController extends GetxController {
     if (profileImage.value != null && profileImage.value!.existsSync()) {
       try {
         profileImage.value!.deleteSync();
-      } catch (e) {
-        print('Error deleting temporary image: $e');
+      } catch (_) {
       }
     }
     profileImage.value = null;
@@ -292,9 +286,7 @@ class EditProfileController extends GetxController {
     if (profileImage.value != null && profileImage.value!.existsSync()) {
       try {
         await profileImage.value!.delete();
-        print('Temporary image deleted successfully');
-      } catch (e) {
-        print('Error deleting temporary image: $e');
+      } catch (_) {
       }
     }
   }

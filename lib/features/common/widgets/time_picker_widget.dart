@@ -48,7 +48,6 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     final hh = hour24.toString().padLeft(2, '0');
     final mm = _minute.toString().padLeft(2, '0');
     serviceBookingController.selectedTimeString.value = "$hh:$mm";
-    print(serviceBookingController.selectedTimeString.value);
 
     timePickerController.setTime(TimeOfDay(hour: hour24, minute: _minute));
     widget.onTimeSelected?.call(TimeOfDay(hour: hour24, minute: _minute));

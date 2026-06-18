@@ -20,7 +20,6 @@ import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_scre
 import 'package:cleaning_service_app/features/profile/screens/profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/provider_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/redeem_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/home/screens/provider_home_screen.dart';
 import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/provider/service/review_screen.dart';

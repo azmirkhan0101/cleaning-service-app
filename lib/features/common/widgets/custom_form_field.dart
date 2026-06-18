@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/utils/context_extension/context_extension.dart';
 
 class CustomFormField extends StatefulWidget {
   const CustomFormField({
@@ -29,6 +32,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
@@ -37,7 +43,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           Text(
             widget.labelText!,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: isTab ? 10.sp : 16,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),

@@ -26,8 +26,6 @@ class _ShowProviderLocationState extends State<ShowProviderLocation> {
       profileController.profile.value?.latitude ?? 0.0,
       profileController.profile.value?.longitude ?? 0.0,
     );
-    print("Owner lat: ${ownerLatLng?.latitude}");
-    print("Owner long: ${ownerLatLng?.longitude}");
     _createMarkers();
   }
 

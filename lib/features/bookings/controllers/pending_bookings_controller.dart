@@ -52,7 +52,6 @@ class PendingBookingsController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Toast.errorToast('Failed to fetch pending bookings');
-      print('Exception fetching pending bookings: $e');
     }
   }
 

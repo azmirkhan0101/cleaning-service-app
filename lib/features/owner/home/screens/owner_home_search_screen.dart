@@ -1,11 +1,9 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
-import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
@@ -20,7 +18,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class OwnerHomeSearchScreen extends StatefulWidget {
@@ -411,57 +408,6 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  Widget _buildDataTimeSection() {
-    return GestureDetector(
-      onTap: () => _openBottomSheet(context),
-      child: Row(
-        spacing: 8,
-        children: [
-          Assets.icons.clock.svg(),
-
-          Obx(() {
-            // Get time from controller if available
-            final time = ownerServiceController.selectedTime.value;
-            final date = ownerServiceController.selectedDate.value;
-
-            // If no date selected, show placeholder
-            if (date == null) {
-              return _buildTitleSection('Select Date & Time');
-            }
-
-            String timeStr;
-            if (time != null) {
-              // Convert 24-hour format to 12-hour with AM/PM
-              final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
-              final minute = time.minute.toString().padLeft(2, '0');
-              final period = time.period == DayPeriod.am ? 'AM' : 'PM';
-              timeStr = '$hour:$minute $period';
-            } else {
-              timeStr = 'Any time';
-            }
-
-            final dateStr = DateFormat('EEE, dd MMM').format(date);
-
-            return _buildTitleSection('$timeStr, $dateStr');
-          }),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTitleSection(String title) {
-    return Text(
-      title,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: const Color(0xFF0F0B18),
-        fontSize: 16,
-        fontFamily: 'Lexend',
-        fontWeight: FontWeight.w600,
-        height: 1.50,
-      ),
-    );
-  }
 
   Widget _buildScreenBackgroundImage() {
     return Positioned(
@@ -823,131 +769,4 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
     );
   }
 
-  void _openBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      // fullscreen feel
-      isDismissible: false,
-      // Prevent tap outside dismiss
-      enableDrag: false,
-      // Prevent drag down dismiss
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) {
-        return DefaultTabController(
-          length: 2,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: IconButton(
-                        icon: const Icon(Icons.close, size: 32),
-                        onPressed: () {
-                          Navigator.pop(context); // close bottom sheet
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                /// ---------- Custom Segmented Tab ----------
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: TabBar(
-                    indicator: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    labelColor: Colors.white,
-                    unselectedLabelColor: Colors.black54,
-                    dividerColor: Colors.transparent,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    tabs: const [
-                      Tab(text: "Date"),
-                      Tab(text: "Time"),
-                    ],
-                  ),
-                ),
-
-                /// ---------- Tab Content ----------
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      /// ---------- Date Picker ----------
-                      Obx(() {
-                        return CalendarDatePicker2(
-                          config: CalendarDatePicker2Config(
-                            calendarType: CalendarDatePicker2Type.single,
-                          ),
-                          value:
-                              ownerServiceController.selectedDate.value == null
-                              ? []
-                              : [ownerServiceController.selectedDate.value!],
-                          onValueChanged: (dates) {
-                            if (dates.isNotEmpty) {
-                              ownerServiceController.setDate(dates.first);
-                            }
-                          },
-                        );
-                      }),
-
-                      /// ---------- Time Picker ----------
-                      TimePickerWidget(),
-                    ],
-                  ),
-                ),
-
-                /// ---------- Confirm Button ----------
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Update searchController date when user confirms
-                      if (ownerServiceController.selectedDate.value != null) {
-                        searchController.setDate(
-                          ownerServiceController.selectedDate.value!,
-                        );
-                      }
-
-                      // Update searchController time when user confirms
-                      if (ownerServiceController.selectedTime.value != null) {
-                        searchController.setTime(
-                          ownerServiceController.selectedTime.value!,
-                        );
-                      }
-
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Confirm"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

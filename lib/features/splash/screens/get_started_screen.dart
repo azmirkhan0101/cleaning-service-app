@@ -1,7 +1,9 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 import 'package:cleaning_service_app/features/splash/controllers/onboarding_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class GetStartedScreen extends StatefulWidget {
@@ -16,6 +18,9 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
@@ -119,8 +124,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 'Get Started',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: const Color(0xFFF7A51D),
-                  fontSize: 16,
+                  color:  Color(0xFFF7A51D),
+                  fontSize: isTab ? 10.sp : 16,
                   fontFamily: 'Lexend',
                   fontWeight: FontWeight.w600,
                   height: 1.50,

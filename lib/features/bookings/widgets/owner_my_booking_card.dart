@@ -17,7 +17,6 @@ class OwnerMyBookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Booking ID: ${booking.id}");
     final isProvider = AppStorageService.getUserRole() == "PROVIDER";
 
     return InkWell(

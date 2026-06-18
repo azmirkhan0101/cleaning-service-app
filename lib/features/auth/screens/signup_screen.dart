@@ -13,7 +13,6 @@ import 'package:cleaning_service_app/features/common/widgets/phone_input_field.d
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../profile/screens/policy_condition_screen.dart';
 
@@ -458,22 +457,6 @@ class SignupScreen extends GetView<SignupController> {
       // Handle any errors that occur during signup
       debugPrint('Signup error: $e');
       Toast.errorToast('An error occurred during signup. Please try again.');
-    }
-  }
-
-  void _onClickTermsPrivacyPolicy(String url) async {
-    final uri = Uri.parse(url);
-
-    try {
-      // open in external (default) browser
-      final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
-      if (!ok) {
-        // fallback or notify user
-        Toast.errorToast('Could not open link');
-      }
-    } catch (e) {
-      Toast.errorToast('Failed to open link');
-      debugPrint('Error launching URL: $e');
     }
   }
 }

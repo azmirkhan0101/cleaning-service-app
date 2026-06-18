@@ -17,15 +17,12 @@ import 'package:cleaning_service_app/features/profile/controllers/profile_contro
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
-import 'package:cleaning_service_app/features/profile/screens/refer_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
-import '../../../core/assets-gen/assets.gen.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -419,7 +416,6 @@ class ProfileScreen extends StatelessWidget {
                 itemAsString: (String code) => countryMap[code] ?? code,
                 onChanged: (String? code){
                   selectedCountryCode.value = code ?? "";
-                  print("Selected Country: ${selectedCountryCode.value}");
                 },
                 // onSaved: (String? code) {
                 // },
@@ -463,8 +459,6 @@ class ProfileScreen extends StatelessWidget {
                 ? null
                 : () async {
               if (!formKey.currentState!.validate()) return;
-
-              print("Country code: ${selectedCountryCode.value}");
 
               isCountryUploading.value = true;
               try {

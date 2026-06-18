@@ -8,7 +8,7 @@ class AppStorageService {
 
   // Storage instances
   static final FlutterSecureStorage _secureStorage =
-      const FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+      const FlutterSecureStorage(aOptions: AndroidOptions());
   static late SharedPreferences _preferences;
   static bool _isInitialized = false;
 

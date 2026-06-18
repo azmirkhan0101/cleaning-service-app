@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 class TimePickerController extends GetxController {
   var selectedDate = Rxn<DateTime>();
 
-  ///var selectedTime = Rxn<TimeOfDay>();
-
   void setDate(DateTime date) {
     selectedDate.value = date;
   }

@@ -203,7 +203,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("------> ${controller.bookingDetails.value?.id}");
     return Scaffold(
       appBar: CustomAppBar(title: "Booking Details", backButton: true),
       body: Obx(() {
@@ -250,7 +249,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                 child: Card(
                   elevation: 0.5,
-                  color: AppColors.neutral02.withOpacity(0.8),
+                  color: AppColors.neutral02.withValues(alpha: 0.8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),

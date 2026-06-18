@@ -54,7 +54,6 @@ class CompletedBookingsController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Toast.errorToast('Failed to fetch completed bookings');
-      print('Exception fetching completed bookings: $e');
     }
   }
 

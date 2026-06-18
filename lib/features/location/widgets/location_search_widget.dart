@@ -80,7 +80,6 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
           child: TextField(
             controller: controller.selectedAddress,
             onChanged: (value) {
-              print(value);
               controller.searchLocations(value);
             },
             decoration: InputDecoration(

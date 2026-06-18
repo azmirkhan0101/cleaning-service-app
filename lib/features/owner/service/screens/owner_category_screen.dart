@@ -19,9 +19,6 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-      "Screen width: ${MediaQuery.of(context).size.width}, height: ${MediaQuery.of(context).size.height}",
-    );
     return Scaffold(
       appBar: CustomAppBar(title: "Category", backButton: false),
       body: Obx(() {

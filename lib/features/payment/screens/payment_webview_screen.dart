@@ -37,26 +37,20 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
-            print("On page started =====>: $url");
             setState(() {
               _isLoading = true;
             });
-            debugPrint('Payment page started loading: $url');
           },
           onPageFinished: (String url) {
-            print("On page finished =====>: $url");
             setState(() {
               _isLoading = false;
             });
-            debugPrint('Payment page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
-            debugPrint('Payment WebView error: ${error.description}');
             Toast.errorToast('Error loading payment page: ${error.description}');
             
           },
           onNavigationRequest: (NavigationRequest request) {
-            debugPrint('Navigation request ====>: ${request.url}');
             // Detect Stripe/checkout success URLs
             if (request.url.contains('activate-from-checkout')) {
               _handlePaymentSuccess();
@@ -73,7 +67,6 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange urlChange){
-            print("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP: ${urlChange.url}");
           }
         ),
       )

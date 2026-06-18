@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
+
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
 
@@ -22,6 +24,9 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     // Initialize controller if not exists with unique tag
     if (!Get.isRegistered<LoginController>(tag: tag)) {
       Get.put(LoginController(), tag: tag);

@@ -1,15 +1,12 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
 import 'package:cleaning_service_app/core/components/custom_from_card/custom_from_card.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
-import 'package:cleaning_service_app/features/common/widgets/time_picker_widget.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_booking_controller.dart';
 import 'package:cleaning_service_app/features/owner/service/screens/confirm_schedule_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ServiceBookingStepOne extends StatefulWidget {

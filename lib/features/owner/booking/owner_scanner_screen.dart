@@ -280,7 +280,7 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                         height: scanBoxSize,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(24),
@@ -307,12 +307,12 @@ class _OwnerScannerScreenState extends State<OwnerScannerScreen>
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            AppColors.appColors.withOpacity(
-                                              0.0,
+                                            AppColors.appColors.withValues(alpha:
+                                            0.0,
                                             ),
                                             AppColors.appColors,
-                                            AppColors.appColors.withOpacity(
-                                              0.0,
+                                            AppColors.appColors.withValues(alpha:
+                                            0.0,
                                             ),
                                           ],
                                           begin: Alignment.centerLeft,
