@@ -65,7 +65,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
           onTabSelected(index);
         },
         child: Container(
-          width: 80.w,
+          width: 90.w,
           padding: const EdgeInsets.symmetric(vertical: 6),
           decoration: BoxDecoration(
             border: Border(
@@ -80,7 +80,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: CustomText(
               text: title,
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w500,
               color: controller.selectedTabIndex.value == index
                   ? Color(0xFF4899D1)
