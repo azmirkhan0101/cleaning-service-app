@@ -22,6 +22,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({super.key});
 
@@ -53,6 +55,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     //Nearby services section below uses live data; removed static demo list
 
     return Scaffold(
@@ -200,7 +205,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                   ///==================== Category show =====================
                   Obx(() {
                     return SizedBox(
-                      height: 120, // Adjust the height based on your layout
+                      height: isTab ? 180 : 120, // Adjust the height based on your layout
                       child: Skeletonizer(
                         enabled: categoryController.isLoading.value,
                         child: ListView.builder(
@@ -335,6 +340,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   }
 
   Widget _buildHeader() {
+
+    bool isTab = context.isTab;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       spacing: 12.w,
@@ -349,7 +357,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
               hintText: "Find Your Service",
               hintStyle: TextStyle(
                 color: const Color(0xFF4F4F59),
-                fontSize: 12,
+                fontSize: isTab ? 8.sp : 12,
                 fontFamily: 'Lexend',
                 fontWeight: FontWeight.w400,
                 height: 1.50,

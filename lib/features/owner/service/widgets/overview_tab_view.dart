@@ -15,6 +15,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 class OverviewTabView extends StatelessWidget {
   const OverviewTabView({super.key, this.status});
   final String? status;
@@ -193,6 +195,9 @@ class OverviewTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final serviceDetailsController = Get.find<ServiceDetailsController>();
 
     return Obx(() {
@@ -223,16 +228,16 @@ class OverviewTabView extends StatelessWidget {
           Center(
             child: CachedNetworkImage(
               imageUrl: serviceDetails.oneImage,
-              height: 140,
-              width: double.infinity,
+              height: isTab ? 190 : 140,
+              width: isTab ? context.fullWidth * 0.3 : double.infinity,
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
-                height: 140,
+                height: isTab ? 190 : 140,
                 color: Colors.grey[300],
                 child: const Center(child: CircularProgressIndicator()),
               ),
               errorWidget: (context, url, error) => Container(
-                height: 140,
+                height: isTab ? 190 : 140,
                 color: Colors.grey[300],
                 child: const Icon(Icons.image_not_supported, size: 50),
               ),
@@ -299,11 +304,11 @@ class OverviewTabView extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.star, color: Colors.yellow, size: 20),
+                         Icon(Icons.star, color: Colors.yellow, size: isTab ? 25 : 20),
                         Text(
                           serviceDetails.averageRatings.toStringAsFixed(1),
-                          style: const TextStyle(
-                            fontSize: 16,
+                          style:  TextStyle(
+                            fontSize: isTab ? 8.sp : 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -351,14 +356,14 @@ class OverviewTabView extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             serviceDetails.description,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: isTab ? 10.sp : 14),
             textAlign: TextAlign.justify,
             maxLines: 5,
           ),
           const SizedBox(height: 16),
-          const Text(
+           Text(
             'Photos',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
           ),
 
           // Grid

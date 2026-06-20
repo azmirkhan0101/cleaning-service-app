@@ -1,7 +1,10 @@
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/models/place_autocomplete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../core/utils/context_extension/context_extension.dart';
 
 class LocationSearchWidget extends StatefulWidget {
   // final LocationController controller;
@@ -50,6 +53,9 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,7 +63,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
           Text(
             widget.labelText!,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: isTab ? 10.sp : 14,
               fontWeight: FontWeight.w600,
               color: Colors.black87,
             ),

@@ -5,6 +5,8 @@ import 'package:cleaning_service_app/features/owner/service/widgets/service_card
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 class OwnerServicesByCategoryScreen extends StatefulWidget {
   const OwnerServicesByCategoryScreen({super.key});
 
@@ -28,6 +30,9 @@ class _OwnerServicesByCategoryScreenState
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final args = Get.arguments as Map<String, dynamic>?;
     final categoryName = args?['categoryName'] ?? 'Service';
 
@@ -72,7 +77,7 @@ class _OwnerServicesByCategoryScreenState
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
-                childAspectRatio: 0.72,
+                childAspectRatio: isTab ? 1 : 0.72,
               ),
               itemCount: serviceController.services.length,
               itemBuilder: (context, index) {

@@ -4,13 +4,19 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/features/inbox/screens/conversation_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/utils/context_extension/context_extension.dart';
 
 class DetailsTabView extends StatelessWidget {
   const DetailsTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final serviceDetailsController = Get.find<ServiceDetailsController>();
 
     return Obx(() {
@@ -108,9 +114,9 @@ class DetailsTabView extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   providerDetails.aboutMe,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF4F4F59),
-                    fontSize: 14,
+                    fontSize: isTab ? 10.sp : 14,
                     fontFamily: 'Lexend',
                     fontWeight: FontWeight.w400,
                     height: 1.50,

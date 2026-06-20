@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 class OwnerCategoryScreen extends StatefulWidget {
   const OwnerCategoryScreen({super.key});
 
@@ -19,6 +21,9 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: CustomAppBar(title: "Category", backButton: false),
       body: Obx(() {
@@ -105,7 +110,7 @@ class _OwnerCategoryScreenState extends State<OwnerCategoryScreen> {
                           children: [
                             Container(
                               width: double.infinity,
-                              height: 100,
+                              height: isTab ? 180 : 100,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(

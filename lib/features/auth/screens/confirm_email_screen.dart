@@ -95,10 +95,12 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
 
                 ///============ verificationEmail Button ============
                 Obx(() {
-                  String email = forgotPasswordController.emailController.text;
                   return CustomButton(
                     onTap: () async {
+                      String email = forgotPasswordController.emailController.text;
+                      print("Send Email to: $email}");
                       if (email.isNotEmpty) {
+                        print("Sending");
                         final success = await forgotPasswordController
                             .submitForgotPassword();
                         if (success) {
@@ -109,6 +111,8 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                             ),
                           );
                         }
+                      }else{
+                        print("Empty mail");
                       }
                     },
                     title: forgotPasswordController.isSubmitting.value

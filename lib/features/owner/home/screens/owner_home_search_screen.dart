@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/components/custom_image/custom_image.d
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_icons/app_icons.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/location/controllers/location_controller.dart';
 import 'package:cleaning_service_app/features/location/widgets/location_search_widget.dart';
 import 'package:cleaning_service_app/features/owner/home/controllers/owner_controller.dart';
@@ -410,6 +411,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
 
 
   Widget _buildScreenBackgroundImage() {
+
     return Positioned(
       top: 0,
       left: 0,
@@ -420,7 +422,9 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
   }
 
   Widget _buildCategorySearchTextField() {
-    return Obx(() {
+    bool isTab = context.isTab;
+
+        return Obx(() {
       return Column(
         children: [
           TextField(
@@ -550,8 +554,8 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                                   borderRadius: BorderRadius.circular(4),
                                   child: Image.network(
                                     service['icon'] as String,
-                                    height: 20,
-                                    width: 20,
+                                    height: isTab ? 40 : 20,
+                                    width: isTab ? 40 : 20,
                                     fit: BoxFit.cover,
                                     color: isSelected ? Colors.white : null,
                                     colorBlendMode: isSelected
@@ -576,7 +580,7 @@ class _OwnerHomeSearchScreenState extends State<OwnerHomeSearchScreen> {
                                   color: isSelected
                                       ? Colors.white
                                       : Color(0xFF0F0B18),
-                                  fontSize: 14,
+                                  fontSize: isTab ? 8.sp : 14,
                                   fontWeight: isSelected
                                       ? FontWeight.w500
                                       : FontWeight.w400,

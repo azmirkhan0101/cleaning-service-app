@@ -3,13 +3,19 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.d
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/features/owner/service/controllers/service_details_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/utils/context_extension/context_extension.dart';
 
 class ReviewsTabView extends StatelessWidget {
   const ReviewsTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final serviceDetailsController = Get.find<ServiceDetailsController>();
 
     return Obx(() {
@@ -30,17 +36,17 @@ class ReviewsTabView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(40.0),
               constraints: const BoxConstraints(minHeight: 400),
-              child: const Center(
+              child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.rate_review_outlined,
                       size: 64,
                       color: Colors.grey,
                     ),
-                    SizedBox(height: 16),
-                    Text('No reviews yet'),
+                    const SizedBox(height: 16),
+                    Text('No reviews yet', style: TextStyle(fontSize: isTab ? 12.sp : null),),
                   ],
                 ),
               ),
@@ -62,6 +68,7 @@ class ReviewsTabView extends StatelessWidget {
               rating: review.rating,
               testimonial: review.review,
               imageUrl: review.ownerProfilePicture,
+              isTab: isTab
             );
           },
         ),
@@ -74,7 +81,10 @@ class ReviewsTabView extends StatelessWidget {
     required double rating,
     required String testimonial,
     required String imageUrl,
+    required bool isTab
   }) {
+
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
@@ -94,7 +104,7 @@ class ReviewsTabView extends StatelessWidget {
                 CustomText2(
                   text: name,
                   fontWeight: FontWeight.w600,
-                  fontSize: 16.0,
+                  fontSize: isTab ? 10.sp : 16.0,
                 ),
 
                 const SizedBox(width: 8),
@@ -105,7 +115,7 @@ class ReviewsTabView extends StatelessWidget {
                     (index) => Icon(
                       Icons.star,
                       color: index < rating ? Colors.amber : Colors.grey[300],
-                      size: 20.0,
+                      size: isTab ? 30 : 20.0,
                     ),
                   ),
                 ),

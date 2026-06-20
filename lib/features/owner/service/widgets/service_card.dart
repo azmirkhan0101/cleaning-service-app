@@ -6,6 +6,9 @@ import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
 import 'package:cleaning_service_app/features/owner/service/models/service_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/utils/context_extension/context_extension.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({super.key, required this.service});
@@ -14,6 +17,9 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Card(
       elevation: 0.2,
       color: AppColors.white,
@@ -28,18 +34,18 @@ class ServiceCard extends StatelessWidget {
                 (service.serviceImage.isEmpty ||
                     !service.serviceImage.startsWith('http'))
                 ? Container(
-                    height: 85,
+                    height: isTab ? 150 : 85,
                     color: Colors.grey[300],
                     child: const Icon(Icons.image_not_supported, size: 40),
                   )
                 : Image.network(
                     service.serviceImage,
-                    height: 85,
+                    height: isTab ? 150 : 85,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        height: 85,
+                        height: isTab ? 150 : 85,
                         color: Colors.grey[300],
                         child: const Icon(Icons.image_not_supported, size: 40),
                       );
@@ -64,7 +70,7 @@ class ServiceCard extends StatelessWidget {
                       Expanded(
                         child: CustomText2(
                           text: service.serviceName,
-                          fontSize: 13,
+                          fontSize: isTab ? 8.sp : 13,
                           fontWeight: FontWeight.w600,
                           maxLines: 1
                         ),
@@ -73,11 +79,11 @@ class ServiceCard extends StatelessWidget {
                       // Rating
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.orange, size: 13),
+                          Icon(Icons.star, color: Colors.orange, size: isTab ? 20 : 13),
                           SizedBox(width: 2),
                           CustomText2(
                             text: service.averageRatings.toStringAsFixed(1),
-                            fontSize: 11,
+                            fontSize: isTab ? 8.sp : 11,
                             fontWeight: FontWeight.w600,
                           ),
                         ],
@@ -90,8 +96,8 @@ class ServiceCard extends StatelessWidget {
                     children: [
                       CustomNetworkImage(
                         imageUrl: service.providerProfilePicture,
-                        height: 20,
-                        width: 20,
+                        height: isTab ? 35 : 20,
+                        width: isTab ? 35 : 20,
                         boxShape: BoxShape.circle,
                       ),
                       SizedBox(width: 4),
@@ -111,7 +117,7 @@ class ServiceCard extends StatelessWidget {
                     text: service.isApprovalRequired
                         ? 'Approval Required'
                         : 'Instant Booking',
-                    fontSize: 9,
+                    fontSize: isTab ? 8.sp : 9,
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
                   ),
@@ -122,7 +128,7 @@ class ServiceCard extends StatelessWidget {
                     children: [
                       CustomText2(
                         text: '€${service.price}/hr',
-                        fontSize: 11,
+                        fontSize: isTab ? 9.sp : 11,
                         color: AppColors.lightBlue,
                         fontWeight: FontWeight.w600,
                       ),
