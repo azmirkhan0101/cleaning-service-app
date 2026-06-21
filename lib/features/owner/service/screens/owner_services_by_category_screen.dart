@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/features/owner/service/controllers/service_
 import 'package:cleaning_service_app/features/owner/service/screens/owner_service_details_screen.dart';
 import 'package:cleaning_service_app/features/owner/service/widgets/service_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/context_extension/context_extension.dart';
@@ -58,7 +59,7 @@ class _OwnerServicesByCategoryScreenState
                 Text(
                   'No services available',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: isTab ? 12.sp : 16,
                     color: Colors.grey[600],
                     fontWeight: FontWeight.w500,
                   ),

@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/common/types/role.dart';
 import 'package:cleaning_service_app/features/common/widgets/phone_input_field.dart';
 import 'package:cleaning_service_app/features/profile/controllers/edit_profile_controller.dart';
@@ -89,6 +90,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isTablet = constraints.maxWidth > 600;
@@ -124,8 +128,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         clipBehavior: Clip.none,
                         children: [
                           Container(
-                            height: 130.h,
-                            width: 130.w,
+                            height: isTab ? 130 : 130.h,
+                            width: isTab ? 130 : 130.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey.shade200,

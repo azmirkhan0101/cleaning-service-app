@@ -9,6 +9,7 @@ import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/auth/screens/login_screen.dart';
 // import 'package:cleaning_service_app/features/provider/profile/earning_screen.dart';
 import 'package:cleaning_service_app/features/common/screens/generic_webview_screen.dart';
@@ -36,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? role = AppStorageService.getUserRole();
+    bool isTab = context.isTab;
 
     return Scaffold(
       appBar: CustomAppBar(title: "Profile"),
@@ -54,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Profile Section
-                  _buildProfileSection(profileController),
+                  _buildProfileSection(profileController, isTab),
 
                   // Show Boost Button if provider
                   SizedBox(height: 24.h),
@@ -84,9 +86,9 @@ class ProfileScreen extends StatelessWidget {
 
                   8.heightBox,
                   // General Section
-                  const Text(
+                   Text(
                     'General',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
                   ),
 
                   SizedBox(height: 8.h),
@@ -103,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Profile Section with image, name, email, and sign out
-  Widget _buildProfileSection(ProfileController profileController) {
+  Widget _buildProfileSection(ProfileController profileController, bool isTab) {
     final profile = profileController.profile.value;
 
     return Row(
@@ -142,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
             profileController.signOut();
             Get.offAll(LoginScreen());
           },
-          child: const Text('Sign out', style: TextStyle(color: Colors.red)),
+          child: Text('Sign out', style: TextStyle(fontSize: isTab ? 10.sp : null, color: Colors.red)),
         ),
       ],
     );
@@ -256,7 +258,7 @@ class ProfileScreen extends StatelessWidget {
 
         // Delete Account
         InkWell(
-          child: _buildSettingsItem('Delete Account', Icons.delete_outline),
+          child: _buildSettingsItem('Delete Account', Icons.delete_outline, isDeleteButton: true),
           onTap: () {
             showDialog(
               context: context,
@@ -266,7 +268,7 @@ class ProfileScreen extends StatelessWidget {
                 contentPadding: EdgeInsets.all(8),
                 title: SizedBox(),
                 content: SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -298,15 +300,20 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: 8),
 
                         CustomButton(
-                          onTap: () {
-                            // Get.offAll(LoginScreen());
+                          onTap: () async{
+                            profileController.isDeleting.value = true;
                             Navigator.of(context).pop();
+                            await profileController.signOut();
+                            await Future.delayed(const Duration(milliseconds: 500));
+                            profileController.isDeleting.value = false;
+                            Toast.successToast("Your account has been deleted!");
+                            //Get.offAll(LoginScreen());
                           },
-                          title: "Delete Account feature coming soon",
+                          title: "Delete Account",
                           height: 45,
                           fontSize: 12,
                           // fillColor: AppColors.appColors,
-                          fillColor: AppColors.grey_3,
+                          fillColor: AppColors.red,
                         ),
 
                         SizedBox(height: 12),
@@ -336,7 +343,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Settings Item with Icon, Text, and Arrow
-  Widget _buildSettingsItem(String title, IconData icon, {Widget? iconWidget}) {
+  Widget _buildSettingsItem(String title, IconData icon, {Widget? iconWidget, bool isDeleteButton = false}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: ShapeDecoration(
@@ -353,6 +360,7 @@ class ProfileScreen extends StatelessWidget {
           else
             Icon(icon, color: Colors.blue, size: 24),
           SizedBox(width: 8.w),
+          if( !isDeleteButton )
           CustomText(
             text: title,
             color: const Color(0xFF0F0B18),
@@ -360,7 +368,18 @@ class ProfileScreen extends StatelessWidget {
             fontFamily: 'Lexend',
             fontWeight: FontWeight.w400,
             height: 1.50,
-          ),
+          ) else
+            Obx((){
+              String deleteTitle = profileController.isDeleting.value ? "Deleting..." : "Delete Account";
+              return CustomText(
+                text: deleteTitle,
+                color: const Color(0xFF0F0B18),
+                fontSize: 14,
+                fontFamily: 'Lexend',
+                fontWeight: FontWeight.w400,
+                height: 1.50,
+              );
+            }),
           const Spacer(),
           const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.blue),
         ],

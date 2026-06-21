@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
+
 class OwnerMyBookingCard extends StatelessWidget {
   const OwnerMyBookingCard({super.key, required this.booking});
 
@@ -17,6 +19,9 @@ class OwnerMyBookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final isProvider = AppStorageService.getUserRole() == "PROVIDER";
 
     return InkWell(
@@ -78,7 +83,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                             child: CustomText(
                               text: booking.serviceName,
                               color: const Color(0xFF0F0B18),
-                              fontSize: 16,
+                              fontSize: isTab ? 12 : 16,
                               fontFamily: 'Lexend',
                               fontWeight: FontWeight.w600,
                               height: 1.50,
@@ -86,7 +91,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                           ),
 
                           /// status
-                          _buildBookingStatus(booking.status),
+                          _buildBookingStatus(booking.status, isTab),
                         ],
                       ),
 
@@ -107,7 +112,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                             child: CustomText(
                               text: booking.ownerAddress.city,
                               color: const Color(0xFF4F4F59),
-                              fontSize: 10.sp,
+                              fontSize: isTab ? 10 :  10.sp,
                               fontFamily: 'Lexend',
                               fontWeight: FontWeight.w400,
                               height: 1.50,
@@ -125,7 +130,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                           CustomText(
                             text: booking.ownerPhoneNumber,
                             color: const Color(0xFF4F4F59),
-                            fontSize: 10.sp,
+                            fontSize: isTab ? 10 : 10.sp,
                             fontFamily: 'Lexend',
                             fontWeight: FontWeight.w400,
                             height: 1.50,
@@ -137,7 +142,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                       CustomText(
                         text: booking.description,
                         color: const Color(0xFF4F4F59),
-                        fontSize: 10.sp,
+                        fontSize: isTab ? 11 : 10.sp,
                         fontFamily: 'Lexend',
                         fontWeight: FontWeight.w400,
                         height: 1.50,
@@ -152,7 +157,7 @@ class OwnerMyBookingCard extends StatelessWidget {
             CustomText(
               text: "Price Details",
               color: const Color(0xFF0F0B18),
-              fontSize: 18,
+              fontSize: isTab ? 12: 18,
               fontFamily: 'Lexend',
               fontWeight: FontWeight.w600,
               height: 1.50,
@@ -162,18 +167,21 @@ class OwnerMyBookingCard extends StatelessWidget {
             _buildPriceDetailsRow(
               title: "Price",
               value: "${booking.priceByHour}/hr",
+              isTab : isTab
             ),
 
             /// Duration
             _buildPriceDetailsRow(
               title: "Duration",
               value: "${booking.serviceDuration}hr",
+              isTab : isTab
             ),
 
             /// Total
             _buildPriceDetailsRow(
               title: "Total",
               value: booking.totalAmount.toStringAsFixed(2),
+              isTab : isTab
             ),
           ],
         ),
@@ -181,7 +189,7 @@ class OwnerMyBookingCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceDetailsRow({required String title, required String value}) {
+  Widget _buildPriceDetailsRow({required String title, required String value, required bool isTab}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +199,7 @@ class OwnerMyBookingCard extends StatelessWidget {
           color: title == "Total"
               ? const Color(0xFF4899D1)
               : const Color(0xFF4F4F59),
-          fontSize: title == "Total" ? 14.sp : 16.sp,
+          fontSize: title == "Total" ? isTab ? 12 :  14.sp : isTab ? 12 : 16.sp,
           fontFamily: 'Lexend',
           fontWeight: title == "Total" ? FontWeight.w600 : FontWeight.w400,
           height: 1.50,
@@ -235,7 +243,7 @@ class OwnerMyBookingCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBookingStatus(String status) {
+  Widget _buildBookingStatus(String status,bool isTab) {
     final String displayStatus = status.toUpperCase();
     Color color;
     Color textColor = Colors.white;
@@ -267,7 +275,7 @@ class OwnerMyBookingCard extends StatelessWidget {
       child: CustomText(
         text: displayStatus[0] + displayStatus.substring(1).toLowerCase(),
         color: textColor,
-        fontSize: 14,
+        fontSize: isTab ? 10 : 14,
         fontFamily: 'Lexend',
         fontWeight: FontWeight.w600,
         height: 1.50,

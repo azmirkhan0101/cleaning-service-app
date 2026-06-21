@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 class SubscriptionPlanCard extends StatelessWidget {
   const SubscriptionPlanCard({
     super.key,
@@ -23,6 +25,9 @@ class SubscriptionPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     final controller = Get.find<SubscriptionController>();
     return GestureDetector(
       onTap: () {
@@ -82,7 +87,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                                     text: controller
                                         .calculateYearlyPrice(plan.price)
                                         .toString(),
-                                    fontSize: 14,
+                                    fontSize: isTab ? 12 : 14,
                                     fontWeight: FontWeight.w500,
                                     color: isSelected
                                         ? Colors.white70
@@ -93,7 +98,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                                   CustomText(
                                     text:
                                         "${controller.calculateDiscountedYearlyPrice(plan.price).toString()} /year",
-                                    fontSize: 18,
+                                    fontSize: isTab ? 14 : 18,
                                     fontWeight: FontWeight.w600,
                                     color: isSelected
                                         ? Colors.white
@@ -104,24 +109,13 @@ class SubscriptionPlanCard extends StatelessWidget {
                             ] else ...[
                               CustomText(
                                 text: "€${plan.price.toString()} /month",
-                                fontSize: 18,
+                                fontSize: isTab ? 12 : 18,
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? Colors.white
                                     : const Color(0xFF0F0B18),
                               ),
                             ],
-                            // if (plan.price > 0) ...[
-                            //   const SizedBox(height: 4),
-                            //   CustomText(
-                            //     text: "20% commission",
-                            //     fontSize: 10,
-                            //     fontWeight: FontWeight.w400,
-                            //     color: isSelected
-                            //         ? Colors.white
-                            //         : const Color(0xFF4F4F59),
-                            //   ),
-                            // ],
                           ],
                         ),
                       ),

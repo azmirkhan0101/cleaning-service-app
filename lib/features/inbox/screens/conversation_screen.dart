@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/context_extension/context_extension.dart';
+
 class ConversationScreen extends StatelessWidget {
   ConversationScreen({super.key});
 
@@ -33,6 +35,9 @@ class ConversationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final isTab = context.isTab;
+
     final controller = _initController();
 
     return WillPopScope(
@@ -62,8 +67,8 @@ class ConversationScreen extends StatelessWidget {
                     if (controller.avatar.isNotEmpty)
                       CustomNetworkImage(
                         imageUrl: controller.avatar,
-                        height: 48.w,
-                        width: 48.w,
+                        height: isTab ? 50 : 48.w,
+                        width: isTab ? 50 : 48.w,
                         boxShape: BoxShape.circle,
                       )
                     else
@@ -80,7 +85,7 @@ class ConversationScreen extends StatelessWidget {
                               ? controller.userName[0].toUpperCase()
                               : 'U',
                           color: AppColors.white,
-                          fontSize: 18.sp,
+                          fontSize: isTab ? 12 : 18.sp,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -108,7 +113,7 @@ class ConversationScreen extends StatelessWidget {
                     CustomText2(
                       text: controller.userName,
                       color: AppColors.black,
-                      fontSize: 16.sp,
+                      fontSize: isTab ? 16 : 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
                     CustomText2(
@@ -116,7 +121,7 @@ class ConversationScreen extends StatelessWidget {
                       color: controller.isPeerOnline
                           ? AppColors.green
                           : AppColors.red,
-                      fontSize: 12.sp,
+                      fontSize: isTab ? 12 : 12.sp,
                     ),
                   ],
                 ),
@@ -142,7 +147,7 @@ class ConversationScreen extends StatelessWidget {
                 }
                 final msgs = controller.messages;
                 if (msgs.isEmpty) {
-                  return const Center(child: Text('No messages yet'));
+                  return Center(child: Text('No messages yet', style: TextStyle(fontSize: isTab ? 10.sp : null),));
                 }
                 // Auto-scroll to bottom (latest message) after frame builds
                 if (msgs.isNotEmpty) {
@@ -176,8 +181,8 @@ class ConversationScreen extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.only(bottom: 10.h),
                           padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 10.w,
+                            horizontal: isTab ? 12 : 14.w,
+                            vertical: isTab ? 5 : 10.w,
                           ),
                           decoration: BoxDecoration(
                             color: mine ? AppColors.lightBlue : AppColors.white,
@@ -203,7 +208,7 @@ class ConversationScreen extends StatelessWidget {
                               CustomText2(
                                 text: m.text,
                                 color: mine ? AppColors.white : AppColors.black,
-                                fontSize: 14.sp,
+                                fontSize: isTab ? 18 : 14.sp,
                                 maxLines: 100,
                               ),
                               if (m.images.isNotEmpty)
@@ -222,7 +227,7 @@ class ConversationScreen extends StatelessWidget {
                               SizedBox(height: 6.h),
                               CustomText2(
                                 text: _formatTime(m.timestamp.toLocal()),
-                                fontSize: 10.sp,
+                                fontSize: isTab ? 14 : 10.sp,
                                 color: mine
                                     ? Colors.white70
                                     : Colors.black.withValues(alpha: .6),

@@ -64,7 +64,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
                 // Choose Plan Section - Only for Provider
                 if (selectionController.currentIndex.value == 4 &&
                     selectionController.selectedRole.value == Role.provider)
-                  ChoosePlanSection(redeemPoint: 0),
+                  ChoosePlanSection(),
               ],
             );
           }),

@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_images/app_images.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/inbox/controllers/inbox_controller.dart';
 import 'package:cleaning_service_app/features/inbox/models/chat_user.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class _InboxScreenState extends State<InboxScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: CustomAppBar(title: "Inbox"),
       body: Padding(
@@ -65,9 +69,9 @@ class _InboxScreenState extends State<InboxScreen> {
               onRefresh: controller.fetchUsers,
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 200),
-                  Center(child: Text('No conversations yet')),
+                children: [
+                  const SizedBox(height: 200),
+                  Center(child: Text('No conversations yet', style: TextStyle(fontSize: isTab ? 12.sp : null),)),
                 ],
               ),
             );

@@ -1,7 +1,9 @@
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/bookings/controllers/owner_booking_controller.dart';
 import 'package:cleaning_service_app/features/bookings/widgets/owner_my_booking_card.dart';
 import 'package:cleaning_service_app/features/common/widgets/app_bar_tab_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class OwnerBookingScreen extends StatefulWidget {
@@ -16,6 +18,9 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: AppBarTabBar(
         title: "My Booking",
@@ -49,7 +54,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
                           Text(
                             'No bookings found',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: isTab ? 12.sp : 18,
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w500,
                             ),
@@ -59,7 +64,7 @@ class _OwnerBookingScreenState extends State<OwnerBookingScreen> {
                             ownerBookingController.selectedTabIndex.value == 0
                                 ? 'You don\'t have any bookings yet'
                                 : 'No ${ownerBookingController.tabTitles[ownerBookingController.selectedTabIndex.value].toLowerCase()} bookings',
-                            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                            style: TextStyle(fontSize: isTab ? 10.sp : 14, color: Colors.grey[500]),
                           ),
                         ],
                       ),

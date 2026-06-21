@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/context_extension/context_extension.dart';
+
 const Color primaryDarkBlue = Color(0xFF13224B);
 const Color primaryYellow = Color(0xFFFFC000);
 const Color cardBorderBlue = Color(0xFF1E88E5);
@@ -18,10 +20,9 @@ const Color unselectedTextColor = Color(0xFF6A6A6A);
 class ChoosePlanSection extends StatelessWidget {
   ChoosePlanSection({
     super.key,
-    required this.redeemPoint,
     // this.isProfileSetupSelectionScreen = true
   });
-  final int redeemPoint;
+  final int redeemPoint = 0;
   // final bool isProfileSetupSelectionScreen;
 
   // final ProfileSetupController selectionController =
@@ -31,6 +32,9 @@ class ChoosePlanSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     // Fetch plans when widget builds
     if (subscriptionController.subscriptionPlans.isEmpty) {
       subscriptionController.fetchSubscriptionPlans();
@@ -42,9 +46,9 @@ class ChoosePlanSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Main Heading and Subheading
-          const CustomText(
+           CustomText(
             text: AppStrings.chooseYourPlan,
-            fontSize: 24,
+            fontSize: isTab ? 12 : 24,
             fontWeight: FontWeight.w600,
             color: Colors.black,
           ),
@@ -132,62 +136,22 @@ class ChoosePlanSection extends StatelessWidget {
           CustomButton(
             onTap: () {
               // if (!isProfileSetupSelectionScreen) {
-              if (subscriptionController.selectedPlan.value?.price == 0) {
+              if (subscriptionController.selectedPlan.value?.price == 0 || subscriptionController.selectedPlan.value == null) {
+                print("Plan price is 0");
                 // Please select a paid plan to continue
                 Toast.errorToast('Please select a paid plan to continue');
                 return;
+              }else{
+                print("Price is not 0");
               }
-              Get.to(() => SubscriptionPaymentScreen(redeemPoint: redeemPoint));
+              Get.to(() => SubscriptionPaymentScreen());
               return;
-              // }
-              // if (selectionController.isUploading.value) {
-              //   return; // Disabled state - do nothing
-              // }
-              // Call API for Provider after selecting plan
-              // selectionController
-              //     .completeRegistrationSetup(
-              //       plan: subscriptionController.selectedPlan.value?.plan,
-              //     )
-              //     .then((success) {
-              //       if (success) {
-              //         // Show success message
-              //         ScaffoldMessenger.of(context).showSnackBar(
-              //           const SnackBar(
-              //             content: Text('Profile setup completed successfully'),
-              //             backgroundColor: Colors.green,
-              //           ),
-              //         );
-              //         // if plan is free, navigate to login screen
-              //         if (subscriptionController.selectedPlan.value?.price ==
-              //             0) {
-              //           // Free plan selected
-              //           Get.offAll(() => LoginScreen());
-              //           return;
-              //         }
-              //         Get.to(
-              //           () => SubscriptionPaymentScreen(
-              //             isUpdatingSubscription: false,
-              //           ),
-              //         );
-              //       } else {
-              //         // Show error message
-              //         final errorMsg = selectionController.errorMessage.value;
-              //         if (errorMsg.isNotEmpty) {
-              //           ScaffoldMessenger.of(context).showSnackBar(
-              //             SnackBar(
-              //               content: Text(errorMsg),
-              //               backgroundColor: Colors.redAccent,
-              //             ),
-              //           );
-              //         }
-              //       }
-              //     });
             },
 
             title: AppStrings.continueText,
             fontSize: 16,
             width: double.infinity,
-            height: 50,
+            height: isTab ? 70 : 50,
             fillColor: AppColors.appColors,
             borderRadius: 24,
           ),

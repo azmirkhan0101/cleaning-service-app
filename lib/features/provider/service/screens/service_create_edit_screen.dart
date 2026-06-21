@@ -816,50 +816,52 @@ class _ServiceCreateEditScreenState extends State<ServiceCreateEditScreen> {
 
               SizedBox(height: 16),
 
-              ElevatedButton(
-                onPressed: () {
-                  // Collect all form data
-                  createController.selectedCategoryId.value =
-                      serviceController.selectedCategoryId.value;
-                  createController.serviceName.value =
-                      serviceNameController.text;
-                  createController.description.value =
-                      descriptionController.text;
-                  createController.rateByHour.value = rateByHourController.text;
-                  createController.needApproval.value =
-                      !serviceController.typeModeStatues.value;
-                  createController.isFemaleOnly.value =
-                      serviceController.genderType.value;
-                  createController.selectedLanguages.value =
-                      serviceController.selectedLanguages;
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Collect all form data
+                    createController.selectedCategoryId.value =
+                        serviceController.selectedCategoryId.value;
+                    createController.serviceName.value =
+                        serviceNameController.text;
+                    createController.description.value =
+                        descriptionController.text;
+                    createController.rateByHour.value = rateByHourController.text;
+                    createController.needApproval.value =
+                        !serviceController.typeModeStatues.value;
+                    createController.isFemaleOnly.value =
+                        serviceController.genderType.value;
+                    createController.selectedLanguages.value =
+                        serviceController.selectedLanguages;
 
-                  // Validate before navigation
-                  if (!createController.validateServiceData()) {
-                    return; // Stop if validation fails (error will be shown by validateServiceData)
-                  }
+                    // Validate before navigation
+                    if (!createController.validateServiceData()) {
+                      return; // Stop if validation fails (error will be shown by validateServiceData)
+                    }
 
-                  //print("Need approval: ${!serviceController.typeModeStatues.value}");
-                  //print("Need approval: ${createController.needApproval.value}");
+                    //print("Need approval: ${!serviceController.typeModeStatues.value}");
+                    //print("Need approval: ${createController.needApproval.value}");
 
-                  // Navigate to work schedule screen
-                  Get.toNamed(AppRoutes.workScheduleScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.appColors,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    // Navigate to work schedule screen
+                    Get.toNamed(AppRoutes.workScheduleScreen);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.appColors,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    minimumSize: Size(
+                      MediaQuery.of(context).size.width * 0.9,
+                      50,
+                    ), // 90% of screen width
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width * 0.9,
-                    50,
-                  ), // 90% of screen width
-                ),
-                child: CustomText2(
-                  text: 'Continue',
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  child: CustomText2(
+                    text: 'Continue',
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

@@ -125,7 +125,7 @@ class _PolicyConditionScreenState extends State<PolicyConditionScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.lightBlue,
                 ),
-                child: Text('Retry'),
+                child: Text('Retry', style: TextStyle(color: Colors.white),),
               ),
             ],
           ),

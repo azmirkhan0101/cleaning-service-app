@@ -14,7 +14,7 @@ class SubscriptionScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ChoosePlanSection(redeemPoint: redeemPoint),
+          child: ChoosePlanSection(),
         ),
       ),
     );

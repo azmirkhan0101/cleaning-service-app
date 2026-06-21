@@ -6,16 +6,18 @@ import 'package:cleaning_service_app/features/payment/screens/payment_webview_sc
 import 'package:cleaning_service_app/features/provider/subscription/controller/subscription_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/widgets/subscription_plan_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/utils/context_extension/context_extension.dart';
 
 class SubscriptionPaymentScreen extends StatefulWidget {
   const SubscriptionPaymentScreen({
     super.key,
-    required this.redeemPoint,
     this.isUpdatingSubscription = false,
   });
 
-  final int redeemPoint;
+  final int redeemPoint = 0;
   final bool isUpdatingSubscription;
 
   @override
@@ -203,6 +205,9 @@ class _VoucherSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -224,30 +229,30 @@ class _VoucherSummary extends StatelessWidget {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                   Text(
                     'Checkout Summary',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: isTab ? 12.sp : 16, fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 12),
-                  _row('Timeline', data?.timeline ?? '-'),
-                  _row('Monthly Price', _fmtNum(data?.monthlyPrice)),
+                  _row('Timeline', data?.timeline ?? '-', isTab),
+                  _row('Monthly Price', _fmtNum(data?.monthlyPrice), isTab),
                   const Divider(height: 24),
-                  _row('Original Amount', _fmtNum(data?.originalAmount)),
-                  _row('Yearly Discount', '-${_fmtNum(data?.yearlyDiscount)}'),
+                  _row('Original Amount', _fmtNum(data?.originalAmount), isTab),
+                  _row('Yearly Discount', '-${_fmtNum(data?.yearlyDiscount)}', isTab),
                   _row(
                     'Credits Discount',
-                    '-${_fmtNum(data?.creditsDiscountApplied)}',
+                    '-${_fmtNum(data?.creditsDiscountApplied)}', isTab
                   ),
-                  _row('Total Discount', '-${_fmtNum(data?.totalDiscount)}'),
+                  _row('Total Discount', '-${_fmtNum(data?.totalDiscount)}', isTab),
                   const Divider(height: 24),
                   _row(
                     'Final Amount',
                     _fmtNum(data?.finalAmount),
-                    emphasize: true,
+                    emphasize: true,isTab
                   ),
                   const SizedBox(height: 8),
-                  _row('Credits Used', '${data?.creditsUsed ?? 0}'),
-                  _row('Duration', '${data?.durationDays ?? 0} days'),
+                  _row('Credits Used', '${data?.creditsUsed ?? 0}', isTab),
+                  _row('Duration', '${data?.durationDays ?? 0} days', isTab),
                   if ((data?.savings ?? '').toString().isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Text(
@@ -264,16 +269,17 @@ class _VoucherSummary extends StatelessWidget {
     );
   }
 
-  Widget _row(String label, String value, {bool emphasize = false}) {
+  Widget _row(String label, String value, bool isTab, {bool emphasize = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Color(0xFF4F4F59))),
+          Text(label, style: TextStyle(fontSize: isTab ? 10.sp : null, color: Color(0xFF4F4F59))),
           Text(
             value,
             style: TextStyle(
+              fontSize: isTab ? 10.sp : null,
               fontWeight: emphasize ? FontWeight.w700 : FontWeight.w500,
               color: const Color(0xFF0F0B18),
             ),

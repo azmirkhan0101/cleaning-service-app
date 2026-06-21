@@ -3,11 +3,13 @@ import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/provider_service_details_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/controllers/service_create_controller.dart';
 import 'package:cleaning_service_app/features/provider/service/screens/service_create_edit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProviderServiceDetailsScreen extends StatefulWidget {
@@ -37,6 +39,9 @@ class _ProviderServiceDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Obx(() {
       final service = controller.serviceDetails.value;
 
@@ -96,7 +101,7 @@ class _ProviderServiceDetailsScreenState
                       controller.errorMessage.value.isEmpty
                           ? 'No service details available'
                           : controller.errorMessage.value,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      style: TextStyle(fontSize: isTab ? 12.sp : 16, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
@@ -122,13 +127,13 @@ class _ProviderServiceDetailsScreenState
                             service.coverImages.isNotEmpty
                                 ? service.coverImages.first
                                 : 'https://via.placeholder.com/150',
-                            height: 140,
-                            width: double.infinity,
+                            height: isTab ? 190 : 140,
+                            width: isTab ? context.fullWidth * 0.3 : double.infinity,
                             fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Container(
-                                height: 140,
+                                height: isTab ? 190 : 140,
                                 color: Colors.grey[300],
                                 child: const Center(
                                   child: CircularProgressIndicator(),
@@ -137,11 +142,11 @@ class _ProviderServiceDetailsScreenState
                             },
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
-                                height: 140,
+                                height: isTab ? 190 : 140,
                                 color: Colors.grey[300],
-                                child: const Icon(
+                                child: Icon(
                                   Icons.image_not_supported,
-                                  size: 50,
+                                  size: isTab ? 120 : 50,
                                 ),
                               );
                             },
@@ -161,14 +166,14 @@ class _ProviderServiceDetailsScreenState
                                 children: [
                                   CustomText2(
                                     text: service.name,
-                                    fontSize: 14,
+                                    fontSize: isTab ? 16 : 14,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
                                     '€${service.rateByHour}/hr',
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                    style: TextStyle(
+                                      fontSize: isTab ? 10.sp : 14,
                                       color: Colors.green,
                                     ),
                                   ),
@@ -180,15 +185,15 @@ class _ProviderServiceDetailsScreenState
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(
+                                     Icon(
                                       Icons.star,
                                       color: Colors.yellow,
-                                      size: 20,
+                                      size: isTab ? 30 : 20,
                                     ),
                                     Text(
                                       service.ratingsAverage.toStringAsFixed(1),
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                                      style: TextStyle(
+                                        fontSize: isTab ? 10.sp : 16,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -218,26 +223,26 @@ class _ProviderServiceDetailsScreenState
                         ),
                       ),
 
-                      const Text(
+                       Text(
                         'Description',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: isTab ? 12.sp : 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         service.description,
-                        style: const TextStyle(fontSize: 14),
+                        style:  TextStyle(fontSize: isTab ? 12.sp : 14),
                         textAlign: TextAlign.justify,
                       ),
 
                       const SizedBox(height: 16),
 
-                      const Text(
+                       Text(
                         'Photos',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: isTab ? 12.sp : 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

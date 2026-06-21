@@ -13,9 +13,12 @@ import 'package:cleaning_service_app/features/notification/controllers/notificat
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:cleaning_service_app/features/provider/home/controllers/provider_home_controller.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
+import 'package:cleaning_service_app/features/provider/widgets/provider_dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../widgets/appointment_card.dart';
 
 class ProviderHome extends StatefulWidget {
   const ProviderHome({super.key});
@@ -118,279 +121,79 @@ class _ProviderHomeState extends State<ProviderHome> {
                     children: [
                       /// Pending Bookings Card
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Get.find<MainLayoutController>().changeTab(1);
-                            Get.find<BookingController>().filterServices(1);
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            elevation: 0.5,
-                            color: AppColors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 12,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomText2(
-                                        text: 'Pending Bookings',
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-
-                                      CustomImage(
-                                        imageSrc: AppIcons.current_icon,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Obx(() {
-                                    final count = homeController
-                                        .homepageData
-                                        .value
-                                        ?.pendingBookings;
-                                    return CustomText2(
-                                      text: count?.toString() ?? '--',
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    );
-                                  }),
-                                  SizedBox(height: 8.0),
-                                  CustomText2(
-                                    text: 'Current Bookings',
-                                    fontSize: 8.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.neutral03,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: Obx(() {
+                          final count = homeController.homepageData.value?.pendingBookings;
+                          return ProviderDashboardCard(
+                            title: 'Pending Bookings',
+                            value: count?.toString() ?? '--',
+                            iconSrc: AppIcons.current_icon,
+                            subtitle: 'Current Bookings',
+                            onTap: () {
+                              Get.find<MainLayoutController>().changeTab(1);
+                              Get.find<BookingController>().filterServices(1);
+                            },
+                          );
+                        }),
                       ),
+
+                      const SizedBox(width: 12.0), // Adjust spacing between cards as needed
 
                       /// Earnings Card
                       Expanded(
-                        child: InkWell(
-                          onTap: (){
-                            //ProfileScreen().onTapMyBalance(context);
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            elevation: 0.5,
-                            color: AppColors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 18,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomText2(
-                                        text: 'Earnings',
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-
-                                      CustomImage(
-                                        imageSrc: AppIcons.earning_icon,
-                                      ),
-                                    ],
-                                  ),
-
-                                  SizedBox(height: 8.0),
-
-                                  CustomText2(
-                                    text:
-                                        '€${homeController.homepageData.value?.monthlyEarnings ?? '--'}',
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-
-                                  SizedBox(height: 8.0),
-
-                                  CustomText2(
-                                    text: 'This Month',
-                                    fontSize: 8.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.neutral03,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: Obx(() {
+                          final earnings = homeController.homepageData.value?.monthlyEarnings;
+                          return ProviderDashboardCard(
+                            title: 'Earnings',
+                            value: '€${earnings ?? '--'}',
+                            iconSrc: AppIcons.earning_icon,
+                            subtitle: 'This Month',
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18), // Restores the custom padding
+                            onTap: () {
+                              // ProfileScreen().onTapMyBalance(context);
+                            },
+                          );
+                        }),
                       ),
                     ],
                   ),
+
+                  const SizedBox(height: 12.0), // Spacing between rows
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       /// New Messages Card
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            // Get.toNamed(AppRoutes.providerInboxScreen);
-                            Get.find<MainLayoutController>().changeTab(3);
-                          },
-                          child: Card(
-                            elevation: 0.5,
-                            color: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 12,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomText2(
-                                        text: 'New Message',
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-
-                                      CustomImage(imageSrc: AppIcons.message),
-                                    ],
-                                  ),
-
-                                  SizedBox(height: 8.0),
-
-                                  Obx(() {
-                                    final unread = homeController
-                                        .homepageData
-                                        .value
-                                        ?.unreadMessages;
-                                    return CustomText2(
-                                      text: unread?.toString() ?? '--',
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    );
-                                  }),
-
-                                  SizedBox(height: 8.0),
-
-                                  CustomText2(
-                                    text: 'Unread',
-                                    fontSize: 8.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.neutral03,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: Obx(() {
+                          final unread = homeController.homepageData.value?.unreadMessages;
+                          return ProviderDashboardCard(
+                            title: 'New Message',
+                            value: unread?.toString() ?? '--',
+                            iconSrc: AppIcons.message,
+                            subtitle: 'Unread',
+                            onTap: () {
+                              Get.find<MainLayoutController>().changeTab(3);
+                            },
+                          );
+                        }),
                       ),
+
+                      const SizedBox(width: 12.0),
 
                       /// Current Plan Card
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            // Get.toNamed(AppRoutes.proPlanSubscriptionScreen);
-                            Get.to(() => SubscriptionScreen());
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            elevation: 0.5,
-                            color: AppColors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 12,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomText2(
-                                        text: 'Current Plan',
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-
-                                      CustomImage(
-                                        imageSrc: AppIcons.current_plan,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8.0),
-
-                                  Obx(() {
-                                    final plan = homeController
-                                        .homepageData
-                                        .value
-                                        ?.currentPlan;
-                                    return CustomText2(
-                                      text: plan?.isNotEmpty == true
-                                          ? plan!
-                                          : '—',
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    );
-                                  }),
-
-                                  SizedBox(height: 8.0),
-
-                                  Row(
-                                    children: [
-                                      CustomText2(
-                                        text: '',
-                                        fontSize: 8.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.neutral03,
-                                      ),
-
-                                      CustomText2(
-                                        text: '',
-                                        fontSize: 8.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.lightBlue,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: Obx(() {
+                          final plan = homeController.homepageData.value?.currentPlan;
+                          return ProviderDashboardCard(
+                            title: 'Current Plan',
+                            value: plan?.isNotEmpty == true ? plan! : '—',
+                            iconSrc: AppIcons.current_plan,
+                            subtitle: '', // Keeps the spacing/empty text from original code
+                            onTap: () {
+                              Get.to(() => SubscriptionScreen());
+                            },
+                          );
+                        }),
                       ),
                     ],
                   ),
@@ -639,110 +442,4 @@ String _formatAppointment(DateTime dateTime, String ownerName) {
   final min = dateTime.minute.toString().padLeft(2, '0');
   final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
   return '$m $d, $y - ${hour12.toString().padLeft(2, '0')}:$min $ampm with $ownerName (Cleaning)';
-}
-
-class AppointmentCard extends StatelessWidget {
-  final String name;
-  final String time;
-  final String appointment;
-  final String avatarUrl;
-
-  const AppointmentCard({
-    super.key,
-    required this.name,
-    required this.time,
-    required this.appointment,
-    required this.avatarUrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      // onTap: (){
-      //   Get.find<MainLayoutController>().changeTab(3);
-      // },
-      onTap: () {
-        Get.toNamed(
-          AppRoutes.bookingsScreen,
-          arguments: [
-            {"status": "Pending"},
-          ],
-        );
-      },
-      child: Card(
-        elevation: 0.5,
-        color: AppColors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Avatar with safe fallback when URL is empty/invalid
-              CircleAvatar(
-                radius: 30.0,
-                backgroundColor: Colors.grey.shade300,
-                backgroundImage:
-                    (avatarUrl.isNotEmpty &&
-                        (avatarUrl.startsWith('http://') ||
-                            avatarUrl.startsWith('https://')))
-                    ? NetworkImage(avatarUrl)
-                    : null,
-                child:
-                    (avatarUrl.isNotEmpty &&
-                        (avatarUrl.startsWith('http://') ||
-                            avatarUrl.startsWith('https://')))
-                    ? null
-                    : Text(
-                        name.isNotEmpty ? name[0].toUpperCase() : '?',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-              ),
-              SizedBox(width: 16.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: name,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-
-                        CustomText(
-                          text: time,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.neutral03,
-                        ),
-                      ],
-                    ),
-
-                    // const SizedBox(height: 12.0),
-                    CustomText(
-                      text: appointment,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.neutral03,
-                      maxLines: 2,
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

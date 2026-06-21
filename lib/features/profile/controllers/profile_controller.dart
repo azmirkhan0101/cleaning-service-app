@@ -21,6 +21,10 @@ class ProfileController extends GetxController {
   final RxBool isLoadingStripeDashboard = false.obs;
   final RxBool isCreatingStripeOnboarding = false.obs;
 
+
+  //LOADER CONTROL FOR DELETE ACCOUNT
+  RxBool isDeleting = false.obs;
+
   @override
   void onInit() {
     super.onInit();

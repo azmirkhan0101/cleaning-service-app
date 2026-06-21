@@ -1,4 +1,5 @@
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,12 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return AppBar(
       leading: leading,
-      title: CustomText(text: title, fontSize: 18, fontWeight: FontWeight.w600),
+      title: CustomText(text: title, fontSize: isTab ? 16 : 18, fontWeight: FontWeight.w600),
       centerTitle: true,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(40),
@@ -39,7 +43,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(
                     tabTitles.length,
-                    (index) => _buildTab(index: index, title: tabTitles[index]),
+                    (index) => _buildTab(index: index, title: tabTitles[index], isTab: isTab),
                   ),
                 ),
               )
@@ -48,7 +52,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
                 children: List.generate(
                   tabTitles.length,
                   (index) => Expanded(
-                    child: _buildTab(index: index, title: tabTitles[index]),
+                    child: _buildTab(index: index, title: tabTitles[index], isTab: isTab),
                   ),
                 ),
               ),
@@ -56,7 +60,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buildTab({required int index, required String title}) {
+  Widget _buildTab({required int index, required String title, required bool isTab}) {
     return Obx(() {
       final controller = Get.put(AppBarTabBarController());
       return InkWell(
@@ -80,7 +84,7 @@ class AppBarTabBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(
             child: CustomText(
               text: title,
-              fontSize: 13,
+              fontSize: isTab ? 10 : 13,
               fontWeight: FontWeight.w500,
               color: controller.selectedTabIndex.value == index
                   ? Color(0xFF4899D1)

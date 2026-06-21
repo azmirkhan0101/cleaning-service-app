@@ -3,6 +3,7 @@ import 'package:cleaning_service_app/core/components/custom_from_card/custom_fro
 import 'package:cleaning_service_app/core/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_strings/app_strings.dart';
+import 'package:cleaning_service_app/core/utils/context_extension/context_extension.dart';
 import 'package:cleaning_service_app/features/profile/controllers/change_password_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,6 +59,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       appBar: CustomAppBar(
         title:
@@ -134,7 +138,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     title: isLoading ? "Changing..." : "Save",
                     fontSize: 16,
                     width: double.infinity,
-                    height: 50,
+                    height: isTab ? 60 : 50,
                     fillColor: isLoading
                         ? AppColors.grey_2
                         : AppColors.appColors,
