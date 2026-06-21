@@ -1,4 +1,4 @@
-package com.gianluigi.brikky
+package com.assetflowpro.brikkyapp
 
 import io.flutter.embedding.android.FlutterActivity
 
