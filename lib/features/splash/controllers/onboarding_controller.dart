@@ -13,18 +13,6 @@ class OnboardingController extends GetxController{
     super.onInit();
   }
 
-
-  Future<bool> checkAndRequestPermissions() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.location,
-      Permission.activityRecognition,
-      Permission.locationAlways,
-    ].request();
-
-    bool allGranted = statuses.values.every((status) => status.isGranted);
-    return allGranted;
-  }
-
   @override
   void dispose() {
     pageController.dispose();

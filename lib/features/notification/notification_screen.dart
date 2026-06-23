@@ -133,7 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       subtitle: CustomText(
         text: subtitle,
         fontWeight: FontWeight.w400,
-        fontSize: 12,
+        fontSize: 13,
         textAlign: TextAlign.start,
         fontFamily: FontFamily.lexend,
         color: !isRead ? AppColors.blue : Color(0xFF4F4F59),

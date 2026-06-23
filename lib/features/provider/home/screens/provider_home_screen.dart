@@ -1,6 +1,5 @@
 import 'package:cleaning_service_app/core/assets-gen/assets.gen.dart';
 import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart';
-import 'package:cleaning_service_app/core/components/custom_image/custom_image.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text.dart';
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/components/icon_white_circle_background.dart';
@@ -79,7 +78,6 @@ class _ProviderHomeState extends State<ProviderHome> {
         address.value = 'No location set';
       }
     } catch (e) {
-      debugPrint('Error fetching address: $e');
       address.value = 'Location unavailable';
     } finally {
       isLoadingAddress.value = false;
@@ -90,10 +88,6 @@ class _ProviderHomeState extends State<ProviderHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF0EEFF),
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(24), // Custom height
-      //   child: AppBar(scrolledUnderElevation: 0),
-      // ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -288,58 +282,62 @@ class _ProviderHomeState extends State<ProviderHome> {
   Widget _buildHeader() {
     return Obx(() {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // location section
-          Row(
-            children: [
-              IconWhiteCircleBackground(
-                icon: Assets.icons.locationMarker.svg(),
-              ),
+          Expanded(
+            child: Row(
+              children: [
+                IconWhiteCircleBackground(
+                  icon: Assets.icons.locationMarker.svg(),
+                ),
 
-              SizedBox(width: 8),
+                SizedBox(width: 8),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText2(
-                        text: 'My Location',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.black,
+                      Row(
+                        children: [
+                          CustomText2(
+                            text: 'My Location',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black,
+                          ),
+
+                          SizedBox(width: 6),
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.locationScreen);
+                            },
+                            child: Icon(
+                              Icons.edit,
+                              size: 14,
+                              color: AppColors.blue,
+                            ),
+                          ),
+                        ],
                       ),
 
-                      SizedBox(width: 6),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.locationScreen);
-                        },
-                        child: Icon(
-                          Icons.edit,
-                          size: 14,
-                          color: AppColors.blue,
-                        ),
-                      ),
+                      Obx(() {
+                        return Skeletonizer(
+                          enabled: isLoadingAddress.value,
+                          child: CustomText(
+                            text: address.value,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      }),
                     ],
                   ),
-
-                  Obx(() {
-                    return Skeletonizer(
-                      enabled: isLoadingAddress.value,
-                      child: CustomText(
-                        text: address.value,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
 
           Row(

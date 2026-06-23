@@ -202,6 +202,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 15,),
                   ///==================== Category show =====================
                   Obx(() {
                     return SizedBox(

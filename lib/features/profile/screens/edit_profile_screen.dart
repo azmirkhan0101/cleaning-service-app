@@ -128,8 +128,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         clipBehavior: Clip.none,
                         children: [
                           Container(
-                            height: isTab ? 130 : 130.h,
-                            width: isTab ? 130 : 130.w,
+                            height: 130,
+                            width: 130,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey.shade200,

@@ -24,9 +24,7 @@ class SplashController extends GetxController {
 
   Future<bool> checkAndRequestPermissions() async {
     Map<Permission, PermissionStatus> statuses = await [
-      Permission.location,
-      Permission.activityRecognition,
-      Permission.locationAlways,
+      Permission.location
     ].request();
 
     bool allGranted = statuses.values.every((status) => status.isGranted);
@@ -37,7 +35,6 @@ class SplashController extends GetxController {
     try {
       final String? token = await AppStorageService.getAuthToken();
       if (token == null || token.isEmpty) {
-        debugPrint('No auth token found');
         Get.offAll(() => GetStartedScreen());
         return;
       }
@@ -52,33 +49,21 @@ class SplashController extends GetxController {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
-      // debugPrint
-      debugPrint("request url: $uri");
-      debugPrint("request body: ${jsonEncode({"token": token})}");
-      debugPrint("response status: ${response.statusCode}");
-      debugPrint("response body: ${response.body}");
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final bool isValid = data['data']['isValid'] ?? false;
 
         if (!isValid) {
-          debugPrint('Token is invalid or expired');
           Get.offAll(() => GetStartedScreen());
           return;
         }
 
         final String role = data['data']['decoded']['role'];
-        debugPrint('Token is valid. User role: $role');
         Get.offAll(() => MainLayout(isOwner: role == Role.owner.value));
       } else {
-        debugPrint(
-          'Token validation failed with status: ${response.statusCode}',
-        );
         Get.offAll(() => GetStartedScreen());
       }
     } catch (e) {
-      debugPrint('Token validation error: $e');
       Get.offAll(() => GetStartedScreen());
     }
   }

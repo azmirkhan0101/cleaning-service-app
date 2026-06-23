@@ -78,7 +78,7 @@ class MyServiceCard extends StatelessWidget {
                         Expanded(
                           child: CustomText(
                             text: name,
-                            fontSize: isTab ? 12 : 13,
+                            fontSize: isTab ? 12 : 16,
                             fontWeight: FontWeight.w600,
                             maxLines: 1,
                           ),
@@ -88,12 +88,12 @@ class MyServiceCard extends StatelessWidget {
                             Icon(
                               Icons.star,
                               color: Colors.orange,
-                              size: isTab ? 25 : 12,
+                              size: isTab ? 25 : 18,
                             ),
                             const SizedBox(width: 2),
                             CustomText2(
                               text: ratingsAverage.toStringAsFixed(1),
-                              fontSize: isTab ? 14 : 11,
+                              fontSize: isTab ? 14 : 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ],
@@ -108,7 +108,7 @@ class MyServiceCard extends StatelessWidget {
                         const CustomText(
                           text: 'Bookings: ',
                           color: Color(0xFF4F4F59),
-                          fontSize: 9,
+                          fontSize: 12,
                           fontFamily: 'Lexend',
                           fontWeight: FontWeight.w400,
                           height: 1.2,
@@ -116,7 +116,7 @@ class MyServiceCard extends StatelessWidget {
                         CustomText(
                           text: totalOrders.toString(),
                           color: const Color(0xFF0F0B18),
-                          fontSize: 9,
+                          fontSize: 12,
                           fontFamily: 'Lexend',
                           fontWeight: FontWeight.w400,
                           height: 1.2,
@@ -129,7 +129,7 @@ class MyServiceCard extends StatelessWidget {
                     CustomText(
                       text: 'Date: $formattedDate',
                       color: const Color(0xFF4F4F59),
-                      fontSize: 9,
+                      fontSize: 12,
                       fontFamily: 'Lexend',
                       fontWeight: FontWeight.w400,
                       height: 1.2,
@@ -142,14 +142,14 @@ class MyServiceCard extends StatelessWidget {
                       children: [
                         CustomText(
                           text: '€$rateByHour/hr',
-                          fontSize: 11,
+                          fontSize: 12,
                           color: AppColors.lightBlue,
                           fontWeight: FontWeight.w600,
                         ),
                         CustomImage(
                           imageSrc: AppImages.arrayicon,
-                          height: isTab ? 25 : 16,
-                          width: isTab ? 25 : 16,
+                          height: isTab ? 25 : 20,
+                          width: isTab ? 25 : 20,
                         ),
                       ],
                     ),

@@ -147,7 +147,7 @@ class ProviderServiceCard extends StatelessWidget {
                         text: serviceDetails,
                         color: AppColors.neutral03,
                         fontWeight: FontWeight.w400,
-                        fontSize: 10,
+                        fontSize: 12,
                         textAlign: TextAlign.start,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,

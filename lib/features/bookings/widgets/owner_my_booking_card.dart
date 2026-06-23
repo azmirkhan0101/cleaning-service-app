@@ -112,7 +112,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                             child: CustomText(
                               text: booking.ownerAddress.city,
                               color: const Color(0xFF4F4F59),
-                              fontSize: isTab ? 10 :  10.sp,
+                              fontSize: isTab ? 10 :  12.sp,
                               fontFamily: 'Lexend',
                               fontWeight: FontWeight.w400,
                               height: 1.50,
@@ -130,7 +130,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                           CustomText(
                             text: booking.ownerPhoneNumber,
                             color: const Color(0xFF4F4F59),
-                            fontSize: isTab ? 10 : 10.sp,
+                            fontSize: isTab ? 10 : 12.sp,
                             fontFamily: 'Lexend',
                             fontWeight: FontWeight.w400,
                             height: 1.50,
@@ -142,7 +142,7 @@ class OwnerMyBookingCard extends StatelessWidget {
                       CustomText(
                         text: booking.description,
                         color: const Color(0xFF4F4F59),
-                        fontSize: isTab ? 11 : 10.sp,
+                        fontSize: isTab ? 11 : 14.sp,
                         fontFamily: 'Lexend',
                         fontWeight: FontWeight.w400,
                         height: 1.50,

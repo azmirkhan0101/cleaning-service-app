@@ -14,8 +14,6 @@ class HomeServiceCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    bool isTab = context.isTab;
-
     return InkWell(
       onTap: () {
         //Navigate to owner service  page
@@ -53,7 +51,7 @@ class HomeServiceCategoryCard extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: CustomText2(
                 text: service.name,
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -145,12 +145,6 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
   // This method is no longer needed as we handle the search result directly in the onResultSelected callback
 
   void _confirmLocation() {
-    // Print the selected location details
-    debugPrint("===== SELECTED LOCATION =====");
-    debugPrint("Latitude: ${_selectedLocation.latitude}");
-    debugPrint("Longitude: ${_selectedLocation.longitude}");
-    debugPrint("Address: $_selectedAddress");
-    debugPrint("============================");
     // Prepare the result to send back
     final result = {
       'latitude': _selectedLocation.latitude,
@@ -170,12 +164,6 @@ class _PickerMapScreenState extends State<PickerMapScreen> {
       Navigator.of(context).pop(result);
     }
 
-    // You can also return the data or navigate back with the result
-    // Navigator.pop(context, {
-    //   'latitude': _selectedLocation.latitude,
-    //   'longitude': _selectedLocation.longitude,
-    //   'address': _selectedAddress,
-    // });
   }
 
   @override

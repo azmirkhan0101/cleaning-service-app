@@ -49,7 +49,7 @@ class ProviderDashboardCard extends StatelessWidget {
                   Expanded(
                     child: CustomText2(
                       text: title,
-                      fontSize: isTab ? 14 : 12.0,
+                      fontSize: isTab ? 14 : 14.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                       textAlign: TextAlign.left,
@@ -57,8 +57,8 @@ class ProviderDashboardCard extends StatelessWidget {
                   ),
                   CustomImage(
                     imageSrc: iconSrc,
-                    height: isTab ? 40 : null,
-                    width: isTab ? 40 : null,
+                    height: isTab ? 40 : 30,
+                    width: isTab ? 40 : 30,
                   ),
                 ],
               ),
@@ -73,7 +73,7 @@ class ProviderDashboardCard extends StatelessWidget {
                 const SizedBox(height: 8.0),
                 CustomText2(
                   text: subtitle!,
-                  fontSize: isTab ? 12 : 8.0,
+                  fontSize: isTab ? 12 : 12.0,
                   fontWeight: FontWeight.w400,
                   color: AppColors.neutral03,
                 ),

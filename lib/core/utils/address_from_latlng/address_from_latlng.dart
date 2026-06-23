@@ -12,9 +12,19 @@ class AddressFromLatLng {
 
     if (placeMark.isNotEmpty) {
       final Placemark place = placeMark[0];
-      final address =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}';
-      return address;
+      final addressParts = [
+        place.street,
+        place.subLocality,
+        place.locality,
+        place.administrativeArea,
+        place.postalCode,
+        place.country,
+      ];
+
+      final finalAddress = addressParts
+          .where((part) => part != null && part.trim().isNotEmpty)
+          .join(', ');
+      return finalAddress;
     }
 
     return null;
