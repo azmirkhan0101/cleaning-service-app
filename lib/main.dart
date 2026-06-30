@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:oktoast/oktoast.dart';
 
+import 'core/service/subscription_service.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,6 +31,7 @@ void main() async {
   // Initialize storage services
   await AppStorageService.init();
   await GetStorage.init();
+  Get.putAsync(() => SubscriptionService().init());
 
 
   DependencyInjection di = DependencyInjection();

@@ -18,6 +18,7 @@ import 'package:cleaning_service_app/features/profile/controllers/profile_contro
 import 'package:cleaning_service_app/features/profile/screens/edit_profile_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/knowledge_hub_screen.dart';
 import 'package:cleaning_service_app/features/profile/screens/policy_condition_screen.dart';
+import 'package:cleaning_service_app/features/provider/subscription/screens/paywall_screen.dart';
 import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,8 @@ class ProfileScreen extends StatelessWidget {
                   if (role != Role.owner.value)
                     FilledButton(
                       onPressed: () {
-                        Get.to(const SubscriptionScreen());
+                        //Get.to(const SubscriptionScreen());
+                        Get.to(const PaywallScreen());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF7A51D),
