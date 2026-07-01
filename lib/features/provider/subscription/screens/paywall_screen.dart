@@ -19,19 +19,46 @@ class PaywallScreen extends StatelessWidget {
         },
         offering: null, // Loads the default active offering and paywall configured in RC dashboard
         onPurchaseCompleted: (customerInfo, storeTransaction) async {
+          // 1. Sync the local service status with RevenueCat
           await SubscriptionService.to.checkPremiumStatus();
-          if (SubscriptionService.to.hasPremium) {
-            Get.offAllNamed(AppRoutes.providerHome);
-            Toast.successToast("You have successfully subscribed!");
+
+          // 2. Verify if they unlocked any tier
+          if (SubscriptionService.to.hasAnyPremium) {
+            String planName = "";
+
+            // Check descending order so we capture the highest tier they own
+            if (SubscriptionService.to.hasPlatinum) {
+              planName = "Platinum";
+            } else if (SubscriptionService.to.hasGold) {
+              planName = "Gold";
+            } else if (SubscriptionService.to.hasSilver) {
+              planName = "Silver";
             }
+
+            // 3. Navigate the user to the home screen
+            Get.offAllNamed(AppRoutes.providerHome);
+
+            // 4. Show the tailored toast message
+            if (planName.isNotEmpty) {
+              Toast.successToast("You have successfully subscribed to $planName!");
+            } else {
+              Toast.successToast("You have successfully subscribed!");
+            }
+          }
+        },
+        onPurchaseError: (purchaseError){
+          Toast.warningToast(purchaseError.message);
+        },
+        onRestoreError: (restoreError){
+          Toast.warningToast( restoreError.message );
         },
         onRestoreCompleted: (customerInfo) async {
           await SubscriptionService.to.checkPremiumStatus();
-          if (SubscriptionService.to.hasPremium) {
+          if (SubscriptionService.to.hasAnyPremium) {
             Get.offAllNamed(AppRoutes.providerHome);
-            Get.snackbar("Restored!", "Your purchases have been successfully restored.", snackPosition: SnackPosition.TOP);
+            Toast.successToast("Your purchases have been successfully restored.");
           } else {
-            Get.snackbar("Restore Failed", "No active subscription found for this account.", snackPosition: SnackPosition.BOTTOM);
+            Toast.warningToast("No active subscription found for this account.");
           }
         },
       ),

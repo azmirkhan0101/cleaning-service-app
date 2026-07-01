@@ -10,11 +10,24 @@ class SubscriptionService extends GetxService {
   static SubscriptionService get to => Get.find<SubscriptionService>();
   final storage = GetStorage();
 
-  RxBool isRevenueCatPremium = false.obs;
-  RxBool isBackendPremium = false.obs;
+  // RevenueCat Status Observables
+  final RxBool isRevenueCatSilver = false.obs;
+  final RxBool isRevenueCatGold = false.obs;
+  final RxBool isRevenueCatPlatinum = false.obs;
 
-  // SYSTEM 1 + SYSTEM 2: Combines Backend Free Premium + RevenueCat Paid Premium
-  bool get hasPremium => isBackendPremium.value || isRevenueCatPremium.value;
+  // Backend Status Observables (mapped to the three tiers if needed)
+  final RxBool isBackendSilver = false.obs;
+  final RxBool isBackendGold = false.obs;
+  final RxBool isBackendPlatinum = false.obs;
+
+  // Hierarchical Getters: Higher tiers automatically include lower tier features.
+  // (e.g., If hasPlatinum is true, hasGold and hasSilver will also evaluate to true)
+  bool get hasPlatinum => isBackendPlatinum.value || isRevenueCatPlatinum.value;
+  bool get hasGold => isBackendGold.value || isRevenueCatGold.value || hasPlatinum;
+  bool get hasSilver => isBackendSilver.value || isRevenueCatSilver.value || hasGold;
+
+  // Quick helper check if the user has any active premium tier
+  bool get hasAnyPremium => hasSilver || hasGold || hasPlatinum;
 
   Future<SubscriptionService> init() async {
     await Purchases.setLogLevel(LogLevel.info);
@@ -26,10 +39,10 @@ class SubscriptionService extends GetxService {
       configuration = PurchasesConfiguration(RevenueCatConstants.iosApiKey);
     }
 
-    // Only configure the app here. We identify the user LATER during your custom login.
+    // Configure the SDK. Identify the user later during your custom login.
     await Purchases.configure(configuration);
 
-    // Listen to entitlement changes (e.g., from external purchases or background renewals)
+    // Listen to entitlement changes (from external purchases or background renewals)
     Purchases.addCustomerInfoUpdateListener((customerInfo) {
       _updateRevenueCatStatus(customerInfo);
     });
@@ -37,52 +50,34 @@ class SubscriptionService extends GetxService {
     return this;
   }
 
-  // Checks if the 6-month free premium granted by the backend is still active
-  // void checkBackendPremium() {
-  //   //String? expiry = storage.read(subscriptionExpiryDateKey);
-  //   //bool isSubscribed = storage.read(subscriptionKey) ?? false;
-  //
-  //   if (expiry != null && expiry.isNotEmpty) {
-  //     try {
-  //       DateTime expiryDate = DateTime.parse(expiry);
-  //       DateTime nowUtc = DateTime.now().toUtc();
-  //       isBackendPremium.value = nowUtc.isBefore(expiryDate);
-  //     } catch (e) {
-  //       isBackendPremium.value = isSubscribed;
-  //     }
-  //   } else {
-  //     isBackendPremium.value = isSubscribed;
-  //   }
-  // }
-
   // Identifies the user in RevenueCat using your backend User ID
-  Future<void> loginUser(String businessId) async {
+  Future<void> loginUser(String providerUserId) async {
     try {
-      LogInResult result = await Purchases.logIn(businessId);
+      LogInResult result = await Purchases.logIn(providerUserId);
       _updateRevenueCatStatus(result.customerInfo);
-      // Print this to see if RevenueCat knows they paid:
-      bool hasPremium = result.customerInfo.entitlements.all[RevenueCatConstants.entitlementID]?.isActive ?? false;
-      print("RC Login Success! Has Paid Premium: $hasPremium");
-      } catch (e) {
+
+      // Log current statuses for debugging
+      print("RC Login Success!");
+      print("Silver Active: ${isRevenueCatSilver.value}");
+      print("Gold Active: ${isRevenueCatGold.value}");
+      print("Platinum Active: ${isRevenueCatPlatinum.value}");
+    } catch (e) {
       print("RevenueCat Login Error: $e");
     }
   }
 
-  // Clears the RevenueCat user on backend logout
+  // Clears all subscription states when logging out
   Future<void> logoutUser() async {
     try {
       await Purchases.logOut();
-      isRevenueCatPremium.value = false;
+      _clearStatus();
     } catch (e) {
       print("RevenueCat Logout Error: $e");
     }
   }
 
-  // Validates the combined premium status on app restart or screen load
+  // Validates the combined status on app restart or manual refresh
   Future<void> checkPremiumStatus() async {
-    //checkBackendPremium();
-
-    // Check RevenueCat even if backend is active, to keep local cache updated
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
       _updateRevenueCatStatus(customerInfo);
@@ -91,26 +86,30 @@ class SubscriptionService extends GetxService {
     }
   }
 
+  // Parses entitlement maps and updates local reactive states
   void _updateRevenueCatStatus(CustomerInfo customerInfo) {
-    if (customerInfo.entitlements.all[RevenueCatConstants.entitlementID] != null &&
-        customerInfo.entitlements.all[RevenueCatConstants.entitlementID]!.isActive) {
-      isRevenueCatPremium.value = true;
-    } else {
-      isRevenueCatPremium.value = false;
-    }
+    isRevenueCatSilver.value = customerInfo.entitlements.all[RevenueCatConstants.entitlementSilver]?.isActive ?? false;
+    isRevenueCatGold.value = customerInfo.entitlements.all[RevenueCatConstants.entitlementGold]?.isActive ?? false;
+    isRevenueCatPlatinum.value = customerInfo.entitlements.all[RevenueCatConstants.entitlementPlatinum]?.isActive ?? false;
+  }
+
+  // Reset helper helper to prevent leaks on logout
+  void _clearStatus() {
+    isRevenueCatSilver.value = false;
+    isRevenueCatGold.value = false;
+    isRevenueCatPlatinum.value = false;
+
+    isBackendSilver.value = false;
+    isBackendGold.value = false;
+    isBackendPlatinum.value = false;
   }
 
   Future<void> restorePurchase(BuildContext context) async {
-    // 1. Show a "loading" SnackBar or loading indicator if you prefer.
-    // For simplicity, we will just show the result after the async operation completes.
-
     try {
-      // Attempt to restore purchases
       CustomerInfo customerInfo = await Purchases.restorePurchases();
+      _updateRevenueCatStatus(customerInfo); // Updates the UI state immediately
 
-      // 2. Check if the user actually has any active entitlements now
       if (customerInfo.entitlements.active.isNotEmpty) {
-        // Success: Purchases restored and they have active premium features
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -121,7 +120,6 @@ class SubscriptionService extends GetxService {
           );
         }
       } else {
-        // Partial Success: The sync worked, but they don't actually own any premium items
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -133,7 +131,6 @@ class SubscriptionService extends GetxService {
         }
       }
     } catch (e) {
-      // 3. Handle errors (e.g., network issues, user canceled, invalid store configuration)
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

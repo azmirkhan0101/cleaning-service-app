@@ -55,7 +55,7 @@ class AppRoutes {
   static const String myEarningScreen = "/MyEarningScreen";
   static const String changePasswordScreen = "/ChangePasswordScreen";
   static const String referScreen = "/ReferScreen";
-  static const String redeemScreen = "/RedeemScreen";
+  //static const String redeemScreen = "/RedeemScreen";
   static const String aboutUsScreen = "/AboutUsScreen";
   static const String privacyPolicyScreen = "/PrivacyPolicyScreen";
 
@@ -149,11 +149,11 @@ class AppRoutes {
 
     //GetPage(name: referScreen, page: () => ReferScreen()),
 
-    GetPage(
-      name: redeemScreen,
-      page: () =>
-          RedeemScreen(currentBalance: Get.arguments['currentBalance'] ?? 0),
-    ),
+    // GetPage(
+    //   name: redeemScreen,
+    //   page: () =>
+    //       RedeemScreen(currentBalance: Get.arguments['currentBalance'] ?? 0),
+    // ),
 
     // GetPage(name: aboutUsScreen, page: () => AboutUsScreen()),
     // GetPage(name: providerInboxScreen, page: () => ProviderInboxScreen()),

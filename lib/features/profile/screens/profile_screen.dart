@@ -24,6 +24,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -63,9 +64,18 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: 24.h),
                   if (role != Role.owner.value)
                     FilledButton(
-                      onPressed: () {
+                      onPressed: () async{
                         //Get.to(const SubscriptionScreen());
                         Get.to(const PaywallScreen());
+                        // PaywallResult paywallResult = await RevenueCatUI.presentPaywall(
+                        //   presentationConfiguration: PaywallPresentationConfiguration(
+                        //     android: AndroidPaywallPresentationStyle.fullScreen,
+                        //     ios: IOSPaywallPresentationStyle.fullScreen,
+                        //   ),
+                        // );
+                        // print("Paywall Result: $paywallResult");
+                        // print(paywallResult.name);
+                        // print(paywallResult.toString());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF7A51D),

@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../subscription/screens/paywall_screen.dart';
 import '../../widgets/appointment_card.dart';
 
 class ProviderHome extends StatefulWidget {
@@ -184,7 +185,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                             iconSrc: AppIcons.current_plan,
                             subtitle: '', // Keeps the spacing/empty text from original code
                             onTap: () {
-                              Get.to(() => SubscriptionScreen());
+                              //Get.to(() => SubscriptionScreen());
+                              Get.to(const PaywallScreen());
                             },
                           );
                         }),
