@@ -64,6 +64,10 @@ class PolicyConditionController extends GetxController {
       parser: (data) => data as Map<String, dynamic>,
     );
 
+    // http.Response response = await http.get(Uri.parse(ApiUrl.getPrivacyPolicy));
+    // print("Privacy Policy Status code: ${response.statusCode}");
+    // print("Privacy Policy Response: ${response.body}");
+
     result.fold(
       (error) {
         errorPrivacy.value = error.message ?? 'Failed to load Privacy Policy';

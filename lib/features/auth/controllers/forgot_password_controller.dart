@@ -19,6 +19,7 @@ class ForgotPasswordController extends GetxController {
       withAuth: false,
     );
 
+
     isSubmitting.value = false;
 
     // Handle response
@@ -31,7 +32,6 @@ class ForgotPasswordController extends GetxController {
       },
       // Success case
       (data) async {
-        print(data.toString());
         String message =
             data['message'] ??
             'Six digit code sent to your email. verify to reset password.';

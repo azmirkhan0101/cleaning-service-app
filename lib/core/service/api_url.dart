@@ -7,9 +7,14 @@ class ApiUrl {
   //     ? 'http://10.10.20.73:8000/api'
   //     : 'http://172.252.13.3:8000/api';
 
+  //DEPRECATED - DO NOT USE THIS
   //static const String baseUrl = 'https://backend.brikky.net/api';
+
+  //LIVE SERVER URL
   static const String baseUrl = 'https://backend.brikkydash.net/api';
-  //static const String baseUrl = 'http://10.10.20.73:8000/api';
+
+  //LOCALHOST
+  //static const String baseUrl = 'http://10.10.28.98:8000/api';
 
   // static const String socketBaseUrl = 'http://10.10.20.73:8000';
   //static const String socketBaseUrl = 'https://backend.brikky.net';
