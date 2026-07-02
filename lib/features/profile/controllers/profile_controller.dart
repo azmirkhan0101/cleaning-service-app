@@ -4,6 +4,7 @@ import 'package:cleaning_service_app/core/components/app_routes/app_routes.dart'
 import 'package:cleaning_service_app/core/service/api_url.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
 import 'package:cleaning_service_app/core/service/network_helper.dart';
+import 'package:cleaning_service_app/core/service/subscription_service.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/features/common/types/http_method.dart';
 import 'package:cleaning_service_app/features/main-layout/controllers/main_layout_controller.dart';
@@ -58,6 +59,10 @@ class ProfileController extends GetxController {
         (data) {
           // Parse response
           profile.value = data.data;
+          String? providerId = profile.value?.id;
+          if( providerId != null ){
+            SubscriptionService.to.loginUser(providerId);
+          }
         },
       );
     } catch (e) {

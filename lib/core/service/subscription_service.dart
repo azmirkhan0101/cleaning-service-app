@@ -57,6 +57,7 @@ class SubscriptionService extends GetxService {
       _updateRevenueCatStatus(result.customerInfo);
 
       // Log current statuses for debugging
+      print("isRcLoginSuccessful: ${result.created}");
       print("RC Login Success!");
       print("Silver Active: ${isRevenueCatSilver.value}");
       print("Gold Active: ${isRevenueCatGold.value}");

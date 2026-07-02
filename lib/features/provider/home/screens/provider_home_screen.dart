@@ -11,7 +11,6 @@ import 'package:cleaning_service_app/features/main-layout/controllers/main_layou
 import 'package:cleaning_service_app/features/notification/controllers/notification_controller.dart';
 import 'package:cleaning_service_app/features/profile/controllers/profile_controller.dart';
 import 'package:cleaning_service_app/features/provider/home/controllers/provider_home_controller.dart';
-import 'package:cleaning_service_app/features/provider/subscription/screens/subscription_screen.dart';
 import 'package:cleaning_service_app/features/provider/widgets/provider_dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

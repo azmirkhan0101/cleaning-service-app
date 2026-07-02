@@ -6,6 +6,7 @@ import 'package:cleaning_service_app/core/components/custom_text/custom_text.dar
 import 'package:cleaning_service_app/core/components/custom_text/custom_text_2.dart';
 import 'package:cleaning_service_app/core/helper/extension/base_extensions.dart';
 import 'package:cleaning_service_app/core/service/app_storage_service.dart';
+import 'package:cleaning_service_app/core/service/subscription_service.dart';
 import 'package:cleaning_service_app/core/utils/ToastMsg/toast.dart';
 import 'package:cleaning_service_app/core/utils/app_colors/app_colors.dart';
 import 'package:cleaning_service_app/core/utils/app_const/app_const.dart';
@@ -154,6 +155,7 @@ class ProfileScreen extends StatelessWidget {
         TextButton(
           onPressed: () {
             profileController.signOut();
+            SubscriptionService.to.logoutUser();
             Get.offAll(LoginScreen());
           },
           child: Text('Sign out', style: TextStyle(fontSize: isTab ? 10.sp : null, color: Colors.red)),
